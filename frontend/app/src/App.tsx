@@ -1,24 +1,17 @@
-import { FC, useEffect, useState } from "react"
-
-import { execTest } from "lib/api/test"
+import { FC } from "react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter } from "react-router-dom";
+import { Router } from "router/Router";
+import theme from "theme/theme";
 
 const App: FC = () => {
-  const [message, setMessage] = useState<string>("")
-
-  const handleExecTest = async () => {
-    const res = await execTest()
-    if (res.status === 200) {
-      setMessage(res.data.message)
-    }
-  }
-
-  useEffect(() => {
-    handleExecTest()
-  }, [])
-
   return (
-    <h1>{message}</h1>
-  )
-}
+    <ChakraProvider theme={theme}>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </ChakraProvider>
+  );
+};
 
-export default App
+export default App;
