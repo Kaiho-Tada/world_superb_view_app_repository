@@ -1,0 +1,48 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  SuggestExtensions: false
+  NewCops: enable
+  DisplayCopNames: true
+  Exclude:
+    - "Gemfile"
+    - "vendor/**/*"
+    - "db/**/*"
+    - "lib/tasks/**/*"
+    - "bin/*"
+    - "config/initializers/**/*"
+    - "config/environments/*"
+    - "config/puma.rb"
+    - "public/**/*"
+    - "storage/**/*"
+    - "log/**/*"
+    - "tmp/**/*"
+
+Rails/ResponseParsedBody:
+  Enabled: false
+
+Style/BlockComments:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+
+Layout/LineLength:
+  Exclude:
+    - "spec/**/*"
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+StringLiterals:
+  EnforcedStyle: double_quotes

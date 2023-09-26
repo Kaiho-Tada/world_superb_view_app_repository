@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Users Api", type: :request do
   describe "Post /api/v1/auth" do
@@ -6,7 +6,7 @@ RSpec.describe "Users Api", type: :request do
       post api_v1_user_registration_path, params: {
         email: "test@example.com",
         password: "password",
-        confirm_success_url: "http://localhost:4000/login",
+        confirm_success_url: "http://localhost:4000/login"
       }
       expect(response).to have_http_status(200)
       @json = JSON.parse(response.body)
@@ -17,7 +17,7 @@ RSpec.describe "Users Api", type: :request do
     it "emailが存在しなければ登録できないこと" do
       post api_v1_user_registration_path, params: {
         password: "password",
-        confirm_success_url: "http://localhost:4000/login",
+        confirm_success_url: "http://localhost:4000/login"
       }
       expect(response).to have_http_status(422)
       @json = JSON.parse(response.body)
@@ -28,7 +28,7 @@ RSpec.describe "Users Api", type: :request do
     it "passwordが存在しなければ登録できないこと" do
       post api_v1_user_registration_path, params: {
         email: "test@example.com",
-        confirm_success_url: "http://localhost:4000/login",
+        confirm_success_url: "http://localhost:4000/login"
       }
       expect(response).to have_http_status(422)
       @json = JSON.parse(response.body)
@@ -41,7 +41,7 @@ RSpec.describe "Users Api", type: :request do
       post api_v1_user_registration_path, params: {
         email: "test@example.com",
         password: "password",
-        confirm_success_url: "http://localhost:4000/login",
+        confirm_success_url: "http://localhost:4000/login"
       }
       expect(response).to have_http_status(422)
       @json = JSON.parse(response.body)
@@ -50,10 +50,10 @@ RSpec.describe "Users Api", type: :request do
     end
 
     it "パスワードは6文字以上でなければ登録できないこと" do
-       post api_v1_user_registration_path, params: {
+      post api_v1_user_registration_path, params: {
         email: "test@example.com",
         password: "passw",
-        confirm_success_url: "http://localhost:4000/login",
+        confirm_success_url: "http://localhost:4000/login"
       }
       expect(response).to have_http_status(422)
       @json = JSON.parse(response.body)
@@ -66,7 +66,7 @@ RSpec.describe "Users Api", type: :request do
         email: "test@example.com",
         password: "password",
         password_confirmation: "passward",
-        confirm_success_url: "http://localhost:4000/login",
+        confirm_success_url: "http://localhost:4000/login"
       }
       expect(response).to have_http_status(422)
       @json = JSON.parse(response.body)
@@ -76,7 +76,7 @@ RSpec.describe "Users Api", type: :request do
   end
 
   describe "Post /api/v1/auth/sign_in" do
-    let!(:confirmed_user) { create(:user, email: "test@example.com", password: "password", confirmed_at: Date.today) }
+    let!(:confirmed_user) { create(:user, email: "test@example.com", password: "password", confirmed_at: Time.zone.today) }
 
     context "認証済みの場合" do
       it "正しいemailとパスワードでログインできること" do
@@ -95,23 +95,23 @@ RSpec.describe "Users Api", type: :request do
       it "emailが間違っている場合、ログインできないこと" do
         post api_v1_user_session_path, params: {
           email: "tast@example.com",
-          password: confirmed_user.password,
+          password: confirmed_user.password
         }
         expect(response).to have_http_status(401)
         @json = JSON.parse(response.body)
         expect(@json["success"]).to eq false
-        expect( @json["errors"]).to eq ["ログイン用の認証情報が正しくありません。再度お試しください。"]
+        expect(@json["errors"]).to eq ["ログイン用の認証情報が正しくありません。再度お試しください。"]
       end
 
       it "passwordが間違っている場合、ログインできないこと" do
         post api_v1_user_session_path, params: {
           email: confirmed_user.email,
-          password: "passward",
+          password: "passward"
         }
         expect(response).to have_http_status(401)
         @json = JSON.parse(response.body)
         expect(@json["success"]).to eq false
-        expect( @json["errors"]).to eq ["ログイン用の認証情報が正しくありません。再度お試しください。"]
+        expect(@json["errors"]).to eq ["ログイン用の認証情報が正しくありません。再度お試しください。"]
       end
     end
 
