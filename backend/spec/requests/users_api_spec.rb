@@ -129,4 +129,160 @@ RSpec.describe "Users Api", type: :request do
       end
     end
   end
+
+  describe "Get /api/v1/auth/sesstions" do
+    let!(:user) { create(:user, confirmed_at: Time.zone.today) }
+    it "認証が成功した場合、200番ステータスとcurrent_userが返されること" do
+      auth_tokens = sign_in(user)
+      get api_v1_auth_sessions_path, headers: auth_tokens
+      expect(response).to have_http_status(200)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq 200
+      expect(@json["current_user"]["email"]).to eq user.email
+    end
+
+    it "認証に失敗した場合、500番ステータスが返されること" do
+      get api_v1_auth_sessions_path, headers: {}
+      expect(response).to have_http_status(200)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq 500
+    end
+  end
+
+  describe "Put /api/v1/auth" do
+    let!(:user) { create(:user, confirmed_at: Time.zone.today) }
+    it "プロフィールを更新できること" do
+      auth_tokens = sign_in(user)
+      put api_v1_user_registration_path, params: {
+        name: "new_name",
+        nickname: "new_nickname",
+        email: "new_test@example.com"
+      }, headers: auth_tokens
+      expect(response).to have_http_status(200)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq "success"
+      expect(@json["data"]["name"]).to eq "new_name"
+      expect(@json["data"]["nickname"]).to eq "new_nickname"
+      expect(@json["data"]["email"]).to eq "new_test@example.com"
+    end
+
+    it "リクエストのemailが空文字列の場合はプロフィールの更新に失敗すること" do
+      auth_tokens = sign_in(user)
+      put api_v1_user_registration_path, params: {
+        name: "new_name",
+        nickname: "new_nickname",
+        email: ""
+      }, headers: auth_tokens
+      expect(response).to have_http_status(422)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq "error"
+      expect(@json["errors"]["full_messages"]).to eq ["Eメールを入力してください"]
+    end
+
+    it "リクエストのemailのフォーマットが正しくない場合はプロフィールの更新に失敗すること" do
+      auth_tokens = sign_in(user)
+      put api_v1_user_registration_path, params: {
+        name: "name",
+        nickname: "nickname",
+        email: "test.example.com"
+      }, headers: auth_tokens
+      expect(response).to have_http_status(422)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq "error"
+      expect(@json["errors"]["full_messages"]).to eq ["Eメールは有効ではありません"]
+    end
+
+    it "リクエストにヘッダー認証情報が含まれていない場合はプロフィールの更新に失敗すること" do
+      put api_v1_user_registration_path, params: {
+        name: "name",
+        nickname: "nickname",
+        email: "test.example.com"
+      }, headers: {}
+      expect(response).to have_http_status(404)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq "error"
+      expect(@json["errors"]).to eq ["ユーザーが見つかりません。"]
+    end
+  end
+
+  describe "Put /api/v1/auth/password" do
+    let!(:user) { create(:user, confirmed_at: Time.zone.today) }
+    it "パスワードを更新できること" do
+      auth_tokens = sign_in(user)
+      put "/api/v1/auth/password", params: {
+        password: "new_password",
+        password_confirmation: "new_password"
+      }, headers: auth_tokens
+      expect(response).to have_http_status(200)
+      @json = JSON.parse(response.body)
+      expect(@json["success"]).to eq true
+      expect(@json["message"]).to eq "パスワードの更新に成功しました。"
+    end
+
+    it "パスワードが6文字以下の場合、パスワードの更新に失敗すること" do
+      auth_tokens = sign_in(user)
+      put "/api/v1/auth/password", params: {
+        password: "pass",
+        password_confirmation: "pass"
+      }, headers: auth_tokens
+      expect(response).to have_http_status(422)
+      @json = JSON.parse(response.body)
+      expect(@json["success"]).to eq false
+      expect(@json["errors"]["full_messages"]).to eq ["パスワードは6文字以上で入力してください"]
+    end
+
+    it "passwordとpassword_confirmationの値が異なる場合、パスワードの更新に失敗すること" do
+      auth_tokens = sign_in(user)
+      put "/api/v1/auth/password", params: {
+        password: "new_password",
+        password_confirmation: "new_passward"
+      }, headers: auth_tokens
+      expect(response).to have_http_status(422)
+      @json = JSON.parse(response.body)
+      expect(@json["success"]).to eq false
+      expect(@json["errors"]["full_messages"]).to eq ["パスワード（確認用）とパスワードの入力が一致しません"]
+    end
+
+    it "password_confirmationが送信されなかった場合、パスワードの更新に失敗すること" do
+      auth_tokens = sign_in(user)
+      put "/api/v1/auth/password", params: {
+        password: "new_password"
+      }, headers: auth_tokens
+      expect(response).to have_http_status(422)
+      @json = JSON.parse(response.body)
+      expect(@json["success"]).to eq false
+      expect(@json["errors"]).to eq ["'Password', 'Password confirmation' パラメータが与えられていません。"]
+    end
+
+    it "リクエストにヘッダー認証情報が含まれていない場合はパスワードの更新に失敗すること" do
+      put "/api/v1/auth/password", params: {
+        password: "new_password",
+        password_confirmation: "new_password"
+      }, headers: {}
+      expect(response).to have_http_status(401)
+      @json = JSON.parse(response.body)
+      expect(@json["success"]).to eq false
+      expect(@json["errors"]).to eq ["Unauthorized"]
+    end
+  end
+
+  describe "Delete /api/v1/auth" do
+    let!(:user) { create(:user, confirmed_at: Time.zone.today) }
+    it "アカウントを削除できること" do
+      auth_tokens = sign_in(user)
+      delete api_v1_user_registration_path, headers: auth_tokens
+      expect(response).to have_http_status(200)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq "success"
+      expect(@json["message"]).to eq "'#{user.email}' のアカウントは削除されました。"
+    end
+
+    it "リクエストにヘッダー認証情報が含まれていない場合は削除に失敗すること" do
+      delete api_v1_user_registration_path, headers: {}
+      expect(response).to have_http_status(404)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq "error"
+      expect(@json["errors"]).to eq ["削除するアカウントが見つかりません。"]
+    end
+  end
 end
