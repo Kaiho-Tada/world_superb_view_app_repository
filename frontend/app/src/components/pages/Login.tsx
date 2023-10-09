@@ -7,14 +7,13 @@ import { useLoginApi } from "hooks/api/useLoginApi";
 import { EmailIcon, LockIcon } from "@chakra-ui/icons";
 
 export const Login: FC = memo(() => {
-
   const { setIsSignedIn, setCurrentUser, loading, setLoading } = useAuth();
-  const { onClickLogin, email, setEmail, password, setPassword } = useLoginApi({setLoading, setCurrentUser, setIsSignedIn});
+  const { handleLogin, email, setEmail, password, setPassword } = useLoginApi({setLoading, setCurrentUser, setIsSignedIn});
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
   const onChangePassword  = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
   const navigate = useNavigate();
-  const onClickSignup = useCallback(() => navigate("/signup"), []);
+  const onClickSignup = useCallback(() => navigate("/signup"), [navigate]);
 
   return (
     <Flex align="center" justify="center" height="90vh">
@@ -25,20 +24,20 @@ export const Login: FC = memo(() => {
             <FormControl>
               <Flex align="center" >
                 <EmailIcon mr="3" boxSize={5} pb="1.5" />
-                <FormLabel as="h4" >Email</FormLabel>
+                <FormLabel as="h4">Email</FormLabel>
               </Flex>
-              <Input size="sm" value={email} onChange={onChangeEmail} shadow="2xl" />
+              <Input size="sm" value={email} onChange={onChangeEmail} shadow="2xl" aria-label="email" />
             </FormControl>
             <FormControl>
               <Flex align="center">
                 <LockIcon mr="3" boxSize={5} pb="1.5" />
                 <FormLabel as="h4">パスワード</FormLabel>
               </Flex>
-              <Input size="sm" placeholder="6文字以上の半角英数字" type="password" value={password} onChange={onChangePassword} shadow="2xl" />
+              <Input size="sm" placeholder="6文字以上の半角英数字" type="password" value={password} onChange={onChangePassword} shadow="2xl"  aria-label="password" />
             </FormControl>
           </Stack>
           <Box textAlign="center" mt="6" >
-            <AuthButton loading={loading} isDisabled={email === "" || password === ""} onClick={onClickLogin}>
+            <AuthButton loading={loading} isDisabled={email === "" || password === ""} onClick={handleLogin}>
               ログイン
             </AuthButton>
           </Box>

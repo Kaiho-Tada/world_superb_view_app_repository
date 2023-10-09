@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { AuthProvider, useAuth } from "hooks/providers/useAuthProvider";
 
-describe('AuthContext', () => {
-  it('should provide authentication values', () => {
+describe('AuthContextのテスト', () => {
+  it('AuthProviderの子コンポーネントに認証値が提供されること', () => {
     render(
       <AuthProvider>
         <TestComponent />

@@ -15,13 +15,34 @@ jest.mock('@chakra-ui/react', () => ({
   useToast: () => mockUseToast,
 }));
 
+const setLoading = jest.fn();
+
 const mockAxios = new MockAdapter(client);
 
+mockAxios.onPost('/auth').reply((config) => {
+  const data = JSON.parse(config.data);
+  console.log(data)
+  if(!data.email.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/)) {
+    return [422, {
+      errors: {
+        fullMessages: [
+          "Eメールは有効ではありません"
+        ],
+      }
+    }]
+  }else if (data.password.length < 6) {
+    return [422, {
+      errors: {
+        fullMessages: [
+          "パスワードは6文字以上で入力してください"
+        ],
+      }
+    }]
+  }
+  return [200];
+});
+
 test('サインアップ成功時の処理のテスト', async() => {
-  mockAxios.onPost('/auth').reply(200);
-
-  const setLoading = jest.fn();
-
   const { result } = renderHook(() =>
     useSignUpApi({
       setLoading,
@@ -29,23 +50,24 @@ test('サインアップ成功時の処理のテスト', async() => {
   );
 
   const {
-    onClickSignUp,
     setEmail,
     setPassword,
-    setPasswordConfirmation,
+  } = result.current;
+
+  await act(async () => {
+    setEmail('test@example.com');
+    setPassword('password');
+  });
+
+  const {
+    handleSignUp,
   } = result.current;
 
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
   };
 
-  await act(async () => {
-    setEmail('test@example.com');
-    setPassword('password');
-    setPasswordConfirmation('password');
-  });
-
-  await onClickSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+  await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
   expect(setLoading).toHaveBeenCalledWith(true);
 
@@ -61,78 +83,105 @@ test('サインアップ成功時の処理のテスト', async() => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-
   expect(setLoading).toHaveBeenCalledWith(false);
   expect(setLoading).toHaveBeenCalledTimes(2);
 });
 
-test('サインアップ失敗時の処理のテスト', async() => {
-  mockAxios.onPost('/auth').reply(422, {
-    errors: {
-      fullMessages: [
-        "パスワード（確認用）とパスワードの入力が一致しません",
-        "Eメールはすでに存在します"
-      ],
-    }
+describe('サインアップ失敗時の処理のテスト', () => {
+  test('リクエストのemailのフォーマットが正しくない場合はプロフィールの更新に失敗すること', async() => {
+    const { result } = renderHook(() =>
+      useSignUpApi({
+        setLoading,
+      })
+    );
+
+    const {
+      setEmail,
+      setPassword,
+    } = result.current;
+
+    await act(async () => {
+      setEmail('test.example.com');
+      setPassword('password');
+    });
+
+    const {
+      handleSignUp,
+    } = result.current;
+
+    const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+      preventDefault: jest.fn(),
+    };
+
+    await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+
+    expect(setLoading).toHaveBeenCalledWith(true);
+
+    expect(mockUseToast).toHaveBeenCalledWith({
+      title: 'Eメールは有効ではありません',
+      status: 'error',
+      position: "top",
+      duration: 5000,
+      isClosable: true,
+    });
+    expect(mockUseToast).toHaveBeenCalledTimes(1);
+
+    expect(mockUseNavigate).not.toHaveBeenCalledWith();
+    expect(mockUseNavigate).toHaveBeenCalledTimes(0);
+
+    expect(setLoading).toHaveBeenCalledWith(false);
+    expect(setLoading).toHaveBeenCalledTimes(2);
   });
 
-  const setLoading = jest.fn();
+  test('パスワードは6文字以上でなければ登録できないこと', async() => {
+    const { result } = renderHook(() =>
+      useSignUpApi({
+        setLoading,
+      })
+    );
 
-  const { result } = renderHook(() =>
-    useSignUpApi({
-      setLoading,
-    })
-  );
+    const {
+      setEmail,
+      setPassword,
+    } = result.current;
 
-  const {
-    onClickSignUp,
-    setEmail,
-    setPassword,
-    setPasswordConfirmation,
-  } = result.current;
+    await act(async () => {
+      setEmail('test@example.com');
+      setPassword('passw');
+    });
 
-  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
-    preventDefault: jest.fn(),
-  };
+    const {
+      handleSignUp,
+    } = result.current;
 
-  await act(async () => {
-    setEmail('test@example.com');
-    setPassword('password');
-    setPasswordConfirmation('passward');
+    const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+      preventDefault: jest.fn(),
+    };
+
+    await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+
+    expect(setLoading).toHaveBeenCalledWith(true);
+
+    expect(mockUseToast).toHaveBeenCalledWith({
+      title: 'パスワードは6文字以上で入力してください',
+      status: 'error',
+      position: "top",
+      duration: 5000,
+      isClosable: true,
+    });
+    expect(mockUseToast).toHaveBeenCalledTimes(1);
+
+    expect(mockUseNavigate).not.toHaveBeenCalledWith();
+    expect(mockUseNavigate).toHaveBeenCalledTimes(0);
+
+    expect(setLoading).toHaveBeenCalledWith(false);
+    expect(setLoading).toHaveBeenCalledTimes(2);
   });
-
-  await onClickSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
-
-  expect(setLoading).toHaveBeenCalledWith(true);
-
-  expect(mockUseNavigate).not.toHaveBeenCalledWith();
-  expect(mockUseNavigate).toHaveBeenCalledTimes(0);
-
-  expect(mockUseToast).toHaveBeenCalledWith({
-    title: 'パスワード（確認用）とパスワードの入力が一致しません',
-    status: 'error',
-    position: "top",
-    duration: 5000,
-    isClosable: true,
-  });
-  expect(mockUseToast).toHaveBeenCalledWith({
-    title: 'Eメールはすでに存在します',
-    status: 'error',
-    position: "top",
-    duration: 5000,
-    isClosable: true,
-  });
-  expect(mockUseToast).toHaveBeenCalledTimes(2);
-
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
-});
+})
 
 test('サインアップエラー時の処理のテスト', async() => {
   mockAxios.onPost('/auth').reply(500);
 
-  const setLoading = jest.fn();
-
   const { result } = renderHook(() =>
     useSignUpApi({
       setLoading,
@@ -140,23 +189,24 @@ test('サインアップエラー時の処理のテスト', async() => {
   );
 
   const {
-    onClickSignUp,
     setEmail,
     setPassword,
-    setPasswordConfirmation,
+  } = result.current;
+
+  await act(async () => {
+    setEmail('test@example.com');
+    setPassword('password');
+  });
+
+  const {
+    handleSignUp,
   } = result.current;
 
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
   };
 
-  await act(async () => {
-    setEmail('test@example.com');
-    setPassword('password');
-    setPasswordConfirmation('password');
-  });
-
-  await onClickSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+  await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
   expect(setLoading).toHaveBeenCalledWith(true);
 

@@ -21,21 +21,17 @@ jest.mock('@chakra-ui/react', () => ({
   useToast: () => mockUseToast,
 }));
 
+const setLoading = jest.fn();
+const setIsSignedIn = jest.fn();
+const setCurrentUser = jest.fn();
+
 const mockAxios = new MockAdapter(client);
 
 test('ログイン成功時のテスト', async () => {
-  mockAxios.onPost('/auth/sign_in').reply(200,
-    {
-      data: {
-        id: 1,
-        email: "test@example.com",
-      },
-    },
-  );
-
-  const setLoading = jest.fn();
-  const setIsSignedIn = jest.fn();
-  const setCurrentUser = jest.fn();
+  mockAxios.onPost('/auth/sign_in').reply((config) => {
+    const data = JSON.parse(config.data);
+    return [200, { data }];
+  });
 
   const { result } = renderHook(() =>
     useLoginApi({
@@ -45,7 +41,7 @@ test('ログイン成功時のテスト', async () => {
     })
   );
 
-  const { onClickLogin, setEmail, setPassword } = result.current;
+  const { setEmail, setPassword } = result.current;
 
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
@@ -56,7 +52,9 @@ test('ログイン成功時のテスト', async () => {
     setPassword('password');
   });
 
-  await onClickLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+  const { handleLogin } = result.current;
+
+  await handleLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
   expect(setLoading).toHaveBeenCalledWith(true);
   expect(setLoading).toHaveBeenCalledWith(false);
@@ -66,8 +64,8 @@ test('ログイン成功時のテスト', async () => {
   expect(setIsSignedIn).toHaveBeenCalledTimes(1);
 
   expect(setCurrentUser).toHaveBeenCalledWith({
-    id: 1,
     email: "test@example.com",
+    password: "password"
   });
   expect(setCurrentUser).toHaveBeenCalledTimes(1);
 
@@ -91,10 +89,6 @@ test('ログイン失敗時のテスト', async() => {
     ]
   });
 
-  const setLoading = jest.fn();
-  const setIsSignedIn = jest.fn();
-  const setCurrentUser = jest.fn();
-
   const { result } = renderHook(() =>
     useLoginApi({
       setLoading,
@@ -103,7 +97,7 @@ test('ログイン失敗時のテスト', async() => {
     })
   );
 
-  const { onClickLogin, setEmail, setPassword } = result.current;
+  const { handleLogin, setEmail, setPassword } = result.current;
 
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
@@ -114,7 +108,7 @@ test('ログイン失敗時のテスト', async() => {
     setPassword('incorrect-password');
   });
 
-  await onClickLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+  await handleLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
   expect(setLoading).toHaveBeenCalledWith(true);
 
@@ -143,10 +137,6 @@ test('ログイン失敗時のテスト', async() => {
 test('ログインエラー時のテスト', async() => {
   mockAxios.onPost('/auth/sign_in').reply(500);
 
-  const setLoading = jest.fn();
-  const setIsSignedIn = jest.fn();
-  const setCurrentUser = jest.fn();
-
   const { result } = renderHook(() =>
     useLoginApi({
       setLoading,
@@ -155,7 +145,7 @@ test('ログインエラー時のテスト', async() => {
     })
   );
 
-  const { onClickLogin, setEmail, setPassword } = result.current;
+  const { handleLogin, setEmail, setPassword } = result.current;
 
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
@@ -166,7 +156,7 @@ test('ログインエラー時のテスト', async() => {
     setPassword('incorrect-password');
   });
 
-  await onClickLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+  await handleLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
   expect(setLoading).toHaveBeenCalledWith(true);
 

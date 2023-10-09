@@ -60,19 +60,6 @@ RSpec.describe "Users Api", type: :request do
       expect(@json["status"]).to eq "error"
       expect(@json["errors"]["full_messages"]).to eq ["パスワードは6文字以上で入力してください"]
     end
-
-    it "passwordとpassword(確認)が一致しなければ登録できないこと" do
-      post api_v1_user_registration_path, params: {
-        email: "test@example.com",
-        password: "password",
-        password_confirmation: "passward",
-        confirm_success_url: "http://localhost:4000/login"
-      }
-      expect(response).to have_http_status(422)
-      @json = JSON.parse(response.body)
-      expect(@json["status"]).to eq "error"
-      expect(@json["errors"]["full_messages"]).to eq ["パスワード（確認用）とパスワードの入力が一致しません"]
-    end
   end
 
   describe "Post /api/v1/auth/sign_in" do

@@ -30,12 +30,6 @@ RSpec.describe User, type: :model do
       user.valid?
       expect(user.errors.full_messages).to include("パスワードは6文字以上で入力してください")
     end
-
-    it "passwordとpassword(確認)の入力が不一致なら、無効な状態であること" do
-      user = build(:user, password: "password", password_confirmation: "passward")
-      user.valid?
-      expect(user.errors.full_messages).to include("パスワード（確認用）とパスワードの入力が一致しません")
-    end
   end
 
   describe "更新のテスト" do

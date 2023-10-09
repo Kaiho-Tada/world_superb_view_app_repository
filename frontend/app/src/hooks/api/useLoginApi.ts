@@ -20,7 +20,7 @@ export const useLoginApi = (props: useLoginApiProps) => {
   const { showMessage } = useMessage();
   const navigate = useNavigate();
 
-  const onClickLogin = useCallback(async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleLogin = useCallback(async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setLoading(true);
 
@@ -53,5 +53,5 @@ export const useLoginApi = (props: useLoginApiProps) => {
     };
     setLoading(false);
   }, [email, password]);
-  return { onClickLogin, email, setEmail, password, setPassword };
+  return { handleLogin, email, setEmail, password, setPassword };
 };

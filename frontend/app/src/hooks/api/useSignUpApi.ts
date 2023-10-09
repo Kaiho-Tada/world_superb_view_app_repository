@@ -13,18 +13,16 @@ export const useSignUpApi = (props: useSignUpApiProps) => {
   const { setLoading } = props;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const { showMessage } = useMessage();
   const navigate = useNavigate();
 
-  const onClickSignUp = useCallback(async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSignUp = useCallback(async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setLoading(true);
 
     const data: SignUpData = {
       email: email,
       password: password,
-      passwordConfirmation: passwordConfirmation,
       confirm_success_url: "http://localhost:3000/login",
     };
 
@@ -43,5 +41,5 @@ export const useSignUpApi = (props: useSignUpApiProps) => {
     };
     setLoading(false);
   }, [ email, password ]);
-  return { onClickSignUp, email, setEmail, password, setPassword, passwordConfirmation, setPasswordConfirmation };
+  return { handleSignUp, email, setEmail, password, setPassword };
 };

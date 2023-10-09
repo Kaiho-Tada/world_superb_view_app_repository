@@ -7,6 +7,11 @@ import { Login } from 'components/pages/Login';
 import { userEvent } from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
 
+afterEach(() => {
+  mockAxios.resetHistory()
+  jest.clearAllMocks()
+});
+
 const mockUseNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -54,13 +59,13 @@ test('emailラベルが表示されていること', () => {
   expect(emailLabel).toBeInTheDocument();
 });
 
-test('メールアドレスの記入欄が存在すること', () => {
+test('メールアドレスの記入欄が表示されていること', () => {
   render(
     <AuthProvider>
       <Login />
     </AuthProvider>
   );
-  const emailInput = screen.getByRole("textbox", { name: "" });
+  const emailInput = screen.getByRole("textbox", { name: "email" });
   expect(emailInput).toBeInTheDocument();
 });
 
@@ -74,17 +79,17 @@ test('パスワードラベルが表示されていること', () => {
   expect(passwordLabel).toBeInTheDocument();
 });
 
-test('パスワードの記入欄が存在すること', () => {
+test('パスワードの記入欄が表示されていること', () => {
   render(
     <AuthProvider>
       <Login />
     </AuthProvider>
   );
-  const passwordInput = screen.getByPlaceholderText('6文字以上の半角英数字');
+  const passwordInput = screen.getByLabelText('password');
   expect(passwordInput).toBeInTheDocument();
 });
 
-test('ログインボタンが存在すること', () => {
+test('ログインボタンが表示されていること', () => {
   render(
     <AuthProvider>
       <Login />
@@ -95,23 +100,18 @@ test('ログインボタンが存在すること', () => {
 });
 
 test('ログイン成功時のテスト', async () => {
-  mockAxios.onPost('/auth/sign_in').reply(200,
-    {
-      data: {
-        id: 1,
-        email: "test@example.com",
-      }
-    }
-  );
-
+  mockAxios.onPost('/auth/sign_in').reply((config) => {
+    const data = JSON.parse(config.data);
+    return [200, { data }];
+  });
   const user = userEvent.setup();
   render(
     <AuthProvider>
       <Login/>
     </AuthProvider>
   );
-  const emailInput = screen.getByRole("textbox", { name: "" }) as HTMLInputElement;
-  const passwordInput = screen.getByPlaceholderText('6文字以上の半角英数字') as HTMLInputElement;
+  const emailInput = screen.getByRole("textbox", { name: "email" }) as HTMLInputElement;
+  const passwordInput = screen.getByLabelText('password') as HTMLInputElement;
   const loginButton = screen.getByRole('button', { name: "ログイン"});
 
   expect(emailInput.value).toBe("");
@@ -142,8 +142,8 @@ test('ログイン成功時のテスト', async () => {
   expect(mockSetIsSignedIn).toHaveBeenCalledTimes(1);
 
   expect(mockSetCurrentUser).toHaveBeenCalledWith({
-    id: 1,
     email: "test@example.com",
+    password: "password"
   });
   expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
 
@@ -167,8 +167,8 @@ test('ログイン失敗時のテスト', async() => {
       <Login/>
     </AuthProvider>
   );
-  const emailInput = screen.getByRole("textbox", { name: "" }) as HTMLInputElement;
-  const passwordInput = screen.getByPlaceholderText('6文字以上の半角英数字') as HTMLInputElement;
+  const emailInput = screen.getByRole("textbox", { name: "email" }) as HTMLInputElement;
+  const passwordInput = screen.getByLabelText('password') as HTMLInputElement;
   const loginButton = screen.getByRole('button', { name: "ログイン"});
 
   expect(emailInput.value).toBe("");
@@ -217,8 +217,8 @@ test('ログインエラー時のテスト', async() => {
       <Login/>
     </AuthProvider>
   );
-  const emailInput = screen.getByRole("textbox", { name: "" }) as HTMLInputElement;
-  const passwordInput = screen.getByPlaceholderText('6文字以上の半角英数字') as HTMLInputElement;
+  const emailInput = screen.getByRole("textbox", { name: "email" }) as HTMLInputElement;
+  const passwordInput = screen.getByLabelText('password') as HTMLInputElement;
   const loginButton = screen.getByRole('button', { name: "ログイン"});
 
   expect(emailInput.value).toBe("");
@@ -268,25 +268,25 @@ test('アカウント未登録者用の見出しが表示されていること',
   expect(headingForSignUp).toBeInTheDocument();
 });
 
-test('アカウント登録ボタンが表示されていること', () => {
+test('サインアップページ遷移ボタンが表示されていること', () => {
   render(
     <AuthProvider>
       <Login />
     </AuthProvider>
   );
-  const signUpButton = screen.getByRole('button', { name: "登録する"});
-  expect(signUpButton).toBeInTheDocument();
+  const  navigateToSignUpPageButton = screen.getByRole('button', { name: "登録する"});
+  expect(navigateToSignUpPageButton).toBeInTheDocument();
 });
 
-test('アカウント登録ボタン押下でサインアップページに遷移されること', async () => {
+test('サインアップページ遷移ボタン押下でサインアップページに遷移されること', async () => {
   const user = userEvent.setup();
   render(
     <AuthProvider>
       <Login />
     </AuthProvider>
   );
-  const signUpButton = screen.getByRole('button', { name: "登録する"});
-  await user.click(signUpButton);
+  const navigateToSignUpPageButton = screen.getByRole('button', { name: "登録する"});
+  await user.click(navigateToSignUpPageButton);
   expect(mockUseNavigate).toHaveBeenCalledWith('/signup');
   expect(mockUseNavigate).toHaveBeenCalledTimes(1);
 });
