@@ -13,7 +13,7 @@ type useLoginApiProps = {
   setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>;
 };
 
-export const useLoginApi = (props: useLoginApiProps) => {
+export const useLogin = (props: useLoginApiProps) => {
   const { setLoading, setIsSignedIn, setCurrentUser } = props;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

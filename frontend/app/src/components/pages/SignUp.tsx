@@ -2,12 +2,12 @@ import { FC, memo, ChangeEvent } from "react";
 import { Box, Flex, FormControl, FormLabel, Input, Stack, Text } from "@chakra-ui/react";
 import { useAuth } from "hooks/providers/useAuthProvider";
 import { AuthButton } from "components/atoms/button/AuthButton";
-import { useSignUpApi } from "hooks/api/useSignUpApi";
+import { useSignUp } from "hooks/api/useSignUp";
 import { EmailIcon, LockIcon } from "@chakra-ui/icons";
 
 export const SignUp: FC = memo(() => {
   const { loading, setLoading } = useAuth();
-  const { handleSignUp, email, setEmail, password, setPassword } = useSignUpApi({setLoading});
+  const { handleSignUp, email, setEmail, password, setPassword } = useSignUp({setLoading});
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
   const onChangePassword  = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);

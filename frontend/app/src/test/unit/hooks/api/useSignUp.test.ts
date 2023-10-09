@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import { useSignUpApi } from "hooks/api/useSignUpApi";
+import { useSignUp } from "hooks/api/useSignUp";
 import client from "lib/api/client";
 
 const mockUseNavigate = jest.fn();
@@ -44,7 +44,7 @@ mockAxios.onPost('/auth').reply((config) => {
 
 test('サインアップ成功時の処理のテスト', async() => {
   const { result } = renderHook(() =>
-    useSignUpApi({
+    useSignUp({
       setLoading,
     })
   );
@@ -90,7 +90,7 @@ test('サインアップ成功時の処理のテスト', async() => {
 describe('サインアップ失敗時の処理のテスト', () => {
   test('リクエストのemailのフォーマットが正しくない場合はプロフィールの更新に失敗すること', async() => {
     const { result } = renderHook(() =>
-      useSignUpApi({
+      useSignUp({
         setLoading,
       })
     );
@@ -135,7 +135,7 @@ describe('サインアップ失敗時の処理のテスト', () => {
 
   test('パスワードは6文字以上でなければ登録できないこと', async() => {
     const { result } = renderHook(() =>
-      useSignUpApi({
+      useSignUp({
         setLoading,
       })
     );
@@ -183,7 +183,7 @@ test('サインアップエラー時の処理のテスト', async() => {
   mockAxios.onPost('/auth').reply(500);
 
   const { result } = renderHook(() =>
-    useSignUpApi({
+    useSignUp({
       setLoading,
     })
   );

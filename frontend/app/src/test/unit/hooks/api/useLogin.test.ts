@@ -2,7 +2,7 @@ import { renderHook, act} from "@testing-library/react";
 import '@testing-library/jest-dom'
 import client from 'lib/api/client';
 import MockAdapter from "axios-mock-adapter";
-import { useLoginApi } from "hooks/api/useLoginApi";
+import { useLogin } from "hooks/api/useLogin";
 
 afterEach(() => {
   mockAxios.resetHistory()
@@ -34,7 +34,7 @@ test('ログイン成功時のテスト', async () => {
   });
 
   const { result } = renderHook(() =>
-    useLoginApi({
+    useLogin({
       setLoading,
       setIsSignedIn,
       setCurrentUser,
@@ -90,7 +90,7 @@ test('ログイン失敗時のテスト', async() => {
   });
 
   const { result } = renderHook(() =>
-    useLoginApi({
+    useLogin({
       setLoading,
       setIsSignedIn,
       setCurrentUser,
@@ -138,7 +138,7 @@ test('ログインエラー時のテスト', async() => {
   mockAxios.onPost('/auth/sign_in').reply(500);
 
   const { result } = renderHook(() =>
-    useLoginApi({
+    useLogin({
       setLoading,
       setIsSignedIn,
       setCurrentUser,

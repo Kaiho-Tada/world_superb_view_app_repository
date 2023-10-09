@@ -9,7 +9,7 @@ type useSignUpApiProps = {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const useSignUpApi = (props: useSignUpApiProps) => {
+export const useSignUp = (props: useSignUpApiProps) => {
   const { setLoading } = props;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

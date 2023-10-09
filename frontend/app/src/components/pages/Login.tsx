@@ -3,12 +3,12 @@ import { Box, Button, Divider, Flex, FormControl, FormLabel, Input, Stack, Text 
 import { useAuth } from "hooks/providers/useAuthProvider";
 import { useNavigate } from "react-router-dom";
 import { AuthButton } from "components/atoms/button/AuthButton";
-import { useLoginApi } from "hooks/api/useLoginApi";
+import { useLogin } from "hooks/api/useLogin";
 import { EmailIcon, LockIcon } from "@chakra-ui/icons";
 
 export const Login: FC = memo(() => {
   const { setIsSignedIn, setCurrentUser, loading, setLoading } = useAuth();
-  const { handleLogin, email, setEmail, password, setPassword } = useLoginApi({setLoading, setCurrentUser, setIsSignedIn});
+  const { handleLogin, email, setEmail, password, setPassword } = useLogin({setLoading, setCurrentUser, setIsSignedIn});
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
   const onChangePassword  = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
