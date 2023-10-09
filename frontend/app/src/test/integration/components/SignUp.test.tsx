@@ -91,7 +91,40 @@ describe('新規登録ページのレンダリングテスト', () => {
     const signUpButton = screen.getByRole('button', { name: "新規登録"});
     expect(signUpButton).toBeInTheDocument();
   });
-})
+
+  test('アカウント登録済みユーザー用の見出しが表示されていること', () => {
+    render(
+      <AuthProvider>
+        <SignUp />
+      </AuthProvider>
+    );
+    const headingForLogin = screen.getByRole('heading', { name: "アカウントをお持ちの方"});
+    expect(headingForLogin).toBeInTheDocument();
+  });
+
+  test('ログインページ遷移ボタンが表示されていること', () => {
+    render(
+      <AuthProvider>
+        <SignUp />
+      </AuthProvider>
+    );
+    const navigateToLoginPageButton = screen.getByRole('button', { name: "ログインページへ"});
+    expect(navigateToLoginPageButton).toBeInTheDocument();
+  });
+
+  test('ログインページ遷移ボタン押下でログインページに遷移されること', async () => {
+    const user = userEvent.setup();
+    render(
+      <AuthProvider>
+        <SignUp />
+      </AuthProvider>
+    );
+    const navigateToLoginPageButton = screen.getByRole('button', { name: "ログインページへ"});
+    await user.click(navigateToLoginPageButton);
+    expect(mockUseNavigate).toHaveBeenCalledWith('/login');
+    expect(mockUseNavigate).toHaveBeenCalledTimes(1);
+  });
+});
 
 const mockAxios = new MockAdapter(client);
 
