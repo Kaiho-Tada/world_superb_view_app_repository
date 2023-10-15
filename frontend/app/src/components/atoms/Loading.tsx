@@ -1,11 +1,10 @@
-import { Spinner } from '@chakra-ui/react';
-import { Center } from '@chakra-ui/react';
-import { FC } from 'react';
+import { Center, Spinner } from "@chakra-ui/react";
+import { FC, memo } from "react";
 
-export const Loading: FC = () => {
-  return (
-    <Center h="90vh">
-      <Spinner />
-    </Center>
-  );
-};
+const Loading: FC = memo(() => (
+  <Center h="90vh">
+    <Spinner />
+  </Center>
+));
+Loading.displayName = "Loading";
+export default Loading;

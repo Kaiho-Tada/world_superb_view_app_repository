@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { useMessage } from "hooks/useMessage";
+import useMessage from "hooks/useMessage";
 
 const mockUseToast = jest.fn();
 
@@ -7,18 +7,18 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-describe('useMessageのテスト', () => {
-  it('showMessage関数が正しく呼び出されること', () => {
+describe("useMessageのテスト", () => {
+  it("showMessage関数が正しく呼び出されること", () => {
     const { result } = renderHook(() => useMessage());
 
     result.current.showMessage({
-      title: 'success message',
-      status: 'success',
+      title: "success message",
+      status: "success",
     });
 
     expect(mockUseToast).toHaveBeenCalledWith({
-      title: 'success message',
-      status: 'success',
+      title: "success message",
+      status: "success",
       position: "top",
       duration: 5000,
       isClosable: true,

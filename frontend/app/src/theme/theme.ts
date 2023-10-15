@@ -5,9 +5,9 @@ const theme = extendTheme({
     global: {
       body: {
         bg: "blue.800",
-        color: "white"
-      }
-    }
+        color: "white",
+      },
+    },
   },
   components: {
     Button: {
@@ -26,7 +26,7 @@ const theme = extendTheme({
           _text: {
             textShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)",
           },
-          width: "60"
+          width: "60",
         },
         primaryB: {
           bg: "cyan.400",
@@ -34,7 +34,7 @@ const theme = extendTheme({
           _text: {
             textShadow: "10px 2px 4px rgba(0, 0, 0, 0.4)",
           },
-          width: "60"
+          width: "60",
         },
         secoundary: {
           bg: "#808080",
@@ -42,7 +42,7 @@ const theme = extendTheme({
           _text: {
             textShadow: "10px 2px 4px rgba(0, 0, 0, 0.4)",
           },
-          width: "60"
+          width: "60",
         },
         danger: {
           bg: "red.600",
@@ -50,7 +50,7 @@ const theme = extendTheme({
           _text: {
             textShadow: "10px 2px 4px rgba(0, 0, 0, 0.4)",
           },
-          width: "60"
+          width: "60",
         },
       },
     },

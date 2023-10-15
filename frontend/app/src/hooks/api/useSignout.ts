@@ -1,5 +1,5 @@
 import { isAxiosError } from "axios";
-import { useMessage } from "hooks/useMessage";
+import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { signout } from "lib/api/auth";
 import { useCallback } from "react";
@@ -12,7 +12,7 @@ type Props = {
   setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>;
 };
 
-export const useSignout = (props: Props) => {
+const useSignout = (props: Props) => {
   const { setLoading, setIsSignedIn, setCurrentUser } = props;
   const { showMessage } = useMessage();
   const navigate = useNavigate();
@@ -26,18 +26,19 @@ export const useSignout = (props: Props) => {
       Cookies.remove("_uid");
       setIsSignedIn(false);
       setCurrentUser(undefined);
-      showMessage({title: "サインアウトしました。", status: "success"});
+      showMessage({ title: "サインアウトしました。", status: "success" });
       navigate("/login");
-    } catch (e) {
-      if (isAxiosError(e) && e.response && e.response.status === 404){
-        e.response.data.errors.map((errorMessage: string) => {
-          return showMessage({title: errorMessage, status: "error"});
-        });
-      } else{
-        showMessage({title: "エラーが発生しました。", status: "error"});
-      };
-    };
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 404) {
+        error.response.data.errors.map((errorMessage: string) =>
+          showMessage({ title: errorMessage, status: "error" })
+        );
+      } else {
+        showMessage({ title: "エラーが発生しました。", status: "error" });
+      }
+    }
     setLoading(false);
   }, []);
   return { handleSignout };
 };
+export default useSignout;

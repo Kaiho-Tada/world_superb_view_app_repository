@@ -6,18 +6,19 @@ type Props = {
   status: "info" | "warning" | "success" | "error";
 };
 
-export const useMessage = () => {
+const useMessage = () => {
   const toast = useToast();
 
   const showMessage = useCallback((props: Props) => {
-    const {title, status} = props;
+    const { title, status } = props;
     toast({
       title,
       status,
       position: "top",
       duration: 5000,
-      isClosable: true
+      isClosable: true,
     });
   }, []);
   return { showMessage };
 };
+export default useMessage;

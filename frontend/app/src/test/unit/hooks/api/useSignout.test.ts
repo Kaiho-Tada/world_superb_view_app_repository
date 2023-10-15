@@ -1,46 +1,46 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import { useSignout } from "hooks/api/useSignout";
+import useSignout from "hooks/api/useSignout";
 import Cookies from "js-cookie";
 import client from "lib/api/client";
+
+const mockUseNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockUseNavigate,
+}));
+
+const mockUseToast = jest.fn();
+jest.mock("@chakra-ui/react", () => ({
+  ...jest.requireActual("@chakra-ui/react"),
+  useToast: () => mockUseToast,
+}));
+
+jest.mock("js-cookie", () => ({
+  ...jest.requireActual("js-cookie"),
+  get: jest.fn(),
+  remove: jest.fn(),
+}));
+
+const setLoading = jest.fn();
+const setIsSignedIn = jest.fn();
+const setCurrentUser = jest.fn();
+
+const mockAxios = new MockAdapter(client);
 
 afterEach(() => {
   mockAxios.resetHistory();
   jest.clearAllMocks();
 });
 
-const mockUseNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockUseNavigate,
-}));
-
-const mockUseToast = jest.fn();
-jest.mock('@chakra-ui/react', () => ({
-  ...jest.requireActual('@chakra-ui/react'),
-  useToast: () => mockUseToast,
-}));
-
-jest.mock('js-cookie', () => ({
-  ...jest.requireActual('js-cookie'),
-  get: jest.fn(),
-  remove: jest.fn(),
-}));
-
-const mockAxios = new MockAdapter(client);
-
-const setLoading = jest.fn();
-const setIsSignedIn = jest.fn();
-const setCurrentUser = jest.fn();
-
-test('サインアウト成功時の処理のテスト', async() => {
-  mockAxios.onDelete('auth/sign_out').reply(200);
+test("サインアウト成功時の処理のテスト", async () => {
+  mockAxios.onDelete("auth/sign_out").reply(200);
 
   const { result } = renderHook(() =>
     useSignout({
       setLoading,
       setIsSignedIn,
-      setCurrentUser
+      setCurrentUser,
     })
   );
   const { handleSignout } = result.current;
@@ -48,9 +48,9 @@ test('サインアウト成功時の処理のテスト', async() => {
 
   expect(setLoading).toHaveBeenCalledWith(true);
 
-  expect(Cookies.remove).toHaveBeenCalledWith('_access_token');
-  expect(Cookies.remove).toHaveBeenCalledWith('_client');
-  expect(Cookies.remove).toHaveBeenCalledWith('_uid');
+  expect(Cookies.remove).toHaveBeenCalledWith("_access_token");
+  expect(Cookies.remove).toHaveBeenCalledWith("_client");
+  expect(Cookies.remove).toHaveBeenCalledWith("_uid");
 
   expect(setIsSignedIn).toHaveBeenCalledWith(false);
   expect(setIsSignedIn).toHaveBeenCalledTimes(1);
@@ -60,7 +60,7 @@ test('サインアウト成功時の処理のテスト', async() => {
 
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "サインアウトしました。",
-    status: 'success',
+    status: "success",
     position: "top",
     duration: 5000,
     isClosable: true,
@@ -74,17 +74,16 @@ test('サインアウト成功時の処理のテスト', async() => {
   expect(setLoading).toHaveBeenCalledTimes(2);
 });
 
-
-test('サインアウト失敗時のテスト', async() => {
-  mockAxios.onDelete('auth/sign_out').reply(404, {
-    errors: ["ユーザーが見つからないか、ログインしていません。"]
+test("サインアウト失敗時のテスト", async () => {
+  mockAxios.onDelete("auth/sign_out").reply(404, {
+    errors: ["ユーザーが見つからないか、ログインしていません。"],
   });
 
   const { result } = renderHook(() =>
     useSignout({
       setLoading,
       setIsSignedIn,
-      setCurrentUser
+      setCurrentUser,
     })
   );
   const { handleSignout } = result.current;
@@ -100,7 +99,7 @@ test('サインアウト失敗時のテスト', async() => {
 
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "ユーザーが見つからないか、ログインしていません。",
-    status: 'error',
+    status: "error",
     position: "top",
     duration: 5000,
     isClosable: true,
@@ -114,14 +113,14 @@ test('サインアウト失敗時のテスト', async() => {
   expect(setLoading).toHaveBeenCalledTimes(2);
 });
 
-test('サインアウトのエラー時のテスト', async() => {
-  mockAxios.onDelete('auth/sign_out').reply(500);
+test("サインアウトのエラー時のテスト", async () => {
+  mockAxios.onDelete("auth/sign_out").reply(500);
 
   const { result } = renderHook(() =>
     useSignout({
       setLoading,
       setIsSignedIn,
-      setCurrentUser
+      setCurrentUser,
     })
   );
   const { handleSignout } = result.current;
@@ -137,7 +136,7 @@ test('サインアウトのエラー時のテスト', async() => {
 
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "エラーが発生しました。",
-    status: 'error',
+    status: "error",
     position: "top",
     duration: 5000,
     isClosable: true,

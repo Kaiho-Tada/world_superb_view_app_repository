@@ -1,7 +1,5 @@
-import React, { memo } from 'react';
+import { memo } from "react";
 
-export const Home = memo(() => {
-  return (
-    <div>Homeページ</div>
-  );
-});
+const Home = memo(() => <div>Homeページ</div>);
+Home.displayName = "Home";
+export default Home;

@@ -7,4 +7,4 @@ export type User = {
   nickname?: string;
   image?: string;
   allowPasswordChange: boolean;
-}
+};

@@ -30,6 +30,3 @@
 
 # Ignore env files.
 /.env
-
-# Ignore memo.
-/memo
