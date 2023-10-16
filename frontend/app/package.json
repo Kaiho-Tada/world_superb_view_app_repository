@@ -34,7 +34,12 @@
     "fix:prettier": "prettier --write './src/**/*.{js ,jsx,ts,tsx}'",
     "lint:eslint": "eslint './src/**/*.{js,jsx,ts,tsx}'",
     "fix:eslint": "eslint --fix './src/**/*.{js,jsx,ts,tsx}'",
-    "fix": "npm run fix:prettier && npm run fix:eslint"
+    "check": "npm run lint:prettier && npm run lint:eslint",
+    "fix": "npm run fix:prettier && npm run fix:eslint",
+    "prepare": "cd ../.. && npx husky install frontend/app/.husky"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": "npm run check"
   },
   "eslintConfig": {
     "extends": [
@@ -66,6 +71,8 @@
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "^7.33.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.1",
     "prettier": "^3.0.3",
     "prettier-plugin-organize-imports": "^3.2.3"
   }
