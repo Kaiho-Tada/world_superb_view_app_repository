@@ -30,16 +30,15 @@
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!@codemirror)/'",
     "eject": "react-scripts eject",
-    "lint:prettier": "prettier --check './src/**/*.{js ,jsx,ts,tsx}'",
-    "fix:prettier": "prettier --write './src/**/*.{js ,jsx,ts,tsx}'",
-    "lint:eslint": "eslint './src/**/*.{js,jsx,ts,tsx}'",
-    "fix:eslint": "eslint --fix './src/**/*.{js,jsx,ts,tsx}'",
-    "check": "npm run lint:prettier && npm run lint:eslint",
-    "fix": "npm run fix:prettier && npm run fix:eslint",
+    "check": "prettier --check './src/**/*.{js ,jsx,ts,tsx}'",
+    "format": "prettier --write './src/**/*.{js ,jsx,ts,tsx}'",
+    "lint": "eslint './src/**/*.{js,jsx,ts,tsx}'",
+    "fix:lint": "eslint --fix './src/**/*.{js,jsx,ts,tsx}'",
+    "fix": "npm run format && npm run lint",
     "prepare": "cd ../.. && npx husky install frontend/app/.husky"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": "npm run check"
+    "src/**/*.{js,jsx,ts,tsx}": "npm run fix"
   },
   "eslintConfig": {
     "extends": [
