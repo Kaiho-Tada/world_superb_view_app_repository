@@ -34,8 +34,7 @@
     "format": "prettier --write './src/**/*.{js ,jsx,ts,tsx}'",
     "lint": "eslint './src/**/*.{js,jsx,ts,tsx}'",
     "fix:lint": "eslint --fix './src/**/*.{js,jsx,ts,tsx}'",
-    "fix": "npm run format && npm run lint",
-    "prepare": "cd ../.. && npx husky install frontend/app/.husky"
+    "fix": "npm run format && npm run lint"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": "npm run fix"

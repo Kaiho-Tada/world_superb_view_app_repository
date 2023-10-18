@@ -10,21 +10,25 @@ import {
   PopoverTrigger,
   Text,
 } from "@chakra-ui/react";
+import useSignout from "hooks/api/useSignout";
+import { useAuth } from "hooks/providers/useAuthProvider";
 import personIcon from "img/person.png";
 import profileIcon from "img/profile.png";
-import { FC, memo } from "react";
+import { FC, memo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
-type AuthLinksProps = {
-  loading: boolean;
+type AuthLinkProps = {
   isSignedIn: boolean;
-  handleSignout: () => Promise<void>;
-  onClickProfile: () => void;
-  onClickLogin: () => void;
-  onClickSignup: () => void;
 };
 
-const AuthLink: FC<AuthLinksProps> = memo((props) => {
-  const { loading, isSignedIn, handleSignout, onClickProfile, onClickLogin, onClickSignup } = props;
+const AuthLink: FC<AuthLinkProps> = memo((props) => {
+  const { isSignedIn } = props;
+  const navigate = useNavigate();
+  const onClickLogin = useCallback(() => navigate("/login"), [navigate]);
+  const onClickProfile = useCallback(() => navigate("/profile"), [navigate]);
+  const onClickSignup = useCallback(() => navigate("/signup"), [navigate]);
+  const { loading, setLoading, setIsSignedIn, setCurrentUser } = useAuth();
+  const { handleSignout } = useSignout({ setLoading, setIsSignedIn, setCurrentUser });
   if (!loading) {
     if (isSignedIn) {
       return (
