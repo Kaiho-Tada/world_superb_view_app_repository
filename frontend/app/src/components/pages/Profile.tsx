@@ -18,15 +18,11 @@ import { ChangeEvent, memo, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Profile = memo(() => {
-  const { currentUser, setCurrentUser, setLoading, loading, setIsSignedIn } = useAuth();
+  const { currentUser, loading } = useAuth();
   const navigate = useNavigate();
   const onClickHome = useCallback(() => navigate("/home"), [navigate]);
-  const { handleUpdateUser, name, setName, nickname, setNickname, email, setEmail } = useUpdateUser(
-    {
-      setLoading,
-      setCurrentUser,
-    }
-  );
+  const { handleUpdateUser, name, setName, nickname, setNickname, email, setEmail } =
+    useUpdateUser();
 
   useEffect(() => {
     if (currentUser) {
@@ -46,12 +42,12 @@ const Profile = memo(() => {
     setPassword,
     passwordConfirmation,
     setpasswordConfirmation,
-  } = useUpdatePassword({ setLoading });
+  } = useUpdatePassword();
   const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
   const onChangepasswordConfirmation = (e: ChangeEvent<HTMLInputElement>) =>
     setpasswordConfirmation(e.target.value);
 
-  const { handleDeleteUser } = useDeleteUser({ setCurrentUser, setLoading, setIsSignedIn });
+  const { handleDeleteUser } = useDeleteUser();
 
   return (
     <Flex justify="center" my="12">

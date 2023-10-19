@@ -1,14 +1,13 @@
 import { isAxiosError } from "axios";
+import { useAuth } from "hooks/providers/useAuthProvider";
 import useMessage from "hooks/useMessage";
 import { updatePassword } from "lib/api/auth";
 import React, { useCallback, useState } from "react";
 import { UpdatePasswordData } from "types/api/auth";
 
-type UseUpdatePasswordProps = {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-};
-const useUpdatePassword = (props: UseUpdatePasswordProps) => {
-  const { setLoading } = props;
+const useUpdatePassword = () => {
+  const { setLoading } = useAuth();
+
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setpasswordConfirmation] = useState("");
   const { showMessage } = useMessage();

@@ -1,17 +1,14 @@
 import { isAxiosError } from "axios";
+import { useAuth } from "hooks/providers/useAuthProvider";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { updateUser } from "lib/api/auth";
 import React, { useCallback, useState } from "react";
 import { UpdateUserData } from "types/api/auth";
-import { User } from "types/api/user";
 
-type UseUpdateUserProps = {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>;
-};
-const useUpdateUser = (props: UseUpdateUserProps) => {
-  const { setLoading, setCurrentUser } = props;
+const useUpdateUser = () => {
+  const { setCurrentUser, setLoading } = useAuth();
+
   const [name, setName] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [email, setEmail] = useState<string>("");

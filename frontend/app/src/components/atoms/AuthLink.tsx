@@ -27,8 +27,8 @@ const AuthLink: FC<AuthLinkProps> = memo((props) => {
   const onClickLogin = useCallback(() => navigate("/login"), [navigate]);
   const onClickProfile = useCallback(() => navigate("/profile"), [navigate]);
   const onClickSignup = useCallback(() => navigate("/signup"), [navigate]);
-  const { loading, setLoading, setIsSignedIn, setCurrentUser } = useAuth();
-  const { handleSignout } = useSignout({ setLoading, setIsSignedIn, setCurrentUser });
+  const { loading } = useAuth();
+  const { handleSignout } = useSignout();
   if (!loading) {
     if (isSignedIn) {
       return (

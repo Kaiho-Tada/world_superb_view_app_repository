@@ -1,19 +1,13 @@
 import { isAxiosError } from "axios";
+import { useAuth } from "hooks/providers/useAuthProvider";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { signout } from "lib/api/auth";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { User } from "types/api/user";
 
-type Props = {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>;
-};
-
-const useSignout = (props: Props) => {
-  const { setLoading, setIsSignedIn, setCurrentUser } = props;
+const useSignout = () => {
+  const { setLoading, setIsSignedIn, setCurrentUser } = useAuth();
   const { showMessage } = useMessage();
   const navigate = useNavigate();
 

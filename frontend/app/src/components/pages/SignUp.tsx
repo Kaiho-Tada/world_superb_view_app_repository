@@ -17,8 +17,8 @@ import { ChangeEvent, FC, memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SignUp: FC = memo(() => {
-  const { loading, setLoading } = useAuth();
-  const { handleSignUp, email, setEmail, password, setPassword } = useSignUp({ setLoading });
+  const { loading } = useAuth();
+  const { handleSignUp, email, setEmail, password, setPassword } = useSignUp();
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
   const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);

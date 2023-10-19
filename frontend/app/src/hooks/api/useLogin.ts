@@ -1,20 +1,14 @@
 import { isAxiosError } from "axios";
+import { useAuth } from "hooks/providers/useAuthProvider";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { login } from "lib/api/auth";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginData } from "types/api/auth";
-import { User } from "types/api/user";
 
-type UseLoginApiProps = {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>;
-};
-
-const useLogin = (props: UseLoginApiProps) => {
-  const { setLoading, setIsSignedIn, setCurrentUser } = props;
+const useLogin = () => {
+  const { setIsSignedIn, setCurrentUser, setLoading } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { showMessage } = useMessage();

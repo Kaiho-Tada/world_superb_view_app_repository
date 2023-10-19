@@ -22,10 +22,18 @@ jest.mock("js-cookie", () => ({
   set: jest.fn(),
 }));
 
-const setLoading = jest.fn();
-const setIsSignedIn = jest.fn();
-const setCurrentUser = jest.fn();
+const mockSetLoading = jest.fn();
+const mockSetCurrentUser = jest.fn();
+const mockSetIsSignedIn = jest.fn();
 
+jest.mock("hooks/providers/useAuthProvider", () => ({
+  ...jest.requireActual("hooks/providers/useAuthProvider"),
+  useAuth: () => ({
+    setLoading: mockSetLoading,
+    setCurrentUser: mockSetCurrentUser,
+    setIsSignedIn: mockSetIsSignedIn,
+  }),
+}));
 client.interceptors.response.use((config) => {
   const modifiedConfig = {
     ...config,
@@ -47,13 +55,7 @@ test("ログイン成功時のテスト", async () => {
     return [200, { data }];
   });
 
-  const { result } = renderHook(() =>
-    useLogin({
-      setLoading,
-      setIsSignedIn,
-      setCurrentUser,
-    })
-  );
+  const { result } = renderHook(() => useLogin());
 
   const { setEmail, setPassword } = result.current;
 
@@ -70,22 +72,22 @@ test("ログイン成功時のテスト", async () => {
 
   await handleLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-  expect(setLoading).toHaveBeenCalledWith(true);
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 
   expect(Cookies.set).toHaveBeenCalledWith("_access_token", "access-token");
   expect(Cookies.set).toHaveBeenCalledWith("_client", "client");
   expect(Cookies.set).toHaveBeenCalledWith("_uid", "uid");
 
-  expect(setIsSignedIn).toHaveBeenCalledWith(true);
-  expect(setIsSignedIn).toHaveBeenCalledTimes(1);
+  expect(mockSetIsSignedIn).toHaveBeenCalledWith(true);
+  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(1);
 
-  expect(setCurrentUser).toHaveBeenCalledWith({
+  expect(mockSetCurrentUser).toHaveBeenCalledWith({
     email: "test@example.com",
     password: "password",
   });
-  expect(setCurrentUser).toHaveBeenCalledTimes(1);
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
 
   expect(mockUseNavigate).toHaveBeenCalledWith("/home");
   expect(mockUseNavigate).toHaveBeenCalledTimes(1);
@@ -105,13 +107,7 @@ test("ログイン失敗時のテスト", async () => {
     errors: ["ログイン用の認証情報が正しくありません。再度お試しください。"],
   });
 
-  const { result } = renderHook(() =>
-    useLogin({
-      setLoading,
-      setIsSignedIn,
-      setCurrentUser,
-    })
-  );
+  const { result } = renderHook(() => useLogin());
 
   const { handleLogin, setEmail, setPassword } = result.current;
 
@@ -126,13 +122,13 @@ test("ログイン失敗時のテスト", async () => {
 
   await handleLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-  expect(setIsSignedIn).not.toHaveBeenCalledWith();
-  expect(setIsSignedIn).toHaveBeenCalledTimes(0);
+  expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
+  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
 
-  expect(setCurrentUser).not.toHaveBeenCalledWith();
-  expect(setCurrentUser).toHaveBeenCalledTimes(0);
+  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
 
   expect(mockUseNavigate).not.toHaveBeenCalledWith();
   expect(mockUseNavigate).toHaveBeenCalledTimes(0);
@@ -146,20 +142,14 @@ test("ログイン失敗時のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
 
 test("ログインエラー時のテスト", async () => {
   mockAxios.onPost("/auth/sign_in").reply(500);
 
-  const { result } = renderHook(() =>
-    useLogin({
-      setLoading,
-      setIsSignedIn,
-      setCurrentUser,
-    })
-  );
+  const { result } = renderHook(() => useLogin());
 
   const { handleLogin, setEmail, setPassword } = result.current;
 
@@ -174,13 +164,13 @@ test("ログインエラー時のテスト", async () => {
 
   await handleLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-  expect(setIsSignedIn).not.toHaveBeenCalledWith();
-  expect(setIsSignedIn).toHaveBeenCalledTimes(0);
+  expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
+  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
 
-  expect(setCurrentUser).not.toHaveBeenCalledWith();
-  expect(setCurrentUser).toHaveBeenCalledTimes(0);
+  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
 
   expect(mockUseNavigate).not.toHaveBeenCalledWith();
   expect(mockUseNavigate).toHaveBeenCalledTimes(0);
@@ -194,6 +184,6 @@ test("ログインエラー時のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });

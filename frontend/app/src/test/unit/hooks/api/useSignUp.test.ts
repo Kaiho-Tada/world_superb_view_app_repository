@@ -15,8 +15,14 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-const setLoading = jest.fn();
+const mockSetLoading = jest.fn();
 
+jest.mock("hooks/providers/useAuthProvider", () => ({
+  ...jest.requireActual("hooks/providers/useAuthProvider"),
+  useAuth: () => ({
+    setLoading: mockSetLoading,
+  }),
+}));
 const mockAxios = new MockAdapter(client);
 
 afterEach(() => {
@@ -50,11 +56,7 @@ mockAxios.onPost("/auth").reply((config) => {
 });
 
 test("サインアップ成功時の処理のテスト", async () => {
-  const { result } = renderHook(() =>
-    useSignUp({
-      setLoading,
-    })
-  );
+  const { result } = renderHook(() => useSignUp());
 
   const { setEmail, setPassword } = result.current;
 
@@ -71,7 +73,7 @@ test("サインアップ成功時の処理のテスト", async () => {
 
   await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
   expect(mockUseNavigate).toHaveBeenCalledWith("/login");
   expect(mockUseNavigate).toHaveBeenCalledTimes(1);
@@ -86,17 +88,13 @@ test("サインアップ成功時の処理のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
 
 describe("サインアップ失敗時の処理のテスト", () => {
   test("リクエストのemailのフォーマットが正しくない場合はプロフィールの更新に失敗すること", async () => {
-    const { result } = renderHook(() =>
-      useSignUp({
-        setLoading,
-      })
-    );
+    const { result } = renderHook(() => useSignUp());
 
     const { setEmail, setPassword } = result.current;
 
@@ -113,7 +111,7 @@ describe("サインアップ失敗時の処理のテスト", () => {
 
     await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-    expect(setLoading).toHaveBeenCalledWith(true);
+    expect(mockSetLoading).toHaveBeenCalledWith(true);
 
     expect(mockUseToast).toHaveBeenCalledWith({
       title: "Eメールは有効ではありません",
@@ -127,16 +125,12 @@ describe("サインアップ失敗時の処理のテスト", () => {
     expect(mockUseNavigate).not.toHaveBeenCalledWith();
     expect(mockUseNavigate).toHaveBeenCalledTimes(0);
 
-    expect(setLoading).toHaveBeenCalledWith(false);
-    expect(setLoading).toHaveBeenCalledTimes(2);
+    expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(mockSetLoading).toHaveBeenCalledTimes(2);
   });
 
   test("パスワードは6文字以上でなければ登録できないこと", async () => {
-    const { result } = renderHook(() =>
-      useSignUp({
-        setLoading,
-      })
-    );
+    const { result } = renderHook(() => useSignUp());
 
     const { setEmail, setPassword } = result.current;
 
@@ -153,7 +147,7 @@ describe("サインアップ失敗時の処理のテスト", () => {
 
     await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-    expect(setLoading).toHaveBeenCalledWith(true);
+    expect(mockSetLoading).toHaveBeenCalledWith(true);
 
     expect(mockUseToast).toHaveBeenCalledWith({
       title: "パスワードは6文字以上で入力してください",
@@ -167,19 +161,15 @@ describe("サインアップ失敗時の処理のテスト", () => {
     expect(mockUseNavigate).not.toHaveBeenCalledWith();
     expect(mockUseNavigate).toHaveBeenCalledTimes(0);
 
-    expect(setLoading).toHaveBeenCalledWith(false);
-    expect(setLoading).toHaveBeenCalledTimes(2);
+    expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(mockSetLoading).toHaveBeenCalledTimes(2);
   });
 });
 
 test("サインアップエラー時の処理のテスト", async () => {
   mockAxios.onPost("/auth").reply(500);
 
-  const { result } = renderHook(() =>
-    useSignUp({
-      setLoading,
-    })
-  );
+  const { result } = renderHook(() => useSignUp());
 
   const { setEmail, setPassword } = result.current;
 
@@ -196,7 +186,7 @@ test("サインアップエラー時の処理のテスト", async () => {
 
   await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
   expect(mockUseNavigate).not.toHaveBeenCalledWith();
   expect(mockUseNavigate).toHaveBeenCalledTimes(0);
@@ -210,6 +200,6 @@ test("サインアップエラー時の処理のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });

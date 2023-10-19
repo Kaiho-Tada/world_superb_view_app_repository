@@ -1,19 +1,13 @@
 import { isAxiosError } from "axios";
+import { useAuth } from "hooks/providers/useAuthProvider";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { deleteUser } from "lib/api/auth";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { User } from "types/api/user";
 
-type UseDeleteUserProps = {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>;
-  setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const useDeleteUser = (props: UseDeleteUserProps) => {
-  const { setLoading, setIsSignedIn, setCurrentUser } = props;
+const useDeleteUser = () => {
+  const { setCurrentUser, setLoading, setIsSignedIn } = useAuth();
   const navigate = useNavigate();
   const { showMessage } = useMessage();
 

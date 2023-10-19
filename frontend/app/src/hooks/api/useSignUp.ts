@@ -1,16 +1,14 @@
 import { isAxiosError } from "axios";
+import { useAuth } from "hooks/providers/useAuthProvider";
 import useMessage from "hooks/useMessage";
 import { signUp } from "lib/api/auth";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SignUpData } from "types/api/auth";
 
-type UseSignUpApiProps = {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-};
+const useSignUp = () => {
+  const { setLoading } = useAuth();
 
-const useSignUp = (props: UseSignUpApiProps) => {
-  const { setLoading } = props;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { showMessage } = useMessage();

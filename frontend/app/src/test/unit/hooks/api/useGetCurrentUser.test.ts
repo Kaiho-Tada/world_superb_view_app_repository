@@ -15,6 +15,19 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
+const mockSetLoading = jest.fn();
+const mockSetCurrentUser = jest.fn();
+const mockSetIsSignedIn = jest.fn();
+
+jest.mock("hooks/providers/useAuthProvider", () => ({
+  ...jest.requireActual("hooks/providers/useAuthProvider"),
+  useAuth: () => ({
+    setLoading: mockSetLoading,
+    setCurrentUser: mockSetCurrentUser,
+    setIsSignedIn: mockSetIsSignedIn,
+  }),
+}));
+
 const mockAxios = new MockAdapter(client);
 
 afterEach(() => {
@@ -32,36 +45,26 @@ test("currentUser取得成功時の処理のテスト", async () => {
       nickanme: "nickname",
     },
   });
-  const setLoading = jest.fn();
-  const setIsSignedIn = jest.fn();
-  const setCurrentUser = jest.fn();
-  const loading = false;
-  const { result } = renderHook(() =>
-    useGetCurrentUser({
-      setLoading,
-      setIsSignedIn,
-      setCurrentUser,
-      loading,
-    })
-  );
+
+  const { result } = renderHook(() => useGetCurrentUser());
   const { handelGetCurrentUser } = result.current;
   await handelGetCurrentUser();
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-  expect(setIsSignedIn).toHaveBeenCalledWith(true);
-  expect(setIsSignedIn).toHaveBeenCalledTimes(1);
+  expect(mockSetIsSignedIn).toHaveBeenCalledWith(true);
+  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(1);
 
-  expect(setCurrentUser).toHaveBeenCalledWith({
+  expect(mockSetCurrentUser).toHaveBeenCalledWith({
     id: 1,
     email: "test@example.com",
     name: "name",
     nickanme: "nickname",
   });
-  expect(setCurrentUser).toHaveBeenCalledTimes(1);
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
 
 test("currentUser取得失敗時の処理のテスト", async () => {
@@ -69,59 +72,37 @@ test("currentUser取得失敗時の処理のテスト", async () => {
     status: 500,
   });
 
-  const setLoading = jest.fn();
-  const setIsSignedIn = jest.fn();
-  const setCurrentUser = jest.fn();
-  const loading = false;
-  const { result } = renderHook(() =>
-    useGetCurrentUser({
-      setLoading,
-      setIsSignedIn,
-      setCurrentUser,
-      loading,
-    })
-  );
+  const { result } = renderHook(() => useGetCurrentUser());
   const { handelGetCurrentUser } = result.current;
   await handelGetCurrentUser();
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-  expect(setIsSignedIn).not.toHaveBeenCalledWith();
-  expect(setIsSignedIn).toHaveBeenCalledTimes(0);
+  expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
+  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
 
-  expect(setCurrentUser).not.toHaveBeenCalledWith();
-  expect(setCurrentUser).toHaveBeenCalledTimes(0);
+  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
 
 test("currentUser取得エラー時の処理のテスト", async () => {
   mockAxios.onGet("auth/sessions").reply(500);
 
-  const setLoading = jest.fn();
-  const setIsSignedIn = jest.fn();
-  const setCurrentUser = jest.fn();
-  const loading = false;
-  const { result } = renderHook(() =>
-    useGetCurrentUser({
-      setLoading,
-      setIsSignedIn,
-      setCurrentUser,
-      loading,
-    })
-  );
+  const { result } = renderHook(() => useGetCurrentUser());
   const { handelGetCurrentUser } = result.current;
   await handelGetCurrentUser();
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-  expect(setIsSignedIn).not.toHaveBeenCalledWith();
-  expect(setIsSignedIn).toHaveBeenCalledTimes(0);
+  expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
+  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
 
-  expect(setCurrentUser).not.toHaveBeenCalledWith();
-  expect(setCurrentUser).toHaveBeenCalledTimes(0);
+  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });

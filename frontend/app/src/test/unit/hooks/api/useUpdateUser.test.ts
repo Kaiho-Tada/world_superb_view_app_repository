@@ -22,6 +22,17 @@ jest.mock("js-cookie", () => ({
   set: jest.fn(),
 }));
 
+const mockSetLoading = jest.fn();
+const mockSetCurrentUser = jest.fn();
+
+jest.mock("hooks/providers/useAuthProvider", () => ({
+  ...jest.requireActual("hooks/providers/useAuthProvider"),
+  useAuth: () => ({
+    setLoading: mockSetLoading,
+    setCurrentUser: mockSetCurrentUser,
+  }),
+}));
+
 client.interceptors.response.use((config) => {
   const modifiedConfig = { ...config, headers: { ...config.headers, uid: "uid" } };
   return modifiedConfig;
@@ -60,15 +71,7 @@ mockAxios.onPut("auth").reply((config) => {
 });
 
 test("プロフィール更新成功時のテスト", async () => {
-  const setLoading = jest.fn();
-  const setCurrentUser = jest.fn();
-
-  const { result } = renderHook(() =>
-    useUpdateUser({
-      setLoading,
-      setCurrentUser,
-    })
-  );
+  const { result } = renderHook(() => useUpdateUser());
 
   const { setName, setNickname, setEmail } = result.current;
 
@@ -85,7 +88,7 @@ test("プロフィール更新成功時のテスト", async () => {
   };
   await handleUpdateUser(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
   expect(Cookies.set).toHaveBeenCalledWith("_uid", "uid");
 
@@ -98,28 +101,20 @@ test("プロフィール更新成功時のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setCurrentUser).toHaveBeenCalledWith({
+  expect(mockSetCurrentUser).toHaveBeenCalledWith({
     name: "new_name",
     nickname: "new_nickname",
     email: "new_test@example.com",
   });
-  expect(setCurrentUser).toHaveBeenCalledTimes(1);
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
 
 describe("プロフィール更新失敗時の処理のテスト", () => {
   test("リクエストのemailが空文字列の場合はプロフィールの更新に失敗すること", async () => {
-    const setLoading = jest.fn();
-    const setCurrentUser = jest.fn();
-
-    const { result } = renderHook(() =>
-      useUpdateUser({
-        setLoading,
-        setCurrentUser,
-      })
-    );
+    const { result } = renderHook(() => useUpdateUser());
 
     const { setName, setNickname, setEmail } = result.current;
 
@@ -136,10 +131,10 @@ describe("プロフィール更新失敗時の処理のテスト", () => {
     };
     await handleUpdateUser(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-    expect(setLoading).toHaveBeenCalledWith(true);
+    expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-    expect(setCurrentUser).not.toHaveBeenCalledWith();
-    expect(setCurrentUser).toHaveBeenCalledTimes(0);
+    expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+    expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
 
     expect(mockUseToast).toHaveBeenCalledWith({
       title: "Eメールを入力してください",
@@ -151,20 +146,12 @@ describe("プロフィール更新失敗時の処理のテスト", () => {
 
     expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-    expect(setLoading).toHaveBeenCalledWith(false);
-    expect(setLoading).toHaveBeenCalledTimes(2);
+    expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(mockSetLoading).toHaveBeenCalledTimes(2);
   });
 
   test("リクエストのemailのフォーマットが正しくない場合はプロフィールの更新に失敗すること", async () => {
-    const setLoading = jest.fn();
-    const setCurrentUser = jest.fn();
-
-    const { result } = renderHook(() =>
-      useUpdateUser({
-        setLoading,
-        setCurrentUser,
-      })
-    );
+    const { result } = renderHook(() => useUpdateUser());
 
     const { setName, setNickname, setEmail } = result.current;
 
@@ -181,10 +168,10 @@ describe("プロフィール更新失敗時の処理のテスト", () => {
     };
     await handleUpdateUser(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-    expect(setLoading).toHaveBeenCalledWith(true);
+    expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-    expect(setCurrentUser).not.toHaveBeenCalledWith();
-    expect(setCurrentUser).toHaveBeenCalledTimes(0);
+    expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+    expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
 
     expect(mockUseToast).toHaveBeenCalledWith({
       title: "Eメールは有効ではありません",
@@ -196,22 +183,15 @@ describe("プロフィール更新失敗時の処理のテスト", () => {
 
     expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-    expect(setLoading).toHaveBeenCalledWith(false);
-    expect(setLoading).toHaveBeenCalledTimes(2);
+    expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(mockSetLoading).toHaveBeenCalledTimes(2);
   });
 });
 
 test("プロフィール更新エラー時の処理のテスト", async () => {
   mockAxios.onPut("auth").reply(500);
-  const setLoading = jest.fn();
-  const setCurrentUser = jest.fn();
 
-  const { result } = renderHook(() =>
-    useUpdateUser({
-      setLoading,
-      setCurrentUser,
-    })
-  );
+  const { result } = renderHook(() => useUpdateUser());
 
   const { setName, setNickname, setEmail } = result.current;
 
@@ -228,10 +208,10 @@ test("プロフィール更新エラー時の処理のテスト", async () => {
   };
   await handleUpdateUser(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-  expect(setCurrentUser).not.toHaveBeenCalledWith();
-  expect(setCurrentUser).toHaveBeenCalledTimes(0);
+  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
 
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "エラーが発生しました。",
@@ -242,6 +222,6 @@ test("プロフィール更新エラー時の処理のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });

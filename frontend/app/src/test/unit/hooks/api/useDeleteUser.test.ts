@@ -22,10 +22,18 @@ jest.mock("js-cookie", () => ({
   remove: jest.fn(),
 }));
 
-const setLoading = jest.fn();
-const setCurrentUser = jest.fn();
-const setIsSignedIn = jest.fn();
+const mockSetLoading = jest.fn();
+const mockSetCurrentUser = jest.fn();
+const mockSetIsSignedIn = jest.fn();
 
+jest.mock("hooks/providers/useAuthProvider", () => ({
+  ...jest.requireActual("hooks/providers/useAuthProvider"),
+  useAuth: () => ({
+    setLoading: mockSetLoading,
+    setCurrentUser: mockSetCurrentUser,
+    setIsSignedIn: mockSetIsSignedIn,
+  }),
+}));
 const mockAxios = new MockAdapter(client);
 
 afterEach(() => {
@@ -38,13 +46,7 @@ test("アカウント削除成功時の処理のテスト", async () => {
     message: "'test@example.com' のアカウントは削除されました。",
   });
 
-  const { result } = renderHook(() =>
-    useDeleteUser({
-      setLoading,
-      setCurrentUser,
-      setIsSignedIn,
-    })
-  );
+  const { result } = renderHook(() => useDeleteUser());
   const { handleDeleteUser } = result.current;
   await handleDeleteUser();
 
@@ -52,13 +54,13 @@ test("アカウント削除成功時の処理のテスト", async () => {
   expect(Cookies.remove).toHaveBeenCalledWith("_client");
   expect(Cookies.remove).toHaveBeenCalledWith("_uid");
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-  expect(setIsSignedIn).toHaveBeenCalledWith(false);
-  expect(setIsSignedIn).toHaveBeenCalledTimes(1);
+  expect(mockSetIsSignedIn).toHaveBeenCalledWith(false);
+  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(1);
 
-  expect(setCurrentUser).toHaveBeenCalledWith(undefined);
-  expect(setCurrentUser).toHaveBeenCalledTimes(1);
+  expect(mockSetCurrentUser).toHaveBeenCalledWith(undefined);
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
 
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "'test@example.com' のアカウントは削除されました。",
@@ -69,8 +71,8 @@ test("アカウント削除成功時の処理のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
 
 test("アカウント削除失敗時の処理のテスト", async () => {
@@ -78,23 +80,17 @@ test("アカウント削除失敗時の処理のテスト", async () => {
     errors: ["削除するアカウントが見つかりません。"],
   });
 
-  const { result } = renderHook(() =>
-    useDeleteUser({
-      setLoading,
-      setCurrentUser,
-      setIsSignedIn,
-    })
-  );
+  const { result } = renderHook(() => useDeleteUser());
   const { handleDeleteUser } = result.current;
   await handleDeleteUser();
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-  expect(setIsSignedIn).not.toHaveBeenCalledWith();
-  expect(setIsSignedIn).toHaveBeenCalledTimes(0);
+  expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
+  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
 
-  expect(setCurrentUser).not.toHaveBeenCalledWith();
-  expect(setCurrentUser).toHaveBeenCalledTimes(0);
+  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
 
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "削除するアカウントが見つかりません。",
@@ -105,31 +101,25 @@ test("アカウント削除失敗時の処理のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
 
 test("アカウント削除エラー時の処理のテスト", async () => {
   mockAxios.onDelete("auth").reply(500);
 
-  const { result } = renderHook(() =>
-    useDeleteUser({
-      setLoading,
-      setCurrentUser,
-      setIsSignedIn,
-    })
-  );
+  const { result } = renderHook(() => useDeleteUser());
   const { handleDeleteUser } = result.current;
 
   await handleDeleteUser();
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
-  expect(setIsSignedIn).not.toHaveBeenCalledWith();
-  expect(setIsSignedIn).toHaveBeenCalledTimes(0);
+  expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
+  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
 
-  expect(setCurrentUser).not.toHaveBeenCalledWith();
-  expect(setCurrentUser).toHaveBeenCalledTimes(0);
+  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
 
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "エラーが発生しました。",
@@ -140,6 +130,6 @@ test("アカウント削除エラー時の処理のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });

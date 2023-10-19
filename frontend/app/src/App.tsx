@@ -7,13 +7,8 @@ import Router from "router/Router";
 import theme from "theme/theme";
 
 const App: FC = memo(() => {
-  const { setIsSignedIn, setCurrentUser, setLoading, loading } = useAuth();
-  const { handelGetCurrentUser } = useGetCurrentUser({
-    setIsSignedIn,
-    setCurrentUser,
-    setLoading,
-    loading,
-  });
+  const { setCurrentUser } = useAuth();
+  const { handelGetCurrentUser } = useGetCurrentUser();
   useEffect(() => {
     handelGetCurrentUser();
   }, [setCurrentUser]);

@@ -16,7 +16,14 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-const setLoading = jest.fn();
+const mockSetLoading = jest.fn();
+
+jest.mock("hooks/providers/useAuthProvider", () => ({
+  ...jest.requireActual("hooks/providers/useAuthProvider"),
+  useAuth: () => ({
+    setLoading: mockSetLoading,
+  }),
+}));
 
 const mockAxios = new MockAdapter(client);
 
@@ -57,11 +64,7 @@ mockAxios.onPut("auth/password").reply((config) => {
 });
 
 test("パスワード更新成功時の処理のテスト", async () => {
-  const { result } = renderHook(() =>
-    useUpdatePassword({
-      setLoading,
-    })
-  );
+  const { result } = renderHook(() => useUpdatePassword());
   const { setPassword, setpasswordConfirmation } = result.current;
 
   await act(async () => {
@@ -76,7 +79,7 @@ test("パスワード更新成功時の処理のテスト", async () => {
   };
   await handleUpdatePassword(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "パスワードの更新に成功しました。",
@@ -87,17 +90,13 @@ test("パスワード更新成功時の処理のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
 
 describe("パスワード更新失敗時の処理のテスト", () => {
   test("password5文字以下の場合、パスワード更新に失敗すること", async () => {
-    const { result } = renderHook(() =>
-      useUpdatePassword({
-        setLoading,
-      })
-    );
+    const { result } = renderHook(() => useUpdatePassword());
     const { setPassword, setpasswordConfirmation } = result.current;
 
     await act(async () => {
@@ -112,7 +111,7 @@ describe("パスワード更新失敗時の処理のテスト", () => {
     };
     await handleUpdatePassword(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-    expect(setLoading).toHaveBeenCalledWith(true);
+    expect(mockSetLoading).toHaveBeenCalledWith(true);
 
     expect(mockUseToast).toHaveBeenCalledWith({
       title: "パスワードは6文字以上で入力してください",
@@ -123,16 +122,12 @@ describe("パスワード更新失敗時の処理のテスト", () => {
     });
     expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-    expect(setLoading).toHaveBeenCalledWith(false);
-    expect(setLoading).toHaveBeenCalledTimes(2);
+    expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(mockSetLoading).toHaveBeenCalledTimes(2);
   });
 
   test("passwordとpassword_confirmationの値が異なる場合、パスワードの更新に失敗すること", async () => {
-    const { result } = renderHook(() =>
-      useUpdatePassword({
-        setLoading,
-      })
-    );
+    const { result } = renderHook(() => useUpdatePassword());
     const { setPassword, setpasswordConfirmation } = result.current;
 
     await act(async () => {
@@ -147,7 +142,7 @@ describe("パスワード更新失敗時の処理のテスト", () => {
     };
     await handleUpdatePassword(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-    expect(setLoading).toHaveBeenCalledWith(true);
+    expect(mockSetLoading).toHaveBeenCalledWith(true);
 
     expect(mockUseToast).toHaveBeenCalledWith({
       title: "パスワード（確認用）とパスワードの入力が一致しません",
@@ -158,18 +153,14 @@ describe("パスワード更新失敗時の処理のテスト", () => {
     });
     expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-    expect(setLoading).toHaveBeenCalledWith(false);
-    expect(setLoading).toHaveBeenCalledTimes(2);
+    expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(mockSetLoading).toHaveBeenCalledTimes(2);
   });
 });
 
 test("パスワード更新エラー時のテスト", async () => {
   mockAxios.onPut("auth/password").reply(500);
-  const { result } = renderHook(() =>
-    useUpdatePassword({
-      setLoading,
-    })
-  );
+  const { result } = renderHook(() => useUpdatePassword());
   const { setPassword, setpasswordConfirmation } = result.current;
 
   await act(async () => {
@@ -184,7 +175,7 @@ test("パスワード更新エラー時のテスト", async () => {
   };
   await handleUpdatePassword(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
-  expect(setLoading).toHaveBeenCalledWith(true);
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
 
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "エラーが発生しました。",
@@ -195,6 +186,6 @@ test("パスワード更新エラー時のテスト", async () => {
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
 
-  expect(setLoading).toHaveBeenCalledWith(false);
-  expect(setLoading).toHaveBeenCalledTimes(2);
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
