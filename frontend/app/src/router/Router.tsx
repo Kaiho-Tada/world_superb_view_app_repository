@@ -4,6 +4,7 @@ import Profile from "components/pages/Profile";
 import SignUp from "components/pages/SignUp";
 import CommonLayout from "components/templates/CommonLayout";
 import GuestRestrictedRoute from "components/templates/GuestRestrictedRoute";
+import PublicRoute from "components/templates/PublicRoute";
 import { FC, memo } from "react";
 import { Route, Routes } from "react-router-dom";
 
@@ -27,22 +28,24 @@ const Router: FC = memo(() => (
         </CommonLayout>
       }
     />
-    <Route
-      path="/login"
-      element={
-        <CommonLayout>
-          <Login />
-        </CommonLayout>
-      }
-    />
-    <Route
-      path="/signup"
-      element={
-        <CommonLayout>
-          <SignUp />
-        </CommonLayout>
-      }
-    />
+    <Route path="/" element={<PublicRoute />}>
+      <Route
+        path="/login"
+        element={
+          <CommonLayout>
+            <Login />
+          </CommonLayout>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <CommonLayout>
+            <SignUp />
+          </CommonLayout>
+        }
+      />
+    </Route>
   </Routes>
 ));
 
