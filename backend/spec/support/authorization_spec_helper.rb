@@ -6,4 +6,9 @@ module AuthorizationSpecHelper
     }
     response.headers.slice("client", "access-token", "uid")
   end
+
+  def guest_login
+    post api_v1_auth_sessions_guest_login_path
+    response.headers.slice("client", "access-token", "uid")
+  end
 end

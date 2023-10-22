@@ -36,6 +36,14 @@ const theme = extendTheme({
           },
           width: "60",
         },
+        primaryC: {
+          bg: "yellow.300",
+          color: "white",
+          _text: {
+            textShadow: "10px 2px 4px rgba(0, 0, 0, 0.4)",
+          },
+          width: "60",
+        },
         secoundary: {
           bg: "#808080",
           color: "white",

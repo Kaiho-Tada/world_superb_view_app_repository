@@ -190,6 +190,19 @@ RSpec.describe "Users Api", type: :request do
       expect(@json["status"]).to eq "error"
       expect(@json["errors"]).to eq ["ユーザーが見つかりません。"]
     end
+
+    it "ゲストユーザーはプロフィールを更新できないこと" do
+      auth_tokens = guest_login
+      put api_v1_user_registration_path, params: {
+        name: "new_name",
+        nickname: "new_nickname",
+        email: "new_guest@example.com"
+      }, headers: auth_tokens
+      expect(response).to have_http_status(200)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq 403
+      expect(@json["message"]).to eq "ゲストユーザーは許可されていません。"
+    end
   end
 
   describe "Put /api/v1/auth/password" do
@@ -251,6 +264,18 @@ RSpec.describe "Users Api", type: :request do
       expect(@json["success"]).to eq false
       expect(@json["errors"]).to eq ["Unauthorized"]
     end
+
+    it "ゲストユーザーはパスワードを更新できないこと" do
+      auth_tokens = guest_login
+      put "/api/v1/auth/password", params: {
+        password: "new_password",
+        password_confirmation: "new_password"
+      }, headers: auth_tokens
+      expect(response).to have_http_status(200)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq 403
+      expect(@json["message"]).to eq "ゲストユーザーは許可されていません。"
+    end
   end
 
   describe "Delete /api/v1/auth" do
@@ -270,6 +295,24 @@ RSpec.describe "Users Api", type: :request do
       @json = JSON.parse(response.body)
       expect(@json["status"]).to eq "error"
       expect(@json["errors"]).to eq ["削除するアカウントが見つかりません。"]
+    end
+
+    it "ゲストユーザーはアカウントを削除できないこと" do
+      auth_tokens = guest_login
+      delete api_v1_user_registration_path, headers: auth_tokens
+      expect(response).to have_http_status(200)
+      @json = JSON.parse(response.body)
+      expect(@json["status"]).to eq 403
+      expect(@json["message"]).to eq "ゲストユーザーは許可されていません。"
+    end
+  end
+
+  describe "Post /auth/sessions/guest_login" do
+    it "ゲストログインできること" do
+      post api_v1_auth_sessions_guest_login_path
+      expect(response).to have_http_status(200)
+      @json = JSON.parse(response.body)
+      expect(@json["data"]["email"]).to eq "guest@example.com"
     end
   end
 end

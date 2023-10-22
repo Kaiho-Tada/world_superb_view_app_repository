@@ -10,6 +10,7 @@ import {
   PopoverTrigger,
   Text,
 } from "@chakra-ui/react";
+import useGuestLogin from "hooks/api/useGuestLogin";
 import useSignout from "hooks/api/useSignout";
 import { useAuth } from "hooks/providers/useAuthProvider";
 import personIcon from "img/person.png";
@@ -27,8 +28,11 @@ const AuthLink: FC<AuthLinkProps> = memo((props) => {
   const onClickLogin = useCallback(() => navigate("/login"), [navigate]);
   const onClickProfile = useCallback(() => navigate("/profile"), [navigate]);
   const onClickSignup = useCallback(() => navigate("/signup"), [navigate]);
-  const { loading } = useAuth();
+  const { loading, currentUser } = useAuth();
   const { handleSignout } = useSignout();
+  const { handleGuestLogin } = useGuestLogin();
+  const isGuestUser = currentUser?.email === "guest@example.com";
+
   if (!loading) {
     if (isSignedIn) {
       return (
@@ -52,16 +56,18 @@ const AuthLink: FC<AuthLinkProps> = memo((props) => {
               </Flex>
             </PopoverHeader>
             <PopoverBody p="0">
-              <Flex
-                onClick={onClickProfile}
-                as="a"
-                _hover={{ cursor: "pointer", bg: "blackAlpha.100" }}
-                p="2.5"
-                justify="center"
-              >
-                <Image alt="profile_icon" boxSize="20px" src={profileIcon} mr="3" />
-                <Text textShadow="0.5px 0.5px #000000">プロフィール</Text>
-              </Flex>
+              {!isGuestUser ? (
+                <Flex
+                  onClick={onClickProfile}
+                  as="a"
+                  _hover={{ cursor: "pointer", bg: "blackAlpha.100" }}
+                  p="2.5"
+                  justify="center"
+                >
+                  <Image alt="profile_icon" boxSize="20px" src={profileIcon} mr="3" />
+                  <Text textShadow="0.5px 0.5px #000000">プロフィール</Text>
+                </Flex>
+              ) : null}
             </PopoverBody>
           </PopoverContent>
         </Popover>
@@ -80,8 +86,11 @@ const AuthLink: FC<AuthLinkProps> = memo((props) => {
           <Text role="link" pr={4} onClick={onClickLogin} _hover={{ cursor: "pointer" }}>
             ログイン
           </Text>
-          <Text role="link" onClick={onClickSignup} _hover={{ cursor: "pointer" }}>
+          <Text role="link" pr={4} onClick={onClickSignup} _hover={{ cursor: "pointer" }}>
             新規登録
+          </Text>
+          <Text role="link" onClick={handleGuestLogin} _hover={{ cursor: "pointer" }}>
+            ゲストログイン
           </Text>
         </Flex>
       </>

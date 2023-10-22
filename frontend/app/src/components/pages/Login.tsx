@@ -11,6 +11,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import AuthButton from "components/atoms/button/AuthButton";
+import useGuestLogin from "hooks/api/useGuestLogin";
 import useLogin from "hooks/api/useLogin";
 import { useAuth } from "hooks/providers/useAuthProvider";
 import { ChangeEvent, FC, memo, useCallback } from "react";
@@ -19,12 +20,11 @@ import { useNavigate } from "react-router-dom";
 const Login: FC = memo(() => {
   const { loading } = useAuth();
   const { handleLogin, email, setEmail, password, setPassword } = useLogin();
-
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
   const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
   const navigate = useNavigate();
   const onClickSignup = useCallback(() => navigate("/signup"), [navigate]);
-
+  const { handleGuestLogin } = useGuestLogin();
   return (
     <Flex align="center" justify="center" height="90vh">
       <Box w="md" p={4} boxShadow="2xl" border="1px" borderColor="gray.200">
@@ -70,6 +70,21 @@ const Login: FC = memo(() => {
             >
               ログイン
             </AuthButton>
+          </Box>
+          <Divider mt="6" mb="6" />
+          <Box textAlign="center">
+            <Button
+              variant="primaryC"
+              size="sm"
+              py="3"
+              px="14"
+              shadow="2xl"
+              _hover={{ opacity: 0.6 }}
+              textShadow="1px 1px #000000"
+              onClick={handleGuestLogin}
+            >
+              ゲストログイン
+            </Button>
           </Box>
           <Divider mt="6" mb="4" />
           <Text textAlign="center" as="h4">

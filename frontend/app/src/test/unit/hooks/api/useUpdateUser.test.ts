@@ -225,3 +225,45 @@ test("プロフィール更新エラー時の処理のテスト", async () => {
   expect(mockSetLoading).toHaveBeenCalledWith(false);
   expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
+
+test("ゲストユーザーによるプロフィール更新時の処理のテスト", async () => {
+  mockAxios.onPut("auth").reply(200, {
+    status: 403,
+    message: "ゲストユーザーは許可されていません。",
+  });
+
+  const { result } = renderHook(() => useUpdateUser());
+
+  const { setName, setNickname, setEmail } = result.current;
+
+  await act(async () => {
+    setName("new_name");
+    setNickname("new_nickname");
+    setEmail("new_guest@example.com");
+  });
+
+  const { handleUpdateUser } = result.current;
+
+  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+    preventDefault: jest.fn(),
+  };
+  await handleUpdateUser(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
+
+  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
+
+  expect(mockUseToast).toHaveBeenCalledWith({
+    title: "ゲストユーザーは許可されていません。",
+    status: "error",
+    position: "top",
+    duration: 5000,
+    isClosable: true,
+  });
+
+  expect(mockUseToast).toHaveBeenCalledTimes(1);
+
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
+});

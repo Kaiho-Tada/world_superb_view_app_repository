@@ -3,13 +3,13 @@ import Login from "components/pages/Login";
 import Profile from "components/pages/Profile";
 import SignUp from "components/pages/SignUp";
 import CommonLayout from "components/templates/CommonLayout";
-import PrivateRoute from "components/templates/PrivateRoute";
+import GuestRestrictedRoute from "components/templates/GuestRestrictedRoute";
 import { FC, memo } from "react";
 import { Route, Routes } from "react-router-dom";
 
 const Router: FC = memo(() => (
   <Routes>
-    <Route path="/" element={<PrivateRoute />}>
+    <Route path="/" element={<GuestRestrictedRoute />}>
       <Route
         path="/profile"
         element={

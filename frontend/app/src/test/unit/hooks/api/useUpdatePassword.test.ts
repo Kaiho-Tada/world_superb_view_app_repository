@@ -189,3 +189,38 @@ test("パスワード更新エラー時のテスト", async () => {
   expect(mockSetLoading).toHaveBeenCalledWith(false);
   expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
+
+test("ゲストユーザーによるパスワード更新時の処理のテスト", async () => {
+  mockAxios.onPut("auth/password").reply(200, {
+    status: 403,
+    message: "ゲストユーザーは許可されていません。",
+  });
+  const { result } = renderHook(() => useUpdatePassword());
+  const { setPassword, setpasswordConfirmation } = result.current;
+
+  await act(async () => {
+    setPassword("new_passward");
+    setpasswordConfirmation("new_password");
+  });
+
+  const { handleUpdatePassword } = result.current;
+
+  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+    preventDefault: jest.fn(),
+  };
+  await handleUpdatePassword(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
+
+  expect(mockUseToast).toHaveBeenCalledWith({
+    title: "ゲストユーザーは許可されていません。",
+    status: "error",
+    position: "top",
+    duration: 5000,
+    isClosable: true,
+  });
+  expect(mockUseToast).toHaveBeenCalledTimes(1);
+
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
+});

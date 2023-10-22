@@ -50,3 +50,5 @@ export const deleteUser = () =>
       uid: Cookies.get("_uid"),
     },
   });
+
+export const guestLogin = () => client.post("/auth/sessions/guest_login");

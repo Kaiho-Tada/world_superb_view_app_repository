@@ -4,7 +4,7 @@ import { getCurrentUser } from "lib/api/auth";
 import { FC, memo, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
-const PrivateRoute: FC = memo(() => {
+const GuestRestrictedRoute: FC = memo(() => {
   const { showMessage } = useMessage();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -12,11 +12,19 @@ const PrivateRoute: FC = memo(() => {
     const checkUser = async () => {
       try {
         const res = await getCurrentUser();
-        if (res.data.status === 200) {
-          return;
+        if (res.status === 200) {
+          if (res.data.status === 200) {
+            if (res.data.currentUser.email === "guest@example.com") {
+              showMessage({ title: "ゲストユーザーはアクセスできません。", status: "error" });
+              navigate("/home");
+            }
+            return;
+          }
+          if (res.data.status === 500) {
+            showMessage({ title: "ログインしてください。", status: "error" });
+            navigate("/login");
+          }
         }
-        showMessage({ title: "ログインしてください。", status: "error" });
-        navigate("/login");
       } catch (e) {
         showMessage({ title: "エラーが発生しました。", status: "error" });
         navigate("/login");
@@ -32,5 +40,4 @@ const PrivateRoute: FC = memo(() => {
   return <Outlet />;
 });
 
-PrivateRoute.displayName = "PrivateRoute";
-export default PrivateRoute;
+export default GuestRestrictedRoute;

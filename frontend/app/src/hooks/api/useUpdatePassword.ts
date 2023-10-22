@@ -24,7 +24,11 @@ const useUpdatePassword = () => {
 
       try {
         const res = await updatePassword(data);
-        showMessage({ title: res.data.message, status: "success" });
+        if (res.data.status === 403) {
+          showMessage({ title: res.data.message, status: "error" });
+        } else {
+          showMessage({ title: res.data.message, status: "success" });
+        }
       } catch (error) {
         if (isAxiosError(error) && error.response && error.response.status === 422) {
           error.response.data.errors.fullMessages.map((message: string) =>
@@ -33,8 +37,9 @@ const useUpdatePassword = () => {
         } else {
           showMessage({ title: "エラーが発生しました。", status: "error" });
         }
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     },
     [password, passwordConfirmation]
   );

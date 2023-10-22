@@ -4,6 +4,7 @@ import { userEvent } from "@testing-library/user-event";
 import MockAdapter from "axios-mock-adapter";
 import Login from "components/pages/Login";
 import { AuthProvider } from "hooks/providers/useAuthProvider";
+import Cookies from "js-cookie";
 import client from "lib/api/client";
 import { act } from "react-dom/test-utils";
 
@@ -19,6 +20,11 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
+jest.mock("js-cookie", () => ({
+  ...jest.requireActual("js-cookie"),
+  set: jest.fn(),
+}));
+
 const mockSetLoading = jest.fn();
 const mockSetIsSignedIn = jest.fn();
 const mockSetCurrentUser = jest.fn();
@@ -31,6 +37,14 @@ jest.mock("hooks/providers/useAuthProvider", () => ({
     setLoading: mockSetLoading,
   }),
 }));
+
+client.interceptors.response.use((config) => {
+  const modifiedConfig = {
+    ...config,
+    headers: { ...config.headers, "access-token": "access-token", client: "client", uid: "uid" },
+  };
+  return modifiedConfig;
+});
 
 const mockAxios = new MockAdapter(client);
 
@@ -132,6 +146,16 @@ describe("ログインページのレンダリングテスト", () => {
     expect(mockUseNavigate).toHaveBeenCalledWith("/signup");
     expect(mockUseNavigate).toHaveBeenCalledTimes(1);
   });
+
+  test("ゲストログインボタンが表示されていること", () => {
+    render(
+      <AuthProvider>
+        <Login />
+      </AuthProvider>
+    );
+    const GuestLoginButton = screen.getByRole("button", { name: "ゲストログイン" });
+    expect(GuestLoginButton).toBeInTheDocument();
+  });
 });
 
 describe("ログインページの機能テスト", () => {
@@ -162,6 +186,10 @@ describe("ログインページの機能テスト", () => {
     await act(async () => {
       await user.click(loginButton);
     });
+
+    expect(Cookies.set).toHaveBeenCalledWith("_access_token", "access-token");
+    expect(Cookies.set).toHaveBeenCalledWith("_client", "client");
+    expect(Cookies.set).toHaveBeenCalledWith("_uid", "uid");
 
     expect(mockSetLoading).toHaveBeenCalledWith(true);
 
@@ -290,5 +318,95 @@ describe("ログインページの機能テスト", () => {
 
     expect(mockSetLoading).toHaveBeenCalledWith(false);
     expect(mockSetLoading).toHaveBeenCalledTimes(2);
+  });
+
+  describe("ゲストログインボタンのテスト", () => {
+    test("ゲストログイン成功時の処理のテスト", async () => {
+      mockAxios.onPost("/auth/sessions/guest_login").reply(200, {
+        status: 200,
+        data: {
+          id: 1,
+          email: "guest@example.com",
+        },
+      });
+      const user = userEvent.setup();
+      render(
+        <AuthProvider>
+          <Login />
+        </AuthProvider>
+      );
+      const GuestLoginButton = screen.getByRole("button", { name: "ゲストログイン" });
+
+      await act(async () => {
+        await user.click(GuestLoginButton);
+      });
+
+      expect(Cookies.set).toHaveBeenCalledWith("_access_token", "access-token");
+      expect(Cookies.set).toHaveBeenCalledWith("_client", "client");
+      expect(Cookies.set).toHaveBeenCalledWith("_uid", "uid");
+
+      expect(mockSetLoading).toHaveBeenCalledWith(true);
+
+      expect(mockSetIsSignedIn).toHaveBeenCalledWith(true);
+      expect(mockSetIsSignedIn).toHaveBeenCalledTimes(1);
+
+      expect(mockSetCurrentUser).toHaveBeenCalledWith({
+        id: 1,
+        email: "guest@example.com",
+      });
+      expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
+
+      expect(mockUseToast).toHaveBeenCalledWith({
+        title: "ゲストログインしました。",
+        status: "success",
+        position: "top",
+        duration: 5000,
+        isClosable: true,
+      });
+      expect(mockUseToast).toHaveBeenCalledTimes(1);
+
+      expect(mockUseNavigate).toHaveBeenCalledWith("/home");
+      expect(mockUseNavigate).toHaveBeenCalledTimes(1);
+
+      expect(mockSetLoading).toHaveBeenCalledWith(false);
+      expect(mockSetLoading).toHaveBeenCalledTimes(2);
+    });
+
+    test("ゲストログインエラー時の処理のテスト", async () => {
+      mockAxios.onPost("/auth/sessions/guest_login").reply(500);
+      const user = userEvent.setup();
+      render(
+        <AuthProvider>
+          <Login />
+        </AuthProvider>
+      );
+      const GuestLoginButton = screen.getByRole("button", { name: "ゲストログイン" });
+
+      await act(async () => {
+        await user.click(GuestLoginButton);
+      });
+      expect(mockSetLoading).toHaveBeenCalledWith(true);
+
+      expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
+      expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
+
+      expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+      expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
+
+      expect(mockUseToast).toHaveBeenCalledWith({
+        title: "エラーが発生しました。",
+        status: "error",
+        position: "top",
+        duration: 5000,
+        isClosable: true,
+      });
+      expect(mockUseToast).toHaveBeenCalledTimes(1);
+
+      expect(mockUseNavigate).not.toHaveBeenCalledWith();
+      expect(mockUseNavigate).toHaveBeenCalledTimes(0);
+
+      expect(mockSetLoading).toHaveBeenCalledWith(false);
+      expect(mockSetLoading).toHaveBeenCalledTimes(2);
+    });
   });
 });

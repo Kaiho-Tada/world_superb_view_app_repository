@@ -133,3 +133,35 @@ test("アカウント削除エラー時の処理のテスト", async () => {
   expect(mockSetLoading).toHaveBeenCalledWith(false);
   expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
+
+test("ゲストユーザーによるアカウント削除時の処理のテスト", async () => {
+  mockAxios.onDelete("auth").reply(200, {
+    status: 403,
+    message: "ゲストユーザーは許可されていません。",
+  });
+
+  const { result } = renderHook(() => useDeleteUser());
+  const { handleDeleteUser } = result.current;
+
+  await handleDeleteUser();
+
+  expect(mockSetLoading).toHaveBeenCalledWith(true);
+
+  expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
+  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
+
+  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
+  expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
+
+  expect(mockUseToast).toHaveBeenCalledWith({
+    title: "ゲストユーザーは許可されていません。",
+    status: "error",
+    position: "top",
+    duration: 5000,
+    isClosable: true,
+  });
+  expect(mockUseToast).toHaveBeenCalledTimes(1);
+
+  expect(mockSetLoading).toHaveBeenCalledWith(false);
+  expect(mockSetLoading).toHaveBeenCalledTimes(2);
+});

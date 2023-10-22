@@ -27,9 +27,13 @@ const useUpdateUser = () => {
 
       try {
         const res = await updateUser(data);
-        Cookies.set("_uid", res.headers.uid);
-        showMessage({ title: "プロフィールを更新しました。", status: "success" });
-        setCurrentUser(res.data.data);
+        if (res.data.status === 403) {
+          showMessage({ title: res.data.message, status: "error" });
+        } else {
+          Cookies.set("_uid", res.headers.uid);
+          showMessage({ title: "プロフィールを更新しました。", status: "success" });
+          setCurrentUser(res.data.data);
+        }
       } catch (error) {
         if (isAxiosError(error) && error.response && error.response.status === 422) {
           error.response.data.errors.fullMessages.map((message: string) =>
