@@ -3,7 +3,7 @@ import { AuthProvider, useAuth } from "hooks/providers/useAuthProvider";
 import { FC } from "react";
 
 describe("AuthContextのテスト", () => {
-  it("AuthProviderの子コンポーネントに認証値が提供されること", () => {
+  test("AuthProviderの子コンポーネントに認証値が提供されること", () => {
     const TestComponent: FC = () => {
       const { loading, isSignedIn, currentUser } = useAuth();
       return (

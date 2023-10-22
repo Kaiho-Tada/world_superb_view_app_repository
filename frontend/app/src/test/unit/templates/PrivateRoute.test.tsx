@@ -24,7 +24,7 @@ afterEach(() => {
 });
 
 describe("PrivateRouteのテスト", () => {
-  it("未ログインのユーザーはログインページへ遷移されること", async () => {
+  test("未ログインのユーザーはログインページへ遷移されること", async () => {
     mockAxios.onGet("auth/sessions").reply(200, {
       status: 500,
     });
@@ -53,7 +53,7 @@ describe("PrivateRouteのテスト", () => {
     });
   });
 
-  it("ログイン済みのユーザーはプライベートページにアクセスできること", async () => {
+  test("ログイン済みのユーザーはプライベートページにアクセスできること", async () => {
     mockAxios.onGet("auth/sessions").reply(200, {
       status: 200,
     });

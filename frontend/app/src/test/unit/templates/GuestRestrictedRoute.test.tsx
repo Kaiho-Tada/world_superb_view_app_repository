@@ -25,7 +25,7 @@ afterEach(() => {
 });
 
 describe("GuestRestrictedRouteのテスト", () => {
-  it("ログイン済みのユーザーはGuestRestrictedページにアクセスできること", async () => {
+  test("ログイン済みのユーザーはGuestRestrictedページにアクセスできること", async () => {
     mockAxios.onGet("auth/sessions").reply(200, {
       status: 200,
     });
@@ -47,7 +47,7 @@ describe("GuestRestrictedRouteのテスト", () => {
     });
   });
 
-  it("未ログインのユーザーはログインページへ遷移されること", async () => {
+  test("未ログインのユーザーはログインページへ遷移されること", async () => {
     mockAxios.onGet("auth/sessions").reply(200, {
       status: 500,
     });
@@ -75,7 +75,7 @@ describe("GuestRestrictedRouteのテスト", () => {
     });
   });
 
-  it("ゲストユーザーはhomeページに遷移されること", async () => {
+  test("ゲストユーザーはhomeページに遷移されること", async () => {
     mockAxios.onGet("auth/sessions").reply(200, {
       status: 200,
       currentUser: {

@@ -8,7 +8,7 @@ jest.mock("@chakra-ui/react", () => ({
 }));
 
 describe("useMessageのテスト", () => {
-  it("showMessage関数が正しく呼び出されること", () => {
+  test("showMessage関数が正しく呼び出されること", () => {
     const { result } = renderHook(() => useMessage());
 
     result.current.showMessage({
