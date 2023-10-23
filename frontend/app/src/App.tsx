@@ -1,24 +1,24 @@
-import { FC, useEffect, useState } from "react"
+import { ChakraProvider } from "@chakra-ui/react";
+import useGetCurrentUser from "hooks/api/useGetCurrentUser";
+import { useAuth } from "hooks/providers/useAuthProvider";
+import { FC, memo, useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
+import Router from "router/Router";
+import theme from "theme/theme";
 
-import { execTest } from "lib/api/test"
-
-const App: FC = () => {
-  const [message, setMessage] = useState<string>("")
-
-  const handleExecTest = async () => {
-    const res = await execTest()
-    if (res.status === 200) {
-      setMessage(res.data.message)
-    }
-  }
-
+const App: FC = memo(() => {
+  const { setCurrentUser } = useAuth();
+  const { handelGetCurrentUser } = useGetCurrentUser();
   useEffect(() => {
-    handleExecTest()
-  }, [])
+    handelGetCurrentUser();
+  }, [setCurrentUser]);
 
   return (
-    <h1>{message}</h1>
-  )
-}
-
-export default App
+    <ChakraProvider theme={theme}>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </ChakraProvider>
+  );
+});
+export default App;

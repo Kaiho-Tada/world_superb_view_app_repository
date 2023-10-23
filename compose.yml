@@ -28,7 +28,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend/app:/usr/src/app
-    command: sh -c "npm start"
+    command: sh -c "npm i && npm start"
     ports:
       - 3000:3000
     tty: true
