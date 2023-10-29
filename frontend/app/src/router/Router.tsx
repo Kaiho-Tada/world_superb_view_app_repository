@@ -2,14 +2,26 @@ import Home from "components/pages/Home";
 import Login from "components/pages/Login";
 import Profile from "components/pages/Profile";
 import SignUp from "components/pages/SignUp";
+import SuperbViewList from "components/pages/SuperbViewList";
 import CommonLayout from "components/templates/CommonLayout";
 import GuestRestrictedRoute from "components/templates/GuestRestrictedRoute";
+import PrivateRoute from "components/templates/PrivateRoute";
 import PublicRoute from "components/templates/PublicRoute";
 import { FC, memo } from "react";
 import { Route, Routes } from "react-router-dom";
 
 const Router: FC = memo(() => (
   <Routes>
+    <Route path="/" element={<PrivateRoute />}>
+      <Route
+        path="/superb_views"
+        element={
+          <CommonLayout>
+            <SuperbViewList />
+          </CommonLayout>
+        }
+      />
+    </Route>
     <Route path="/" element={<GuestRestrictedRoute />}>
       <Route
         path="/profile"

@@ -1,6 +1,14 @@
 ---
 ja:
   activerecord:
+    models:
+      superb_view: "絶景"
+    attributes:
+      superb_view:
+        name: "絶景名"
+        panorama_url: "パノラマURL"
+        best_season: "ベストシーズン"
+        portrait: "画像データ"
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"

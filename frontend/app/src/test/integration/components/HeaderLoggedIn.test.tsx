@@ -109,6 +109,31 @@ describe("ログイン済みの挙動のテスト", () => {
     expect(mockSetLoading).toHaveBeenCalledWith(false);
     expect(mockSetLoading).toHaveBeenCalledTimes(2);
   });
+
+  describe("絶景一覧リンクのテスト", () => {
+    test("絶景一覧リンクが表示されていること", () => {
+      render(
+        <AuthProvider>
+          <Header />
+        </AuthProvider>
+      );
+      const superbViewsListLink = screen.getByRole("link", { name: "絶景一覧" });
+      expect(superbViewsListLink).toBeInTheDocument();
+    });
+
+    test("絶景一覧リンク押下で絶景一覧ページへ遷移すること", async () => {
+      const user = userEvent.setup();
+      render(
+        <AuthProvider>
+          <Header />
+        </AuthProvider>
+      );
+      const superbViewsListLink = screen.getByRole("link", { name: "絶景一覧" });
+      await user.click(superbViewsListLink);
+      expect(mockUseNavigate).toHaveBeenCalledWith("/superb_views");
+      expect(mockUseNavigate).toHaveBeenCalledTimes(1);
+    });
+  });
 });
 
 describe("アプリロゴのテスト", () => {

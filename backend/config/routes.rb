@@ -12,6 +12,8 @@ Rails.application.routes.draw do
           post "/sessions/guest_login", to: "sessions#guest_login"
         end
       end
+
+      resources :superb_views, only: [:index]
     end
   end
 end
