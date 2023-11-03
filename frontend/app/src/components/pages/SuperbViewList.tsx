@@ -25,6 +25,9 @@ const SuperbViewList = memo(() => {
                     name={SuperbView.name}
                     imageUrl={SuperbView.imageUrl}
                     bestSeason={SuperbView.bestSeason}
+                    countries={SuperbView.countries}
+                    categories={SuperbView.categories}
+                    characteristics={SuperbView.characteristics}
                   />
                 </WrapItem>
               ))}

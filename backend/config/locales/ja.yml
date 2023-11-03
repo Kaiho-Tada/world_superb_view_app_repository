@@ -3,12 +3,31 @@ ja:
   activerecord:
     models:
       superb_view: "絶景"
+      state: "州"
+      country: "国"
+      category: "カテゴリー"
+      characteristic: "属性"
     attributes:
       superb_view:
         name: "絶景名"
         panorama_url: "パノラマURL"
         best_season: "ベストシーズン"
         portrait: "画像データ"
+      state:
+        name: "州名"
+        code: "コード"
+        portrait: "画像データ"
+      country:
+        name: "国名"
+        code: "コード"
+        risk_level: "リスクレベル"
+        portrait: "画像データ"
+        state: "州"
+      category:
+        name: "カテゴリー名"
+        classification: "分類名"
+      characteristic:
+        name: "属性名"
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"

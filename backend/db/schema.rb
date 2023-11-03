@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_27_063104) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_01_092356) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,67 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_063104) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "classification", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "characteristics", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_characteristics_on_name", unique: true
+  end
+
+  create_table "countries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", null: false
+    t.integer "risk_level"
+    t.bigint "state_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name", "code"], name: "index_countries_on_name_and_code", unique: true
+    t.index ["state_id"], name: "index_countries_on_state_id"
+  end
+
+  create_table "states", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name", "code"], name: "index_states_on_name_and_code", unique: true
+  end
+
+  create_table "superb_view_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "superb_view_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_superb_view_categories_on_category_id"
+    t.index ["superb_view_id"], name: "index_superb_view_categories_on_superb_view_id"
+  end
+
+  create_table "superb_view_characteristics", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "superb_view_id", null: false
+    t.bigint "characteristic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["characteristic_id"], name: "index_superb_view_characteristics_on_characteristic_id"
+    t.index ["superb_view_id"], name: "index_superb_view_characteristics_on_superb_view_id"
+  end
+
+  create_table "superb_view_countries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "superb_view_id", null: false
+    t.bigint "country_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_superb_view_countries_on_country_id"
+    t.index ["superb_view_id"], name: "index_superb_view_countries_on_superb_view_id"
   end
 
   create_table "superb_views", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -76,4 +137,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_063104) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "countries", "states"
+  add_foreign_key "superb_view_categories", "categories"
+  add_foreign_key "superb_view_categories", "superb_views"
+  add_foreign_key "superb_view_characteristics", "characteristics"
+  add_foreign_key "superb_view_characteristics", "superb_views"
+  add_foreign_key "superb_view_countries", "countries"
+  add_foreign_key "superb_view_countries", "superb_views"
 end

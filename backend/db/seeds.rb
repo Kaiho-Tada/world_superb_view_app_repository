@@ -1,11 +1,11 @@
 superb_view_info = {
   "デットフレイ": ["5月〜10月", "https://www.google.com/maps/embed?pb=!4v1688005741727!6m8!1m7!1sCAoSLEFGMVFpcE9GbmxWalZmUEZXM1FVaG1jbmpteFZjeUpOWkNYSzUteVRGTHN3!2m2!1d-24.7592732!2d15.2923894!3f284.1386896810601!4f-4.562717491366897!5f0.7820865974627469"],
-  "ヴィクトリアの滝":   ["5月〜9月", "https://www.google.com/maps/embed?pb=!4v1689916424925!6m8!1m7!1sCAoSLEFGMVFpcE5UalFwc3pnTTg2amZNcXh5M2o1NlBTWnFFZTJ2X2d4elhRRlNp!2m2!1d-17.9264646!2d25.8588581!3f287.19558084286155!4f-0.34031814478417743!5f0.7820865974627469"],
+  "ヴィクトリアの滝": ["5月〜9月", "https://www.google.com/maps/embed?pb=!4v1689916424925!6m8!1m7!1sCAoSLEFGMVFpcE5UalFwc3pnTTg2amZNcXh5M2o1NlBTWnFFZTJ2X2d4elhRRlNp!2m2!1d-17.9264646!2d25.8588581!3f287.19558084286155!4f-0.34031814478417743!5f0.7820865974627469"],
   "ルクソール": ["10月〜11月", "https://www.google.com/maps/embed?pb=!4v1689720336284!6m8!1m7!1sCAoSLEFGMVFpcE0ySU56NDIyUlo3VE9lMG9TbjZmLTAzbDN0TVpnUVpFdVlKVzdr!2m2!1d-33.755907!2d150.2872791!3f68.14421675649444!4f5.418934108697243!5f0.7820865974627469"],
   "ラリベラ岩窟教会群": ["10月〜2月", "https://www.google.com/maps/embed?pb=!4v1688006139329!6m8!1m7!1sCAoSLEFGMVFpcE9WWW5mSkFtbVIyY2dOQnZVZ1BWTVFEbl9BYlUwUE5GSVlqVV84!2m2!1d12.0331956!2d39.04338509999999!3f169.37526608557138!4f1.0007600875934486!5f0.7820865974627469"],
   "アイトベンハドゥ": ["9月〜11月", "https://www.google.com/maps/embed?pb=!4v1688006222824!6m8!1m7!1sCAoSLEFGMVFpcE5fbElQM2IwZkFydGRKNEE3OE1OVTFReC1WdlFJbUdJZVBLVEpp!2m2!1d31.0473059!2d-7.129821199999999!3f189.29971938196562!4f-4.031387284847185!5f0.7820865974627469"],
   "サハラ砂漠": ["10月〜4月", "https://www.google.com/maps/embed?pb=!4v1688049870175!6m8!1m7!1sCAoSLEFGMVFpcFA5WFVmeFlmc21iblZpUHdpYWFyTWpJN3phdWdkdVFBMmlDMm5M!2m2!1d31.1312477!2d-4.0167211!3f211.31540814411372!4f-7.4931036043223!5f0.7820865974627469"],
-  "セブンカラードアース":  ["5月〜10月", "https://www.google.com/maps/embed?pb=!4v1688006342010!6m8!1m7!1sCAoSLEFGMVFpcFBOOHpVOGxYWEFMd0ZwYnBGNmRncU15SVl3U1FpQkpXOVZORTVw!2m2!1d-20.440328!2d57.3737637!3f48.82625993498357!4f-27.721694304531994!5f0.7820865974627469"],
+  "セブンカラードアース": ["5月〜10月", "https://www.google.com/maps/embed?pb=!4v1688006342010!6m8!1m7!1sCAoSLEFGMVFpcFBOOHpVOGxYWEFMd0ZwYnBGNmRncU15SVl3U1FpQkpXOVZORTVw!2m2!1d-20.440328!2d57.3737637!3f48.82625993498357!4f-27.721694304531994!5f0.7820865974627469"],
   "ラック・ローズ": ["11月〜6月", "https://www.google.com/maps/embed?pb=!4v1689746783126!6m8!1m7!1se7rsoaNCRxMnRF8j3qNOTQ!2m2!1d14.83405777909747!2d-17.23293067816857!3f126.90607548205193!4f1.6413145622079668!5f0.7820865974627469"],
   "チヴィタディバニョレージョ": ["11月〜5月", "https://www.google.com/maps/embed?pb=!4v1688006378936!6m8!1m7!1sCAoSLEFGMVFpcE0yQk4zdzFxZWE4Q1h4dmMyUFhYVWh6alc1SWpNX1M0ZTJ2TDJl!2m2!1d42.6269606!2d12.1111301!3f63.4441734386659!4f-1.7009502753210057!5f0.7820865974627469"],
   "ドロミテ渓谷": ["6月〜9月", "https://www.google.com/maps/embed?pb=!4v1688009902768!6m8!1m7!1sCAoSLEFGMVFpcE81V2pfdnVMeUdtcGhWY1dJVXV4aDRXelhCRW41ck1QNWdzcUJf!2m2!1d46.5487709!2d12.2218018!3f22.502248338609775!4f2.013871397201825!5f0.7820865974627469"],
@@ -22,7 +22,7 @@ superb_view_info = {
   "セブンシスターズ": ["4月〜8月", "https://www.google.com/maps/embed?pb=!4v1689747193036!6m8!1m7!1sCAoSLEFGMVFpcE0yUkVyZi1sVEF2Q3Y4VS00RHpFTElvWUhmdXliTW83ZmY1Wlhr!2m2!1d50.7477402!2d0.1898479!3f342.99673762087843!4f-12.241571144003757!5f0.7820865974627469"],
   "バイカル湖": ["6月〜8月", "https://www.google.com/maps/embed?pb=!4v1688010485966!6m8!1m7!1sCAoSLEFGMVFpcE5Bc0VBMlJrSjVrZ1djV0FGemhwTVRFTG5pRlVQYkdnT01MUllr!2m2!1d53.15204172!2d106.96862519!3f135.85970217493457!4f-3.866456738127795!5f0.7820865974627469"],
   "スワローズネスト": ["6月〜8月", "https://www.google.com/maps/embed?pb=!4v1688010596285!6m8!1m7!1sCAoSLEFGMVFpcE83N1BLb0poX0tWTWRkcGdqRTR6REVFY3UtT2J0NDktQlI1YWg3!2m2!1d44.4303301!2d34.1282593!3f40!4f0!5f0.7820865974627469"],
-  "スタリモスト橋":  ["4月〜6月", "https://www.google.com/maps/embed?pb=!4v1688010636852!6m8!1m7!1sCAoSLEFGMVFpcE4tdjI3RklmdUlmeWdid3NpVElyRmV4NHpLN2lnTWxYZDJ5bDRm!2m2!1d43.3372849!2d17.8150151!3f3.6533708552751936!4f-8.391608753873783!5f1.3851881309560685"],
+  "スタリモスト橋": ["4月〜6月", "https://www.google.com/maps/embed?pb=!4v1688010636852!6m8!1m7!1sCAoSLEFGMVFpcE4tdjI3RklmdUlmeWdid3NpVElyRmV4NHpLN2lnTWxYZDJ5bDRm!2m2!1d43.3372849!2d17.8150151!3f3.6533708552751936!4f-8.391608753873783!5f1.3851881309560685"],
   "ナヴァイオビーチ": ["6月〜8月", "https://www.google.com/maps/embed?pb=!4v1688010728862!6m8!1m7!1sCAoSLEFGMVFpcE93TlhPN0xsSEtYSVN1YXRPQ0FYWlZpeHhwdUJwNGhSZnlpZXhm!2m2!1d37.8593408!2d20.6248197!3f0.800643100000002!4f5.852090000000004!5f0.7820865974627469"],
   "メテオラ修道院": ["4月〜6月", "https://www.google.com/maps/embed?pb=!4v1688010772878!6m8!1m7!1sCAoSLEFGMVFpcE9fUm12WkdpbzJyMmdtYXFxeDlEbnd3MDc5SGd2ajE5N3lPY3FT!2m2!1d39.7217044!2d21.6305896!3f94.09709439566025!4f12.506521902747835!5f0.7820865974627469"],
   "ノイシュバンシュタイン城": ["6月〜8月", "https://www.google.com/maps/embed?pb=!4v1688010802626!6m8!1m7!1sCAoSLEFGMVFpcE5QNnhTeFgzeFJPbFlESHZPbGRYaENlQ3RLRFo0R2hsQ01EeW00!2m2!1d47.5573169!2d10.749126!3f334.00179444654765!4f-13.201879248484744!5f0.7820865974627469"],
@@ -75,12 +75,234 @@ superb_view_info = {
   "レンソイス国立公園": ["10月〜1月", "https://www.google.com/maps/embed?pb=!4v1688029440838!6m8!1m7!1sCAoSLEFGMVFpcE1fUzVmTnJaQzJqcUU2SU9UYkVUMzVHWC1hRk80eUpjZ1h1M0xV!2m2!1d-2.6699667!2d-42.9000083!3f288.7229073995512!4f-2.719195687763545!5f0.7820865974627469"],
   "フェルナンド・デ・ノローニャ": ["12月〜3月", "https://www.google.com/maps/embed?pb=!4v1688029395749!6m8!1m7!1sCAoSLEFGMVFpcFAtY1NHU0FBcl9sdEFkcFhlRWRWdFlkZFdzMFRmS01qQ3ZIc2Vq!2m2!1d-3.8498785!2d-32.4387858!3f239.511302841225!4f-12.917154046561265!5f0.7820865974627469"],
   "エンジェルフォール": ["6月〜11月", "https://www.google.com/maps/embed?pb=!4v1688029588753!6m8!1m7!1sCAoSLEFGMVFpcFBSbXNsNFBDNFpFSXZaNGl5MEx1V01yS3ZLR3JSMVJUbzU1QlVj!2m2!1d5.9616174!2d-62.5327802!3f60!4f0!5f0.7820865974627469"],
-  "ヘネラル・カレーラ湖": ["12月〜2月", "https://www.google.com/maps/embed?pb=!4v1689747457226!6m8!1m7!1sCAoSLEFGMVFpcE9ia1dZVDNWY1RrTUo2MDdGTE8zM2Y1UzR1TFhJTERkbTA4ZklS!2m2!1d-46.5359379!2d-71.7317344!3f251.66353!4f0!5f0.7820865974627469"],
+  "ヘネラル・カレーラ湖": ["12月〜2月", "https://www.google.com/maps/embed?pb=!4v1689747457226!6m8!1m7!1sCAoSLEFGMVFpcE9ia1dZVDNWY1RrTUo2MDdGTE8zM2Y1UzR1TFhJTERkbTA4ZklS!2m2!1d-46.5359379!2d-71.7317344!3f251.66353!4f0!5f0.7820865974627469"]
 }
 
 superb_view_info.each do |key, value|
   superb_view_name = key
   superb_view = SuperbView.new(name: superb_view_name, best_season: value[0], panorama_url: value[1])
-  superb_view.portrait.attach(io: File.open("public/images/#{superb_view_name}.jpeg"), filename: "#{superb_view_name}.jpeg")
+  superb_view.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
   superb_view.save!
+end
+
+state_info = {
+  "アジア": "10",
+  "大洋州": "20",
+  "北米": "30",
+  "中南米": "33",
+  "ヨーロッパ": "42",
+  "中東": "50",
+  "アフリカ": "60"
+}
+state_info.each do |key, value|
+  state = State.new(name: key, code: value)
+  state.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
+  state.save!
+end
+
+country_names = ["ナミビア", "ザンビア", "エジプト", "エチオピア", "モロッコ", "モーリシャス", "セネガル", "ジンバブエ",
+                 "イタリア", "アイスランド", "ノルウェー", "フランス", "イギリス", "ロシア", "ウクライナ", "ボスニアヘルツェゴビナ",
+                 "ギリシャ", "ドイツ", "スロベニア", "スイス", "クロアチア", "アラブ首長国連邦", "レバノン", "ラオス", "ヨルダン",
+                 "キプロス", "トルコ", "フィリピン", "中国", "カンボジア", "ミャンマー", "インド", "スリランカ", "台湾", "インドネシア",
+                 "ニュージーランド", "オーストラリア", "アメリカ", "キューバ", "メキシコ", "カナダ", "アルゼンチン", "ボリビア", "ペルー",
+                 "ブラジル", "ベネズエラ", "チリ"]
+require "roo"
+xlsx = Roo::Excelx.new("./country.xlsx")
+
+207.times do |i|
+  area_code = xlsx.cell(5 + i, 3)
+  country_code = xlsx.cell(5 + i, 4)
+  country_name = xlsx.cell(5 + i, 5)
+  country_names.each do |name|
+    next unless name == country_name
+
+    case area_code
+    when 10
+      state = State.find_by(name: "アジア")
+      country = Country.new(name: country_name, code: country_code, state:)
+      country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
+      country.save!
+    when 20
+      state = State.find_by(name: "大洋州")
+      country = Country.new(name: country_name, code: country_code, state:)
+      country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
+      country.save!
+    when 30
+      state = State.find_by(name: "北米")
+      country = Country.new(name: country_name, code: country_code, state:)
+      country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
+      country.save!
+    when 33
+      state = State.find_by(name: "中南米")
+      country = Country.new(name: country_name, code: country_code, state:)
+      country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
+      country.save!
+    when 42
+      state = State.find_by(name: "ヨーロッパ")
+      country = Country.new(name: country_name, code: country_code, state:)
+      country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
+      country.save!
+    when 50
+      state = State.find_by(name: "中東")
+      country = Country.new(name: country_name, code: country_code, state:)
+      country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
+      country.save!
+    when 60
+      state = State.find_by(name: "アフリカ")
+      country = Country.new(name: country_name, code: country_code, state:)
+      country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
+      country.save!
+    end
+  end
+end
+
+superb_view_country = {
+  "ナミビア": ["デットフレイ"],
+  "ザンビア": ["ヴィクトリアの滝"],
+  "エジプト": ["ルクソール"],
+  "エチオピア": ["ラリベラ岩窟教会群"],
+  "モロッコ": ["アイトベンハドゥ", "サハラ砂漠"],
+  "モーリシャス": ["セブンカラードアース"],
+  "セネガル": ["ラック・ローズ"],
+  "ジンバブエ": ["ヴィクトリアの滝"],
+  "イタリア": ["チヴィタディバニョレージョ", "ドロミテ渓谷", "マテーラの洞窟住居", "グロッタ・アズッラ", "マッターホルン"],
+  "アイスランド": ["セリャラントスフォス", "ハットルグリムス教会", "バトナ氷河", "ゲイシール"],
+  "ノルウェー": ["リーセフィヨルド", "トロルの舌"],
+  "フランス": ["モン・サン・ミシェル"],
+  "イギリス": ["ストーンヘンジ", "セブンシスターズ"],
+  "ロシア": ["バイカル湖"],
+  "ウクライナ": ["スワローズネスト"],
+  "ボスニアヘルツェゴビナ": ["スタリモスト橋"],
+  "ギリシャ": ["ナヴァイオビーチ", "メテオラ修道院"],
+  "ドイツ": ["ノイシュバンシュタイン城"],
+  "スロベニア": ["ブレッド湖"],
+  "スイス": ["マッターホルン"],
+  "クロアチア": ["プリトヴィッツェ湖群国立公園"],
+  "アラブ首長国連邦": ["シェイクザビードグランドモスク"],
+  "レバノン": ["バッカス寺院"],
+  "ラオス": ["クアンシーの滝"],
+  "ヨルダン": ["ペトラ遺跡"],
+  "キプロス": ["ペトラトゥロミウ海岸"],
+  "トルコ": ["ヒエラポリス-パムッカレ"],
+  "フィリピン": ["チョコレートヒルズ", "エルニド"],
+  "中国": ["蘆笛岩", "万里の長城"],
+  "カンボジア": ["アンコールワット"],
+  "ミャンマー": ["シュエサンドーパゴダ"],
+  "インド": ["パンゴン湖"],
+  "スリランカ": ["シーギリヤ"],
+  "台湾": ["高美湿地"],
+  "インドネシア": ["イジェン火山"],
+  "ニュージーランド": ["ミルフォードサウンドフィヨルド", "テカポ湖", "ワイトモ洞窟"],
+  "オーストラリア": ["ケーブルビーチ", "ブルーマウンテンズ", "エアーズロック", "ホワイトヘブンビーチ"],
+  "アメリカ": ["モニュメントバレー", "アンテロープキャニオン", "サルベーションマウンテン", "ザウェーブ",
+               "カセドラルロック", "プライスキャニオン国立公園", "ホースシューベンド", "ホワイトサンズ国立公園",
+               "グランドキャニオン国立公園"],
+  "キューバ": ["バラデロ"],
+  "メキシコ": ["チェチェンイッツァ", "グランセノーテ"],
+  "カナダ": ["アブラハム湖", "レイク・ルイーズ"],
+  "アルゼンチン": ["イグアスの滝", "ロス・グラシアレス国立公園", "グラシアル・ペリート・モレノ"],
+  "ボリビア": ["ウユニ塩湖"],
+  "ペルー": ["ヴィニクンカ山", "マチュピチュ"],
+  "ブラジル": ["レンソイス国立公園", "フェルナンド・デ・ノローニャ", "イグアスの滝"],
+  "ベネズエラ": ["エンジェルフォール"],
+  "チリ": ["ヘネラル・カレーラ湖"]
+}
+
+superb_view_country.each do |key, value|
+  country = Country.find_by(name: key)
+  value.each do |superb_view_name|
+    superb_view = SuperbView.find_by(name: superb_view_name)
+    superb_view.countries << country
+  end
+end
+
+natural_category_superb_views = {
+  "滝": ["ヴィクトリアの滝", "セリャラントスフォス", "クアンシーの滝", "イグアスの滝", "エンジェルフォール", "プリトヴィッツェ湖群国立公園",
+         "ヘネラル・カレーラ湖"],
+  "湖": ["バイカル湖", "ブレッド湖", "テカポ湖", "アブラハム湖", "レイク・ルイーズ", "プリトヴィッツェ湖群国立公園", "ラック・ローズ"],
+  "砂漠": ["デットフレイ", "モニュメントバレー", "サハラ砂漠"],
+  "岩山": ["トロルの舌", "ドロミテ渓谷", "ミルフォードサウンドフィヨルド", "ブルーマウンテンズ",
+           "エアーズロック", "モニュメントバレー", "ザウェーブ", "カセドラルロック",
+           "メテオラ修道院", "シーギリヤ"],
+  "地層": ["ザウェーブ", "プライスキャニオン国立公園"],
+  "温泉": ["ヒエラポリス-パムッカレ", "ゲイシール"],
+  "フィヨルド": ["リーセフィヨルド", "ミルフォードサウンドフィヨルド"],
+  "崖": ["リーセフィヨルド", "トロルの舌", "ブルーマウンテンズ", "ホースシューベンド",
+         "スワローズネスト", "メテオラ修道院", "セブンシスターズ"],
+  "丘": ["チョコレートヒルズ", "サルベーションマウンテン", "セブンシスターズ"],
+  "草原": ["チョコレートヒルズ", "エアーズロック", "セブンカラードアース"],
+  "海岸": ["ナヴァイオビーチ", "ペトラトゥロミウ海岸", "ケーブルビーチ", "バラデロ",
+           "フェルナンド・デ・ノローニャ", "ホワイトヘブンビーチ", "エルニド"],
+  "氷河": ["バトナ氷河", "ロス・グラシアレス国立公園", "グラシアル・ペリート・モレノ"],
+  "国立公園": ["プライスキャニオン国立公園", "レンソイス国立公園", "ホワイトサンズ国立公園", "グランドキャニオン国立公園", "プリトヴィッツェ湖群国立公園",
+               "ロス・グラシアレス国立公園"],
+  "渓谷": ["ドロミテ渓谷", "アンテロープキャニオン", "プライスキャニオン国立公園", "グランドキャニオン国立公園"],
+  "塩湖": ["パンゴン湖", "ウユニ塩湖"],
+  "川": ["ホースシューベンド"],
+  "山": ["ヴィニクンカ山", "ドロミテ渓谷", "ミルフォードサウンドフィヨルド",
+         "ブルーマウンテンズ", "マッターホルン"],
+  "洞窟": ["蘆笛岩", "マテーラの洞窟住居", "グロッタ・アズッラ", "グランセノーテ", "ワイトモ洞窟"],
+  "砂丘": ["ホワイトサンズ国立公園"],
+  "湿地": ["高美湿地"],
+  "火山": ["イジェン火山"],
+  "泉": ["グランセノーテ"]
+}
+
+natural_category_superb_views.each do |key, value|
+  category = Category.create!(name: key, classification: "自然")
+  value.each do |superb_view_name|
+    superb_view = SuperbView.find_by(name: superb_view_name)
+    superb_view.categories << category
+  end
+end
+
+artificial_category_superb_views = {
+  "都市": ["ルクソール", "チヴィタディバニョレージョ", "ペトラ遺跡", "マチュピチュ"],
+  "遺跡": ["万里の長城", "アンコールワット", "シュエサンドーパゴダ", "ルクソール",
+           "ラリベラ岩窟教会群", "アイトベンハドゥ", "ストーンヘンジ", "バッカス寺院",
+           "ペトラ遺跡", "マチュピチュ", "ヒエラポリス-パムッカレ", "シーギリヤ"],
+  "廃墟": ["ヒエラポリス-パムッカレ"],
+  "礼拝堂": ["シェイクザビードグランドモスク"],
+  "寺院": ["アンコールワット", "シュエサンドーパゴダ", "バッカス寺院", "シェイクザビードグランドモスク"],
+  "アート": ["サルベーションマウンテン"],
+  "教会": ["ラリベラ岩窟教会群", "ハットルグリムス教会"],
+  "城": ["万里の長城", "アイトベンハドゥ", "ノイシュバンシュタイン城",
+         "スワローズネスト", "シーギリヤ"],
+  "橋": ["スタリモスト橋"],
+  "修道院": ["モン・サン・ミシェル", "メテオラ修道院"],
+  "住居": ["マテーラの洞窟住居"]
+}
+
+artificial_category_superb_views.each do |key, value|
+  category = Category.create!(name: key, classification: "人工")
+  value.each do |superb_view_name|
+    superb_view = SuperbView.find_by(name: superb_view_name)
+    superb_view.categories << category
+  end
+end
+
+characteristic_superb_views = {
+  "歴史・文化的": ["アイトベンハドゥ", "チヴィタディバニョレージョ", "マテーラの洞窟住居", "ストーンヘンジ",
+                   "スワローズネスト", "スタリモスト橋", "ヒエラポリス-パムッカレ", "万里の長城", "シーギリヤ", "マチュピチュ"],
+  "雄大": ["デットフレイ", "ヴィクトリアの滝", "サハラ砂漠", "セリャラントスフォス", "イジェン火山", "ミルフォードサウンドフィヨルド",
+           "ザウェーブ", "プライスキャニオン国立公園", "イグアスの滝", "グラシアル・ペリート・モレノ"],
+  "荘厳": ["ルクソール", "マチュピチュ", "メテオラ修道院", "モン・サン・ミシェル"],
+  "幻想・神秘的": ["チヴィタディバニョレージョ", "マテーラの洞窟住居", "モン・サン・ミシェル", "メテオラ修道院",
+                   "ブレッド湖", "万里の長城", "シーギリヤ", "ホースシューベンド", "マチュピチュ", "エンジェルフォール"],
+  "癒し": ["スワローズネスト", "ノイシュバンシュタイン城", "サルベーションマウンテン", "レンソイス国立公園"],
+  "ロマンチック": ["モン・サン・ミシェル", "スワローズネスト", "ノイシュバンシュタイン城", "ブレッド湖", "レンソイス国立公園"],
+  "畏怖": ["メテオラ修道院", "シーギリヤ", "モン・サン・ミシェル"],
+  "芸術": ["蘆笛岩", "サルベーションマウンテン"],
+  "奇妙・不思議": ["トロルの舌", "ストーンヘンジ", "メテオラ修道院", "蘆笛岩", "シーギリヤ", "マチュピチュ",
+                   "エンジェルフォール"],
+  "耽美": ["ドロミテ渓谷", "リーセフィヨルド", "ヒエラポリス-パムッカレ", "ホワイトサンズ国立公園", "レイク・ルイーズ",
+           "ロス・グラシアレス国立公園", "ウユニ塩湖", "レンソイス国立公園", "ヘネラル・カレーラ湖"]
+}
+
+characteristic_superb_views.each do |key, value|
+  characteristic = Characteristic.create!(name: key)
+  value.each do |superb_view_name|
+    superb_view = SuperbView.find_by(name: superb_view_name)
+    superb_view.characteristics << characteristic
+  end
 end

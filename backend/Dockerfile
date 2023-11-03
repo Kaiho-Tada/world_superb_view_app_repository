@@ -1,5 +1,6 @@
 FROM ruby:3.2.2
-RUN apt-get update -qq && apt-get install -y build-essential
+RUN apt-get update -qq && apt-get install -y build-essential cron vim
+RUN service cron start
 
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
