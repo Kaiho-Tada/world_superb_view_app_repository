@@ -31,7 +31,7 @@ const SuperbViewCard: FC<Props> = memo((props) => {
 
   return (
     <Box>
-      <Flex h="230px" bg="gray.100" color="blue.800" _hover={{ cursor: "pointer", opacity: "0.8" }}>
+      <Flex h="245px" bg="gray.100" color="blue.800" _hover={{ cursor: "pointer", opacity: "0.8" }}>
         <Box w="100%">
           <Image h="100%" w="100%" src={imageUrl} alt="絶景画像" />
         </Box>
@@ -76,16 +76,37 @@ const SuperbViewCard: FC<Props> = memo((props) => {
               </Text>
             </Flex>
             <Flex mb="1">
-              <Text role="heading" bg="#B67B03" fontSize="xs" color="gray.100" mr="2" px="1">
+              <Text
+                role="heading"
+                bg="#B67B03"
+                fontSize="xs"
+                color="gray.100"
+                mr="2"
+                px="1"
+                noOfLines={1}
+              >
                 リスクレベル
               </Text>
               <RiskLevelStar maxRiskLevel={maxRiskLevel} />
+              {countries.length > 1 && (
+                <Text role="heading" fontSize="xs" color="gray.500" noOfLines={1} pl="0.5">
+                  (リスクレベルの高い方を表示)
+                </Text>
+              )}
             </Flex>
             <Flex mb="1">
-              <Text role="heading" bg="#B67B03" fontSize="xs" color="gray.100" mr="2" px="1">
+              <Text
+                role="heading"
+                bg="#B67B03"
+                fontSize="xs"
+                color="gray.100"
+                mr="2"
+                px="1"
+                noOfLines={1}
+              >
                 属性
               </Text>
-              <Text role="heading" fontSize="xs" color="gray.500">
+              <Text role="heading" fontSize="xs" color="gray.500" noOfLines={1}>
                 {characteristicNameResult}
               </Text>
             </Flex>

@@ -14,6 +14,14 @@ class Country < ApplicationRecord
     url_for(portrait)
   end
 
+  scope :filter_by_name, lambda { |names|
+    where(name: [*names])
+  }
+
+  scope :filter_by_risk_level, lambda { |risk_levels|
+    where(risk_level: [*risk_levels])
+  }
+
   private
 
   def validate_image

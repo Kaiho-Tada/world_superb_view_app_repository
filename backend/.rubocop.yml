@@ -38,6 +38,7 @@ Metrics/BlockLength:
 Layout/LineLength:
   Exclude:
     - "spec/**/*"
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 
@@ -51,4 +52,7 @@ Style/SymbolArray:
   Enabled: false
 
 Rails/LexicallyScopedActionFilter:
+  Enabled: false
+
+Style/WordArray:
   Enabled: false

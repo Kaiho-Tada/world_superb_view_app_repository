@@ -20,4 +20,14 @@ RSpec.describe Characteristic, type: :model do
       end
     end
   end
+
+  describe "スコープテスト" do
+    it "filter_by_nameスコープのテスト" do
+      characteristic1 = create(:characteristic, name: "雄大")
+      characteristic2 = create(:characteristic, name: "畏怖")
+      expect(Characteristic.filter_by_name(["雄大"])).to include(characteristic1)
+      expect(Characteristic.filter_by_name(["畏怖"])).to include(characteristic2)
+      expect(Characteristic.filter_by_name(["雄大", "畏怖"])).to include(characteristic1, characteristic2)
+    end
+  end
 end

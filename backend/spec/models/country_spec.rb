@@ -66,4 +66,22 @@ RSpec.describe Country, type: :model do
       expect(country.image_url).to match(%r{http://localhost:3001/rails/active_storage/blobs/redirect/.+/test_image.jpeg})
     end
   end
+
+  describe "スコープテスト" do
+    it "filter_by_nameスコープのテスト" do
+      country1 = create(:country, name: "アメリカ")
+      country2 = create(:country, name: "エジプト")
+      expect(Country.filter_by_name(["アメリカ"])).to include(country1)
+      expect(Country.filter_by_name(["エジプト"])).to include(country2)
+      expect(Country.filter_by_name(["アメリカ", "エジプト"])).to include(country1, country2)
+    end
+
+    it "filter_by_risk_levelスコープのテスト" do
+      country1 = create(:country, name: "ロシア", risk_level: 4)
+      country2 = create(:country, name: "エジプト", risk_level: 3)
+      expect(Country.filter_by_risk_level(["4"])).to include(country1)
+      expect(Country.filter_by_risk_level(["3"])).to include(country2)
+      expect(Country.filter_by_risk_level(["4", "3"])).to include(country1, country2)
+    end
+  end
 end

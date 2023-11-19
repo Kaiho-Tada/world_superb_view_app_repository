@@ -1,5 +1,5 @@
 import useMessage from "hooks/useMessage";
-import getAllSuperbViewsApi from "lib/api/superbView";
+import { getAllSuperbViewsApi } from "lib/api/superbView";
 import { useState } from "react";
 import { SuperbView } from "types/api/superbView";
 
@@ -22,6 +22,7 @@ const useGetAllSuperbViews = () => {
   return {
     getAllSuperbViews,
     SuperbViews,
+    setSuperbViews,
     loadingSuperbViews,
   };
 };

@@ -4,4 +4,8 @@ class Category < ApplicationRecord
 
   validates :name, length: { maximum: 30 }, presence: true
   validates :classification, length: { maximum: 30 }, presence: true
+
+  scope :filter_by_name, lambda { |names|
+    where(name: [*names])
+  }
 end

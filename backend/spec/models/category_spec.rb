@@ -34,4 +34,14 @@ RSpec.describe Category, type: :model do
       end
     end
   end
+
+  describe "スコープテスト" do
+    it "filter_by_nameスコープのテスト" do
+      category1 = create(:category, name: "滝")
+      category2 = create(:category, name: "砂漠")
+      expect(Category.filter_by_name(["滝"])).to include(category1)
+      expect(Category.filter_by_name(["砂漠"])).to include(category2)
+      expect(Category.filter_by_name(["滝", "砂漠"])).to include(category2)
+    end
+  end
 end

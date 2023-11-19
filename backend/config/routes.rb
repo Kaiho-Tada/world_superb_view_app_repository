@@ -14,6 +14,11 @@ Rails.application.routes.draw do
       end
 
       resources :superb_views, only: [:index]
+      get "/superb_views/search", to: "superb_views#search"
+
+      resources :countries, only: [:index]
+      resources :categories, only: [:index]
+      resources :characteristics, only: [:index]
     end
   end
 end

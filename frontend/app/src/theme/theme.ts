@@ -1,4 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
+import checkboxTheme from "./checkboxTheme";
 
 const theme = extendTheme({
   styles: {
@@ -62,6 +63,8 @@ const theme = extendTheme({
         },
       },
     },
+
+    Checkbox: checkboxTheme,
   },
 });
 

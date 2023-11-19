@@ -7,6 +7,7 @@ import CommonLayout from "components/templates/CommonLayout";
 import GuestRestrictedRoute from "components/templates/GuestRestrictedRoute";
 import PrivateRoute from "components/templates/PrivateRoute";
 import PublicRoute from "components/templates/PublicRoute";
+import { SuperbViewListProvider } from "hooks/providers/SuperbViewListProvider";
 import { FC, memo } from "react";
 import { Route, Routes } from "react-router-dom";
 
@@ -17,7 +18,9 @@ const Router: FC = memo(() => (
         path="/superb_views"
         element={
           <CommonLayout>
-            <SuperbViewList />
+            <SuperbViewListProvider>
+              <SuperbViewList />
+            </SuperbViewListProvider>
           </CommonLayout>
         }
       />

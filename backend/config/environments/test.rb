@@ -62,4 +62,6 @@ Rails.application.configure do
 
   Rails.application.routes.default_url_options[:host] = 'localhost'
   Rails.application.routes.default_url_options[:port] = 3001
+
+  config.active_job.queue_adapter = :inline
 end
