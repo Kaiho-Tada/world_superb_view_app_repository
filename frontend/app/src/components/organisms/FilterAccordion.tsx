@@ -12,11 +12,13 @@ import CategoryCheckBox from "components/molecules/CategoryCheckBox";
 import CharacteristicCheckBox from "components/molecules/CharacteristicCheckBox";
 import CountryCheckBox from "components/molecules/CountryCheckBox";
 import RiskLevelCheckBox from "components/molecules/RiskLevelCheckBox";
+import useClear from "hooks/api/clear/useClear";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 import { FC, memo } from "react";
 
 const FilterAccordion: FC = memo(() => {
   const { countryStates, categoryClassifications } = useSuperbViewListContext();
+  const { handleClear } = useClear();
 
   return (
     <Accordion
@@ -33,6 +35,11 @@ const FilterAccordion: FC = memo(() => {
         <Box as="span" pl="3" pr="5">
           <Heading size="md" textShadow="2px 2px #000000">
             絞り込み
+          </Heading>
+        </Box>
+        <Box as="button" role="button" color="blue.300" onClick={handleClear} textAlign="right">
+          <Heading size="xs" textShadow="2px 2px #000000">
+            クリア
           </Heading>
         </Box>
       </Flex>

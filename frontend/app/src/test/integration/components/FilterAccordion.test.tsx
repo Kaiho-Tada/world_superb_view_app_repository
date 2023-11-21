@@ -147,3 +147,8 @@ test("危険度のアコーディオンボタン押下でリスクレベルのch
   const riskLevel = screen.getAllByRole("img", { name: "リスクレベル" });
   expect(riskLevel.length).toBe(4);
 });
+
+test("クリアボタンがレンダリングされていること", () => {
+  render(<FilterAccordion />);
+  expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
+});
