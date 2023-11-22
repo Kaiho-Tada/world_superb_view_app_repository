@@ -1,5 +1,7 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import SuperbViewList from "components/pages/SuperbViewList";
+import { act } from "react-dom/test-utils";
 
 const countries1 = [
   {
@@ -79,6 +81,7 @@ const characteristics2 = [
 
 const countryStates = ["アジア", "大洋州", "北米", "中南米", "ヨーロッパ", "中東", "アフリカ"];
 const categoryClassifications = ["自然", "人工"];
+const mockOnOpenFilterDrawer = jest.fn();
 
 jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/SuperbViewListProvider"),
@@ -138,6 +141,7 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
         checked: false,
       },
     ],
+    onOpenFilterDrawer: mockOnOpenFilterDrawer,
   }),
 }));
 
@@ -212,4 +216,19 @@ test("リスクレベルがレンダリングされていること", () => {
 test("絞り込みのアコーディオンがレンダリングされていること", () => {
   render(<SuperbViewList />);
   expect(screen.getByRole("region", { name: "絞り込み" })).toBeInTheDocument();
+});
+
+test("絞り込みボタンがレンダリングされていること", () => {
+  render(<SuperbViewList />);
+  expect(screen.getByRole("button", { name: "絞り込み" })).toBeInTheDocument();
+});
+
+test("絞り込みボタン押下でonOpenFilterDrawer関数が実行されること", async () => {
+  const user = userEvent.setup();
+  render(<SuperbViewList />);
+  const filterButton = screen.getByRole("button", { name: "絞り込み" });
+  await act(async () => {
+    await user.click(filterButton);
+  });
+  expect(mockOnOpenFilterDrawer).toHaveBeenCalledTimes(1);
 });

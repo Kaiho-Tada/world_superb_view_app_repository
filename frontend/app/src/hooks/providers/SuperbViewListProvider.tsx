@@ -1,3 +1,4 @@
+import { useDisclosure } from "@chakra-ui/react";
 import SuperbViewListContext from "contexts/SuperbViewListContext";
 import useGetAllCategoriesWithCheckBoxData from "hooks/api/category/useGetAllCategoriesWithCheckBoxData";
 import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/useGetAllCharacteristicsWithCheckBoxData";
@@ -30,6 +31,12 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
     { label: "1", checked: false },
     { label: "0", checked: false },
   ]);
+
+  const {
+    isOpen: isOpenFilterDrawer,
+    onOpen: onOpenFilterDrawer,
+    onClose: onCloseFilterDrawer,
+  } = useDisclosure();
 
   const { getAllSuperbViews, SuperbViews, setSuperbViews, loadingSuperbViews } =
     useGetAllSuperbViews();
@@ -85,6 +92,9 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setCheckedRiskLevelLabels,
       riskLevels,
       setRiskLevels,
+      isOpenFilterDrawer,
+      onOpenFilterDrawer,
+      onCloseFilterDrawer,
     }),
     [
       countryStates,
@@ -117,6 +127,9 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setCheckedRiskLevelLabels,
       riskLevels,
       setRiskLevels,
+      isOpenFilterDrawer,
+      onOpenFilterDrawer,
+      onCloseFilterDrawer,
     ]
   );
   return <SuperbViewListContext.Provider value={value}>{children}</SuperbViewListContext.Provider>;

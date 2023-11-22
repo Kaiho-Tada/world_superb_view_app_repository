@@ -37,6 +37,9 @@ export const SuperbViewListContext = createContext(
     setCheckedRiskLevelLabels: React.Dispatch<React.SetStateAction<string[]>>;
     riskLevels: RiskLevel[];
     setRiskLevels: React.Dispatch<React.SetStateAction<RiskLevel[]>>;
+    isOpenFilterDrawer: boolean;
+    onOpenFilterDrawer: () => void;
+    onCloseFilterDrawer: () => void;
   }
 );
 
