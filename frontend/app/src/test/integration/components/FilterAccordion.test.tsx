@@ -46,6 +46,12 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   }),
 }));
 
+const mockHandleClear = jest.fn();
+jest.mock("hooks/api/clear/useClear", () => ({
+  __esModule: true,
+  default: () => ({ handleClear: mockHandleClear }),
+}));
+
 test("アコーディオンの見出しがレンダリングされていること", () => {
   render(<FilterAccordion />);
   expect(screen.getByRole("heading", { name: "絞り込み" })).toBeInTheDocument();
@@ -151,4 +157,14 @@ test("危険度のアコーディオンボタン押下でリスクレベルのch
 test("クリアボタンがレンダリングされていること", () => {
   render(<FilterAccordion />);
   expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
+});
+
+test("クリアボタン押下でhandleClear関数が実行されること", async () => {
+  const user = userEvent.setup();
+  render(<FilterAccordion />);
+  const clearButton = screen.getByRole("button", { name: "クリア" });
+  await act(async () => {
+    await user.click(clearButton);
+  });
+  expect(mockHandleClear).toHaveBeenCalledTimes(1);
 });
