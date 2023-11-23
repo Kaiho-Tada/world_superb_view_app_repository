@@ -57,7 +57,12 @@ const useCountryCheckBoxHandleChange = () => {
       };
       searchSuperbViews();
     },
-    [countriesWithCheckBoxData, checkedCategoryLabels, checkedCharacteristicLabels]
+    [
+      countriesWithCheckBoxData,
+      checkedCategoryLabels,
+      checkedCharacteristicLabels,
+      checkedRiskLevelLabels,
+    ]
   );
   return { handleChange };
 };

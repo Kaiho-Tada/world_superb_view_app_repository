@@ -57,7 +57,12 @@ const useCharacteristicCheckBoxHandleChange = () => {
       };
       searchSuperbViews();
     },
-    [characteristicsWithCheckBoxData, checkedCategoryLabels, checkedCountryLabels]
+    [
+      characteristicsWithCheckBoxData,
+      checkedCategoryLabels,
+      checkedCountryLabels,
+      checkedRiskLevelLabels,
+    ]
   );
   return { handleChange };
 };
