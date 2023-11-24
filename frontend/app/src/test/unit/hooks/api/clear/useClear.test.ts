@@ -6,6 +6,10 @@ const mockSetCountriesWithCheckBoxData = jest.fn();
 const mockSetCharacteristicsWithCheckBoxData = jest.fn();
 const mockSetRiskLevels = jest.fn();
 const mockGetAllSuperbViews = jest.fn();
+const mockSetCheckedCategoryLabels = jest.fn();
+const mockSetCheckedCountryLabels = jest.fn();
+const mockSetCheckedCharacteristicLabels = jest.fn();
+const mockSetCheckedRiskLevelLabels = jest.fn();
 
 jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/SuperbViewListProvider"),
@@ -44,6 +48,10 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
     ],
     setRiskLevels: mockSetRiskLevels,
     getAllSuperbViews: mockGetAllSuperbViews,
+    setCheckedCategoryLabels: mockSetCheckedCategoryLabels,
+    setCheckedCountryLabels: mockSetCheckedCountryLabels,
+    setCheckedCharacteristicLabels: mockSetCheckedCharacteristicLabels,
+    setCheckedRiskLevelLabels: mockSetCheckedRiskLevelLabels,
   }),
 }));
 
@@ -94,6 +102,15 @@ test("riskLevelsのcheckedがtrueの場合、falseに切り替わること", () 
       checked: false,
     },
   ]);
+});
+
+test("各setCheckedLablesに空の配列が渡されること", () => {
+  const { result } = renderHook(() => useClear());
+  result.current.handleClear();
+  expect(mockSetCheckedCategoryLabels).toHaveBeenCalledWith([]);
+  expect(mockSetCheckedCountryLabels).toHaveBeenCalledWith([]);
+  expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledWith([]);
+  expect(mockSetCheckedRiskLevelLabels).toHaveBeenCalledWith([]);
 });
 
 test("getAllSuperbViewsが実行されること", () => {

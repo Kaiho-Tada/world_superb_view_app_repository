@@ -14,6 +14,10 @@ const useClear = () => {
     setRiskLevels,
     getAllSuperbViews,
     loadingSearchSuperbViews,
+    setCheckedCategoryLabels,
+    setCheckedCountryLabels,
+    setCheckedCharacteristicLabels,
+    setCheckedRiskLevelLabels,
   } = useSuperbViewListContext();
 
   const handleClear = useCallback(() => {
@@ -62,9 +66,14 @@ const useClear = () => {
     });
     setRiskLevels(clearedRiskLevels);
 
+    setCheckedCategoryLabels([]);
+    setCheckedCountryLabels([]);
+    setCheckedCharacteristicLabels([]);
+    setCheckedRiskLevelLabels([]);
+
     if (
       !_.isEqual(categoriesWithCheckBoxData, clearedCategoriesWithCheckBoxData) ||
-      !_.isEqual(countriesWithCheckBoxData, clearedCountriesWithCheckBoxData) ||
+      !_.isEqual(characteristicsWithCheckBoxData, clearedCharacteristicsWithCheckBoxData) ||
       !_.isEqual(countriesWithCheckBoxData, clearedCountriesWithCheckBoxData) ||
       !_.isEqual(riskLevels, clearedRiskLevels)
     ) {
