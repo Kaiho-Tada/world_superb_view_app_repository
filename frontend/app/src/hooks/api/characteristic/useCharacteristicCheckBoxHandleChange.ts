@@ -13,6 +13,7 @@ const useCharacteristicCheckBoxHandleChange = () => {
     checkedCategoryLabels,
     checkedCountryLabels,
     checkedRiskLevelLabels,
+    keyword,
   } = useSuperbViewListContext();
   const { showMessage } = useMessage();
 
@@ -47,6 +48,7 @@ const useCharacteristicCheckBoxHandleChange = () => {
             checkedCountryLabels,
             checkedCategoryLabels,
             checkedRiskLevelLabels,
+            keyword,
           });
           setSuperbViews(res.data);
         } catch (error) {
@@ -62,6 +64,7 @@ const useCharacteristicCheckBoxHandleChange = () => {
       checkedCategoryLabels,
       checkedCountryLabels,
       checkedRiskLevelLabels,
+      keyword,
     ]
   );
   return { handleChange };

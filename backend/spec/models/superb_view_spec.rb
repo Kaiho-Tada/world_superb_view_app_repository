@@ -143,5 +143,25 @@ RSpec.describe SuperbView, type: :model do
         expect(SuperbView.filter_by_country_risk_level(["1", "2"])).to eq [duplicated_superb_view]
       end
     end
+
+    describe "filter_by_keywordスコープのテスト" do
+      it "引数で受け取ったkeywordに部分一致する名前と国名を持つSuperbViewを返すこと" do
+        country_italy = create(:country, name: "イタリア")
+        country_peru = create(:country, name: "ペルー")
+        create(:superb_view_country, superb_view: matera_cave_dwellings, country: country_italy)
+        create(:superb_view_country, superb_view: civita_di_bagnoregio, country: country_italy)
+        create(:superb_view_country, superb_view: machu_picchu, country: country_peru)
+        expect(SuperbView.filter_by_keyword("マ")).to eq [matera_cave_dwellings, machu_picchu]
+        expect(SuperbView.filter_by_keyword("イタリア")).to eq [matera_cave_dwellings, civita_di_bagnoregio]
+      end
+
+      it "返されるSuperbViewが重複しないこと" do
+        duplicate_superb_view = create(:superb_view, name: "重複する絶景")
+        create(:superb_view_country, superb_view: duplicate_superb_view, country: create(:country))
+        create(:superb_view_country, superb_view: duplicate_superb_view, country: create(:country))
+        result_superb_view = SuperbView.filter_by_keyword("重複する絶景")
+        expect(result_superb_view).to eq result_superb_view.distinct
+      end
+    end
   end
 end

@@ -18,6 +18,7 @@ const useClear = () => {
     setCheckedCountryLabels,
     setCheckedCharacteristicLabels,
     setCheckedRiskLevelLabels,
+    setKeyword,
   } = useSuperbViewListContext();
 
   const handleClear = useCallback(() => {
@@ -70,6 +71,7 @@ const useClear = () => {
     setCheckedCountryLabels([]);
     setCheckedCharacteristicLabels([]);
     setCheckedRiskLevelLabels([]);
+    setKeyword("");
 
     if (
       !_.isEqual(categoriesWithCheckBoxData, clearedCategoriesWithCheckBoxData) ||

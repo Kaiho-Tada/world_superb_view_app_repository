@@ -31,6 +31,7 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
     { label: "1", checked: false },
     { label: "0", checked: false },
   ]);
+  const [keyword, setKeyword] = useState<string>("");
 
   const {
     isOpen: isOpenFilterDrawer,
@@ -95,6 +96,8 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       isOpenFilterDrawer,
       onOpenFilterDrawer,
       onCloseFilterDrawer,
+      keyword,
+      setKeyword,
     }),
     [
       countryStates,
@@ -130,6 +133,8 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       isOpenFilterDrawer,
       onOpenFilterDrawer,
       onCloseFilterDrawer,
+      keyword,
+      setKeyword,
     ]
   );
   return <SuperbViewListContext.Provider value={value}>{children}</SuperbViewListContext.Provider>;

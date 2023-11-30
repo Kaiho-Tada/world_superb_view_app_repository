@@ -52,6 +52,12 @@ jest.mock("hooks/api/clear/useClear", () => ({
   default: () => ({ handleClear: mockHandleClear }),
 }));
 
+const mockHandleSearchSuperbView = jest.fn();
+jest.mock("hooks/api/superbView/useSearchSuperbView", () => ({
+  __esModule: true,
+  default: () => ({ handleSearchSuperbView: mockHandleSearchSuperbView }),
+}));
+
 test("アコーディオンの見出しがレンダリングされていること", () => {
   render(<FilterAccordion />);
   expect(screen.getByRole("heading", { name: "絞り込み" })).toBeInTheDocument();
@@ -167,4 +173,18 @@ test("クリアボタン押下でhandleClear関数が実行されること", asy
     await user.click(clearButton);
   });
   expect(mockHandleClear).toHaveBeenCalledTimes(1);
+});
+
+test("キーワードのアコーディオンボタンがレンダリングされていること", () => {
+  render(<FilterAccordion />);
+  expect(screen.getByRole("button", { name: "キーワード" })).toBeInTheDocument();
+});
+
+test("キーワードのアコーディオンボタン押下でFilterSearchBoxが表示されること", async () => {
+  const user = userEvent.setup();
+  render(<FilterAccordion />);
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "キーワード" }));
+  });
+  expect(screen.getByRole("searchbox")).toBeInTheDocument();
 });

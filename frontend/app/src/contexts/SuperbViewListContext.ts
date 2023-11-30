@@ -40,6 +40,8 @@ export const SuperbViewListContext = createContext(
     isOpenFilterDrawer: boolean;
     onOpenFilterDrawer: () => void;
     onCloseFilterDrawer: () => void;
+    keyword: string;
+    setKeyword: React.Dispatch<React.SetStateAction<string>>;
   }
 );
 

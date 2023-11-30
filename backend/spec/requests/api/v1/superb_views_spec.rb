@@ -153,5 +153,50 @@ RSpec.describe "Api::V1::SuperbViews", type: :request do
         expect(json.uniq).to eq json
       end
     end
+
+    describe "filter_by_keywordスコープのテスト" do
+      let!(:country_italy) { create(:country, name: "イタリア") }
+      let!(:country_peru) { create(:country, name: "ペルー") }
+      before do
+        create(:superb_view_country, superb_view: matera_cave_dwellings, country: country_italy)
+        create(:superb_view_country, superb_view: civita_di_bagnoregio, country: country_italy)
+        create(:superb_view_country, superb_view: machu_picchu, country: country_peru)
+      end
+
+      it "paramsで受け取ったkeywordに部分一致する名前を持つSuperbViewを返すこと" do
+        get api_v1_superb_views_search_path, params: {
+          keyword: "マ"
+        }
+        superb_views = [matera_cave_dwellings, machu_picchu]
+        superb_views_json = superb_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+                                                 methods: [:image_url])
+        expect(response).to have_http_status(200)
+        expect(response.body).to eq superb_views_json
+      end
+
+      it "paramsで受け取ったkeywordに部分一致する国名を持つSuperbViewを返すこと" do
+        get api_v1_superb_views_search_path, params: {
+          keyword: "イタリア"
+        }
+        superb_views = [matera_cave_dwellings, civita_di_bagnoregio]
+        superb_views_json = superb_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+                                                 methods: [:image_url])
+        expect(response).to have_http_status(200)
+        expect(response.body).to eq superb_views_json
+      end
+
+      it "返されるSuperbViewが重複しないこと" do
+        duplicate_superb_view = create(:superb_view, name: "重複する絶景")
+        create(:superb_view_country, superb_view: duplicate_superb_view, country: country_italy)
+        create(:superb_view_country, superb_view: duplicate_superb_view, country: country_peru)
+
+        get api_v1_superb_views_search_path, params: {
+          keyword: "重複する絶景"
+        }
+        json = JSON.parse(response.body)
+        expect(response).to have_http_status(200)
+        expect(json).to eq json.uniq
+      end
+    end
   end
 end

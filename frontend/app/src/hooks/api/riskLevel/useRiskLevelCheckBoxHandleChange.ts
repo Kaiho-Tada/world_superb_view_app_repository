@@ -13,6 +13,7 @@ const useRiskLevelCheckBoxHandleChange = () => {
     checkedCategoryLabels,
     checkedCountryLabels,
     checkedCharacteristicLabels,
+    keyword,
   } = useSuperbViewListContext();
   const { showMessage } = useMessage();
 
@@ -45,6 +46,7 @@ const useRiskLevelCheckBoxHandleChange = () => {
             checkedCategoryLabels,
             checkedCharacteristicLabels,
             checkedRiskLevelLabels,
+            keyword,
           });
           setSuperbViews(res.data);
         } catch (error) {
@@ -55,7 +57,7 @@ const useRiskLevelCheckBoxHandleChange = () => {
       };
       searchSuperbViews();
     },
-    [riskLevels, checkedCategoryLabels, checkedCountryLabels, checkedCharacteristicLabels]
+    [riskLevels, checkedCategoryLabels, checkedCountryLabels, checkedCharacteristicLabels, keyword]
   );
   return { handleChange };
 };

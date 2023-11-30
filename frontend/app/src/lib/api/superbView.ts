@@ -9,6 +9,7 @@ export const searchSuperbViewsApi = (props: SearchSuperbViewsProps) => {
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
+    keyword,
   } = props;
 
   return client.get("/superb_views/search", {
@@ -17,6 +18,7 @@ export const searchSuperbViewsApi = (props: SearchSuperbViewsProps) => {
       countryNames: checkedCountryLabels,
       characteristicNames: checkedCharacteristicLabels,
       riskLevels: checkedRiskLevelLabels,
+      keyword,
     },
   });
 };

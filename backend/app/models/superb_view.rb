@@ -61,6 +61,13 @@ class SuperbView < ApplicationRecord
     joins(:countries).where("countries.id IN (#{country_ids})").distinct
   }
 
+  scope :filter_by_keyword, lambda { |keyword|
+    return self if keyword.nil?
+
+    joins(:countries)
+      .where("superb_views.name LIKE(?) or countries.name LIKE(?)", "%#{keyword}%", "%#{keyword}%").distinct
+  }
+
   private
 
   def validate_image

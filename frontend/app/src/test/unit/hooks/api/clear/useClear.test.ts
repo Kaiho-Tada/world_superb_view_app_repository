@@ -10,6 +10,7 @@ const mockSetCheckedCategoryLabels = jest.fn();
 const mockSetCheckedCountryLabels = jest.fn();
 const mockSetCheckedCharacteristicLabels = jest.fn();
 const mockSetCheckedRiskLevelLabels = jest.fn();
+const mockSetKeyword = jest.fn();
 
 jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/SuperbViewListProvider"),
@@ -52,6 +53,7 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
     setCheckedCountryLabels: mockSetCheckedCountryLabels,
     setCheckedCharacteristicLabels: mockSetCheckedCharacteristicLabels,
     setCheckedRiskLevelLabels: mockSetCheckedRiskLevelLabels,
+    setKeyword: mockSetKeyword,
   }),
 }));
 
@@ -117,4 +119,10 @@ test("getAllSuperbViewsが実行されること", () => {
   const { result } = renderHook(() => useClear());
   result.current.handleClear();
   expect(mockGetAllSuperbViews).toHaveBeenCalledTimes(1);
+});
+
+test("keywordが空文字に更新されること", () => {
+  const { result } = renderHook(() => useClear());
+  result.current.handleClear();
+  expect(mockSetKeyword).toHaveBeenCalledWith("");
 });

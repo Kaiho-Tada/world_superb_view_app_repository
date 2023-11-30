@@ -11,6 +11,7 @@ import {
 import CategoryCheckBox from "components/molecules/CategoryCheckBox";
 import CharacteristicCheckBox from "components/molecules/CharacteristicCheckBox";
 import CountryCheckBox from "components/molecules/CountryCheckBox";
+import FilterSearchBox from "components/molecules/FilterSearchBox";
 import RiskLevelCheckBox from "components/molecules/RiskLevelCheckBox";
 import useClear from "hooks/api/clear/useClear";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
@@ -44,6 +45,17 @@ const FilterAccordion: FC = memo(() => {
         </Box>
       </Flex>
       <AccordionItem mt="2">
+        <AccordionButton fontWeight="bold" textShadow="2px 2px #000000">
+          <Box as="span" flex="1" textAlign="left">
+            キーワード
+          </Box>
+          <AccordionIcon />
+        </AccordionButton>
+        <AccordionPanel>
+          <FilterSearchBox />
+        </AccordionPanel>
+      </AccordionItem>
+      <AccordionItem>
         <AccordionButton fontWeight="bold" textShadow="2px 2px #000000">
           <Box as="span" flex="1" textAlign="left">
             カテゴリー

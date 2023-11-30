@@ -145,6 +145,12 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   }),
 }));
 
+const mockHandleSearchSuperbView = jest.fn();
+jest.mock("hooks/api/superbView/useSearchSuperbView", () => ({
+  __esModule: true,
+  default: () => ({ handleSearchSuperbView: mockHandleSearchSuperbView }),
+}));
+
 test("絶景画像がレンダリングされていること", () => {
   render(<SuperbViewList />);
   const SuperbViewImages = screen.getAllByRole("img", { name: "絶景画像" });

@@ -3,4 +3,5 @@ export type SearchSuperbViewsProps = {
   checkedCountryLabels: string[];
   checkedCharacteristicLabels: string[];
   checkedRiskLevelLabels: string[];
+  keyword: string;
 };
