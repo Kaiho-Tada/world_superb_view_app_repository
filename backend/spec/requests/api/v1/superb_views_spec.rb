@@ -48,7 +48,7 @@ RSpec.describe "Api::V1::SuperbViews", type: :request do
         }
         json = JSON.parse(response.body)
         expect(response).to have_http_status(200)
-        expect(json.uniq).to eq json
+        expect(json).to eq json.uniq
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe "Api::V1::SuperbViews", type: :request do
         }
         json = JSON.parse(response.body)
         expect(response).to have_http_status(200)
-        expect(json.uniq).to eq json
+        expect(json).to eq json.uniq
       end
     end
 
@@ -116,7 +116,7 @@ RSpec.describe "Api::V1::SuperbViews", type: :request do
         }
         json = JSON.parse(response.body)
         expect(response).to have_http_status(200)
-        expect(json.uniq).to eq json
+        expect(json).to eq json.uniq
       end
     end
 
@@ -150,7 +150,7 @@ RSpec.describe "Api::V1::SuperbViews", type: :request do
         }
         json = JSON.parse(response.body)
         expect(response).to have_http_status(200)
-        expect(json.uniq).to eq json
+        expect(json).to eq json.uniq
       end
     end
 

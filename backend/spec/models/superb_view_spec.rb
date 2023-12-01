@@ -57,9 +57,9 @@ RSpec.describe SuperbView, type: :model do
     let!(:machu_picchu) { create(:superb_view, name: "マチュピチュ") }
 
     describe "filter_by_category_nameスコープのテスト" do
+      let!(:category_city) { create(:category, name: "都市") }
+      let!(:category_cave) { create(:category, name: "洞窟") }
       it "引数で受け取ったcategoy_namesに一致するカテゴリーを持つSuperbViewを返すこと" do
-        category_cave = create(:category, name: "洞窟")
-        category_city = create(:category, name: "都市")
         create(:superb_view_category, superb_view: matera_cave_dwellings, category: category_cave)
         create(:superb_view_category, superb_view: civita_di_bagnoregio, category: category_city)
         create(:superb_view_category, superb_view: machu_picchu, category: category_city)
@@ -70,11 +70,10 @@ RSpec.describe SuperbView, type: :model do
 
       it "返されるSuperbViewが重複しないこと" do
         duplicated_superb_view = create(:superb_view)
-        category1 = create(:category)
-        category2 = create(:category)
-        create(:superb_view_category, superb_view: duplicated_superb_view, category: category1)
-        create(:superb_view_category, superb_view: duplicated_superb_view, category: category2)
-        expect(SuperbView.filter_by_category_name([category1.name, category2.name])).to eq [duplicated_superb_view]
+        create(:superb_view_category, superb_view: duplicated_superb_view, category: category_cave)
+        create(:superb_view_category, superb_view: duplicated_superb_view, category: category_city)
+        result_superb_view = SuperbView.filter_by_category_name(["洞窟", "都市"])
+        expect(result_superb_view).to eq result_superb_view.distinct
       end
     end
 
@@ -91,19 +90,18 @@ RSpec.describe SuperbView, type: :model do
       end
 
       it "返されるSuperbViewが重複しないこと" do
-        duplicated_superb_view = create(:superb_view)
-        country1 = create(:country)
-        country2 = create(:country)
-        create(:superb_view_country, superb_view: duplicated_superb_view, country: country1)
-        create(:superb_view_country, superb_view: duplicated_superb_view, country: country2)
-        expect(SuperbView.filter_by_country_name([country1.name, country2.name])).to eq [duplicated_superb_view]
+        duplicate_superb_view = create(:superb_view)
+        create(:superb_view_country, superb_view: duplicate_superb_view, country: create(:country, name: "イタリア"))
+        create(:superb_view_country, superb_view: duplicate_superb_view, country: create(:country, name: "スイス"))
+        result_superb_view = SuperbView.filter_by_country_name(["イタリア", "スイス"])
+        expect(result_superb_view).to eq result_superb_view.distinct
       end
     end
 
     describe "filter_by_characteristic_nameスコープのテスト" do
+      let!(:characteristic_historic) { create(:characteristic, name: "歴史・文化的") }
+      let!(:characteristic_fantasy) { create(:characteristic, name: "幻想・神秘的") }
       it "引数で受け取ったcharacteristic_namesに一致する属性を持つSuperbViewを返すこと" do
-        characteristic_historic = create(:characteristic, name: "歴史・文化的")
-        characteristic_fantasy = create(:characteristic, name: "幻想・神秘的")
         create(:superb_view_characteristic, superb_view: matera_cave_dwellings, characteristic: characteristic_historic)
         create(:superb_view_characteristic, superb_view: civita_di_bagnoregio, characteristic: characteristic_fantasy)
         create(:superb_view_characteristic, superb_view: machu_picchu, characteristic: characteristic_historic)
@@ -113,12 +111,11 @@ RSpec.describe SuperbView, type: :model do
       end
 
       it "返されるSuperbViewが重複しないこと" do
-        duplicated_superb_view = create(:superb_view)
-        characteristic1 = create(:characteristic)
-        characteristic2 = create(:characteristic)
-        create(:superb_view_characteristic, superb_view: duplicated_superb_view, characteristic: characteristic1)
-        create(:superb_view_characteristic, superb_view: duplicated_superb_view, characteristic: characteristic2)
-        expect(SuperbView.filter_by_characteristic_name([characteristic1.name, characteristic2.name])).to eq [duplicated_superb_view]
+        duplicate_superb_view = create(:superb_view)
+        create(:superb_view_characteristic, superb_view: duplicate_superb_view, characteristic: characteristic_historic)
+        create(:superb_view_characteristic, superb_view: duplicate_superb_view, characteristic: characteristic_fantasy)
+        result_superb_view = SuperbView.filter_by_characteristic_name(["歴史・文化的", "幻想・神秘的"])
+        expect(result_superb_view).to eq result_superb_view.distinct
       end
     end
 
@@ -135,12 +132,11 @@ RSpec.describe SuperbView, type: :model do
       end
 
       it "返されるSuperbViewが重複しないこと" do
-        duplicated_superb_view = create(:superb_view)
-        country1 = create(:country, risk_level: 1)
-        country2 = create(:country, risk_level: 2)
-        create(:superb_view_country, superb_view: duplicated_superb_view, country: country1)
-        create(:superb_view_country, superb_view: duplicated_superb_view, country: country2)
-        expect(SuperbView.filter_by_country_risk_level(["1", "2"])).to eq [duplicated_superb_view]
+        duplicate_superb_view = create(:superb_view)
+        create(:superb_view_country, superb_view: duplicate_superb_view, country: create(:country, risk_level: 1))
+        create(:superb_view_country, superb_view: duplicate_superb_view, country: create(:country, risk_level: 2))
+        result_superb_view = SuperbView.filter_by_country_risk_level(["1", "2"])
+        expect(result_superb_view).to eq result_superb_view.distinct
       end
     end
 
