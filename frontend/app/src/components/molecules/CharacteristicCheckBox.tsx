@@ -1,5 +1,5 @@
 import { Center, Checkbox, Spinner } from "@chakra-ui/react";
-import useCharacteristicCheckBoxHandleChange from "hooks/api/characteristic/useCharacteristicCheckBoxHandleChange";
+import useCharacteristicHandleChange from "hooks/api/characteristic/useCharacteristicHandleChange";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 import { FC, useEffect } from "react";
 import { CharacteristicWithCheckBoxData } from "types/api/characteristic/characteristicsWithCheckBoxData";
@@ -16,7 +16,7 @@ const CharacteristicCheckBox: FC = () => {
     getAllCharacteristicsWithCheckBoxData();
   }, []);
 
-  const { handleChange } = useCharacteristicCheckBoxHandleChange();
+  const { handleChangeCharacteristic } = useCharacteristicHandleChange();
   return loadingCharacteristicsWithCheckBoxData === true ? (
     <Center h="10vh">
       <Spinner />
@@ -32,7 +32,7 @@ const CharacteristicCheckBox: FC = () => {
             colorScheme="green"
             isChecked={characteristicWithCheckBoxData.checked}
             value={characteristicWithCheckBoxData.label}
-            onChange={handleChange}
+            onChange={handleChangeCharacteristic}
             isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
           >
             {characteristicWithCheckBoxData.label}

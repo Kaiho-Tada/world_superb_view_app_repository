@@ -14,6 +14,7 @@ const useSearchSuperbView = () => {
     checkedRiskLevelLabels,
     keyword,
   } = useSuperbViewListContext();
+
   const handleSearchSuperbView = useCallback(async () => {
     setLoadingSearchSuperbViews(true);
     try {

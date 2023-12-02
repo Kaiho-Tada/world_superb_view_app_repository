@@ -1,5 +1,5 @@
 import { Checkbox, Flex, Image, VStack } from "@chakra-ui/react";
-import useRiskLevelCheckBoxHandleChange from "hooks/api/riskLevel/useRiskLevelCheckBoxHandleChange";
+import useRiskLevelHandleChange from "hooks/api/riskLevel/useRiskLevelHandleChange";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 import starIcon from "img/riskLevelStar.png";
 import zeroStarIcon from "img/zoroRiskLevelStar.png";
@@ -8,7 +8,8 @@ import { RiskLevel } from "types/riskLevel";
 
 const RiskLevelCheckBox: FC = memo(() => {
   const { riskLevels, loadingSearchSuperbViews, loadingSuperbViews } = useSuperbViewListContext();
-  const { handleChange } = useRiskLevelCheckBoxHandleChange();
+  const { handleChangeRiskLevel } = useRiskLevelHandleChange();
+
   return (
     <VStack align="left">
       {riskLevels.map((riskLevel: RiskLevel) => {
@@ -19,7 +20,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               colorScheme="green"
               value={riskLevel.label}
               isChecked={riskLevel.checked}
-              onChange={handleChange}
+              onChange={handleChangeRiskLevel}
               key={riskLevel.label}
               isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
             >
@@ -39,7 +40,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               colorScheme="green"
               value={riskLevel.label}
               isChecked={riskLevel.checked}
-              onChange={handleChange}
+              onChange={handleChangeRiskLevel}
               key={riskLevel.label}
               isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
             >
@@ -58,7 +59,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               colorScheme="green"
               value={riskLevel.label}
               isChecked={riskLevel.checked}
-              onChange={handleChange}
+              onChange={handleChangeRiskLevel}
               key={riskLevel.label}
               isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
             >
@@ -76,7 +77,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               colorScheme="green"
               value={riskLevel.label}
               isChecked={riskLevel.checked}
-              onChange={handleChange}
+              onChange={handleChangeRiskLevel}
               key={riskLevel.label}
               isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
             >
@@ -93,7 +94,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               colorScheme="green"
               value={riskLevel.label}
               isChecked={riskLevel.checked}
-              onChange={handleChange}
+              onChange={handleChangeRiskLevel}
               isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
               key={riskLevel.label}
             >

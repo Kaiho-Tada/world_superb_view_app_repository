@@ -1,5 +1,5 @@
 import { Center, Checkbox, Spinner } from "@chakra-ui/react";
-import useCountryCheckBoxHandleChange from "hooks/api/country/useCountryCheckBoxHandleChange";
+import useCountryHandleChange from "hooks/api/country/useCountryHandleChange";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 import { FC, useEffect } from "react";
 import { CountryWithCheckBoxData } from "types/api/country/countryWithCheckBoxData";
@@ -22,7 +22,8 @@ const CountryCheckBox: FC<CountryCheckBoxProps> = (props) => {
     getAllCountriesWithCheckBoxData();
   }, []);
 
-  const { handleChange } = useCountryCheckBoxHandleChange();
+  const { handleChangeCountry } = useCountryHandleChange();
+
   return loadingCountriesWithCheckBoxData === true ? (
     <Center h="10vh">
       <Spinner />
@@ -38,7 +39,7 @@ const CountryCheckBox: FC<CountryCheckBoxProps> = (props) => {
             colorScheme="green"
             isChecked={countryWithCheckBoxData.checked}
             value={countryWithCheckBoxData.label}
-            onChange={handleChange}
+            onChange={handleChangeCountry}
             isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
           >
             {countryWithCheckBoxData.label}

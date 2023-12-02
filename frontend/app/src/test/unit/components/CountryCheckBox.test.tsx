@@ -19,10 +19,10 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
     ],
   }),
 }));
-const mockHandleChange = jest.fn();
-jest.mock("hooks/api/country/useCountryCheckBoxHandleChange", () => ({
+const mockHandleChangeCountry = jest.fn();
+jest.mock("hooks/api/country/useCountryHandleChange", () => ({
   __esModule: true,
-  default: () => ({ handleChange: mockHandleChange }),
+  default: () => ({ handleChangeCountry: mockHandleChangeCountry }),
 }));
 
 test("CheckBoxがレンダリングされていること", () => {
@@ -42,5 +42,5 @@ test("CheckBox押下でhandleChange関数が実行されること", async () => 
   await act(async () => {
     await user.click(CheckBox);
   });
-  expect(mockHandleChange).toHaveBeenCalledTimes(1);
+  expect(mockHandleChangeCountry).toHaveBeenCalledTimes(1);
 });
