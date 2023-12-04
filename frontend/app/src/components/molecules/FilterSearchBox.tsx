@@ -1,20 +1,16 @@
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import { Flex, Input } from "@chakra-ui/react";
-import useSearchSuperbView from "hooks/api/superbView/useSearchSuperbView";
-import useDebounce from "hooks/debounce/useDebounce";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
-import { ChangeEvent, FC, useEffect } from "react";
+import { ChangeEvent, FC } from "react";
 
 const FilterSearchBox: FC = () => {
-  const { keyword, setKeyword, loadingSuperbViews, loadingSearchSuperbViews } =
+  const { keyword, setKeyword, loadingSuperbViews, loadingSearchSuperbViews, setShouldDebounce } =
     useSuperbViewListContext();
-  const { debounce } = useDebounce(1000);
-  const { handleSearchSuperbView } = useSearchSuperbView();
-  useEffect(() => {
-    debounce(handleSearchSuperbView);
-  }, [keyword]);
 
-  const handleChangeKeyword = (e: ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value);
+  const handleChangeKeyword = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+    setShouldDebounce(true);
+  };
   const handleClearKeyword = () => setKeyword("");
 
   return (

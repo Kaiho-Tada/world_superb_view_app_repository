@@ -42,6 +42,8 @@ export const SuperbViewListContext = createContext(
     onCloseFilterDrawer: () => void;
     keyword: string;
     setKeyword: React.Dispatch<React.SetStateAction<string>>;
+    shouldDebounce: boolean;
+    setShouldDebounce: React.Dispatch<React.SetStateAction<boolean>>;
   }
 );
 

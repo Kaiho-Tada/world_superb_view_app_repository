@@ -8,25 +8,14 @@ const spyOnUseSuperbViewListContext = jest.spyOn(
   "useSuperbViewListContext"
 );
 
-const mockDebounce = jest.fn();
-jest.mock("hooks/debounce/useDebounce", () => ({
-  __esModule: true,
-  default: () => ({ debounce: mockDebounce }),
-}));
-
-const mockHandleSearchSuperbView = jest.fn();
-jest.mock("hooks/api/superbView/useSearchSuperbView", () => ({
-  __esModule: true,
-  default: () => ({ handleSearchSuperbView: mockHandleSearchSuperbView }),
-}));
-
 const mockSetKeyword = jest.fn();
-
+const mockSetShouldDebounce = jest.fn();
 const mockContextValue = {
   ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setKeyword: mockSetKeyword,
   loadingSuperbViews: false,
   loadingSearchSuperbViews: false,
+  setShouldDebounce: mockSetShouldDebounce,
 };
 
 const mockContextValueLoadingSuperbViews = {
@@ -34,6 +23,7 @@ const mockContextValueLoadingSuperbViews = {
   setKeyword: mockSetKeyword,
   loadingSuperbViews: true,
   loadingSearchSuperbViews: false,
+  setShouldDebounce: mockSetShouldDebounce,
 };
 
 const mockContextValueLoadingSearchSuperbViews = {
@@ -41,6 +31,7 @@ const mockContextValueLoadingSearchSuperbViews = {
   setKeyword: mockSetKeyword,
   loadingSuperbViews: false,
   loadingSearchSuperbViews: true,
+  setShouldDebounce: mockSetShouldDebounce,
 };
 
 test("テキストボックスがレンダリングされていること", () => {
@@ -56,6 +47,15 @@ test("テキストボックスの入力をトリガーにkeywordが更新され�
   await user.type(screen.getByRole("textbox", { name: "テキストボックス" }), "キーワード");
   expect(mockSetKeyword).toHaveBeenCalledWith("キーワード");
   expect(mockSetKeyword).toHaveBeenCalledTimes(5);
+});
+
+test("キーワード更新の際にshouldDebounceがtrueに更新されること", async () => {
+  const user = userEvent.setup();
+  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  render(<FilterSearchBox />);
+  await user.type(screen.getByRole("textbox", { name: "テキストボックス" }), "キーワード");
+  expect(mockSetShouldDebounce).toHaveBeenCalledWith(true);
+  expect(mockSetShouldDebounce).toHaveBeenCalledTimes(5);
 });
 
 test("loadingSuperbViewsがtrueの場合、テキストボックスが入力不可になっていること", () => {
@@ -83,13 +83,4 @@ test("クリアボタン押下でテキストボックスの文字がリセッ�
   await user.click(screen.getByRole("img", { name: "クリアボタン" }));
   expect(mockSetKeyword).toHaveBeenCalledWith("");
   expect(mockSetKeyword).toHaveBeenCalledTimes(1);
-});
-
-test("keywordの更新をトリガーにhandleSearchSuperbViewが実行されること", async () => {
-  const user = userEvent.setup();
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
-  render(<FilterSearchBox />);
-  await user.type(screen.getByRole("textbox", { name: "テキストボックス" }), "キーワード");
-  expect(mockDebounce).toHaveBeenCalledWith(mockHandleSearchSuperbView);
-  expect(mockDebounce).toHaveBeenCalledTimes(1);
 });

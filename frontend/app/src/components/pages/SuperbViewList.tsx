@@ -4,6 +4,7 @@ import FilterAccordion from "components/organisms/FilterAccordion";
 import FilterDrawer from "components/organisms/FilterDrawer";
 import SuperbViewCard from "components/organisms/superbView/SuperbViewCard";
 import useSearchSuperbView from "hooks/api/superbView/useSearchSuperbView";
+import useDebounce from "hooks/debounce/useDebounce";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 import filterIcon from "img/filterIcon.png";
 import { memo, useEffect } from "react";
@@ -11,22 +12,32 @@ import { memo, useEffect } from "react";
 const SuperbViewList = memo(() => {
   const {
     SuperbViews,
-    loadingSuperbViews,
+    loadingSearchSuperbViews,
     onOpenFilterDrawer,
     checkedCategoryLabels,
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
+    keyword,
+    shouldDebounce,
+    setShouldDebounce,
   } = useSuperbViewListContext();
 
   const { handleSearchSuperbView } = useSearchSuperbView();
+  const { debounce } = useDebounce(1500);
   useEffect(() => {
-    handleSearchSuperbView();
+    if (shouldDebounce) {
+      debounce(handleSearchSuperbView);
+      setShouldDebounce(false);
+    } else {
+      handleSearchSuperbView();
+    }
   }, [
     checkedCategoryLabels,
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
+    keyword,
   ]);
 
   return (
@@ -46,7 +57,7 @@ const SuperbViewList = memo(() => {
       <Flex>
         <FilterAccordion />
         <Box w={{ sm: "100%", lg: "78%" }}>
-          {loadingSuperbViews ? (
+          {loadingSearchSuperbViews ? (
             <Loading />
           ) : (
             <Wrap>
