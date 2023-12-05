@@ -5,7 +5,6 @@ const mockSetCategoriesWithCheckBoxData = jest.fn();
 const mockSetCountriesWithCheckBoxData = jest.fn();
 const mockSetCharacteristicsWithCheckBoxData = jest.fn();
 const mockSetRiskLevels = jest.fn();
-const mockGetAllSuperbViews = jest.fn();
 const mockSetCheckedCategoryLabels = jest.fn();
 const mockSetCheckedCountryLabels = jest.fn();
 const mockSetCheckedCharacteristicLabels = jest.fn();
@@ -48,7 +47,6 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
       },
     ],
     setRiskLevels: mockSetRiskLevels,
-    getAllSuperbViews: mockGetAllSuperbViews,
     setCheckedCategoryLabels: mockSetCheckedCategoryLabels,
     setCheckedCountryLabels: mockSetCheckedCountryLabels,
     setCheckedCharacteristicLabels: mockSetCheckedCharacteristicLabels,
@@ -113,12 +111,6 @@ test("各setCheckedLablesに空の配列が渡されること", () => {
   expect(mockSetCheckedCountryLabels).toHaveBeenCalledWith([]);
   expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledWith([]);
   expect(mockSetCheckedRiskLevelLabels).toHaveBeenCalledWith([]);
-});
-
-test("getAllSuperbViewsが実行されること", () => {
-  const { result } = renderHook(() => useClear());
-  result.current.handleClear();
-  expect(mockGetAllSuperbViews).toHaveBeenCalledTimes(1);
 });
 
 test("keywordが空文字に更新されること", () => {

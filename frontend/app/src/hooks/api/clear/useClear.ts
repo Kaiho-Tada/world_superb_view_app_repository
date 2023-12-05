@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { useCallback } from "react";
 import { useSuperbViewListContext } from "../../providers/SuperbViewListProvider";
 
@@ -12,7 +11,6 @@ const useClear = () => {
     setCharacteristicsWithCheckBoxData,
     riskLevels,
     setRiskLevels,
-    getAllSuperbViews,
     loadingSearchSuperbViews,
     setCheckedCategoryLabels,
     setCheckedCountryLabels,
@@ -72,15 +70,6 @@ const useClear = () => {
     setCheckedCharacteristicLabels([]);
     setCheckedRiskLevelLabels([]);
     setKeyword("");
-
-    if (
-      !_.isEqual(categoriesWithCheckBoxData, clearedCategoriesWithCheckBoxData) ||
-      !_.isEqual(characteristicsWithCheckBoxData, clearedCharacteristicsWithCheckBoxData) ||
-      !_.isEqual(countriesWithCheckBoxData, clearedCountriesWithCheckBoxData) ||
-      !_.isEqual(riskLevels, clearedRiskLevels)
-    ) {
-      getAllSuperbViews();
-    }
   }, [
     categoriesWithCheckBoxData,
     countriesWithCheckBoxData,
