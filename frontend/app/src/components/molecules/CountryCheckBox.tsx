@@ -15,7 +15,6 @@ const CountryCheckBox: FC<CountryCheckBoxProps> = (props) => {
     countriesWithCheckBoxData,
     getAllCountriesWithCheckBoxData,
     loadingCountriesWithCheckBoxData,
-    loadingSuperbViews,
   } = useSuperbViewListContext();
 
   useEffect(() => {
@@ -40,7 +39,7 @@ const CountryCheckBox: FC<CountryCheckBoxProps> = (props) => {
             isChecked={countryWithCheckBoxData.checked}
             value={countryWithCheckBoxData.label}
             onChange={handleChangeCountry}
-            isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
+            isDisabled={loadingSearchSuperbViews}
           >
             {countryWithCheckBoxData.label}
           </Checkbox>

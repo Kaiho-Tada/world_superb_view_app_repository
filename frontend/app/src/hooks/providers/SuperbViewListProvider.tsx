@@ -3,8 +3,8 @@ import SuperbViewListContext from "contexts/SuperbViewListContext";
 import useGetAllCategoriesWithCheckBoxData from "hooks/api/category/useGetAllCategoriesWithCheckBoxData";
 import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/useGetAllCharacteristicsWithCheckBoxData";
 import useGetAllCountriesWithCheckBoxData from "hooks/api/country/useGetAllCountriesWithCheckBoxData";
-import useGetAllSuperbViews from "hooks/api/superbView/useGetAllSuperbViews";
 import { FC, ReactNode, useContext, useMemo, useState } from "react";
+import { SuperbView } from "types/api/superbView";
 import { RiskLevel } from "types/riskLevel";
 
 type Props = {
@@ -33,15 +33,13 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
   ]);
   const [keyword, setKeyword] = useState<string>("");
   const [shouldDebounce, setShouldDebounce] = useState<boolean>(false);
+  const [superbViews, setSuperbViews] = useState<Array<SuperbView>>([]);
 
   const {
     isOpen: isOpenFilterDrawer,
     onOpen: onOpenFilterDrawer,
     onClose: onCloseFilterDrawer,
   } = useDisclosure();
-
-  const { getAllSuperbViews, SuperbViews, setSuperbViews, loadingSuperbViews } =
-    useGetAllSuperbViews();
 
   const {
     getAllCategoriesWithCheckBoxData,
@@ -74,10 +72,8 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setCheckedCountryLabels,
       checkedCharacteristicLabels,
       setCheckedCharacteristicLabels,
-      getAllSuperbViews,
-      SuperbViews,
+      superbViews,
       setSuperbViews,
-      loadingSuperbViews,
       countriesWithCheckBoxData,
       setCountriesWithCheckBoxData,
       categoriesWithCheckBoxData,
@@ -113,10 +109,8 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setCheckedCountryLabels,
       checkedCharacteristicLabels,
       setCheckedCharacteristicLabels,
-      getAllSuperbViews,
-      SuperbViews,
+      superbViews,
       setSuperbViews,
-      loadingSuperbViews,
       countriesWithCheckBoxData,
       setCountriesWithCheckBoxData,
       categoriesWithCheckBoxData,

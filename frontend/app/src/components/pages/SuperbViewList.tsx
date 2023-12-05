@@ -11,7 +11,7 @@ import { memo, useEffect } from "react";
 
 const SuperbViewList = memo(() => {
   const {
-    SuperbViews,
+    superbViews,
     loadingSearchSuperbViews,
     onOpenFilterDrawer,
     checkedCategoryLabels,
@@ -61,15 +61,15 @@ const SuperbViewList = memo(() => {
             <Loading />
           ) : (
             <Wrap>
-              {SuperbViews.map((SuperbView) => (
-                <WrapItem w={{ sm: "100%", md: "49%" }} key={SuperbView.id}>
+              {superbViews.map((superbView) => (
+                <WrapItem w={{ sm: "100%", md: "49%" }} key={superbView.id}>
                   <SuperbViewCard
-                    name={SuperbView.name}
-                    imageUrl={SuperbView.imageUrl}
-                    bestSeason={SuperbView.bestSeason}
-                    countries={SuperbView.countries}
-                    categories={SuperbView.categories}
-                    characteristics={SuperbView.characteristics}
+                    name={superbView.name}
+                    imageUrl={superbView.imageUrl}
+                    bestSeason={superbView.bestSeason}
+                    countries={superbView.countries}
+                    categories={superbView.categories}
+                    characteristics={superbView.characteristics}
                   />
                 </WrapItem>
               ))}

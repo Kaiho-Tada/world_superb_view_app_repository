@@ -4,7 +4,7 @@ import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider
 import { ChangeEvent, FC } from "react";
 
 const FilterSearchBox: FC = () => {
-  const { keyword, setKeyword, loadingSuperbViews, loadingSearchSuperbViews, setShouldDebounce } =
+  const { keyword, setKeyword, loadingSearchSuperbViews, setShouldDebounce } =
     useSuperbViewListContext();
 
   const handleChangeKeyword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +23,7 @@ const FilterSearchBox: FC = () => {
         size="sm"
         border="none"
         _focus={{ boxShadow: "none" }}
-        disabled={loadingSuperbViews || loadingSearchSuperbViews}
+        disabled={loadingSearchSuperbViews}
         value={keyword}
         onChange={handleChangeKeyword}
       />

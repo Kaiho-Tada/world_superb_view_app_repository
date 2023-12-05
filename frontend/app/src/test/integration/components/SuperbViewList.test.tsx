@@ -87,7 +87,7 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/SuperbViewListProvider"),
   useSuperbViewListContext: () => ({
     getAllSuperbViews: jest.fn(),
-    SuperbViews: [
+    superbViews: [
       {
         id: 1,
         name: "SuperbViewName1",

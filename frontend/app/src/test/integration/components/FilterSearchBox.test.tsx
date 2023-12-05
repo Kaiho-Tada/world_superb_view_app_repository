@@ -13,15 +13,6 @@ const mockSetShouldDebounce = jest.fn();
 const mockContextValue = {
   ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setKeyword: mockSetKeyword,
-  loadingSuperbViews: false,
-  loadingSearchSuperbViews: false,
-  setShouldDebounce: mockSetShouldDebounce,
-};
-
-const mockContextValueLoadingSuperbViews = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
-  setKeyword: mockSetKeyword,
-  loadingSuperbViews: true,
   loadingSearchSuperbViews: false,
   setShouldDebounce: mockSetShouldDebounce,
 };
@@ -29,7 +20,6 @@ const mockContextValueLoadingSuperbViews = {
 const mockContextValueLoadingSearchSuperbViews = {
   ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setKeyword: mockSetKeyword,
-  loadingSuperbViews: false,
   loadingSearchSuperbViews: true,
   setShouldDebounce: mockSetShouldDebounce,
 };
@@ -56,12 +46,6 @@ test("キーワード更新の際にshouldDebounceがtrueに更新されるこ�
   await user.type(screen.getByRole("textbox", { name: "テキストボックス" }), "キーワード");
   expect(mockSetShouldDebounce).toHaveBeenCalledWith(true);
   expect(mockSetShouldDebounce).toHaveBeenCalledTimes(5);
-});
-
-test("loadingSuperbViewsがtrueの場合、テキストボックスが入力不可になっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSuperbViews);
-  render(<FilterSearchBox />);
-  expect(screen.getByRole("textbox", { name: "テキストボックス" })).toBeDisabled();
 });
 
 test("loadingSearchSuperbViewsがtrueの場合、テキストボックスが入力不可になっていること", () => {

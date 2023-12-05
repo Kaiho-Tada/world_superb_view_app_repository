@@ -15,7 +15,6 @@ const CategoryCheckBox: FC<CategoryCheckBoxProps> = memo((props) => {
     categoriesWithCheckBoxData,
     getAllCategoriesWithCheckBoxData,
     loadingCategoriesWithCheckBoxData,
-    loadingSuperbViews,
   } = useSuperbViewListContext();
   useEffect(() => {
     getAllCategoriesWithCheckBoxData();
@@ -37,7 +36,7 @@ const CategoryCheckBox: FC<CategoryCheckBoxProps> = memo((props) => {
             isChecked={categoryWithCheckBoxData.checked}
             value={categoryWithCheckBoxData.label}
             onChange={handleChangeCategory}
-            isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
+            isDisabled={loadingSearchSuperbViews}
           >
             {categoryWithCheckBoxData.label}
           </Checkbox>

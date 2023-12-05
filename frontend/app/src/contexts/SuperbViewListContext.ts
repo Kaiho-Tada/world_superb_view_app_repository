@@ -17,10 +17,8 @@ export const SuperbViewListContext = createContext(
     setCheckedCountryLabels: React.Dispatch<React.SetStateAction<string[]>>;
     checkedCharacteristicLabels: string[];
     setCheckedCharacteristicLabels: React.Dispatch<React.SetStateAction<string[]>>;
-    getAllSuperbViews: () => Promise<void>;
-    SuperbViews: Array<SuperbView>;
+    superbViews: Array<SuperbView>;
     setSuperbViews: React.Dispatch<React.SetStateAction<Array<SuperbView>>>;
-    loadingSuperbViews: boolean;
     countriesWithCheckBoxData: Array<CountryWithCheckBoxData>;
     setCountriesWithCheckBoxData: Dispatch<SetStateAction<CountryWithCheckBoxData[]>>;
     categoriesWithCheckBoxData: Array<CategoryWithCheckBoxData>;

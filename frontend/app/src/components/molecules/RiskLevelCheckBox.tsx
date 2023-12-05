@@ -7,7 +7,7 @@ import { FC, memo } from "react";
 import { RiskLevel } from "types/riskLevel";
 
 const RiskLevelCheckBox: FC = memo(() => {
-  const { riskLevels, loadingSearchSuperbViews, loadingSuperbViews } = useSuperbViewListContext();
+  const { riskLevels, loadingSearchSuperbViews } = useSuperbViewListContext();
   const { handleChangeRiskLevel } = useRiskLevelHandleChange();
 
   return (
@@ -22,7 +22,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               isChecked={riskLevel.checked}
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
-              isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
+              isDisabled={loadingSearchSuperbViews}
             >
               <Flex align="center" pl="1">
                 <Image boxSize="13px" src={starIcon} mr="1.5" alt="リスクレベル" />
@@ -42,7 +42,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               isChecked={riskLevel.checked}
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
-              isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
+              isDisabled={loadingSearchSuperbViews}
             >
               <Flex align="center" pl="1">
                 <Image boxSize="13px" src={starIcon} mr="1.5" alt="リスクレベル" />
@@ -61,7 +61,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               isChecked={riskLevel.checked}
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
-              isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
+              isDisabled={loadingSearchSuperbViews}
             >
               <Flex align="center" pl="1">
                 <Image boxSize="13px" src={starIcon} mr="1.5" alt="リスクレベル" />
@@ -79,7 +79,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               isChecked={riskLevel.checked}
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
-              isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
+              isDisabled={loadingSearchSuperbViews}
             >
               <Flex align="center" pl="1">
                 <Image boxSize="13px" src={starIcon} mr="1.5" alt="リスクレベル" />
@@ -95,7 +95,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               value={riskLevel.label}
               isChecked={riskLevel.checked}
               onChange={handleChangeRiskLevel}
-              isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
+              isDisabled={loadingSearchSuperbViews}
               key={riskLevel.label}
             >
               <Flex align="center" pl="1">

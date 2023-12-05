@@ -10,7 +10,6 @@ const CharacteristicCheckBox: FC = () => {
     characteristicsWithCheckBoxData,
     getAllCharacteristicsWithCheckBoxData,
     loadingCharacteristicsWithCheckBoxData,
-    loadingSuperbViews,
   } = useSuperbViewListContext();
   useEffect(() => {
     getAllCharacteristicsWithCheckBoxData();
@@ -33,7 +32,7 @@ const CharacteristicCheckBox: FC = () => {
             isChecked={characteristicWithCheckBoxData.checked}
             value={characteristicWithCheckBoxData.label}
             onChange={handleChangeCharacteristic}
-            isDisabled={loadingSuperbViews || loadingSearchSuperbViews}
+            isDisabled={loadingSearchSuperbViews}
           >
             {characteristicWithCheckBoxData.label}
           </Checkbox>
