@@ -11,7 +11,6 @@ const useClear = () => {
     setCharacteristicsWithCheckBoxData,
     riskLevels,
     setRiskLevels,
-    loadingSearchSuperbViews,
     setCheckedCategoryLabels,
     setCheckedCountryLabels,
     setCheckedCharacteristicLabels,
@@ -20,9 +19,6 @@ const useClear = () => {
   } = useSuperbViewListContext();
 
   const handleClear = useCallback(() => {
-    if (loadingSearchSuperbViews) {
-      return;
-    }
     const clearedCategoriesWithCheckBoxData = categoriesWithCheckBoxData.map(
       (originalCategoryWithCheckBoxData) => {
         const categoryWithCheckBoxData = { ...originalCategoryWithCheckBoxData };
@@ -75,7 +71,6 @@ const useClear = () => {
     countriesWithCheckBoxData,
     characteristicsWithCheckBoxData,
     riskLevels,
-    loadingSearchSuperbViews,
   ]);
   return { handleClear };
 };

@@ -142,6 +142,12 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
       },
     ],
     onOpenFilterDrawer: mockOnOpenFilterDrawer,
+    loadingSearchSuperbViews: false,
+    checkedCategoryLabels: ["遺跡"],
+    checkedCountryLabels: ["中国"],
+    checkedCharacteristicLabels: ["畏怖"],
+    checkedRiskLevelLabels: ["3"],
+    keyword: "キーワード",
   }),
 }));
 

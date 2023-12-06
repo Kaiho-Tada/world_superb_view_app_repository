@@ -18,8 +18,17 @@ import useClear from "hooks/api/clear/useClear";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 
 const FilterDrawerAccordion = () => {
-  const { countryStates, categoryClassifications, onCloseFilterDrawer } =
-    useSuperbViewListContext();
+  const {
+    countryStates,
+    categoryClassifications,
+    onCloseFilterDrawer,
+    loadingSearchSuperbViews,
+    checkedCategoryLabels,
+    checkedCountryLabels,
+    checkedCharacteristicLabels,
+    checkedRiskLevelLabels,
+    keyword,
+  } = useSuperbViewListContext();
   const { handleClear } = useClear();
 
   return (
@@ -31,7 +40,21 @@ const FilterDrawerAccordion = () => {
             絞り込み
           </Heading>
         </Box>
-        <Box as="button" role="button" color="blue.300" onClick={handleClear} textAlign="right">
+        <Box
+          as="button"
+          role="button"
+          color="blue.300"
+          onClick={handleClear}
+          textAlign="right"
+          disabled={
+            loadingSearchSuperbViews ||
+            (!checkedCategoryLabels.length &&
+              !checkedCountryLabels.length &&
+              !checkedCharacteristicLabels.length &&
+              !checkedRiskLevelLabels.length &&
+              keyword === "")
+          }
+        >
           <Heading size="xs" textShadow="2px 2px #000000">
             クリア
           </Heading>

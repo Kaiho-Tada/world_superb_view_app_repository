@@ -18,7 +18,16 @@ import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider
 import { FC, memo } from "react";
 
 const FilterAccordion: FC = memo(() => {
-  const { countryStates, categoryClassifications } = useSuperbViewListContext();
+  const {
+    countryStates,
+    categoryClassifications,
+    loadingSearchSuperbViews,
+    checkedCategoryLabels,
+    checkedCountryLabels,
+    checkedCharacteristicLabels,
+    checkedRiskLevelLabels,
+    keyword,
+  } = useSuperbViewListContext();
   const { handleClear } = useClear();
 
   return (
@@ -38,7 +47,21 @@ const FilterAccordion: FC = memo(() => {
             絞り込み
           </Heading>
         </Box>
-        <Box as="button" role="button" color="blue.300" onClick={handleClear} textAlign="right">
+        <Box
+          as="button"
+          role="button"
+          color="blue.300"
+          onClick={handleClear}
+          textAlign="right"
+          disabled={
+            loadingSearchSuperbViews ||
+            (!checkedCategoryLabels.length &&
+              !checkedCountryLabels.length &&
+              !checkedCharacteristicLabels.length &&
+              !checkedRiskLevelLabels.length &&
+              keyword === "")
+          }
+        >
           <Heading size="xs" textShadow="2px 2px #000000">
             クリア
           </Heading>
