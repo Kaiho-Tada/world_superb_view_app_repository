@@ -16,7 +16,7 @@ const CountryCheckBox: FC<CountryCheckBoxProps> = (props) => {
 
   return loadingCountriesWithCheckBoxData === true ? (
     <Center h="10vh">
-      <Spinner />
+      <Spinner role="status" aria-label="読み込み中" />
     </Center>
   ) : (
     <>

@@ -23,6 +23,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
               isDisabled={loadingSearchSuperbViews}
+              aria-label="リスクレベル4"
             >
               <Flex align="center" pl="1">
                 <Image boxSize="13px" src={starIcon} mr="1.5" alt="リスクレベル" />
@@ -43,6 +44,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
               isDisabled={loadingSearchSuperbViews}
+              aria-label="リスクレベル3"
             >
               <Flex align="center" pl="1">
                 <Image boxSize="13px" src={starIcon} mr="1.5" alt="リスクレベル" />
@@ -62,6 +64,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
               isDisabled={loadingSearchSuperbViews}
+              aria-label="リスクレベル2"
             >
               <Flex align="center" pl="1">
                 <Image boxSize="13px" src={starIcon} mr="1.5" alt="リスクレベル" />
@@ -80,6 +83,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
               isDisabled={loadingSearchSuperbViews}
+              aria-label="リスクレベル1"
             >
               <Flex align="center" pl="1">
                 <Image boxSize="13px" src={starIcon} mr="1.5" alt="リスクレベル" />
@@ -97,6 +101,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               onChange={handleChangeRiskLevel}
               isDisabled={loadingSearchSuperbViews}
               key={riskLevel.label}
+              aria-label="リスクレベル0"
             >
               <Flex align="center" pl="1">
                 <Image boxSize="13px" src={zeroStarIcon} mr="1.5" alt="リスクレベル(0)" />

@@ -19,7 +19,7 @@ const CategoryCheckBox: FC<CategoryCheckBoxProps> = memo((props) => {
 
   return loadingCategoriesWithCheckBoxData === true ? (
     <Center h="10vh">
-      <Spinner />
+      <Spinner role="status" aria-label="読み込み中" />
     </Center>
   ) : (
     <>
