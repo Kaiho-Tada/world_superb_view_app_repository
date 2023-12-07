@@ -60,9 +60,14 @@ const SuperbViewList = memo(() => {
           {loadingSearchSuperbViews ? (
             <Loading />
           ) : (
-            <Wrap>
+            <Wrap role="list" aria-label="絶景一覧">
               {superbViews.map((superbView) => (
-                <WrapItem w={{ sm: "100%", md: "49%" }} key={superbView.id}>
+                <WrapItem
+                  role="listitem"
+                  w={{ sm: "100%", md: "49%" }}
+                  key={superbView.id}
+                  aria-label={`絶景一覧: ${superbView.name}`}
+                >
                   <SuperbViewCard
                     name={superbView.name}
                     imageUrl={superbView.imageUrl}
