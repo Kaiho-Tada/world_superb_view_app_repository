@@ -1,7 +1,7 @@
 import { Center, Checkbox, Spinner } from "@chakra-ui/react";
 import useCategoryHandleChange from "hooks/api/category/useCategoryHandleChange";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
-import { FC, memo, useEffect } from "react";
+import { FC, memo } from "react";
 import { CategoryWithCheckBoxData } from "types/api/category/categoryWithCheckBoxData";
 
 type CategoryCheckBoxProps = {
@@ -13,12 +13,8 @@ const CategoryCheckBox: FC<CategoryCheckBoxProps> = memo((props) => {
   const {
     loadingSearchSuperbViews,
     categoriesWithCheckBoxData,
-    getAllCategoriesWithCheckBoxData,
     loadingCategoriesWithCheckBoxData,
   } = useSuperbViewListContext();
-  useEffect(() => {
-    getAllCategoriesWithCheckBoxData();
-  }, []);
   const { handleChangeCategory } = useCategoryHandleChange();
 
   return loadingCategoriesWithCheckBoxData === true ? (

@@ -21,6 +21,9 @@ const SuperbViewList = memo(() => {
     keyword,
     shouldDebounce,
     setShouldDebounce,
+    getAllCategoriesWithCheckBoxData,
+    getAllCountriesWithCheckBoxData,
+    getAllCharacteristicsWithCheckBoxData,
   } = useSuperbViewListContext();
 
   const { handleSearchSuperbView } = useSearchSuperbView();
@@ -39,6 +42,15 @@ const SuperbViewList = memo(() => {
     checkedRiskLevelLabels,
     keyword,
   ]);
+  useEffect(() => {
+    getAllCategoriesWithCheckBoxData();
+  }, []);
+  useEffect(() => {
+    getAllCountriesWithCheckBoxData();
+  }, []);
+  useEffect(() => {
+    getAllCharacteristicsWithCheckBoxData();
+  }, []);
 
   return (
     <Box my="10" mx="5">

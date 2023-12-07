@@ -5,13 +5,17 @@ import { SuperbViewListProvider } from "hooks/providers/SuperbViewListProvider";
 import { act } from "react-dom/test-utils";
 
 const mockOnOpenFilterDrawer = jest.fn();
+const mockGetAllCategoriesWithCheckBoxData = jest.fn();
+const mockGetAllCountriesWithCheckBoxData = jest.fn();
+const mockGetAllCharacteristicsWithCheckBoxData = jest.fn();
+
 jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/SuperbViewListProvider"),
   useSuperbViewListContext: () => ({
     ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext(),
-    getAllCategoriesWithCheckBoxData: jest.fn(),
-    getAllCountriesWithCheckBoxData: jest.fn(),
-    getAllCharacteristicsWithCheckBoxData: jest.fn(),
+    getAllCategoriesWithCheckBoxData: mockGetAllCategoriesWithCheckBoxData,
+    getAllCountriesWithCheckBoxData: mockGetAllCountriesWithCheckBoxData,
+    getAllCharacteristicsWithCheckBoxData: mockGetAllCharacteristicsWithCheckBoxData,
     onOpenFilterDrawer: mockOnOpenFilterDrawer,
   }),
 }));
@@ -29,6 +33,33 @@ test("初回レンダリング時にhandleSearchSuperbView関数が実行され�
     </SuperbViewListProvider>
   );
   expect(mockHandleSearchSuperbView).toHaveBeenCalledTimes(1);
+});
+
+test("初回レンダリング時にgetAllCategoriesWithCheckBoxData関数が実行されること", () => {
+  render(
+    <SuperbViewListProvider>
+      <SuperbViewList />
+    </SuperbViewListProvider>
+  );
+  expect(mockGetAllCategoriesWithCheckBoxData).toHaveBeenCalledTimes(1);
+});
+
+test("初回レンダリング時にgetAllCountriesWithCheckBoxData関数が実行されること", () => {
+  render(
+    <SuperbViewListProvider>
+      <SuperbViewList />
+    </SuperbViewListProvider>
+  );
+  expect(mockGetAllCountriesWithCheckBoxData).toHaveBeenCalledTimes(1);
+});
+
+test("初回レンダリング時にgetAllCharacteristicsWithCheckBoxData関数が実行されること", () => {
+  render(
+    <SuperbViewListProvider>
+      <SuperbViewList />
+    </SuperbViewListProvider>
+  );
+  expect(mockGetAllCharacteristicsWithCheckBoxData).toHaveBeenCalledTimes(1);
 });
 
 test("絞り込みボタンがレンダリングされていること", () => {
