@@ -1,11 +1,10 @@
 import { renderHook } from "@testing-library/react";
 import useCharacteristicHandleChange from "hooks/api/characteristic/useCharacteristicHandleChange";
-import * as SuperbViewListProviderModule from "hooks/providers/SuperbViewListProvider";
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 
 const spyOnUseSuperbViewListContext = jest.spyOn(
-  SuperbViewListProviderModule,
+  jest.requireActual("hooks/providers/SuperbViewListProvider"),
   "useSuperbViewListContext"
 );
 
@@ -13,7 +12,6 @@ const mockSetCharacteristicsWithCheckBoxData = jest.fn();
 const mockSetCheckedCharacteristicLabels = jest.fn();
 
 const mockContextValueCheckedFalse = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setCharacteristicsWithCheckBoxData: mockSetCharacteristicsWithCheckBoxData,
   setCheckedCharacteristicLabels: mockSetCheckedCharacteristicLabels,
   characteristicsWithCheckBoxData: [
@@ -26,7 +24,6 @@ const mockContextValueCheckedFalse = {
 };
 
 const mockContextValueCheckedTrue = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setCharacteristicsWithCheckBoxData: mockSetCharacteristicsWithCheckBoxData,
   setCheckedCharacteristicLabels: mockSetCheckedCharacteristicLabels,
   characteristicsWithCheckBoxData: [

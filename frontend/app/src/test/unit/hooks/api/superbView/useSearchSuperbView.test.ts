@@ -1,7 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
 import useSearchSuperbView from "hooks/api/superbView/useSearchSuperbView";
-import * as SuperbViewListProviderModule from "hooks/providers/SuperbViewListProvider";
 import client from "lib/api/client";
 
 const mockUseToast = jest.fn();
@@ -14,12 +13,11 @@ const mockSetLoadingSearchSuperbViews = jest.fn();
 const mockSetSuperbViews = jest.fn();
 
 const spyOnUseSuperbViewListContext = jest.spyOn(
-  SuperbViewListProviderModule,
+  jest.requireActual("hooks/providers/SuperbViewListProvider"),
   "useSuperbViewListContext"
 );
 
 const mockContextValueSucsess = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setLoadingSearchSuperbViews: mockSetLoadingSearchSuperbViews,
   setSuperbViews: mockSetSuperbViews,
   checkedCategoryLabels: ["遺跡"],
@@ -30,8 +28,6 @@ const mockContextValueSucsess = {
 };
 
 const mockContextValueFailure = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
-  useSuperbViewListContext: SuperbViewListProviderModule.useSuperbViewListContext,
   setLoadingSearchSuperbViews: mockSetLoadingSearchSuperbViews,
   setSuperbViews: mockSetSuperbViews,
 };

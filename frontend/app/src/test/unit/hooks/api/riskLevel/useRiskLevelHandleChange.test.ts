@@ -1,11 +1,10 @@
 import { renderHook } from "@testing-library/react";
 import useRiskLevelHandleChange from "hooks/api/riskLevel/useRiskLevelHandleChange";
-import * as SuperbViewListProviderModule from "hooks/providers/SuperbViewListProvider";
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 
 const spyOnUseSuperbViewListContext = jest.spyOn(
-  SuperbViewListProviderModule,
+  jest.requireActual("hooks/providers/SuperbViewListProvider"),
   "useSuperbViewListContext"
 );
 
@@ -13,7 +12,6 @@ const mockSetRiskLevels = jest.fn();
 const mockSetCheckedRiskLevelLabels = jest.fn();
 
 const mockContextValueCheckedFalse = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setRiskLevels: mockSetRiskLevels,
   setCheckedRiskLevelLabels: mockSetCheckedRiskLevelLabels,
   riskLevels: [
@@ -25,7 +23,6 @@ const mockContextValueCheckedFalse = {
 };
 
 const mockContextValueCheckedTrue = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setRiskLevels: mockSetRiskLevels,
   setCheckedRiskLevelLabels: mockSetCheckedRiskLevelLabels,
   riskLevels: [

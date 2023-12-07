@@ -1,11 +1,10 @@
 import { renderHook } from "@testing-library/react";
 import useCategoryHandleChange from "hooks/api/category/useCategoryHandleChange";
-import * as SuperbViewListProviderModule from "hooks/providers/SuperbViewListProvider";
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 
 const spyOnUseSuperbViewListContext = jest.spyOn(
-  SuperbViewListProviderModule,
+  jest.requireActual("hooks/providers/SuperbViewListProvider"),
   "useSuperbViewListContext"
 );
 
@@ -13,7 +12,6 @@ const mockSetCategoriesWithCheckBoxData = jest.fn();
 const mockSetCheckedCategoryLabels = jest.fn();
 
 const mockContextValueCheckedFalse = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setCategoriesWithCheckBoxData: mockSetCategoriesWithCheckBoxData,
   setCheckedCategoryLabels: mockSetCheckedCategoryLabels,
   categoriesWithCheckBoxData: [
@@ -27,7 +25,6 @@ const mockContextValueCheckedFalse = {
 };
 
 const mockContextValueCheckedTrue = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setCategoriesWithCheckBoxData: mockSetCategoriesWithCheckBoxData,
   setCheckedCategoryLabels: mockSetCheckedCategoryLabels,
   categoriesWithCheckBoxData: [

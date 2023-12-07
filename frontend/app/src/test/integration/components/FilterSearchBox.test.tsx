@@ -1,24 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import FilterSearchBox from "components/molecules/FilterSearchBox";
-import * as SuperbViewListProviderModule from "hooks/providers/SuperbViewListProvider";
 
 const spyOnUseSuperbViewListContext = jest.spyOn(
-  SuperbViewListProviderModule,
+  jest.requireActual("hooks/providers/SuperbViewListProvider"),
   "useSuperbViewListContext"
 );
 
 const mockSetKeyword = jest.fn();
 const mockSetShouldDebounce = jest.fn();
 const mockContextValue = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setKeyword: mockSetKeyword,
   loadingSearchSuperbViews: false,
   setShouldDebounce: mockSetShouldDebounce,
 };
 
 const mockContextValueLoadingSearchSuperbViews = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setKeyword: mockSetKeyword,
   loadingSearchSuperbViews: true,
   setShouldDebounce: mockSetShouldDebounce,

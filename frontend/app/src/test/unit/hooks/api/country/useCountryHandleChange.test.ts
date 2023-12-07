@@ -1,18 +1,16 @@
 import { renderHook } from "@testing-library/react";
 import useCountryHandleChange from "hooks/api/country/useCountryHandleChange";
-import * as SuperbViewListProviderModule from "hooks/providers/SuperbViewListProvider";
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 
 const spyOnUseSuperbViewListContext = jest.spyOn(
-  SuperbViewListProviderModule,
+  jest.requireActual("hooks/providers/SuperbViewListProvider"),
   "useSuperbViewListContext"
 );
 const mockSetCountriesWithCheckBoxData = jest.fn();
 const mockSetCheckedCountryLabels = jest.fn();
 
 const mockContextValueCheckedFalse = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setCountriesWithCheckBoxData: mockSetCountriesWithCheckBoxData,
   setCheckedCountryLabels: mockSetCheckedCountryLabels,
   countriesWithCheckBoxData: [
@@ -26,7 +24,6 @@ const mockContextValueCheckedFalse = {
 };
 
 const mockContextValueCheckedTrue = {
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext,
   setCountriesWithCheckBoxData: mockSetCountriesWithCheckBoxData,
   setCheckedCountryLabels: mockSetCheckedCountryLabels,
   countriesWithCheckBoxData: [
