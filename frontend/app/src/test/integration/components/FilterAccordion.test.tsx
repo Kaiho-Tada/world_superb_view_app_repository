@@ -74,12 +74,6 @@ jest.mock("hooks/api/clear/useClear", () => ({
   default: () => ({ handleClear: mockHandleClear }),
 }));
 
-const mockHandleSearchSuperbView = jest.fn();
-jest.mock("hooks/api/superbView/useSearchSuperbView", () => ({
-  __esModule: true,
-  default: () => ({ handleSearchSuperbView: mockHandleSearchSuperbView }),
-}));
-
 test("アコーディオンの見出しがレンダリングされていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterAccordion />);
