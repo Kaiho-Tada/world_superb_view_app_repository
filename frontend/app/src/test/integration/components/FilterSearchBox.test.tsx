@@ -55,6 +55,13 @@ test("クリアボタンがレンダリングされていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterSearchBox />);
   expect(screen.getByRole("img", { name: "クリアボタン" })).toBeInTheDocument();
+  expect(screen.getByRole("img", { name: "クリアボタン" })).toHaveStyle("pointerEvents: auto");
+});
+
+test("loadingSearchSuperbViewsがtrueの場合、クリアボタンが押下不可になっていること", () => {
+  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
+  render(<FilterSearchBox />);
+  expect(screen.getByRole("img", { name: "クリアボタン" })).toHaveStyle("pointerEvents: none");
 });
 
 test("クリアボタン押下でテキストボックスの文字がリセットされること", async () => {

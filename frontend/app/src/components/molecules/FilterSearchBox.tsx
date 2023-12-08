@@ -32,8 +32,9 @@ const FilterSearchBox: FC = () => {
         aria-label="クリアボタン"
         boxSize={3.5}
         onClick={handleClearKeyword}
-        color="gray.500"
-        _hover={{ cursor: "pointer" }}
+        color={loadingSearchSuperbViews ? "gray.300" : "gray.500"}
+        _hover={{ cursor: loadingSearchSuperbViews ? "not-allowed" : "pointer" }}
+        style={{ pointerEvents: loadingSearchSuperbViews ? "none" : "auto" }}
       />
     </Flex>
   );
