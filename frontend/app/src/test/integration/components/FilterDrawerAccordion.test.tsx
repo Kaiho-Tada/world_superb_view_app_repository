@@ -51,11 +51,7 @@ const mockContextValue = {
   monthCheckBoxItems: [{ label: "1月", season: "冬", checked: false }],
   onCloseFilterDrawer: mockOnCloseFilterDrawer,
   loadingSearchSuperbViews: false,
-  checkedCategoryLabels: ["遺跡"],
-  checkedCountryLabels: ["中国"],
-  checkedCharacteristicLabels: ["畏怖"],
-  checkedRiskLevelLabels: ["3"],
-  keyword: "キーワード",
+  checkedCategoryLabels: [""],
 };
 
 const mockContextValueLoadingSearchSuperbViews = {
