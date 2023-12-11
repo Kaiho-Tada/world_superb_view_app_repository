@@ -10,8 +10,8 @@ const spyOnUseSuperbViewListContext = jest.spyOn(
 
 const mockContextValue = {
   loadingSearchSuperbViews: false,
-  loadingCountriesWithCheckBoxData: false,
-  countriesWithCheckBoxData: [
+  loadingCountryCheckBoxItems: false,
+  countryCheckBoxItems: [
     {
       label: "アメリカ",
       stateName: "北アメリカ",
@@ -23,7 +23,7 @@ const mockContextValue = {
 
 const mockContextValueCheckedTrue = {
   ...mockContextValue,
-  countriesWithCheckBoxData: [
+  countryCheckBoxItems: [
     {
       label: "アメリカ",
       stateName: "北アメリカ",
@@ -38,9 +38,9 @@ const mockContextValueLoadingSearchSuperbViews = {
   loadingSearchSuperbViews: true,
 };
 
-const mockContextValueLoadingCountriesWithCheckBoxData = {
+const mockContextValueLoadingCountryCheckBoxItems = {
   ...mockContextValue,
-  loadingCountriesWithCheckBoxData: true,
+  loadingCountryCheckBoxItems: true,
 };
 
 const mockHandleChangeCountry = jest.fn();
@@ -71,7 +71,7 @@ test("loadingSearchSuperbViewsがtureの場合、CheckBoxがdisabledになって
 
 test("loadingCategoriesWithCheckBoxDataがtrueの場合、スピナーが表示されていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(
-    () => mockContextValueLoadingCountriesWithCheckBoxData
+    () => mockContextValueLoadingCountryCheckBoxItems
   );
   render(<CountryCheckBox countryState="北アメリカ" />);
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();

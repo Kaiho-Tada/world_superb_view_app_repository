@@ -6,7 +6,7 @@ import { act } from "react-dom/test-utils";
 
 const mockOnOpenFilterDrawer = jest.fn();
 const mockGetCategoryCheckBoxItems = jest.fn();
-const mockGetAllCountriesWithCheckBoxData = jest.fn();
+const mockGetCountryCheckBoxItems = jest.fn();
 const mockGetAllCharacteristicsWithCheckBoxData = jest.fn();
 
 jest.mock("hooks/providers/SuperbViewListProvider", () => ({
@@ -14,7 +14,7 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   useSuperbViewListContext: () => ({
     ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext(),
     getCategoryCheckBoxItems: mockGetCategoryCheckBoxItems,
-    getAllCountriesWithCheckBoxData: mockGetAllCountriesWithCheckBoxData,
+    getCountryCheckBoxItems: mockGetCountryCheckBoxItems,
     getAllCharacteristicsWithCheckBoxData: mockGetAllCharacteristicsWithCheckBoxData,
     onOpenFilterDrawer: mockOnOpenFilterDrawer,
   }),
@@ -50,7 +50,7 @@ test("初回レンダリング時にgetAllCountriesWithCheckBoxData関数が実�
       <SuperbViewList />
     </SuperbViewListProvider>
   );
-  expect(mockGetAllCountriesWithCheckBoxData).toHaveBeenCalledTimes(1);
+  expect(mockGetCountryCheckBoxItems).toHaveBeenCalledTimes(1);
 });
 
 test("初回レンダリング時にgetAllCharacteristicsWithCheckBoxData関数が実行されること", () => {

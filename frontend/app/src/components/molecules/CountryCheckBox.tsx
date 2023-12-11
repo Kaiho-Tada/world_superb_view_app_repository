@@ -2,7 +2,7 @@ import { Center, Checkbox, Spinner } from "@chakra-ui/react";
 import useCountryHandleChange from "hooks/api/country/useCountryHandleChange";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 import { FC } from "react";
-import { CountryWithCheckBoxData } from "types/api/country/countryWithCheckBoxData";
+import { CountryCheckBoxItem } from "types/api/country/CountryCheckBoxItem";
 
 type CountryCheckBoxProps = {
   countryState: string;
@@ -10,29 +10,29 @@ type CountryCheckBoxProps = {
 
 const CountryCheckBox: FC<CountryCheckBoxProps> = (props) => {
   const { countryState } = props;
-  const { loadingSearchSuperbViews, countriesWithCheckBoxData, loadingCountriesWithCheckBoxData } =
+  const { loadingSearchSuperbViews, countryCheckBoxItems, loadingCountryCheckBoxItems } =
     useSuperbViewListContext();
   const { handleChangeCountry } = useCountryHandleChange();
 
-  return loadingCountriesWithCheckBoxData === true ? (
+  return loadingCountryCheckBoxItems === true ? (
     <Center h="10vh">
       <Spinner role="status" aria-label="読み込み中" />
     </Center>
   ) : (
     <>
-      {countriesWithCheckBoxData.map((countryWithCheckBoxData: CountryWithCheckBoxData) =>
-        countryWithCheckBoxData.stateName === countryState ? (
+      {countryCheckBoxItems.map((countryCheckBoxItem: CountryCheckBoxItem) =>
+        countryCheckBoxItem.stateName === countryState ? (
           <Checkbox
             aria-hidden="false"
-            key={countryWithCheckBoxData.label}
+            key={countryCheckBoxItem.label}
             size="md"
             colorScheme="green"
-            isChecked={countryWithCheckBoxData.checked}
-            value={countryWithCheckBoxData.label}
+            isChecked={countryCheckBoxItem.checked}
+            value={countryCheckBoxItem.label}
             onChange={handleChangeCountry}
             isDisabled={loadingSearchSuperbViews}
           >
-            {countryWithCheckBoxData.label}
+            {countryCheckBoxItem.label}
           </Checkbox>
         ) : null
       )}

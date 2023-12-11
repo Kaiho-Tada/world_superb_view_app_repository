@@ -7,13 +7,13 @@ const spyOnUseSuperbViewListContext = jest.spyOn(
   jest.requireActual("hooks/providers/SuperbViewListProvider"),
   "useSuperbViewListContext"
 );
-const mockSetCountriesWithCheckBoxData = jest.fn();
+const mockSetCountryCheckBoxItems = jest.fn();
 const mockSetCheckedCountryLabels = jest.fn();
 
 const mockContextValueCheckedFalse = {
-  setCountriesWithCheckBoxData: mockSetCountriesWithCheckBoxData,
+  setCountryCheckBoxItems: mockSetCountryCheckBoxItems,
   setCheckedCountryLabels: mockSetCheckedCountryLabels,
-  countriesWithCheckBoxData: [
+  countryCheckBoxItems: [
     {
       label: "ペルー",
       stateName: "中南米",
@@ -24,9 +24,9 @@ const mockContextValueCheckedFalse = {
 };
 
 const mockContextValueCheckedTrue = {
-  setCountriesWithCheckBoxData: mockSetCountriesWithCheckBoxData,
+  setCountryCheckBoxItems: mockSetCountryCheckBoxItems,
   setCheckedCountryLabels: mockSetCheckedCountryLabels,
-  countriesWithCheckBoxData: [
+  countryCheckBoxItems: [
     {
       label: "ペルー",
       stateName: "中南米",
@@ -44,7 +44,7 @@ describe("handleChangeCountry関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeCountry(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetCountriesWithCheckBoxData).toHaveBeenCalledWith([
+    expect(mockSetCountryCheckBoxItems).toHaveBeenCalledWith([
       {
         label: "ペルー",
         stateName: "中南米",
@@ -52,7 +52,7 @@ describe("handleChangeCountry関数の挙動のテスト", () => {
         checked: true,
       },
     ]);
-    expect(mockSetCountriesWithCheckBoxData).toHaveBeenCalledTimes(1);
+    expect(mockSetCountryCheckBoxItems).toHaveBeenCalledTimes(1);
 
     expect(mockSetCheckedCountryLabels).toHaveBeenCalledWith(["ペルー"]);
     expect(mockSetCheckedCountryLabels).toHaveBeenCalledTimes(1);
@@ -65,7 +65,7 @@ describe("handleChangeCountry関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeCountry(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetCountriesWithCheckBoxData).toHaveBeenCalledWith([
+    expect(mockSetCountryCheckBoxItems).toHaveBeenCalledWith([
       {
         label: "ペルー",
         stateName: "中南米",
@@ -73,7 +73,7 @@ describe("handleChangeCountry関数の挙動のテスト", () => {
         checked: false,
       },
     ]);
-    expect(mockSetCountriesWithCheckBoxData).toHaveBeenCalledTimes(1);
+    expect(mockSetCountryCheckBoxItems).toHaveBeenCalledTimes(1);
 
     expect(mockSetCheckedCountryLabels).toHaveBeenCalledWith([]);
     expect(mockSetCheckedCountryLabels).toHaveBeenCalledTimes(1);

@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useGetAllCountriesWithCheckBoxData from "hooks/api/country/useGetAllCountriesWithCheckBoxData";
+import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxItems";
 import client from "lib/api/client";
 import { act } from "react-dom/test-utils";
 
@@ -12,7 +12,7 @@ jest.mock("@chakra-ui/react", () => ({
 
 const mockAxios = new MockAdapter(client);
 
-test("countriesWithCheckBoxData取得成功時のテスト", async () => {
+test("countryCheckBoxItems取得成功時のテスト", async () => {
   mockAxios.onGet("/countries").reply(200, [
     {
       id: 1,
@@ -47,14 +47,14 @@ test("countriesWithCheckBoxData取得成功時のテスト", async () => {
       ],
     },
   ]);
-  const { result } = renderHook(() => useGetAllCountriesWithCheckBoxData());
-  expect(result.current.countriesWithCheckBoxData).toEqual([]);
-  expect(result.current.loadingCountriesWithCheckBoxData).toBe(false);
+  const { result } = renderHook(() => useGetCountryCheckBoxItems());
+  expect(result.current.countryCheckBoxItems).toEqual([]);
+  expect(result.current.loadingCountryCheckBoxItems).toBe(false);
   await act(() => {
-    result.current.getAllCountriesWithCheckBoxData();
+    result.current.getCountryCheckBoxItems();
   });
 
-  expect(result.current.countriesWithCheckBoxData).toEqual([
+  expect(result.current.countryCheckBoxItems).toEqual([
     {
       label: "アメリカ",
       stateName: "北米",
@@ -68,19 +68,19 @@ test("countriesWithCheckBoxData取得成功時のテスト", async () => {
       checked: false,
     },
   ]);
-  expect(result.current.loadingCountriesWithCheckBoxData).toBe(false);
+  expect(result.current.loadingCountryCheckBoxItems).toBe(false);
 });
 
-test("countriesWithCheckBoxData取得失敗時のテスト", async () => {
+test("countryCheckBoxItems取得失敗時のテスト", async () => {
   mockAxios.onGet("/countries").reply(500);
-  const { result } = renderHook(() => useGetAllCountriesWithCheckBoxData());
-  expect(result.current.countriesWithCheckBoxData).toEqual([]);
-  expect(result.current.loadingCountriesWithCheckBoxData).toBe(false);
+  const { result } = renderHook(() => useGetCountryCheckBoxItems());
+  expect(result.current.countryCheckBoxItems).toEqual([]);
+  expect(result.current.loadingCountryCheckBoxItems).toBe(false);
   await act(() => {
-    result.current.getAllCountriesWithCheckBoxData();
+    result.current.getCountryCheckBoxItems();
   });
-  expect(result.current.countriesWithCheckBoxData).toEqual([]);
-  expect(result.current.loadingCountriesWithCheckBoxData).toBe(false);
+  expect(result.current.countryCheckBoxItems).toEqual([]);
+  expect(result.current.loadingCountryCheckBoxItems).toBe(false);
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "countriesの取得に失敗しました。",
     status: "error",

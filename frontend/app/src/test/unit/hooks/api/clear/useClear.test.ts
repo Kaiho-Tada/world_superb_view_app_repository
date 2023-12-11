@@ -2,7 +2,7 @@ import { renderHook } from "@testing-library/react";
 import useClear from "hooks/api/clear/useClear";
 
 const mockSetCategoryCheckBoxItems = jest.fn();
-const mockSetCountriesWithCheckBoxData = jest.fn();
+const mockSetCountryCheckBoxItems = jest.fn();
 const mockSetCharacteristicsWithCheckBoxData = jest.fn();
 const mockSetRiskLevels = jest.fn();
 const mockSetMonthCheckBoxItems = jest.fn();
@@ -25,7 +25,7 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
       },
     ],
     setCategoryCheckBoxItems: mockSetCategoryCheckBoxItems,
-    countriesWithCheckBoxData: [
+    countryCheckBoxItems: [
       {
         label: "ペルー",
         stateName: "中南米",
@@ -33,7 +33,7 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
         checked: true,
       },
     ],
-    setCountriesWithCheckBoxData: mockSetCountriesWithCheckBoxData,
+    setCountryCheckBoxItems: mockSetCountryCheckBoxItems,
     characteristicsWithCheckBoxData: [
       {
         label: "幻想・神秘的",
@@ -76,7 +76,7 @@ test("categoriesWithCheckBoxDataのcheckedがtrueの場合、falseに切り替�
 test("countriesWithCheckBoxDataのcheckedがtrueの場合、falseに切り替わること", () => {
   const { result } = renderHook(() => useClear());
   result.current.handleClear();
-  expect(mockSetCountriesWithCheckBoxData).toHaveBeenCalledWith([
+  expect(mockSetCountryCheckBoxItems).toHaveBeenCalledWith([
     {
       label: "ペルー",
       stateName: "中南米",

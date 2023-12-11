@@ -2,7 +2,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import SuperbViewListContext from "contexts/SuperbViewListContext";
 import useGetAllCategoryCheckBoxItems from "hooks/api/category/useGetCategoryCheckBoxItems";
 import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/useGetAllCharacteristicsWithCheckBoxData";
-import useGetAllCountriesWithCheckBoxData from "hooks/api/country/useGetAllCountriesWithCheckBoxData";
+import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxItems";
 import { FC, ReactNode, useContext, useMemo, useState } from "react";
 import { SuperbView } from "types/api/superbView";
 import { RiskLevel } from "types/riskLevel";
@@ -64,11 +64,11 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
     loadingCategoryCheckBoxItems,
   } = useGetAllCategoryCheckBoxItems();
   const {
-    getAllCountriesWithCheckBoxData,
-    countriesWithCheckBoxData,
-    setCountriesWithCheckBoxData,
-    loadingCountriesWithCheckBoxData,
-  } = useGetAllCountriesWithCheckBoxData();
+    getCountryCheckBoxItems,
+    countryCheckBoxItems,
+    setCountryCheckBoxItems,
+    loadingCountryCheckBoxItems,
+  } = useGetCountryCheckBoxItems();
   const {
     getAllCharacteristicsWithCheckBoxData,
     characteristicsWithCheckBoxData,
@@ -90,17 +90,17 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setCheckedCharacteristicLabels,
       superbViews,
       setSuperbViews,
-      countriesWithCheckBoxData,
-      setCountriesWithCheckBoxData,
+      countryCheckBoxItems,
+      setCountryCheckBoxItems,
       categoryCheckBoxItems,
       setCategoryCheckBoxItems,
       characteristicsWithCheckBoxData,
       setCharacteristicsWithCheckBoxData,
       getCategoryCheckBoxItems,
-      getAllCountriesWithCheckBoxData,
+      getCountryCheckBoxItems,
       getAllCharacteristicsWithCheckBoxData,
       loadingCategoryCheckBoxItems,
-      loadingCountriesWithCheckBoxData,
+      loadingCountryCheckBoxItems,
       loadingCharacteristicsWithCheckBoxData,
       checkedRiskLevelLabels,
       setCheckedRiskLevelLabels,
@@ -131,17 +131,17 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setCheckedCharacteristicLabels,
       superbViews,
       setSuperbViews,
-      countriesWithCheckBoxData,
-      setCountriesWithCheckBoxData,
+      countryCheckBoxItems,
+      setCountryCheckBoxItems,
       categoryCheckBoxItems,
       setCategoryCheckBoxItems,
       characteristicsWithCheckBoxData,
       setCharacteristicsWithCheckBoxData,
       getCategoryCheckBoxItems,
-      getAllCountriesWithCheckBoxData,
+      getCountryCheckBoxItems,
       getAllCharacteristicsWithCheckBoxData,
       loadingCategoryCheckBoxItems,
-      loadingCountriesWithCheckBoxData,
+      loadingCountryCheckBoxItems,
       loadingCharacteristicsWithCheckBoxData,
       checkedRiskLevelLabels,
       setCheckedRiskLevelLabels,

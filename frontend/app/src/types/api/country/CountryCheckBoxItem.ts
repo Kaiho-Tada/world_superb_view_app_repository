@@ -1,4 +1,4 @@
-export type CountryWithCheckBoxData = {
+export type CountryCheckBoxItem = {
   label: string;
   state: string;
   stateName: string;

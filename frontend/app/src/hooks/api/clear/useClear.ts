@@ -5,8 +5,8 @@ const useClear = () => {
   const {
     categoryCheckBoxItems,
     setCategoryCheckBoxItems,
-    countriesWithCheckBoxData,
-    setCountriesWithCheckBoxData,
+    countryCheckBoxItems,
+    setCountryCheckBoxItems,
     characteristicsWithCheckBoxData,
     setCharacteristicsWithCheckBoxData,
     riskLevels,
@@ -44,16 +44,14 @@ const useClear = () => {
     );
     setCharacteristicsWithCheckBoxData(clearedCharacteristicsWithCheckBoxData);
 
-    const clearedCountriesWithCheckBoxData = countriesWithCheckBoxData.map(
-      (originalCountryWithCheckBoxData) => {
-        const CountryWithCheckBoxData = { ...originalCountryWithCheckBoxData };
-        if (CountryWithCheckBoxData.checked === true) {
-          CountryWithCheckBoxData.checked = !CountryWithCheckBoxData.checked;
-        }
-        return CountryWithCheckBoxData;
+    const clearedCountryCheckBoxItems = countryCheckBoxItems.map((originalCountryCheckBoxItem) => {
+      const countryCheckBoxItem = { ...originalCountryCheckBoxItem };
+      if (countryCheckBoxItem.checked === true) {
+        countryCheckBoxItem.checked = !countryCheckBoxItem.checked;
       }
-    );
-    setCountriesWithCheckBoxData(clearedCountriesWithCheckBoxData);
+      return countryCheckBoxItem;
+    });
+    setCountryCheckBoxItems(clearedCountryCheckBoxItems);
 
     const clearedRiskLevels = riskLevels.map((originalRiskLevel) => {
       const riskLevel = { ...originalRiskLevel };
@@ -79,12 +77,7 @@ const useClear = () => {
     setCheckedRiskLevelLabels([]);
     setCheckedMonthLabels([]);
     setKeyword("");
-  }, [
-    categoryCheckBoxItems,
-    countriesWithCheckBoxData,
-    characteristicsWithCheckBoxData,
-    riskLevels,
-  ]);
+  }, [categoryCheckBoxItems, countryCheckBoxItems, characteristicsWithCheckBoxData, riskLevels]);
   return { handleClear };
 };
 export default useClear;

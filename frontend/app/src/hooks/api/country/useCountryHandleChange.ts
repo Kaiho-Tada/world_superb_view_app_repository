@@ -2,32 +2,30 @@ import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider
 import { ChangeEvent, useCallback } from "react";
 
 const useCountryHandleChange = () => {
-  const { countriesWithCheckBoxData, setCountriesWithCheckBoxData, setCheckedCountryLabels } =
+  const { countryCheckBoxItems, setCountryCheckBoxItems, setCheckedCountryLabels } =
     useSuperbViewListContext();
 
   const handleChangeCountry = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const newCountriesWithCheckBoxData = countriesWithCheckBoxData.map(
-        (originalCountryWithCheckBoxData) => {
-          const CountryWithCheckBoxData = { ...originalCountryWithCheckBoxData };
-          if (CountryWithCheckBoxData.label === e.target.value) {
-            CountryWithCheckBoxData.checked = !CountryWithCheckBoxData.checked;
-          }
-          return CountryWithCheckBoxData;
+      const newCountryCheckBoxItems = countryCheckBoxItems.map((originalCountryCheckBoxItem) => {
+        const countryCheckBoxItem = { ...originalCountryCheckBoxItem };
+        if (countryCheckBoxItem.label === e.target.value) {
+          countryCheckBoxItem.checked = !countryCheckBoxItem.checked;
         }
-      );
-      setCountriesWithCheckBoxData(newCountriesWithCheckBoxData);
+        return countryCheckBoxItem;
+      });
+      setCountryCheckBoxItems(newCountryCheckBoxItems);
 
-      const checkedCountriesWithCheckBoxData = newCountriesWithCheckBoxData.filter(
-        (newCountryWithCheckBoxData) => newCountryWithCheckBoxData.checked === true
+      const checkedCountryCheckBoxItems = newCountryCheckBoxItems.filter(
+        (newCountryCheckBoxItem) => newCountryCheckBoxItem.checked === true
       );
 
-      const newCheckedCountryLabels = checkedCountriesWithCheckBoxData.map(
-        (checkedCountryWithCheckBoxData) => checkedCountryWithCheckBoxData.label
+      const newCheckedCountryLabels = checkedCountryCheckBoxItems.map(
+        (checkedCountryCheckBoxItem) => checkedCountryCheckBoxItem.label
       );
       setCheckedCountryLabels(newCheckedCountryLabels);
     },
-    [countriesWithCheckBoxData]
+    [countryCheckBoxItems]
   );
   return { handleChangeCountry };
 };

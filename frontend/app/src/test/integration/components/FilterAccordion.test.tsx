@@ -22,7 +22,7 @@ const mockContextValue = {
       checked: false,
     },
   ],
-  countriesWithCheckBoxData: [
+  countryCheckBoxItems: [
     {
       label: "アメリカ",
       stateName: "北米",
