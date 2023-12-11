@@ -43,15 +43,14 @@ RSpec.describe SuperbView, type: :model do
     end
   end
 
-  describe "インスタンスメソッドのテスト" do
-    let!(:superb_view) { create(:superb_view) }
-
-    it "image_urlメソッドで生成されるurlが意図した形式であること" do
-      expect(superb_view.image_url).to match(%r{http://localhost:3001/rails/active_storage/blobs/redirect/.+/test_image.jpeg})
-    end
-  end
-
   describe "メソッドのテスト" do
+    describe "image_urlメソッドのテスト" do
+      it "image_urlメソッドで生成されるurlが意図した形式であること" do
+        superb_view = create(:superb_view)
+        expect(superb_view.image_url).to match(%r{http://localhost:3001/rails/active_storage/blobs/redirect/.+/test_image.jpeg})
+      end
+    end
+
     describe "extract_months_rangeメソッドのテスト" do
       it "引数の期間が数字に展開されること" do
         expect(SuperbView.extract_months_range("6月〜8月")).to match_array [6, 7, 8]
