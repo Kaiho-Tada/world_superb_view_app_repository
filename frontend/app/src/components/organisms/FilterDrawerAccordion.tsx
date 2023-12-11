@@ -14,6 +14,7 @@ import CharacteristicCheckBox from "components/molecules/CharacteristicCheckBox"
 import CountryCheckBox from "components/molecules/CountryCheckBox";
 import FilterSearchBox from "components/molecules/FilterSearchBox";
 import RiskLevelCheckBox from "components/molecules/RiskLevelCheckBox";
+import SeasonCheckBox from "components/molecules/SeasonCheckBox";
 import useClear from "hooks/api/clear/useClear";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 
@@ -27,6 +28,7 @@ const FilterDrawerAccordion = () => {
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
+    checkedMonthLabels,
     keyword,
   } = useSuperbViewListContext();
   const { handleClear } = useClear();
@@ -52,6 +54,7 @@ const FilterDrawerAccordion = () => {
               !checkedCountryLabels.length &&
               !checkedCharacteristicLabels.length &&
               !checkedRiskLevelLabels.length &&
+              !checkedMonthLabels.length &&
               keyword === "")
           }
         >
@@ -141,6 +144,17 @@ const FilterDrawerAccordion = () => {
         </AccordionButton>
         <AccordionPanel pb={4}>
           <RiskLevelCheckBox />
+        </AccordionPanel>
+      </AccordionItem>
+      <AccordionItem>
+        <AccordionButton fontWeight="bold" textShadow="2px 2px #000000">
+          <Box as="span" flex="1" textAlign="left">
+            ベストシーズン
+          </Box>
+          <AccordionIcon />
+        </AccordionButton>
+        <AccordionPanel pb={4}>
+          <SeasonCheckBox />
         </AccordionPanel>
       </AccordionItem>
     </Accordion>

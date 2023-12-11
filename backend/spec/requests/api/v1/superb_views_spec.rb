@@ -198,5 +198,22 @@ RSpec.describe "Api::V1::SuperbViews", type: :request do
         expect(json).to eq json.uniq
       end
     end
+
+    describe "filter_by_monthのスコープのテスト" do
+      it "paramsで受け取ったmonthsの月をbest_seasonに持つSuperbViewを返すこと" do
+        superb_view1 = create(:superb_view, best_season: "12月〜2月")
+        superb_view2 = create(:superb_view, best_season: "3月〜5月 or 9月〜11月")
+        superb_view3 = create(:superb_view, best_season: "6月〜8月")
+
+        get api_v1_superb_views_search_path, params: {
+          months: ["1月", "3月", "7月"]
+        }
+        superb_views = [superb_view1, superb_view2, superb_view3]
+        superb_views_json = superb_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+                                                 methods: [:image_url])
+        expect(response).to have_http_status(200)
+        expect(response.body).to eq superb_views_json
+      end
+    end
   end
 end

@@ -6,6 +6,7 @@ import useGetAllCountriesWithCheckBoxData from "hooks/api/country/useGetAllCount
 import { FC, ReactNode, useContext, useMemo, useState } from "react";
 import { SuperbView } from "types/api/superbView";
 import { RiskLevel } from "types/riskLevel";
+import { MonthCheckBoxItems } from "types/season/monthCheckBoxItems";
 
 type Props = {
   children: ReactNode;
@@ -23,6 +24,7 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
   const [checkedCountryLabels, setCheckedCountryLabels] = useState<Array<string>>([]);
   const [checkedCharacteristicLabels, setCheckedCharacteristicLabels] = useState<Array<string>>([]);
   const [checkedRiskLevelLabels, setCheckedRiskLevelLabels] = useState<Array<string>>([]);
+  const [checkedMonthLabels, setCheckedMonthLabels] = useState<Array<string>>([]);
   const [loadingSearchSuperbViews, setLoadingSearchSuperbViews] = useState(false);
   const [riskLevels, setRiskLevels] = useState<Array<RiskLevel>>([
     { label: "4", checked: false },
@@ -34,6 +36,20 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
   const [keyword, setKeyword] = useState<string>("");
   const [shouldDebounce, setShouldDebounce] = useState<boolean>(false);
   const [superbViews, setSuperbViews] = useState<Array<SuperbView>>([]);
+  const [monthCheckBoxItems, setMonthCheckBoxItems] = useState<Array<MonthCheckBoxItems>>([
+    { label: "1月", season: "冬", checked: false },
+    { label: "2月", season: "冬", checked: false },
+    { label: "3月", season: "春", checked: false },
+    { label: "4月", season: "春", checked: false },
+    { label: "5月", season: "春", checked: false },
+    { label: "6月", season: "夏", checked: false },
+    { label: "7月", season: "夏", checked: false },
+    { label: "8月", season: "夏", checked: false },
+    { label: "9月", season: "秋", checked: false },
+    { label: "10月", season: "秋", checked: false },
+    { label: "11月", season: "秋", checked: false },
+    { label: "12月", season: "冬", checked: false },
+  ]);
 
   const {
     isOpen: isOpenFilterDrawer,
@@ -97,6 +113,10 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setKeyword,
       shouldDebounce,
       setShouldDebounce,
+      monthCheckBoxItems,
+      setMonthCheckBoxItems,
+      checkedMonthLabels,
+      setCheckedMonthLabels,
     }),
     [
       countryStates,
@@ -134,6 +154,10 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setKeyword,
       shouldDebounce,
       setShouldDebounce,
+      monthCheckBoxItems,
+      setMonthCheckBoxItems,
+      checkedMonthLabels,
+      setCheckedMonthLabels,
     ]
   );
   return <SuperbViewListContext.Provider value={value}>{children}</SuperbViewListContext.Provider>;

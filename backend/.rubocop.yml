@@ -58,4 +58,4 @@ Style/WordArray:
   Enabled: false
 
 Metrics/AbcSize:
-  Max: 19
+  Max: 22

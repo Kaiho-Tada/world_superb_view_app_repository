@@ -5,11 +5,13 @@ const mockSetCategoriesWithCheckBoxData = jest.fn();
 const mockSetCountriesWithCheckBoxData = jest.fn();
 const mockSetCharacteristicsWithCheckBoxData = jest.fn();
 const mockSetRiskLevels = jest.fn();
+const mockSetMonthCheckBoxItems = jest.fn();
 const mockSetCheckedCategoryLabels = jest.fn();
 const mockSetCheckedCountryLabels = jest.fn();
 const mockSetCheckedCharacteristicLabels = jest.fn();
 const mockSetCheckedRiskLevelLabels = jest.fn();
 const mockSetKeyword = jest.fn();
+const mockSetCheckedMonthLabels = jest.fn();
 
 jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/SuperbViewListProvider"),
@@ -47,10 +49,13 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
       },
     ],
     setRiskLevels: mockSetRiskLevels,
+    monthCheckBoxItems: [{ label: "1月", season: "冬", checked: true }],
+    setMonthCheckBoxItems: mockSetMonthCheckBoxItems,
     setCheckedCategoryLabels: mockSetCheckedCategoryLabels,
     setCheckedCountryLabels: mockSetCheckedCountryLabels,
     setCheckedCharacteristicLabels: mockSetCheckedCharacteristicLabels,
     setCheckedRiskLevelLabels: mockSetCheckedRiskLevelLabels,
+    setCheckedMonthLabels: mockSetCheckedMonthLabels,
     setKeyword: mockSetKeyword,
   }),
 }));
@@ -104,6 +109,14 @@ test("riskLevelsのcheckedがtrueの場合、falseに切り替わること", () 
   ]);
 });
 
+test("monthCheckBoxItemsのcheckedがtrueの場合、falseに切り替わること", () => {
+  const { result } = renderHook(() => useClear());
+  result.current.handleClear();
+  expect(mockSetMonthCheckBoxItems).toHaveBeenCalledWith([
+    { label: "1月", season: "冬", checked: false },
+  ]);
+});
+
 test("各setCheckedLablesに空の配列が渡されること", () => {
   const { result } = renderHook(() => useClear());
   result.current.handleClear();
@@ -111,6 +124,7 @@ test("各setCheckedLablesに空の配列が渡されること", () => {
   expect(mockSetCheckedCountryLabels).toHaveBeenCalledWith([]);
   expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledWith([]);
   expect(mockSetCheckedRiskLevelLabels).toHaveBeenCalledWith([]);
+  expect(mockSetCheckedMonthLabels).toHaveBeenCalledWith([]);
 });
 
 test("keywordが空文字に更新されること", () => {

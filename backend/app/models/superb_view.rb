@@ -68,6 +68,31 @@ class SuperbView < ApplicationRecord
       .where("superb_views.name LIKE(?) or countries.name LIKE(?)", "%#{keyword}%", "%#{keyword}%").distinct
   }
 
+  scope :filter_by_month, lambda { |months|
+    return self if months.nil?
+
+    numeric_months = months.map { |month| month.gsub(/[^0-9]/, "").to_i }
+
+    select do |superb_view|
+      (extract_months_range(superb_view.best_season) & numeric_months).any?
+    end
+  }
+
+  def self.extract_months_range(input)
+    ranges = input.scan(/(\d+)月〜(\d+)月/)
+
+    ranges.flat_map do |start_month, end_month|
+      start_month = start_month.to_i
+      end_month = end_month.to_i
+
+      if start_month > end_month
+        (start_month..12).to_a + (1..end_month).to_a
+      else
+        (start_month..end_month).to_a
+      end
+    end
+  end
+
   private
 
   def validate_image

@@ -9,6 +9,7 @@ export const searchSuperbViewsApi = (props: SearchSuperbViewsProps) => {
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
+    checkedMonthLabels,
     keyword,
   } = props;
 
@@ -18,6 +19,7 @@ export const searchSuperbViewsApi = (props: SearchSuperbViewsProps) => {
       countryNames: checkedCountryLabels,
       characteristicNames: checkedCharacteristicLabels,
       riskLevels: checkedRiskLevelLabels,
+      months: checkedMonthLabels,
       keyword,
     },
   });

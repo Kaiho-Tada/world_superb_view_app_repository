@@ -12,6 +12,7 @@ const useSearchSuperbView = () => {
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
+    checkedMonthLabels,
     keyword,
   } = useSuperbViewListContext();
 
@@ -23,6 +24,7 @@ const useSearchSuperbView = () => {
         checkedCountryLabels,
         checkedCharacteristicLabels,
         checkedRiskLevelLabels,
+        checkedMonthLabels,
         keyword,
       });
       setSuperbViews(res.data);
@@ -39,6 +41,7 @@ const useSearchSuperbView = () => {
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
+    checkedMonthLabels,
     keyword,
   ]);
   return { handleSearchSuperbView };

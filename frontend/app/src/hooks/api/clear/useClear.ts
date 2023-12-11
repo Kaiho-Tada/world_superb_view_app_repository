@@ -11,10 +11,13 @@ const useClear = () => {
     setCharacteristicsWithCheckBoxData,
     riskLevels,
     setRiskLevels,
+    monthCheckBoxItems,
+    setMonthCheckBoxItems,
     setCheckedCategoryLabels,
     setCheckedCountryLabels,
     setCheckedCharacteristicLabels,
     setCheckedRiskLevelLabels,
+    setCheckedMonthLabels,
     setKeyword,
   } = useSuperbViewListContext();
 
@@ -61,10 +64,20 @@ const useClear = () => {
     });
     setRiskLevels(clearedRiskLevels);
 
+    const clearedMonthCheckBoxItems = monthCheckBoxItems.map((originalMonthCheckBoxItem) => {
+      const monthCheckBoxItem = { ...originalMonthCheckBoxItem };
+      if (monthCheckBoxItem.checked === true) {
+        monthCheckBoxItem.checked = !monthCheckBoxItem.checked;
+      }
+      return monthCheckBoxItem;
+    });
+    setMonthCheckBoxItems(clearedMonthCheckBoxItems);
+
     setCheckedCategoryLabels([]);
     setCheckedCountryLabels([]);
     setCheckedCharacteristicLabels([]);
     setCheckedRiskLevelLabels([]);
+    setCheckedMonthLabels([]);
     setKeyword("");
   }, [
     categoriesWithCheckBoxData,

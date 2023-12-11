@@ -13,6 +13,7 @@ import CharacteristicCheckBox from "components/molecules/CharacteristicCheckBox"
 import CountryCheckBox from "components/molecules/CountryCheckBox";
 import FilterSearchBox from "components/molecules/FilterSearchBox";
 import RiskLevelCheckBox from "components/molecules/RiskLevelCheckBox";
+import SeasonCheckBox from "components/molecules/SeasonCheckBox";
 import useClear from "hooks/api/clear/useClear";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 import { FC, memo } from "react";
@@ -26,6 +27,7 @@ const FilterAccordion: FC = memo(() => {
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
+    checkedMonthLabels,
     keyword,
   } = useSuperbViewListContext();
   const { handleClear } = useClear();
@@ -59,6 +61,7 @@ const FilterAccordion: FC = memo(() => {
               !checkedCountryLabels.length &&
               !checkedCharacteristicLabels.length &&
               !checkedRiskLevelLabels.length &&
+              !checkedMonthLabels.length &&
               keyword === "")
           }
         >
@@ -148,6 +151,17 @@ const FilterAccordion: FC = memo(() => {
         </AccordionButton>
         <AccordionPanel pb={4}>
           <RiskLevelCheckBox />
+        </AccordionPanel>
+      </AccordionItem>
+      <AccordionItem>
+        <AccordionButton fontWeight="bold" textShadow="2px 2px #000000">
+          <Box as="span" flex="1" textAlign="left">
+            ベストシーズン
+          </Box>
+          <AccordionIcon />
+        </AccordionButton>
+        <AccordionPanel pb={4}>
+          <SeasonCheckBox />
         </AccordionPanel>
       </AccordionItem>
     </Accordion>

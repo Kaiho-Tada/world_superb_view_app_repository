@@ -51,6 +51,20 @@ RSpec.describe SuperbView, type: :model do
     end
   end
 
+  describe "メソッドのテスト" do
+    describe "extract_months_rangeメソッドのテスト" do
+      it "引数の期間が数字に展開されること" do
+        expect(SuperbView.extract_months_range("6月〜8月")).to match_array [6, 7, 8]
+      end
+      it "引数の期間が年を跨ぐ場合も、数字に展開されること" do
+        expect(SuperbView.extract_months_range("12月〜2月")).to match_array [1, 2, 12]
+      end
+      it "引数の期間が複数存在する場合も、数字に展開されること" do
+        expect(SuperbView.extract_months_range("3月〜5月 or 9月〜11月")).to match_array [3, 4, 5, 9, 10, 11]
+      end
+    end
+  end
+
   describe "スコープのテスト" do
     let!(:matera_cave_dwellings) { create(:superb_view, name: "マテーラの洞窟住居") }
     let!(:civita_di_bagnoregio) { create(:superb_view, name: "チヴィタディバニョレージョ") }
@@ -157,6 +171,18 @@ RSpec.describe SuperbView, type: :model do
         create(:superb_view_country, superb_view: duplicate_superb_view, country: create(:country))
         result_superb_view = SuperbView.filter_by_keyword("重複する絶景")
         expect(result_superb_view).to eq result_superb_view.distinct
+      end
+    end
+
+    describe "filter_by_monthのスコープのテスト" do
+      it "引数で受け取ったmonthsの月をbest_seasonに持つSuperbViewを返すこと" do
+        superb_view1 = create(:superb_view, best_season: "12月〜2月")
+        superb_view2 = create(:superb_view, best_season: "3月〜5月 or 9月〜11月")
+        superb_view3 = create(:superb_view, best_season: "6月〜8月")
+        expect(SuperbView.filter_by_month(["1月"])).to eq [superb_view1]
+        expect(SuperbView.filter_by_month(["4月"])).to eq [superb_view2]
+        expect(SuperbView.filter_by_month(["7月"])).to eq [superb_view3]
+        expect(SuperbView.filter_by_month(["10月", "11月"])).to eq [superb_view2]
       end
     end
   end

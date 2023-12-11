@@ -48,6 +48,7 @@ const mockContextValue = {
       checked: false,
     },
   ],
+  monthCheckBoxItems: [{ label: "1月", season: "冬", checked: false }],
   onCloseFilterDrawer: mockOnCloseFilterDrawer,
   loadingSearchSuperbViews: false,
   checkedCategoryLabels: ["遺跡"],
@@ -68,6 +69,7 @@ const mockContextValueEmptyCheckedLabelsAndEmptyKeyword = {
   checkedCountryLabels: [],
   checkedCharacteristicLabels: [],
   checkedRiskLevelLabels: [],
+  checkedMonthLabels: [],
   keyword: "",
 };
 
@@ -253,4 +255,21 @@ test("キーワードのアコーディオンボタン押下でFilterSearchBox�
     await user.click(screen.getByRole("button", { name: "キーワード" }));
   });
   expect(screen.getByRole("searchbox")).toBeInTheDocument();
+});
+
+test("ベストシーズンのアコーディオンボタンがレンダリングされていること", () => {
+  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  render(<FilterDrawerAccordion />);
+  expect(screen.getByRole("button", { name: "ベストシーズン" })).toBeInTheDocument();
+});
+
+test("ベストシーズンのアコーディオンボタン押下でSeasonCheckBoxが表示されること", async () => {
+  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  const user = userEvent.setup();
+  render(<FilterDrawerAccordion />);
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "ベストシーズン" }));
+  });
+  expect(screen.getByRole("checkbox", { name: "冬" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "1月" })).toBeInTheDocument();
 });

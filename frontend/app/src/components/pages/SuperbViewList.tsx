@@ -18,6 +18,7 @@ const SuperbViewList = memo(() => {
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
+    checkedMonthLabels,
     keyword,
     shouldDebounce,
     setShouldDebounce,
@@ -40,6 +41,7 @@ const SuperbViewList = memo(() => {
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
+    checkedMonthLabels,
     keyword,
   ]);
   useEffect(() => {

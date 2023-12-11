@@ -4,6 +4,7 @@ import { CharacteristicWithCheckBoxData } from "types/api/characteristic/charact
 import { CountryWithCheckBoxData } from "types/api/country/countryWithCheckBoxData";
 import { SuperbView } from "types/api/superbView";
 import { RiskLevel } from "types/riskLevel";
+import { MonthCheckBoxItems } from "types/season/monthCheckBoxItems";
 
 export const SuperbViewListContext = createContext(
   {} as {
@@ -42,6 +43,10 @@ export const SuperbViewListContext = createContext(
     setKeyword: React.Dispatch<React.SetStateAction<string>>;
     shouldDebounce: boolean;
     setShouldDebounce: React.Dispatch<React.SetStateAction<boolean>>;
+    monthCheckBoxItems: MonthCheckBoxItems[];
+    setMonthCheckBoxItems: React.Dispatch<React.SetStateAction<MonthCheckBoxItems[]>>;
+    checkedMonthLabels: string[];
+    setCheckedMonthLabels: React.Dispatch<React.SetStateAction<string[]>>;
   }
 );
 

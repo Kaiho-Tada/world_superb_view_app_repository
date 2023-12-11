@@ -24,6 +24,7 @@ const mockContextValueSucsess = {
   checkedCountryLabels: ["中国"],
   checkedCharacteristicLabels: ["歴史・文化的"],
   checkedRiskLevelLabels: ["1"],
+  checkedMonthLabels: ["9月"],
   keyword: ["の"],
 };
 
@@ -39,6 +40,7 @@ mockAxios.onGet("/superb_views/search").reply((config) => {
     config.params.country_names.includes("中国") &&
     config.params.characteristic_names.includes("歴史・文化的") &&
     config.params.risk_levels.includes("1") &&
+    config.params.months.includes("9月") &&
     config.params.keyword.includes("の")
   ) {
     return [
