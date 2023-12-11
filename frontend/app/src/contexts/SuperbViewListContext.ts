@@ -1,5 +1,5 @@
 import { createContext, Dispatch, SetStateAction } from "react";
-import { CategoryWithCheckBoxData } from "types/api/category/categoryWithCheckBoxData";
+import { CategoryCheckBoxItem } from "types/api/category/categoryCheckBoxItem";
 import { CharacteristicWithCheckBoxData } from "types/api/characteristic/characteristicsWithCheckBoxData";
 import { CountryWithCheckBoxData } from "types/api/country/countryWithCheckBoxData";
 import { SuperbView } from "types/api/superbView";
@@ -22,14 +22,14 @@ export const SuperbViewListContext = createContext(
     setSuperbViews: React.Dispatch<React.SetStateAction<Array<SuperbView>>>;
     countriesWithCheckBoxData: Array<CountryWithCheckBoxData>;
     setCountriesWithCheckBoxData: Dispatch<SetStateAction<CountryWithCheckBoxData[]>>;
-    categoriesWithCheckBoxData: Array<CategoryWithCheckBoxData>;
-    setCategoriesWithCheckBoxData: Dispatch<SetStateAction<CategoryWithCheckBoxData[]>>;
+    categoryCheckBoxItems: Array<CategoryCheckBoxItem>;
+    setCategoryCheckBoxItems: Dispatch<SetStateAction<CategoryCheckBoxItem[]>>;
     characteristicsWithCheckBoxData: Array<CharacteristicWithCheckBoxData>;
     setCharacteristicsWithCheckBoxData: Dispatch<SetStateAction<CharacteristicWithCheckBoxData[]>>;
-    getAllCategoriesWithCheckBoxData: () => Promise<void>;
+    getCategoryCheckBoxItems: () => Promise<void>;
     getAllCountriesWithCheckBoxData: () => Promise<void>;
     getAllCharacteristicsWithCheckBoxData: () => Promise<void>;
-    loadingCategoriesWithCheckBoxData: boolean;
+    loadingCategoryCheckBoxItems: boolean;
     loadingCountriesWithCheckBoxData: boolean;
     loadingCharacteristicsWithCheckBoxData: boolean;
     checkedRiskLevelLabels: string[];

@@ -10,8 +10,8 @@ const spyOnUseSuperbViewListContext = jest.spyOn(
 
 const mockContextValue = {
   loadingSearchSuperbViews: false,
-  loadingCategoriesWithCheckBoxData: false,
-  categoriesWithCheckBoxData: [
+  loadingCategoryCheckBoxItems: false,
+  categoryCheckBoxItems: [
     {
       label: "滝",
       classification: "自然",
@@ -23,7 +23,7 @@ const mockContextValue = {
 
 const mockContextValueCheckedTrue = {
   ...mockContextValue,
-  categoriesWithCheckBoxData: [
+  categoryCheckBoxItems: [
     {
       label: "滝",
       classification: "自然",
@@ -38,9 +38,9 @@ const mockContextValueLoadingSearchSuperbViews = {
   loadingSearchSuperbViews: true,
 };
 
-const mockContextValueLoadingCategoriesWithCheckBoxData = {
+const mockContextValueLoadingCategoryCheckBoxItems = {
   ...mockContextValue,
-  loadingCategoriesWithCheckBoxData: true,
+  loadingCategoryCheckBoxItems: true,
 };
 
 const mockHandleChangeCategory = jest.fn();
@@ -71,7 +71,7 @@ test("loadingSearchSuperbViewsがtureの場合、CheckBoxがdisabledになって
 
 test("loadingCategoriesWithCheckBoxDataがtrueの場合、スピナーが表示されていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(
-    () => mockContextValueLoadingCategoriesWithCheckBoxData
+    () => mockContextValueLoadingCategoryCheckBoxItems
   );
   render(<CategoryCheckBox categoryClassification="自然" />);
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();

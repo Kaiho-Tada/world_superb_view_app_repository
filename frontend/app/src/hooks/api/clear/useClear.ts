@@ -3,8 +3,8 @@ import { useSuperbViewListContext } from "../../providers/SuperbViewListProvider
 
 const useClear = () => {
   const {
-    categoriesWithCheckBoxData,
-    setCategoriesWithCheckBoxData,
+    categoryCheckBoxItems,
+    setCategoryCheckBoxItems,
     countriesWithCheckBoxData,
     setCountriesWithCheckBoxData,
     characteristicsWithCheckBoxData,
@@ -22,16 +22,16 @@ const useClear = () => {
   } = useSuperbViewListContext();
 
   const handleClear = useCallback(() => {
-    const clearedCategoriesWithCheckBoxData = categoriesWithCheckBoxData.map(
-      (originalCategoryWithCheckBoxData) => {
-        const categoryWithCheckBoxData = { ...originalCategoryWithCheckBoxData };
-        if (categoryWithCheckBoxData.checked === true) {
-          categoryWithCheckBoxData.checked = !categoryWithCheckBoxData.checked;
+    const clearedCategoryCheckBoxItems = categoryCheckBoxItems.map(
+      (originalCategoryCheckBoxItem) => {
+        const categoryCheckBoxItem = { ...originalCategoryCheckBoxItem };
+        if (categoryCheckBoxItem.checked === true) {
+          categoryCheckBoxItem.checked = !categoryCheckBoxItem.checked;
         }
-        return categoryWithCheckBoxData;
+        return categoryCheckBoxItem;
       }
     );
-    setCategoriesWithCheckBoxData(clearedCategoriesWithCheckBoxData);
+    setCategoryCheckBoxItems(clearedCategoryCheckBoxItems);
 
     const clearedCharacteristicsWithCheckBoxData = characteristicsWithCheckBoxData.map(
       (originalCharacteristicWithCheckBoxData) => {
@@ -80,7 +80,7 @@ const useClear = () => {
     setCheckedMonthLabels([]);
     setKeyword("");
   }, [
-    categoriesWithCheckBoxData,
+    categoryCheckBoxItems,
     countriesWithCheckBoxData,
     characteristicsWithCheckBoxData,
     riskLevels,

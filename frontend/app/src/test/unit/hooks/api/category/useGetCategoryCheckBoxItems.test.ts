@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useGetAllCategoriesWithCheckBoxData from "hooks/api/category/useGetAllCategoriesWithCheckBoxData";
+import useGetCategoryCheckBoxItems from "hooks/api/category/useGetCategoryCheckBoxItems";
 import client from "lib/api/client";
 import { act } from "react-dom/test-utils";
 
@@ -41,14 +41,14 @@ test("categoriesWithCheckBoxData取得成功時のテスト", async () => {
       ],
     },
   ]);
-  const { result } = renderHook(() => useGetAllCategoriesWithCheckBoxData());
-  expect(result.current.categoriesWithCheckBoxData).toEqual([]);
-  expect(result.current.loadingCategoriesWithCheckBoxData).toBe(false);
+  const { result } = renderHook(() => useGetCategoryCheckBoxItems());
+  expect(result.current.categoryCheckBoxItems).toEqual([]);
+  expect(result.current.loadingCategoryCheckBoxItems).toBe(false);
   await act(() => {
-    result.current.getAllCategoriesWithCheckBoxData();
+    result.current.getCategoryCheckBoxItems();
   });
 
-  expect(result.current.categoriesWithCheckBoxData).toEqual([
+  expect(result.current.categoryCheckBoxItems).toEqual([
     {
       label: "洞窟",
       classification: "自然",
@@ -62,19 +62,19 @@ test("categoriesWithCheckBoxData取得成功時のテスト", async () => {
       checked: false,
     },
   ]);
-  expect(result.current.loadingCategoriesWithCheckBoxData).toBe(false);
+  expect(result.current.loadingCategoryCheckBoxItems).toBe(false);
 });
 
 test("categoriesWithCheckBoxData取得失敗時のテスト", async () => {
   mockAxios.onGet("/categories").reply(500);
-  const { result } = renderHook(() => useGetAllCategoriesWithCheckBoxData());
-  expect(result.current.categoriesWithCheckBoxData).toEqual([]);
-  expect(result.current.loadingCategoriesWithCheckBoxData).toBe(false);
+  const { result } = renderHook(() => useGetCategoryCheckBoxItems());
+  expect(result.current.categoryCheckBoxItems).toEqual([]);
+  expect(result.current.loadingCategoryCheckBoxItems).toBe(false);
   await act(() => {
-    result.current.getAllCategoriesWithCheckBoxData();
+    result.current.getCategoryCheckBoxItems();
   });
-  expect(result.current.categoriesWithCheckBoxData).toEqual([]);
-  expect(result.current.loadingCategoriesWithCheckBoxData).toBe(false);
+  expect(result.current.categoryCheckBoxItems).toEqual([]);
+  expect(result.current.loadingCategoryCheckBoxItems).toBe(false);
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "categoriesの取得に失敗しました。",
     status: "error",

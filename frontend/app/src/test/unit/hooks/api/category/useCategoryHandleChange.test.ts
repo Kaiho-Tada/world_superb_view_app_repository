@@ -8,13 +8,13 @@ const spyOnUseSuperbViewListContext = jest.spyOn(
   "useSuperbViewListContext"
 );
 
-const mockSetCategoriesWithCheckBoxData = jest.fn();
+const mockSetCategoryCheckBoxItems = jest.fn();
 const mockSetCheckedCategoryLabels = jest.fn();
 
 const mockContextValueCheckedFalse = {
-  setCategoriesWithCheckBoxData: mockSetCategoriesWithCheckBoxData,
+  setCategoryCheckBoxItems: mockSetCategoryCheckBoxItems,
   setCheckedCategoryLabels: mockSetCheckedCategoryLabels,
-  categoriesWithCheckBoxData: [
+  categoryCheckBoxItems: [
     {
       label: "城",
       classification: "人工",
@@ -25,9 +25,9 @@ const mockContextValueCheckedFalse = {
 };
 
 const mockContextValueCheckedTrue = {
-  setCategoriesWithCheckBoxData: mockSetCategoriesWithCheckBoxData,
+  setCategoryCheckBoxItems: mockSetCategoryCheckBoxItems,
   setCheckedCategoryLabels: mockSetCheckedCategoryLabels,
-  categoriesWithCheckBoxData: [
+  categoryCheckBoxItems: [
     {
       label: "城",
       classification: "人工",
@@ -45,7 +45,7 @@ describe("handleChangeCategory関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeCategory(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetCategoriesWithCheckBoxData).toHaveBeenCalledWith([
+    expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledWith([
       {
         label: "城",
         classification: "人工",
@@ -53,7 +53,7 @@ describe("handleChangeCategory関数の挙動のテスト", () => {
         checked: true,
       },
     ]);
-    expect(mockSetCategoriesWithCheckBoxData).toHaveBeenCalledTimes(1);
+    expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledTimes(1);
 
     expect(mockSetCheckedCategoryLabels).toHaveBeenCalledWith(["城"]);
     expect(mockSetCheckedCategoryLabels).toHaveBeenCalledTimes(1);
@@ -66,7 +66,7 @@ describe("handleChangeCategory関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeCategory(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetCategoriesWithCheckBoxData).toHaveBeenCalledWith([
+    expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledWith([
       {
         label: "城",
         classification: "人工",
@@ -74,7 +74,7 @@ describe("handleChangeCategory関数の挙動のテスト", () => {
         checked: false,
       },
     ]);
-    expect(mockSetCategoriesWithCheckBoxData).toHaveBeenCalledTimes(1);
+    expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledTimes(1);
 
     expect(mockSetCheckedCategoryLabels).toHaveBeenCalledWith([]);
     expect(mockSetCheckedCategoryLabels).toHaveBeenCalledTimes(1);

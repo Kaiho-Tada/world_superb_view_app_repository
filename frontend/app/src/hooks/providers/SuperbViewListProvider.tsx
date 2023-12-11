@@ -1,6 +1,6 @@
 import { useDisclosure } from "@chakra-ui/react";
 import SuperbViewListContext from "contexts/SuperbViewListContext";
-import useGetAllCategoriesWithCheckBoxData from "hooks/api/category/useGetAllCategoriesWithCheckBoxData";
+import useGetAllCategoryCheckBoxItems from "hooks/api/category/useGetCategoryCheckBoxItems";
 import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/useGetAllCharacteristicsWithCheckBoxData";
 import useGetAllCountriesWithCheckBoxData from "hooks/api/country/useGetAllCountriesWithCheckBoxData";
 import { FC, ReactNode, useContext, useMemo, useState } from "react";
@@ -58,11 +58,11 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
   } = useDisclosure();
 
   const {
-    getAllCategoriesWithCheckBoxData,
-    categoriesWithCheckBoxData,
-    setCategoriesWithCheckBoxData,
-    loadingCategoriesWithCheckBoxData,
-  } = useGetAllCategoriesWithCheckBoxData();
+    getCategoryCheckBoxItems,
+    categoryCheckBoxItems,
+    setCategoryCheckBoxItems,
+    loadingCategoryCheckBoxItems,
+  } = useGetAllCategoryCheckBoxItems();
   const {
     getAllCountriesWithCheckBoxData,
     countriesWithCheckBoxData,
@@ -92,14 +92,14 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setSuperbViews,
       countriesWithCheckBoxData,
       setCountriesWithCheckBoxData,
-      categoriesWithCheckBoxData,
-      setCategoriesWithCheckBoxData,
+      categoryCheckBoxItems,
+      setCategoryCheckBoxItems,
       characteristicsWithCheckBoxData,
       setCharacteristicsWithCheckBoxData,
-      getAllCategoriesWithCheckBoxData,
+      getCategoryCheckBoxItems,
       getAllCountriesWithCheckBoxData,
       getAllCharacteristicsWithCheckBoxData,
-      loadingCategoriesWithCheckBoxData,
+      loadingCategoryCheckBoxItems,
       loadingCountriesWithCheckBoxData,
       loadingCharacteristicsWithCheckBoxData,
       checkedRiskLevelLabels,
@@ -133,14 +133,14 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setSuperbViews,
       countriesWithCheckBoxData,
       setCountriesWithCheckBoxData,
-      categoriesWithCheckBoxData,
-      setCategoriesWithCheckBoxData,
+      categoryCheckBoxItems,
+      setCategoryCheckBoxItems,
       characteristicsWithCheckBoxData,
       setCharacteristicsWithCheckBoxData,
-      getAllCategoriesWithCheckBoxData,
+      getCategoryCheckBoxItems,
       getAllCountriesWithCheckBoxData,
       getAllCharacteristicsWithCheckBoxData,
-      loadingCategoriesWithCheckBoxData,
+      loadingCategoryCheckBoxItems,
       loadingCountriesWithCheckBoxData,
       loadingCharacteristicsWithCheckBoxData,
       checkedRiskLevelLabels,

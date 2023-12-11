@@ -2,32 +2,30 @@ import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider
 import { ChangeEvent, useCallback } from "react";
 
 const useCategoryHandleChange = () => {
-  const { setCheckedCategoryLabels, categoriesWithCheckBoxData, setCategoriesWithCheckBoxData } =
+  const { setCheckedCategoryLabels, categoryCheckBoxItems, setCategoryCheckBoxItems } =
     useSuperbViewListContext();
 
   const handleChangeCategory = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const newCategoriesWithCheckBoxData = categoriesWithCheckBoxData.map(
-        (originalCategoryWithCheckBoxData) => {
-          const categoryWithCheckBoxData = { ...originalCategoryWithCheckBoxData };
-          if (categoryWithCheckBoxData.label === e.target.value) {
-            categoryWithCheckBoxData.checked = !categoryWithCheckBoxData.checked;
-          }
-          return categoryWithCheckBoxData;
+      const newCategoryCheckBoxItems = categoryCheckBoxItems.map((originalCategoryCheckBoxItem) => {
+        const categoryCheckBoxItem = { ...originalCategoryCheckBoxItem };
+        if (categoryCheckBoxItem.label === e.target.value) {
+          categoryCheckBoxItem.checked = !categoryCheckBoxItem.checked;
         }
-      );
-      setCategoriesWithCheckBoxData(newCategoriesWithCheckBoxData);
+        return categoryCheckBoxItem;
+      });
+      setCategoryCheckBoxItems(newCategoryCheckBoxItems);
 
-      const checkedCategoriesWithCheckBoxData = newCategoriesWithCheckBoxData.filter(
+      const checkedCategoryCheckBoxItems = newCategoryCheckBoxItems.filter(
         (newCategoryWithCheckBoxData) => newCategoryWithCheckBoxData.checked === true
       );
 
-      const newCheckedCategoryLabels = checkedCategoriesWithCheckBoxData.map(
-        (checkedCategoryWithCheckBoxData) => checkedCategoryWithCheckBoxData.label
+      const newCheckedCategoryLabels = checkedCategoryCheckBoxItems.map(
+        (checkedCategoryCheckBoxItem) => checkedCategoryCheckBoxItem.label
       );
       setCheckedCategoryLabels(newCheckedCategoryLabels);
     },
-    [categoriesWithCheckBoxData]
+    [categoryCheckBoxItems]
   );
   return { handleChangeCategory };
 };

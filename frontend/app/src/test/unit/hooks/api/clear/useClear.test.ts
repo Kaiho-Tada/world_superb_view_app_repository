@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import useClear from "hooks/api/clear/useClear";
 
-const mockSetCategoriesWithCheckBoxData = jest.fn();
+const mockSetCategoryCheckBoxItems = jest.fn();
 const mockSetCountriesWithCheckBoxData = jest.fn();
 const mockSetCharacteristicsWithCheckBoxData = jest.fn();
 const mockSetRiskLevels = jest.fn();
@@ -16,7 +16,7 @@ const mockSetCheckedMonthLabels = jest.fn();
 jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/SuperbViewListProvider"),
   useSuperbViewListContext: () => ({
-    categoriesWithCheckBoxData: [
+    categoryCheckBoxItems: [
       {
         label: "城",
         classification: "人工",
@@ -24,7 +24,7 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
         checked: true,
       },
     ],
-    setCategoriesWithCheckBoxData: mockSetCategoriesWithCheckBoxData,
+    setCategoryCheckBoxItems: mockSetCategoryCheckBoxItems,
     countriesWithCheckBoxData: [
       {
         label: "ペルー",
@@ -63,7 +63,7 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
 test("categoriesWithCheckBoxDataのcheckedがtrueの場合、falseに切り替わること", () => {
   const { result } = renderHook(() => useClear());
   result.current.handleClear();
-  expect(mockSetCategoriesWithCheckBoxData).toHaveBeenCalledWith([
+  expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledWith([
     {
       label: "城",
       classification: "人工",
