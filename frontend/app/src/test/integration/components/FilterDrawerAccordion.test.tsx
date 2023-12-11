@@ -16,7 +16,6 @@ const mockOnCloseFilterDrawer = jest.fn();
 const mockContextValue = {
   countryStates,
   categoryClassifications,
-  getCategoryCheckBoxItems: jest.fn(),
   categoryCheckBoxItems: [
     {
       label: "滝",
@@ -25,7 +24,6 @@ const mockContextValue = {
       checked: false,
     },
   ],
-  getAllCountriesWithCheckBoxData: jest.fn(),
   countriesWithCheckBoxData: [
     {
       label: "アメリカ",
@@ -34,7 +32,6 @@ const mockContextValue = {
       checked: false,
     },
   ],
-  getAllCharacteristicsWithCheckBoxData: jest.fn(),
   characteristicsWithCheckBoxData: [
     {
       label: "雄大",
