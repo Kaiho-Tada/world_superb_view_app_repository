@@ -3,33 +3,33 @@ import { ChangeEvent, useCallback } from "react";
 
 const useCharacteristicHandleChange = () => {
   const {
-    characteristicsWithCheckBoxData,
-    setCharacteristicsWithCheckBoxData,
+    characteristicCheckBoxItems,
+    setCharacteristicCheckBoxItems,
     setCheckedCharacteristicLabels,
   } = useSuperbViewListContext();
   const handleChangeCharacteristic = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const newCharacteristicsWithCheckBoxData = characteristicsWithCheckBoxData.map(
-        (originalCharacteristicWithCheckBoxData) => {
-          const CharacteristicWithCheckBoxData = { ...originalCharacteristicWithCheckBoxData };
-          if (CharacteristicWithCheckBoxData.label === e.target.value) {
-            CharacteristicWithCheckBoxData.checked = !CharacteristicWithCheckBoxData.checked;
+      const newCharacteristicCheckBoxItems = characteristicCheckBoxItems.map(
+        (originalCharacteristicCheckBoxItem) => {
+          const characteristicCheckBoxItem = { ...originalCharacteristicCheckBoxItem };
+          if (characteristicCheckBoxItem.label === e.target.value) {
+            characteristicCheckBoxItem.checked = !characteristicCheckBoxItem.checked;
           }
-          return CharacteristicWithCheckBoxData;
+          return characteristicCheckBoxItem;
         }
       );
-      setCharacteristicsWithCheckBoxData(newCharacteristicsWithCheckBoxData);
+      setCharacteristicCheckBoxItems(newCharacteristicCheckBoxItems);
 
-      const checkedCharacteristicsWithCheckBoxData = newCharacteristicsWithCheckBoxData.filter(
-        (newCharacteristicWithCheckBoxData) => newCharacteristicWithCheckBoxData.checked === true
+      const checkedCharacteristicCheckBoxItems = newCharacteristicCheckBoxItems.filter(
+        (newCharacteristicCheckBoxItem) => newCharacteristicCheckBoxItem.checked === true
       );
 
-      const newCheckedCharacteristicLabels = checkedCharacteristicsWithCheckBoxData.map(
-        (checkedCharacteristicWithCheckBoxData) => checkedCharacteristicWithCheckBoxData.label
+      const newCheckedCharacteristicLabels = checkedCharacteristicCheckBoxItems.map(
+        (checkedCharacteristicCheckBoxItem) => checkedCharacteristicCheckBoxItem.label
       );
       setCheckedCharacteristicLabels(newCheckedCharacteristicLabels);
     },
-    [characteristicsWithCheckBoxData]
+    [characteristicCheckBoxItems]
   );
   return { handleChangeCharacteristic };
 };

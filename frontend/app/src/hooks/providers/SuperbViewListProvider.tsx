@@ -1,7 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
 import SuperbViewListContext from "contexts/SuperbViewListContext";
 import useGetAllCategoryCheckBoxItems from "hooks/api/category/useGetCategoryCheckBoxItems";
-import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/useGetAllCharacteristicsWithCheckBoxData";
+import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/useGetCharacteristicCheckBoxItems";
 import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxItems";
 import { FC, ReactNode, useContext, useMemo, useState } from "react";
 import { SuperbView } from "types/api/superbView";
@@ -70,10 +70,10 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
     loadingCountryCheckBoxItems,
   } = useGetCountryCheckBoxItems();
   const {
-    getAllCharacteristicsWithCheckBoxData,
-    characteristicsWithCheckBoxData,
-    setCharacteristicsWithCheckBoxData,
-    loadingCharacteristicsWithCheckBoxData,
+    getCharacteristicCheckBoxItems,
+    characteristicCheckBoxItems,
+    setCharacteristicCheckBoxItems,
+    loadingCharacteristicCheckBoxItems,
   } = useGetAllCharacteristicsWithCheckBoxData();
 
   const value = useMemo(
@@ -94,14 +94,14 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setCountryCheckBoxItems,
       categoryCheckBoxItems,
       setCategoryCheckBoxItems,
-      characteristicsWithCheckBoxData,
-      setCharacteristicsWithCheckBoxData,
+      characteristicCheckBoxItems,
+      setCharacteristicCheckBoxItems,
       getCategoryCheckBoxItems,
       getCountryCheckBoxItems,
-      getAllCharacteristicsWithCheckBoxData,
+      getCharacteristicCheckBoxItems,
       loadingCategoryCheckBoxItems,
       loadingCountryCheckBoxItems,
-      loadingCharacteristicsWithCheckBoxData,
+      loadingCharacteristicCheckBoxItems,
       checkedRiskLevelLabels,
       setCheckedRiskLevelLabels,
       riskLevels,
@@ -135,14 +135,14 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setCountryCheckBoxItems,
       categoryCheckBoxItems,
       setCategoryCheckBoxItems,
-      characteristicsWithCheckBoxData,
-      setCharacteristicsWithCheckBoxData,
+      characteristicCheckBoxItems,
+      setCharacteristicCheckBoxItems,
       getCategoryCheckBoxItems,
       getCountryCheckBoxItems,
-      getAllCharacteristicsWithCheckBoxData,
+      getCategoryCheckBoxItems,
       loadingCategoryCheckBoxItems,
       loadingCountryCheckBoxItems,
-      loadingCharacteristicsWithCheckBoxData,
+      loadingCharacteristicCheckBoxItems,
       checkedRiskLevelLabels,
       setCheckedRiskLevelLabels,
       riskLevels,

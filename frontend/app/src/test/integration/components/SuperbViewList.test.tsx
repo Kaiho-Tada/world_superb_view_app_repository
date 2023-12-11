@@ -7,7 +7,7 @@ import { act } from "react-dom/test-utils";
 const mockOnOpenFilterDrawer = jest.fn();
 const mockGetCategoryCheckBoxItems = jest.fn();
 const mockGetCountryCheckBoxItems = jest.fn();
-const mockGetAllCharacteristicsWithCheckBoxData = jest.fn();
+const mockGetCharacteristicCheckBoxItems = jest.fn();
 
 jest.mock("hooks/providers/SuperbViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/SuperbViewListProvider"),
@@ -15,7 +15,7 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
     ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext(),
     getCategoryCheckBoxItems: mockGetCategoryCheckBoxItems,
     getCountryCheckBoxItems: mockGetCountryCheckBoxItems,
-    getAllCharacteristicsWithCheckBoxData: mockGetAllCharacteristicsWithCheckBoxData,
+    getCharacteristicCheckBoxItems: mockGetCharacteristicCheckBoxItems,
     onOpenFilterDrawer: mockOnOpenFilterDrawer,
   }),
 }));
@@ -59,7 +59,7 @@ test("初回レンダリング時にgetAllCharacteristicsWithCheckBoxData関数�
       <SuperbViewList />
     </SuperbViewListProvider>
   );
-  expect(mockGetAllCharacteristicsWithCheckBoxData).toHaveBeenCalledTimes(1);
+  expect(mockGetCharacteristicCheckBoxItems).toHaveBeenCalledTimes(1);
 });
 
 test("絞り込みボタンがレンダリングされていること", () => {

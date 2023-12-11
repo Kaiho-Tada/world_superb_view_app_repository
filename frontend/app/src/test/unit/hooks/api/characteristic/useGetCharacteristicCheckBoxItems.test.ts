@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/useGetAllCharacteristicsWithCheckBoxData";
+import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/useGetCharacteristicCheckBoxItems";
 import client from "lib/api/client";
 import { act } from "react-dom/test-utils";
 
@@ -12,7 +12,7 @@ jest.mock("@chakra-ui/react", () => ({
 
 const mockAxios = new MockAdapter(client);
 
-test("characteristicsWithCheckBoxData取得成功時のテスト", async () => {
+test("characteristicCheckBoxItems取得成功時のテスト", async () => {
   mockAxios.onGet("/characteristics").reply(200, [
     {
       id: 1,
@@ -40,13 +40,13 @@ test("characteristicsWithCheckBoxData取得成功時のテスト", async () => {
     },
   ]);
   const { result } = renderHook(() => useGetAllCharacteristicsWithCheckBoxData());
-  expect(result.current.characteristicsWithCheckBoxData).toEqual([]);
-  expect(result.current.loadingCharacteristicsWithCheckBoxData).toBe(false);
+  expect(result.current.characteristicCheckBoxItems).toEqual([]);
+  expect(result.current.loadingCharacteristicCheckBoxItems).toBe(false);
   await act(() => {
-    result.current.getAllCharacteristicsWithCheckBoxData();
+    result.current.getCharacteristicCheckBoxItems();
   });
 
-  expect(result.current.characteristicsWithCheckBoxData).toEqual([
+  expect(result.current.characteristicCheckBoxItems).toEqual([
     {
       label: "奇妙・不思議",
       superbViewNames: ["トロルの舌", "マチュピチュ"],
@@ -58,19 +58,19 @@ test("characteristicsWithCheckBoxData取得成功時のテスト", async () => {
       checked: false,
     },
   ]);
-  expect(result.current.loadingCharacteristicsWithCheckBoxData).toBe(false);
+  expect(result.current.loadingCharacteristicCheckBoxItems).toBe(false);
 });
 
-test("categoriesWithCheckBoxData取得失敗時のテスト", async () => {
+test("characteristicCheckBoxItems取得失敗時のテスト", async () => {
   mockAxios.onGet("/characteristics").reply(500);
   const { result } = renderHook(() => useGetAllCharacteristicsWithCheckBoxData());
-  expect(result.current.characteristicsWithCheckBoxData).toEqual([]);
-  expect(result.current.loadingCharacteristicsWithCheckBoxData).toBe(false);
+  expect(result.current.characteristicCheckBoxItems).toEqual([]);
+  expect(result.current.loadingCharacteristicCheckBoxItems).toBe(false);
   await act(() => {
-    result.current.getAllCharacteristicsWithCheckBoxData();
+    result.current.getCharacteristicCheckBoxItems();
   });
-  expect(result.current.characteristicsWithCheckBoxData).toEqual([]);
-  expect(result.current.loadingCharacteristicsWithCheckBoxData).toBe(false);
+  expect(result.current.characteristicCheckBoxItems).toEqual([]);
+  expect(result.current.loadingCharacteristicCheckBoxItems).toBe(false);
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "characteristicsの取得に失敗しました。",
     status: "error",

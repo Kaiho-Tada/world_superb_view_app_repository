@@ -8,13 +8,13 @@ const spyOnUseSuperbViewListContext = jest.spyOn(
   "useSuperbViewListContext"
 );
 
-const mockSetCharacteristicsWithCheckBoxData = jest.fn();
+const mockSetCharacteristicCheckBoxItems = jest.fn();
 const mockSetCheckedCharacteristicLabels = jest.fn();
 
 const mockContextValueCheckedFalse = {
-  setCharacteristicsWithCheckBoxData: mockSetCharacteristicsWithCheckBoxData,
+  setCharacteristicCheckBoxItems: mockSetCharacteristicCheckBoxItems,
   setCheckedCharacteristicLabels: mockSetCheckedCharacteristicLabels,
-  characteristicsWithCheckBoxData: [
+  characteristicCheckBoxItems: [
     {
       label: "幻想・神秘的",
       superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
@@ -24,9 +24,9 @@ const mockContextValueCheckedFalse = {
 };
 
 const mockContextValueCheckedTrue = {
-  setCharacteristicsWithCheckBoxData: mockSetCharacteristicsWithCheckBoxData,
+  setCharacteristicCheckBoxItems: mockSetCharacteristicCheckBoxItems,
   setCheckedCharacteristicLabels: mockSetCheckedCharacteristicLabels,
-  characteristicsWithCheckBoxData: [
+  characteristicCheckBoxItems: [
     {
       label: "幻想・神秘的",
       superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
@@ -44,14 +44,14 @@ describe("handleChangeCharacteristic関数の挙動のテスト", () => {
       result.current.handleChangeCharacteristic(mockEvent as ChangeEvent<HTMLInputElement>);
     });
 
-    expect(mockSetCharacteristicsWithCheckBoxData).toHaveBeenCalledWith([
+    expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledWith([
       {
         label: "幻想・神秘的",
         superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
         checked: true,
       },
     ]);
-    expect(mockSetCharacteristicsWithCheckBoxData).toHaveBeenCalledTimes(1);
+    expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledTimes(1);
 
     expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledWith(["幻想・神秘的"]);
     expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledTimes(1);
@@ -65,14 +65,14 @@ describe("handleChangeCharacteristic関数の挙動のテスト", () => {
       result.current.handleChangeCharacteristic(mockEvent as ChangeEvent<HTMLInputElement>);
     });
 
-    expect(mockSetCharacteristicsWithCheckBoxData).toHaveBeenCalledWith([
+    expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledWith([
       {
         label: "幻想・神秘的",
         superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
         checked: false,
       },
     ]);
-    expect(mockSetCharacteristicsWithCheckBoxData).toHaveBeenCalledTimes(1);
+    expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledTimes(1);
 
     expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledWith([]);
     expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledTimes(1);

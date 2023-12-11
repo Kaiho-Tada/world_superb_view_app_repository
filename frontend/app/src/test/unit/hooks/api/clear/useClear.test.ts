@@ -3,7 +3,7 @@ import useClear from "hooks/api/clear/useClear";
 
 const mockSetCategoryCheckBoxItems = jest.fn();
 const mockSetCountryCheckBoxItems = jest.fn();
-const mockSetCharacteristicsWithCheckBoxData = jest.fn();
+const mockSetCharacteristicCheckBoxItems = jest.fn();
 const mockSetRiskLevels = jest.fn();
 const mockSetMonthCheckBoxItems = jest.fn();
 const mockSetCheckedCategoryLabels = jest.fn();
@@ -34,14 +34,14 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
       },
     ],
     setCountryCheckBoxItems: mockSetCountryCheckBoxItems,
-    characteristicsWithCheckBoxData: [
+    characteristicCheckBoxItems: [
       {
         label: "幻想・神秘的",
         superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
         checked: true,
       },
     ],
-    setCharacteristicsWithCheckBoxData: mockSetCharacteristicsWithCheckBoxData,
+    setCharacteristicCheckBoxItems: mockSetCharacteristicCheckBoxItems,
     riskLevels: [
       {
         label: "4",
@@ -89,7 +89,7 @@ test("countriesWithCheckBoxDataのcheckedがtrueの場合、falseに切り替わ
 test("characteristicsWithCheckBoxDataのcheckedがtrueの場合、falseに切り替わること", () => {
   const { result } = renderHook(() => useClear());
   result.current.handleClear();
-  expect(mockSetCharacteristicsWithCheckBoxData).toHaveBeenCalledWith([
+  expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledWith([
     {
       label: "幻想・神秘的",
       superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],

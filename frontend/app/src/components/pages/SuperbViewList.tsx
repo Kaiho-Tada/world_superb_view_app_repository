@@ -24,7 +24,7 @@ const SuperbViewList = memo(() => {
     setShouldDebounce,
     getCategoryCheckBoxItems,
     getCountryCheckBoxItems,
-    getAllCharacteristicsWithCheckBoxData,
+    getCharacteristicCheckBoxItems,
   } = useSuperbViewListContext();
 
   const { handleSearchSuperbView } = useSearchSuperbView();
@@ -51,7 +51,7 @@ const SuperbViewList = memo(() => {
     getCountryCheckBoxItems();
   }, []);
   useEffect(() => {
-    getAllCharacteristicsWithCheckBoxData();
+    getCharacteristicCheckBoxItems();
   }, []);
 
   return (

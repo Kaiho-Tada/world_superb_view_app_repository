@@ -10,8 +10,8 @@ const spyOnUseSuperbViewListContext = jest.spyOn(
 
 const mockContextValue = {
   loadingSearchSuperbViews: false,
-  loadingCharacteristicsWithCheckBoxData: false,
-  characteristicsWithCheckBoxData: [
+  loadingCharacteristicCheckBoxItems: false,
+  characteristicCheckBoxItems: [
     {
       label: "雄大",
       superbViewNames: ["superbView1", "superbView2"],
@@ -22,7 +22,7 @@ const mockContextValue = {
 
 const mockContextValueCheckedTrue = {
   ...mockContextValue,
-  characteristicsWithCheckBoxData: [
+  characteristicCheckBoxItems: [
     {
       label: "雄大",
       superbViewNames: ["superbView1", "superbView2"],
@@ -36,9 +36,9 @@ const mockContextValueLoadingSearchSuperbViews = {
   loadingSearchSuperbViews: true,
 };
 
-const mockContextValueLoadingCharacteristicsWithCheckBoxData = {
+const mockContextValueLoadingCharacteristicCheckBoxItems = {
   ...mockContextValue,
-  loadingCharacteristicsWithCheckBoxData: true,
+  loadingCharacteristicCheckBoxItems: true,
 };
 
 const mockHandleChangeCharacteristic = jest.fn();
@@ -67,7 +67,7 @@ test("loadingSearchSuperbViewsがtureの場合、CheckBoxがdisabledになって
 
 test("loadingCharacteristicsWithCheckBoxDataがtrueの場合、スピナーが表示されていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(
-    () => mockContextValueLoadingCharacteristicsWithCheckBoxData
+    () => mockContextValueLoadingCharacteristicCheckBoxItems
   );
   render(<CharacteristicCheckBox />);
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
