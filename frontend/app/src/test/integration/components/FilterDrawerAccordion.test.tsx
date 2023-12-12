@@ -101,7 +101,7 @@ test("カテゴリーのアコーディオンボタンがレンダリングさ�
   expect(screen.getByRole("button", { name: "カテゴリー" })).toBeInTheDocument();
 });
 
-test("カテゴリーのアコーディオンボタン押下でcategoryClassificationのアコーディオンボタンが表示されること", async () => {
+test("カテゴリーのアコーディオンボタン押下でカテゴリーのcheckboxが表示されること", async () => {
   spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
@@ -109,22 +109,8 @@ test("カテゴリーのアコーディオンボタン押下でcategoryClassific
   await act(async () => {
     await user.click(button);
   });
-  expect(screen.getByRole("button", { name: "自然" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "人工" })).toBeInTheDocument();
-});
-
-test("categoryClassificationのアコーディオンボタン押下でカテゴリーのcheckboxが表示されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
-  const user = userEvent.setup();
-  render(<FilterDrawerAccordion />);
-  const categoryButton = screen.getByRole("button", { name: "カテゴリー" });
-  await act(async () => {
-    await user.click(categoryButton);
-  });
-  const natureButton = screen.getByRole("button", { name: "自然" });
-  await act(async () => {
-    await user.click(natureButton);
-  });
+  expect(screen.getByRole("checkbox", { name: "自然" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "人工" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeInTheDocument();
 });
 

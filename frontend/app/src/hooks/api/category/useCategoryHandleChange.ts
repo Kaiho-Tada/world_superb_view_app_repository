@@ -5,6 +5,26 @@ const useCategoryHandleChange = () => {
   const { setCheckedCategoryLabels, categoryCheckBoxItems, setCategoryCheckBoxItems } =
     useSuperbViewListContext();
 
+  const handleChangeClassification = (e: ChangeEvent<HTMLInputElement>) => {
+    const newCheckBoxItems = categoryCheckBoxItems.map((originalCheckBoxItem) => {
+      const checkBoxItem = { ...originalCheckBoxItem };
+      if (e.target.value === checkBoxItem.classification) {
+        checkBoxItem.checked = e.target.checked;
+      }
+      return checkBoxItem;
+    });
+    setCategoryCheckBoxItems(newCheckBoxItems);
+
+    const checkedCheckBoxItems = newCheckBoxItems.filter(
+      (newCheckBoxItem) => newCheckBoxItem.checked === true
+    );
+
+    const newCheckBoxItemLabels = checkedCheckBoxItems.map(
+      (checkedCheckBoxItem) => checkedCheckBoxItem.label
+    );
+    setCheckedCategoryLabels(newCheckBoxItemLabels);
+  };
+
   const handleChangeCategory = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const newCategoryCheckBoxItems = categoryCheckBoxItems.map((originalCategoryCheckBoxItem) => {
@@ -27,6 +47,6 @@ const useCategoryHandleChange = () => {
     },
     [categoryCheckBoxItems]
   );
-  return { handleChangeCategory };
+  return { handleChangeClassification, handleChangeCategory };
 };
 export default useCategoryHandleChange;

@@ -1,41 +1,60 @@
-import { Center, Checkbox, Spinner } from "@chakra-ui/react";
+import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
 import useCategoryHandleChange from "hooks/api/category/useCategoryHandleChange";
+import useGetCategoryCheckBoxInfo from "hooks/category/useGetCategoryCheckBoxInfo";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 import { FC, memo } from "react";
 import { CategoryCheckBoxItem } from "types/api/category/categoryCheckBoxItem";
 
-type CategoryCheckBoxProps = {
-  categoryClassification: string;
-};
-
-const CategoryCheckBox: FC<CategoryCheckBoxProps> = memo((props) => {
-  const { categoryClassification } = props;
+const CategoryCheckBox: FC = memo(() => {
   const { loadingSearchSuperbViews, categoryCheckBoxItems, loadingCategoryCheckBoxItems } =
     useSuperbViewListContext();
   const { handleChangeCategory } = useCategoryHandleChange();
+  const { handleChangeClassification } = useCategoryHandleChange();
+  const { handleGetCategoryCheckBoxInfo } = useGetCategoryCheckBoxInfo();
+
+  const checkBoxInfo = [
+    handleGetCategoryCheckBoxInfo("自然"),
+    handleGetCategoryCheckBoxInfo("人工"),
+  ];
 
   return loadingCategoryCheckBoxItems === true ? (
     <Center h="10vh">
       <Spinner role="status" aria-label="読み込み中" />
     </Center>
   ) : (
-    <>
-      {categoryCheckBoxItems.map((categoryCheckBoxItem: CategoryCheckBoxItem) =>
-        categoryCheckBoxItem.classification === categoryClassification ? (
+    <Stack spacing={2}>
+      {checkBoxInfo.map((information) => (
+        <Box key={information.label}>
           <Checkbox
-            key={categoryCheckBoxItem.label}
-            size="md"
-            colorScheme="green"
-            isChecked={categoryCheckBoxItem.checked}
-            value={categoryCheckBoxItem.label}
-            onChange={handleChangeCategory}
-            isDisabled={loadingSearchSuperbViews}
+            isChecked={information.allChecked}
+            isIndeterminate={information.isIndeterminate}
+            value={information.label}
+            disabled={loadingSearchSuperbViews}
+            onChange={handleChangeClassification}
+            colorScheme="teal"
           >
-            {categoryCheckBoxItem.label}
+            {information.label}
           </Checkbox>
-        ) : null
-      )}
-    </>
+          <Box pl={6} my={1}>
+            {categoryCheckBoxItems.map((categoryCheckBoxItem: CategoryCheckBoxItem) =>
+              categoryCheckBoxItem.classification === information.label ? (
+                <Checkbox
+                  key={categoryCheckBoxItem.label}
+                  size="md"
+                  colorScheme="teal"
+                  isChecked={categoryCheckBoxItem.checked}
+                  value={categoryCheckBoxItem.label}
+                  onChange={handleChangeCategory}
+                  isDisabled={loadingSearchSuperbViews}
+                >
+                  {categoryCheckBoxItem.label}
+                </Checkbox>
+              ) : null
+            )}
+          </Box>
+        </Box>
+      ))}
+    </Stack>
   );
 });
 
