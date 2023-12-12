@@ -11,13 +11,11 @@ const mockContextValue = {
     {
       label: "砂漠",
       classification: "自然",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: false,
     },
     {
       label: "城",
       classification: "人工",
-      superbViewNames: ["ノイシュバンシュタイン城", "万里の長城"],
       checked: false,
     },
   ],
@@ -28,13 +26,11 @@ const mockContextValueNotChecked = {
     {
       label: "砂漠",
       classification: "自然",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: false,
     },
     {
       label: "洞窟",
       classification: "自然",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: false,
     },
   ],
@@ -45,13 +41,11 @@ const mockContextValuePartialChecked = {
     {
       label: "砂漠",
       classification: "自然",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: true,
     },
     {
       label: "洞窟",
       classification: "自然",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: false,
     },
   ],
@@ -62,13 +56,11 @@ const mockContextValueAllChecked = {
     {
       label: "砂漠",
       classification: "自然",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: true,
     },
     {
       label: "洞窟",
       classification: "自然",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: true,
     },
   ],

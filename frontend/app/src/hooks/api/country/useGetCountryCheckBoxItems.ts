@@ -18,7 +18,6 @@ const useGetCountryCheckBoxItems = () => {
       const countriesWithCheckBox = countries.map((country: Country) => ({
         label: country.name,
         stateName: country.state.name,
-        superbViewNames: country.superbViews.map((superbView) => superbView.name),
         checked: false,
       }));
       setCountryCheckBoxItems(countriesWithCheckBox);

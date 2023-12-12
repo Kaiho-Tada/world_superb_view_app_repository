@@ -20,7 +20,6 @@ const mockContextValue = {
     {
       label: "滝",
       classification: "自然",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: false,
     },
   ],
@@ -28,14 +27,12 @@ const mockContextValue = {
     {
       label: "アメリカ",
       stateName: "北米",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: false,
     },
   ],
   characteristicCheckBoxItems: [
     {
       label: "雄大",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: false,
     },
   ],

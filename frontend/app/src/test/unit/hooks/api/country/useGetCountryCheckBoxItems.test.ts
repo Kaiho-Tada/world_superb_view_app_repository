@@ -21,16 +21,6 @@ test("countryCheckBoxItems取得成功時のテスト", async () => {
         id: 1,
         name: "北米",
       },
-      superbViews: [
-        {
-          id: 1,
-          name: "モニュメントバレー",
-        },
-        {
-          id: 2,
-          name: "サルベーションマウンテン",
-        },
-      ],
     },
     {
       id: 2,
@@ -39,12 +29,6 @@ test("countryCheckBoxItems取得成功時のテスト", async () => {
         id: 2,
         name: "アジア",
       },
-      superbViews: [
-        {
-          id: 3,
-          name: "蘆笛岩",
-        },
-      ],
     },
   ]);
   const { result } = renderHook(() => useGetCountryCheckBoxItems());
@@ -58,13 +42,11 @@ test("countryCheckBoxItems取得成功時のテスト", async () => {
     {
       label: "アメリカ",
       stateName: "北米",
-      superbViewNames: ["モニュメントバレー", "サルベーションマウンテン"],
       checked: false,
     },
     {
       label: "中国",
       stateName: "アジア",
-      superbViewNames: ["蘆笛岩"],
       checked: false,
     },
   ]);

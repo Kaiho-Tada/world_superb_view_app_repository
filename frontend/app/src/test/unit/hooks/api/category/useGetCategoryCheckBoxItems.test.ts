@@ -18,27 +18,11 @@ test("categoryCheckBoxItems取得成功時のテスト", async () => {
       id: 1,
       name: "洞窟",
       classification: "自然",
-      superbViews: [
-        {
-          id: 1,
-          name: "マテーラの洞窟住居",
-        },
-        {
-          id: 2,
-          name: "蘆笛岩",
-        },
-      ],
     },
     {
       id: 2,
       name: "城",
       classification: "人工",
-      superbViews: [
-        {
-          id: 3,
-          name: "スワローズネスト",
-        },
-      ],
     },
   ]);
   const { result } = renderHook(() => useGetCategoryCheckBoxItems());
@@ -52,13 +36,11 @@ test("categoryCheckBoxItems取得成功時のテスト", async () => {
     {
       label: "洞窟",
       classification: "自然",
-      superbViewNames: ["マテーラの洞窟住居", "蘆笛岩"],
       checked: false,
     },
     {
       label: "城",
       classification: "人工",
-      superbViewNames: ["スワローズネスト"],
       checked: false,
     },
   ]);

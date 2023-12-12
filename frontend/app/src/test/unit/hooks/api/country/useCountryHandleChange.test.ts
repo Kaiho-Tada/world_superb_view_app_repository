@@ -17,7 +17,6 @@ const mockContextValueCheckedFalse = {
     {
       label: "ペルー",
       stateName: "中南米",
-      superbViewNames: ["マチュピチュ", "ヴィニクンカ山"],
       checked: false,
     },
   ],
@@ -30,7 +29,6 @@ const mockContextValueCheckedTrue = {
     {
       label: "ペルー",
       stateName: "中南米",
-      superbViewNames: ["マチュピチュ", "ヴィニクンカ山"],
       checked: true,
     },
   ],
@@ -48,7 +46,6 @@ describe("handleChangeCountry関数の挙動のテスト", () => {
       {
         label: "ペルー",
         stateName: "中南米",
-        superbViewNames: ["マチュピチュ", "ヴィニクンカ山"],
         checked: true,
       },
     ]);
@@ -69,7 +66,6 @@ describe("handleChangeCountry関数の挙動のテスト", () => {
       {
         label: "ペルー",
         stateName: "中南米",
-        superbViewNames: ["マチュピチュ", "ヴィニクンカ山"],
         checked: false,
       },
     ]);

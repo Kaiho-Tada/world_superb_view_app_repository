@@ -20,7 +20,6 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
       {
         label: "城",
         classification: "人工",
-        superbViewNames: ["ノイシュバンシュタイン城", "万里の長城"],
         checked: true,
       },
     ],
@@ -29,7 +28,6 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
       {
         label: "ペルー",
         stateName: "中南米",
-        superbViewNames: ["マチュピチュ", "ヴィニクンカ山"],
         checked: true,
       },
     ],
@@ -37,7 +35,6 @@ jest.mock("hooks/providers/SuperbViewListProvider", () => ({
     characteristicCheckBoxItems: [
       {
         label: "幻想・神秘的",
-        superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
         checked: true,
       },
     ],
@@ -67,7 +64,6 @@ test("categoriesWithCheckBoxDataのcheckedがtrueの場合、falseに切り替�
     {
       label: "城",
       classification: "人工",
-      superbViewNames: ["ノイシュバンシュタイン城", "万里の長城"],
       checked: false,
     },
   ]);
@@ -80,7 +76,6 @@ test("countriesWithCheckBoxDataのcheckedがtrueの場合、falseに切り替わ
     {
       label: "ペルー",
       stateName: "中南米",
-      superbViewNames: ["マチュピチュ", "ヴィニクンカ山"],
       checked: false,
     },
   ]);
@@ -92,7 +87,6 @@ test("characteristicsWithCheckBoxDataのcheckedがtrueの場合、falseに切り
   expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledWith([
     {
       label: "幻想・神秘的",
-      superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
       checked: false,
     },
   ]);

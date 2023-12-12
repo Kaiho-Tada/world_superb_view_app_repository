@@ -19,7 +19,6 @@ const useGetCategoryCheckBoxItems = () => {
       const newCategoryCheckBoxItems = categories.map((category: Category) => ({
         label: category.name,
         classification: category.classification,
-        superbViewNames: category.superbViews.map((superbView) => superbView.name),
         checked: false,
       }));
       setCategoryCheckBoxItems(newCategoryCheckBoxItems);

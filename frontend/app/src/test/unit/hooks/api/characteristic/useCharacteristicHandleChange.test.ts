@@ -17,7 +17,6 @@ const mockContextValueCheckedFalse = {
   characteristicCheckBoxItems: [
     {
       label: "幻想・神秘的",
-      superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
       checked: false,
     },
   ],
@@ -29,7 +28,6 @@ const mockContextValueCheckedTrue = {
   characteristicCheckBoxItems: [
     {
       label: "幻想・神秘的",
-      superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
       checked: true,
     },
   ],
@@ -47,7 +45,6 @@ describe("handleChangeCharacteristic関数の挙動のテスト", () => {
     expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledWith([
       {
         label: "幻想・神秘的",
-        superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
         checked: true,
       },
     ]);
@@ -68,7 +65,6 @@ describe("handleChangeCharacteristic関数の挙動のテスト", () => {
     expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledWith([
       {
         label: "幻想・神秘的",
-        superbViewNames: ["マチュピチュ", "モン・サン・ミシェル"],
         checked: false,
       },
     ]);

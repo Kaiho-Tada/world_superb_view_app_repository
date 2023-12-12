@@ -20,7 +20,6 @@ const useGetCharacteristicCheckBoxItems = () => {
       const newCharacteristicCheckBoxItems = characteristics.map(
         (characteristic: Characteristic) => ({
           label: characteristic.name,
-          superbViewNames: characteristic.superbViews.map((superbView) => superbView.name),
           checked: false,
         })
       );

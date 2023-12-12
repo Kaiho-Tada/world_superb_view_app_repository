@@ -15,13 +15,11 @@ const mockContextValue = {
     {
       label: "滝",
       classification: "自然",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: false,
     },
     {
       label: "塩湖",
       classification: "自然",
-      superbViewNames: ["superbView3", "superbView4"],
       checked: false,
     },
   ],
@@ -33,13 +31,11 @@ const mockContextValueCheckedTrue = {
     {
       label: "滝",
       classification: "自然",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: true,
     },
     {
       label: "塩湖",
       classification: "自然",
-      superbViewNames: ["superbView3", "superbView4"],
       checked: true,
     },
   ],

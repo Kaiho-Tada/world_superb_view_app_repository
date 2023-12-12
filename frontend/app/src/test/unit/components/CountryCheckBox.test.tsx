@@ -15,7 +15,6 @@ const mockContextValue = {
     {
       label: "アメリカ",
       stateName: "北アメリカ",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: false,
     },
   ],
@@ -27,7 +26,6 @@ const mockContextValueCheckedTrue = {
     {
       label: "アメリカ",
       stateName: "北アメリカ",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: true,
     },
   ],

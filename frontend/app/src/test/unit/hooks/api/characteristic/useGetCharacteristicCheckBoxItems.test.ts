@@ -17,26 +17,10 @@ test("characteristicCheckBoxItems取得成功時のテスト", async () => {
     {
       id: 1,
       name: "奇妙・不思議",
-      superbViews: [
-        {
-          id: 1,
-          name: "トロルの舌",
-        },
-        {
-          id: 2,
-          name: "マチュピチュ",
-        },
-      ],
     },
     {
       id: 2,
       name: "ロマンチック",
-      superbViews: [
-        {
-          id: 3,
-          name: "モン・サン・ミシェル",
-        },
-      ],
     },
   ]);
   const { result } = renderHook(() => useGetAllCharacteristicsWithCheckBoxData());
@@ -49,12 +33,10 @@ test("characteristicCheckBoxItems取得成功時のテスト", async () => {
   expect(result.current.characteristicCheckBoxItems).toEqual([
     {
       label: "奇妙・不思議",
-      superbViewNames: ["トロルの舌", "マチュピチュ"],
       checked: false,
     },
     {
       label: "ロマンチック",
-      superbViewNames: ["モン・サン・ミシェル"],
       checked: false,
     },
   ]);

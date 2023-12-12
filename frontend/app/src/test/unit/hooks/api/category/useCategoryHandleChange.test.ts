@@ -18,7 +18,6 @@ const mockContextValueCheckedFalse = {
     {
       label: "城",
       classification: "人工",
-      superbViewNames: ["ノイシュバンシュタイン城", "万里の長城"],
       checked: false,
     },
   ],
@@ -31,7 +30,6 @@ const mockContextValueCheckedTrue = {
     {
       label: "城",
       classification: "人工",
-      superbViewNames: ["ノイシュバンシュタイン城", "万里の長城"],
       checked: true,
     },
   ],
@@ -51,7 +49,6 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
         {
           label: "城",
           classification: "人工",
-          superbViewNames: ["ノイシュバンシュタイン城", "万里の長城"],
           checked: true,
         },
       ]);
@@ -73,7 +70,6 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
         {
           label: "城",
           classification: "人工",
-          superbViewNames: ["ノイシュバンシュタイン城", "万里の長城"],
           checked: false,
         },
       ]);
@@ -96,7 +92,6 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
           {
             label: "城",
             classification: "人工",
-            superbViewNames: ["ノイシュバンシュタイン城", "万里の長城"],
             checked: false,
           },
         ]);
@@ -121,7 +116,6 @@ describe("handleChangeCategory関数の挙動のテスト", () => {
       {
         label: "城",
         classification: "人工",
-        superbViewNames: ["ノイシュバンシュタイン城", "万里の長城"],
         checked: true,
       },
     ]);
@@ -142,7 +136,6 @@ describe("handleChangeCategory関数の挙動のテスト", () => {
       {
         label: "城",
         classification: "人工",
-        superbViewNames: ["ノイシュバンシュタイン城", "万里の長城"],
         checked: false,
       },
     ]);

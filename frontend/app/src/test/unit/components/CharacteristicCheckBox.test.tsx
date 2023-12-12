@@ -14,7 +14,6 @@ const mockContextValue = {
   characteristicCheckBoxItems: [
     {
       label: "雄大",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: false,
     },
   ],
@@ -25,7 +24,6 @@ const mockContextValueCheckedTrue = {
   characteristicCheckBoxItems: [
     {
       label: "雄大",
-      superbViewNames: ["superbView1", "superbView2"],
       checked: true,
     },
   ],
