@@ -81,7 +81,7 @@ test("categoryCheckBoxItemsのcheckedがfalseの場合、CheckBoxがチェック
   expect(screen.getByRole("checkbox", { name: "塩湖" })).not.toBeChecked();
 });
 
-test("categoriesWithCheckBoxDataのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
+test("categoryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeChecked();
@@ -108,7 +108,7 @@ test("loadingSearchSuperbViewsがtrueの場合、CheckBoxがdisabledになって
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeDisabled();
 });
 
-test("loadingCategoriesWithCheckBoxDataがtrueの場合、スピナーが表示されていること", () => {
+test("loadingCategoryCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(
     () => mockContextValueLoadingCategoryCheckBoxItems
   );

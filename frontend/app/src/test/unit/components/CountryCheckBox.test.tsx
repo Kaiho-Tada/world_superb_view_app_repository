@@ -57,7 +57,7 @@ test("CheckBoxがレンダリングされていること", () => {
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).not.toBeDisabled();
 });
 
-test("categoriesWithCheckBoxDataのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
+test("countryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
   render(<CountryCheckBox countryState="北アメリカ" />);
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeChecked();
@@ -69,7 +69,7 @@ test("loadingSearchSuperbViewsがtureの場合、CheckBoxがdisabledになって
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeDisabled();
 });
 
-test("loadingCategoriesWithCheckBoxDataがtrueの場合、スピナーが表示されていること", () => {
+test("loadingCountryCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(
     () => mockContextValueLoadingCountryCheckBoxItems
   );
@@ -77,7 +77,7 @@ test("loadingCategoriesWithCheckBoxDataがtrueの場合、スピナーが表示�
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
 });
 
-test("countriesWithCheckBoxDataのstateNameとpropsで渡されたcountryStateの値が異なる場合、レンダリングされないこと", () => {
+test("countryCheckBoxItemsのstateNameとpropsで渡されたcountryStateの値が異なる場合、レンダリングされないこと", () => {
   spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
   render(<CountryCheckBox countryState="アジア" />);
   expect(screen.queryByRole("checkbox", { name: "アメリカ" })).not.toBeInTheDocument();

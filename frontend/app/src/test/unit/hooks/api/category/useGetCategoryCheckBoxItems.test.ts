@@ -12,7 +12,7 @@ jest.mock("@chakra-ui/react", () => ({
 
 const mockAxios = new MockAdapter(client);
 
-test("categoriesWithCheckBoxData取得成功時のテスト", async () => {
+test("categoryCheckBoxItems取得成功時のテスト", async () => {
   mockAxios.onGet("/categories").reply(200, [
     {
       id: 1,
@@ -65,7 +65,7 @@ test("categoriesWithCheckBoxData取得成功時のテスト", async () => {
   expect(result.current.loadingCategoryCheckBoxItems).toBe(false);
 });
 
-test("categoriesWithCheckBoxData取得失敗時のテスト", async () => {
+test("categoryCheckBoxItems取得失敗時のテスト", async () => {
   mockAxios.onGet("/categories").reply(500);
   const { result } = renderHook(() => useGetCategoryCheckBoxItems());
   expect(result.current.categoryCheckBoxItems).toEqual([]);

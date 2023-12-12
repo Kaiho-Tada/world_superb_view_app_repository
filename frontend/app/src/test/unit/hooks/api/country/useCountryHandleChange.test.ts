@@ -37,7 +37,7 @@ const mockContextValueCheckedTrue = {
 };
 
 describe("handleChangeCountry関数の挙動のテスト", () => {
-  test("countriesWithCheckBoxDataのcheckedがfalseの場合、trueに更新されること", () => {
+  test("countryCheckBoxItemsのcheckedがfalseの場合、trueに更新されること", () => {
     spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
     const { result } = renderHook(() => useCountryHandleChange());
     const mockEvent = { target: { value: "ペルー" } };
@@ -58,7 +58,7 @@ describe("handleChangeCountry関数の挙動のテスト", () => {
     expect(mockSetCheckedCountryLabels).toHaveBeenCalledTimes(1);
   });
 
-  test("countriesWithCheckBoxDataのcheckedがtrueの場合、falseに更新されること", () => {
+  test("countryCheckBoxItemsのcheckedがtrueの場合、falseに更新されること", () => {
     spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
     const { result } = renderHook(() => useCountryHandleChange());
     const mockEvent = { target: { value: "ペルー" } };

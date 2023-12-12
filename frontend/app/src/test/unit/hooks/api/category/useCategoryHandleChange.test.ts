@@ -110,7 +110,7 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
 });
 
 describe("handleChangeCategory関数の挙動のテスト", () => {
-  test("categoriesWithCheckBoxDataのcheckedがfalseの場合、trueに更新されること", () => {
+  test("categoryCheckBoxItemsのcheckedがfalseの場合、trueに更新されること", () => {
     spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
     const { result } = renderHook(() => useCategoryHandleChange());
     const mockEvent = { target: { value: "城" } };
@@ -131,7 +131,7 @@ describe("handleChangeCategory関数の挙動のテスト", () => {
     expect(mockSetCheckedCategoryLabels).toHaveBeenCalledTimes(1);
   });
 
-  test("categoriesWithCheckBoxDataのcheckedがtrueの場合、falseに更新されること", () => {
+  test("categoryCheckBoxItemsのcheckedがtrueの場合、falseに更新されること", () => {
     spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
     const { result } = renderHook(() => useCategoryHandleChange());
     const mockEvent = { target: { value: "城" } };

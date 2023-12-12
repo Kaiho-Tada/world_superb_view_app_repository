@@ -36,7 +36,7 @@ const mockContextValueCheckedTrue = {
 };
 
 describe("handleChangeCharacteristic関数の挙動のテスト", () => {
-  test("characteristicsWithCheckBoxDataのcheckedがfalseの場合、trueに更新されること", () => {
+  test("characteristicCheckBoxItemsのcheckedがfalseの場合、trueに更新されること", () => {
     spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
     const { result } = renderHook(() => useCharacteristicHandleChange());
     const mockEvent = { target: { value: "幻想・神秘的" } };
@@ -57,7 +57,7 @@ describe("handleChangeCharacteristic関数の挙動のテスト", () => {
     expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledTimes(1);
   });
 
-  test("characteristicsWithCheckBoxDataのcheckedがtrueの場合、falseに更新されること", () => {
+  test("characteristicCheckBoxItemsのcheckedがtrueの場合、falseに更新されること", () => {
     spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
     const { result } = renderHook(() => useCharacteristicHandleChange());
     const mockEvent = { target: { value: "幻想・神秘的" } };

@@ -53,7 +53,7 @@ test("CheckBoxがレンダリングされていること", () => {
   expect(screen.getByRole("checkbox", { name: "雄大" })).toBeInTheDocument();
 });
 
-test("characteristicsWithCheckBoxDataのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
+test("characteristicCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
   render(<CharacteristicCheckBox />);
   expect(screen.getByRole("checkbox", { name: "雄大" })).toBeChecked();
@@ -65,7 +65,7 @@ test("loadingSearchSuperbViewsがtureの場合、CheckBoxがdisabledになって
   expect(screen.getByRole("checkbox", { name: "雄大" })).toBeDisabled();
 });
 
-test("loadingCharacteristicsWithCheckBoxDataがtrueの場合、スピナーが表示されていること", () => {
+test("loadingCharacteristicCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(
     () => mockContextValueLoadingCharacteristicCheckBoxItems
   );
