@@ -20,7 +20,6 @@ import { FC, memo } from "react";
 
 const FilterAccordion: FC = memo(() => {
   const {
-    countryStates,
     loadingSearchSuperbViews,
     checkedCategoryLabels,
     checkedCountryLabels,
@@ -99,21 +98,7 @@ const FilterAccordion: FC = memo(() => {
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel pb={4}>
-          <Accordion allowMultiple key="AreaAccordion">
-            {countryStates.map((countryState) => (
-              <AccordionItem key={countryState}>
-                <AccordionButton fontWeight="bold" textShadow="2px 2px #000000">
-                  <Box as="span" flex="1" textAlign="left">
-                    {countryState}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel pb={4}>
-                  <CountryCheckBox countryState={countryState} />
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <CountryCheckBox />
         </AccordionPanel>
       </AccordionItem>
       <AccordionItem>

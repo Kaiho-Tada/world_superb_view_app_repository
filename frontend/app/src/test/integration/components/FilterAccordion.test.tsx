@@ -97,7 +97,7 @@ test("地域のアコーディオンボタンがレンダリングされてい�
   expect(screen.getByRole("button", { name: "地域" })).toBeInTheDocument();
 });
 
-test("地域のアコーディオンボタン押下でcountryStateのアコーディオンボタンが表示されること", async () => {
+test("地域のアコーディオンボタン押下で国のcheckboxが表示されること", async () => {
   spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterAccordion />);
@@ -105,27 +105,13 @@ test("地域のアコーディオンボタン押下でcountryStateのアコー�
   await act(async () => {
     await user.click(AreaButton);
   });
-  expect(screen.getByRole("button", { name: "アジア" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "大洋州" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "北米" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "中南米" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "ヨーロッパ" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "中東" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "アフリカ" })).toBeInTheDocument();
-});
-
-test("countryStateのアコーディオンボタン押下で国のcheckboxが表示されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
-  const user = userEvent.setup();
-  render(<FilterAccordion />);
-  const AreaButton = screen.getByRole("button", { name: "地域" });
-  await act(async () => {
-    await user.click(AreaButton);
-  });
-  const stateButton = screen.getByRole("button", { name: "北米" });
-  await act(async () => {
-    await user.click(stateButton);
-  });
+  expect(screen.getByRole("checkbox", { name: "アジア" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "大洋州" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "北米" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "中南米" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "ヨーロッパ" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "中東" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "アフリカ" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeInTheDocument();
 });
 

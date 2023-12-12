@@ -5,6 +5,29 @@ const useCountryHandleChange = () => {
   const { countryCheckBoxItems, setCountryCheckBoxItems, setCheckedCountryLabels } =
     useSuperbViewListContext();
 
+  const handleChangeState = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const newCheckBoxItems = countryCheckBoxItems.map((originalCheckBoxItem) => {
+        const checkBoxItem = { ...originalCheckBoxItem };
+        if (e.target.value === checkBoxItem.stateName) {
+          checkBoxItem.checked = e.target.checked;
+        }
+        return checkBoxItem;
+      });
+      setCountryCheckBoxItems(newCheckBoxItems);
+
+      const checkedCheckBoxItems = newCheckBoxItems.filter(
+        (newCheckBoxItem) => newCheckBoxItem.checked === true
+      );
+
+      const newCheckBoxItemLabels = checkedCheckBoxItems.map(
+        (checkedCheckBoxItem) => checkedCheckBoxItem.label
+      );
+      setCheckedCountryLabels(newCheckBoxItemLabels);
+    },
+    [countryCheckBoxItems]
+  );
+
   const handleChangeCountry = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const newCountryCheckBoxItems = countryCheckBoxItems.map((originalCountryCheckBoxItem) => {
@@ -27,6 +50,6 @@ const useCountryHandleChange = () => {
     },
     [countryCheckBoxItems]
   );
-  return { handleChangeCountry };
+  return { handleChangeState, handleChangeCountry };
 };
 export default useCountryHandleChange;
