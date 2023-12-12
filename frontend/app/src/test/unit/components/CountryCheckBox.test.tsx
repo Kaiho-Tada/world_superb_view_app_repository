@@ -63,7 +63,7 @@ test("countryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェック�
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeChecked();
 });
 
-test("loadingSearchSuperbViewsがtureの場合、CheckBoxがdisabledになっていること", () => {
+test("loadingSearchSuperbViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
   render(<CountryCheckBox countryState="北アメリカ" />);
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeDisabled();

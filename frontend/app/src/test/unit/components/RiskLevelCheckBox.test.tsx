@@ -55,7 +55,7 @@ test("riskLevelsのcheckedがtrueの場合、CheckBoxがチェックされてい
   expect(screen.getByRole("checkbox", { name: "リスクレベル4" })).toBeChecked();
 });
 
-test("loadingSearchSuperbViewsがtureの場合、CheckBoxがdisabledになっていること", () => {
+test("loadingSearchSuperbViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
   spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
   render(<RiskLevelCheckBox />);
   expect(screen.getByRole("checkbox", { name: "リスクレベル4" })).toBeDisabled();
