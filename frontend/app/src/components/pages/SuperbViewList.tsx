@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Heading, Image, Wrap, WrapItem } from "@chakra-ui/react";
 import Loading from "components/atoms/Loading";
+import Pagination from "components/molecules/Pagination";
 import FilterAccordion from "components/organisms/FilterAccordion";
 import FilterDrawer from "components/organisms/FilterDrawer";
 import SuperbViewCard from "components/organisms/superbView/SuperbViewCard";
@@ -7,7 +8,7 @@ import useSearchSuperbView from "hooks/api/superbView/useSearchSuperbView";
 import useDebounce from "hooks/debounce/useDebounce";
 import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
 import filterIcon from "img/filterIcon.png";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 
 const SuperbViewList = memo(() => {
   const {
@@ -54,6 +55,24 @@ const SuperbViewList = memo(() => {
     getCharacteristicCheckBoxItems();
   }, []);
 
+  const [itemsOffset, setItemsOffset] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const endOffset = itemsOffset + itemsPerPage;
+  const currentViews = superbViews.slice(itemsOffset, endOffset);
+  const pageCount = Math.ceil(superbViews.length / itemsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    const newOffset = (newPage - 1) * itemsPerPage;
+    setItemsOffset(newOffset);
+  };
+
+  useEffect(() => {
+    setItemsOffset(0);
+    setCurrentPage(1);
+  }, [superbViews]);
+
   return (
     <Box my="10" mx="5">
       <Button
@@ -74,25 +93,32 @@ const SuperbViewList = memo(() => {
           {loadingSearchSuperbViews ? (
             <Loading />
           ) : (
-            <Wrap role="list" aria-label="絶景一覧">
-              {superbViews.map((superbView) => (
-                <WrapItem
-                  role="listitem"
-                  w={{ sm: "100%", md: "49%" }}
-                  key={superbView.id}
-                  aria-label={`絶景一覧: ${superbView.name}`}
-                >
-                  <SuperbViewCard
-                    name={superbView.name}
-                    imageUrl={superbView.imageUrl}
-                    bestSeason={superbView.bestSeason}
-                    countries={superbView.countries}
-                    categories={superbView.categories}
-                    characteristics={superbView.characteristics}
-                  />
-                </WrapItem>
-              ))}
-            </Wrap>
+            <>
+              <Wrap role="list" aria-label="絶景一覧">
+                {currentViews.map((superbView) => (
+                  <WrapItem
+                    role="listitem"
+                    w={{ sm: "100%", md: "49%" }}
+                    key={superbView.id}
+                    aria-label={`絶景一覧: ${superbView.name}`}
+                  >
+                    <SuperbViewCard
+                      name={superbView.name}
+                      imageUrl={superbView.imageUrl}
+                      bestSeason={superbView.bestSeason}
+                      countries={superbView.countries}
+                      categories={superbView.categories}
+                      characteristics={superbView.characteristics}
+                    />
+                  </WrapItem>
+                ))}
+              </Wrap>
+              <Pagination
+                pageCount={pageCount}
+                currentPage={currentPage}
+                handlePageChange={handlePageChange}
+              />
+            </>
           )}
         </Box>
       </Flex>
