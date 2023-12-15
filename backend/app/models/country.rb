@@ -2,8 +2,8 @@ class Country < ApplicationRecord
   include Rails.application.routes.url_helpers
   belongs_to :state
   has_one_attached :portrait
-  has_many :superb_view_countries, dependent: :destroy
-  has_many :superb_views, through: :superb_view_countries
+  has_many :world_view_countries, dependent: :destroy
+  has_many :world_views, through: :world_view_countries
 
   validates :name, length: { maximum: 30 }, presence: true
   validates :code, length: { maximum: 30 }, presence: true

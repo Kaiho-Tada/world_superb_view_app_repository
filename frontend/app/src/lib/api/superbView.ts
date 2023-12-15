@@ -1,7 +1,7 @@
 import { SearchSuperbViewsProps } from "types/api/searchSuperbViews";
 import client from "./client";
 
-export const getAllSuperbViewsApi = () => client.get("/superb_views");
+export const getAllSuperbViewsApi = () => client.get("/world_views");
 
 export const searchSuperbViewsApi = (props: SearchSuperbViewsProps) => {
   const {
@@ -13,7 +13,7 @@ export const searchSuperbViewsApi = (props: SearchSuperbViewsProps) => {
     keyword,
   } = props;
 
-  return client.get("/superb_views/search", {
+  return client.get("/world_views/search", {
     params: {
       categoryNames: checkedCategoryLabels,
       countryNames: checkedCountryLabels,

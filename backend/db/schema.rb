@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_01_092356) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_14_233945) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -100,15 +100,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_01_092356) do
     t.index ["superb_view_id"], name: "index_superb_view_countries_on_superb_view_id"
   end
 
-  create_table "superb_views", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "panorama_url", null: false
-    t.string "best_season", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name", "panorama_url"], name: "index_superb_views_on_name_and_panorama_url", unique: true
-  end
-
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -135,13 +126,55 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_01_092356) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "world_view_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "world_view_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_world_view_categories_on_category_id"
+    t.index ["world_view_id"], name: "index_world_view_categories_on_world_view_id"
+  end
+
+  create_table "world_view_characteristics", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "world_view_id", null: false
+    t.bigint "characteristic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["characteristic_id"], name: "index_world_view_characteristics_on_characteristic_id"
+    t.index ["world_view_id"], name: "index_world_view_characteristics_on_world_view_id"
+  end
+
+  create_table "world_view_countries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "world_view_id", null: false
+    t.bigint "country_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_world_view_countries_on_country_id"
+    t.index ["world_view_id"], name: "index_world_view_countries_on_world_view_id"
+  end
+
+  create_table "world_views", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "panorama_url", null: false
+    t.string "best_season", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name", "panorama_url"], name: "index_world_views_on_name_and_panorama_url", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "countries", "states"
   add_foreign_key "superb_view_categories", "categories"
-  add_foreign_key "superb_view_categories", "superb_views"
+  add_foreign_key "superb_view_categories", "world_views", column: "superb_view_id"
   add_foreign_key "superb_view_characteristics", "characteristics"
-  add_foreign_key "superb_view_characteristics", "superb_views"
+  add_foreign_key "superb_view_characteristics", "world_views", column: "superb_view_id"
   add_foreign_key "superb_view_countries", "countries"
-  add_foreign_key "superb_view_countries", "superb_views"
+  add_foreign_key "superb_view_countries", "world_views", column: "superb_view_id"
+  add_foreign_key "world_view_categories", "categories"
+  add_foreign_key "world_view_categories", "world_views"
+  add_foreign_key "world_view_characteristics", "characteristics"
+  add_foreign_key "world_view_characteristics", "world_views"
+  add_foreign_key "world_view_countries", "countries"
+  add_foreign_key "world_view_countries", "world_views"
 end

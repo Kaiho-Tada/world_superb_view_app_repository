@@ -1,12 +1,12 @@
-class SuperbView < ApplicationRecord
+class WorldView < ApplicationRecord
   include Rails.application.routes.url_helpers
   has_one_attached :portrait
-  has_many :superb_view_countries, dependent: :destroy
-  has_many :countries, through: :superb_view_countries
-  has_many :superb_view_categories, dependent: :destroy
-  has_many :categories, through: :superb_view_categories
-  has_many :superb_view_characteristics, dependent: :destroy
-  has_many :characteristics, through: :superb_view_characteristics
+  has_many :world_view_countries, dependent: :destroy
+  has_many :countries, through: :world_view_countries
+  has_many :world_view_categories, dependent: :destroy
+  has_many :categories, through: :world_view_categories
+  has_many :world_view_characteristics, dependent: :destroy
+  has_many :characteristics, through: :world_view_characteristics
 
   validates :name, length: { maximum: 30 }, presence: true
   validates :panorama_url, presence: true
@@ -65,7 +65,7 @@ class SuperbView < ApplicationRecord
     return self if keyword.nil?
 
     joins(:countries)
-      .where("superb_views.name LIKE(?) or countries.name LIKE(?)", "%#{keyword}%", "%#{keyword}%").distinct
+      .where("world_views.name LIKE(?) or countries.name LIKE(?)", "%#{keyword}%", "%#{keyword}%").distinct
   }
 
   scope :filter_by_month, lambda { |months|
@@ -73,8 +73,8 @@ class SuperbView < ApplicationRecord
 
     numeric_months = months.map { |month| month.gsub(/[^0-9]/, "").to_i }
 
-    select do |superb_view|
-      (extract_months_range(superb_view.best_season) & numeric_months).any?
+    select do |world_view|
+      (extract_months_range(world_view.best_season) & numeric_months).any?
     end
   }
 

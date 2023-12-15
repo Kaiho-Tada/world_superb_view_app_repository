@@ -2,13 +2,13 @@
 ja:
   activerecord:
     models:
-      superb_view: "絶景"
+      world_view: "絶景"
       state: "州"
       country: "国"
       category: "カテゴリー"
       characteristic: "属性"
     attributes:
-      superb_view:
+      world_view:
         name: "絶景名"
         panorama_url: "パノラマURL"
         best_season: "ベストシーズン"

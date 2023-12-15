@@ -13,8 +13,8 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :superb_views, only: [:index]
-      get "/superb_views/search", to: "superb_views#search"
+      resources :world_views, only: [:index]
+      get "/world_views/search", to: "world_views#search"
 
       resources :countries, only: [:index]
       resources :categories, only: [:index]

@@ -1,4 +1,4 @@
-superb_view_info = {
+world_view_info = {
   "デットフレイ": ["5月〜10月", "https://www.google.com/maps/embed?pb=!4v1688005741727!6m8!1m7!1sCAoSLEFGMVFpcE9GbmxWalZmUEZXM1FVaG1jbmpteFZjeUpOWkNYSzUteVRGTHN3!2m2!1d-24.7592732!2d15.2923894!3f284.1386896810601!4f-4.562717491366897!5f0.7820865974627469"],
   "ヴィクトリアの滝": ["5月〜9月", "https://www.google.com/maps/embed?pb=!4v1689916424925!6m8!1m7!1sCAoSLEFGMVFpcE5UalFwc3pnTTg2amZNcXh5M2o1NlBTWnFFZTJ2X2d4elhRRlNp!2m2!1d-17.9264646!2d25.8588581!3f287.19558084286155!4f-0.34031814478417743!5f0.7820865974627469"],
   "ルクソール": ["10月〜11月", "https://www.google.com/maps/embed?pb=!4v1689720336284!6m8!1m7!1sCAoSLEFGMVFpcE0ySU56NDIyUlo3VE9lMG9TbjZmLTAzbDN0TVpnUVpFdVlKVzdr!2m2!1d-33.755907!2d150.2872791!3f68.14421675649444!4f5.418934108697243!5f0.7820865974627469"],
@@ -78,11 +78,11 @@ superb_view_info = {
   "ヘネラル・カレーラ湖": ["12月〜2月", "https://www.google.com/maps/embed?pb=!4v1689747457226!6m8!1m7!1sCAoSLEFGMVFpcE9ia1dZVDNWY1RrTUo2MDdGTE8zM2Y1UzR1TFhJTERkbTA4ZklS!2m2!1d-46.5359379!2d-71.7317344!3f251.66353!4f0!5f0.7820865974627469"]
 }
 
-superb_view_info.each do |key, value|
-  superb_view_name = key
-  superb_view = SuperbView.new(name: superb_view_name, best_season: value[0], panorama_url: value[1])
-  superb_view.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
-  superb_view.save!
+world_view_info.each do |key, value|
+  world_view_name = key
+  world_view = WorldView.new(name: world_view_name, best_season: value[0], panorama_url: value[1])
+  world_view.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
+  world_view.save!
 end
 
 state_info = {
@@ -156,7 +156,7 @@ xlsx = Roo::Excelx.new("./country.xlsx")
   end
 end
 
-superb_view_country = {
+world_view_country = {
   "ナミビア": ["デットフレイ"],
   "ザンビア": ["ヴィクトリアの滝"],
   "エジプト": ["ルクソール"],
@@ -208,15 +208,15 @@ superb_view_country = {
   "チリ": ["ヘネラル・カレーラ湖"]
 }
 
-superb_view_country.each do |key, value|
+world_view_country.each do |key, value|
   country = Country.find_by(name: key)
-  value.each do |superb_view_name|
-    superb_view = SuperbView.find_by(name: superb_view_name)
-    superb_view.countries << country
+  value.each do |world_view_name|
+    world_view = WorldView.find_by(name: world_view_name)
+    world_view.countries << country
   end
 end
 
-natural_category_superb_views = {
+natural_category_world_views = {
   "滝": ["ヴィクトリアの滝", "セリャラントスフォス", "クアンシーの滝", "イグアスの滝", "エンジェルフォール", "プリトヴィッツェ湖群国立公園",
          "ヘネラル・カレーラ湖"],
   "湖": ["バイカル湖", "ブレッド湖", "テカポ湖", "アブラハム湖", "レイク・ルイーズ", "プリトヴィッツェ湖群国立公園", "ラック・ローズ"],
@@ -248,15 +248,15 @@ natural_category_superb_views = {
   "泉": ["グランセノーテ"]
 }
 
-natural_category_superb_views.each do |key, value|
+natural_category_world_views.each do |key, value|
   category = Category.create!(name: key, classification: "自然")
-  value.each do |superb_view_name|
-    superb_view = SuperbView.find_by(name: superb_view_name)
-    superb_view.categories << category
+  value.each do |world_view_name|
+    world_view = WorldView.find_by(name: world_view_name)
+    world_view.categories << category
   end
 end
 
-artificial_category_superb_views = {
+artificial_category_world_views = {
   "都市": ["ルクソール", "チヴィタディバニョレージョ", "ペトラ遺跡", "マチュピチュ"],
   "遺跡": ["万里の長城", "アンコールワット", "シュエサンドーパゴダ", "ルクソール",
            "ラリベラ岩窟教会群", "アイトベンハドゥ", "ストーンヘンジ", "バッカス寺院",
@@ -273,15 +273,15 @@ artificial_category_superb_views = {
   "住居": ["マテーラの洞窟住居"]
 }
 
-artificial_category_superb_views.each do |key, value|
+artificial_category_world_views.each do |key, value|
   category = Category.create!(name: key, classification: "人工")
-  value.each do |superb_view_name|
-    superb_view = SuperbView.find_by(name: superb_view_name)
-    superb_view.categories << category
+  value.each do |world_view_name|
+    world_view = WorldView.find_by(name: world_view_name)
+    world_view.categories << category
   end
 end
 
-characteristic_superb_views = {
+characteristic_world_views = {
   "歴史・文化的": ["アイトベンハドゥ", "チヴィタディバニョレージョ", "マテーラの洞窟住居", "ストーンヘンジ",
                    "スワローズネスト", "スタリモスト橋", "ヒエラポリス-パムッカレ", "万里の長城", "シーギリヤ", "マチュピチュ"],
   "雄大": ["デットフレイ", "ヴィクトリアの滝", "サハラ砂漠", "セリャラントスフォス", "イジェン火山", "ミルフォードサウンドフィヨルド",
@@ -299,10 +299,10 @@ characteristic_superb_views = {
            "ロス・グラシアレス国立公園", "ウユニ塩湖", "レンソイス国立公園", "ヘネラル・カレーラ湖"]
 }
 
-characteristic_superb_views.each do |key, value|
+characteristic_world_views.each do |key, value|
   characteristic = Characteristic.create!(name: key)
-  value.each do |superb_view_name|
-    superb_view = SuperbView.find_by(name: superb_view_name)
-    superb_view.characteristics << characteristic
+  value.each do |world_view_name|
+    world_view = WorldView.find_by(name: world_view_name)
+    world_view.characteristics << characteristic
   end
 end
