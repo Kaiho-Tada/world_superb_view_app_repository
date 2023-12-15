@@ -2,12 +2,12 @@ import Home from "components/pages/Home";
 import Login from "components/pages/Login";
 import Profile from "components/pages/Profile";
 import SignUp from "components/pages/SignUp";
-import SuperbViewList from "components/pages/SuperbViewList";
+import WorldViewList from "components/pages/WorldViewList";
 import CommonLayout from "components/templates/CommonLayout";
 import GuestRestrictedRoute from "components/templates/GuestRestrictedRoute";
 import PrivateRoute from "components/templates/PrivateRoute";
 import PublicRoute from "components/templates/PublicRoute";
-import { SuperbViewListProvider } from "hooks/providers/SuperbViewListProvider";
+import { WorldViewListProvider } from "hooks/providers/WorldViewListProvider";
 import { FC, memo } from "react";
 import { Route, Routes } from "react-router-dom";
 
@@ -18,9 +18,9 @@ const Router: FC = memo(() => (
         path="/superb_views"
         element={
           <CommonLayout>
-            <SuperbViewListProvider>
-              <SuperbViewList />
-            </SuperbViewListProvider>
+            <WorldViewListProvider>
+              <WorldViewList />
+            </WorldViewListProvider>
           </CommonLayout>
         }
       />

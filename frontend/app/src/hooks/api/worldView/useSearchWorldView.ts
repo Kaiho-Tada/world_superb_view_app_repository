@@ -1,25 +1,25 @@
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import useMessage from "hooks/useMessage";
-import { searchSuperbViewsApi } from "lib/api/superbView";
+import { searchWorldViewsApi } from "lib/api/worldView";
 import { useCallback } from "react";
 
-const useSearchSuperbView = () => {
+const useSearchWorldView = () => {
   const { showMessage } = useMessage();
   const {
-    setLoadingSearchSuperbViews,
-    setSuperbViews,
+    setLoadingSearchWorldViews,
+    setWorldViews,
     checkedCategoryLabels,
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
     checkedMonthLabels,
     keyword,
-  } = useSuperbViewListContext();
+  } = useWorldViewListContext();
 
-  const handleSearchSuperbView = useCallback(async () => {
-    setLoadingSearchSuperbViews(true);
+  const handleSearchWorldView = useCallback(async () => {
+    setLoadingSearchWorldViews(true);
     try {
-      const res = await searchSuperbViewsApi({
+      const res = await searchWorldViewsApi({
         checkedCategoryLabels,
         checkedCountryLabels,
         checkedCharacteristicLabels,
@@ -27,14 +27,14 @@ const useSearchSuperbView = () => {
         checkedMonthLabels,
         keyword,
       });
-      setSuperbViews(res.data);
+      setWorldViews(res.data);
     } catch (error) {
       showMessage({
         title: "絶景一覧の取得に失敗しました。",
         status: "error",
       });
     } finally {
-      setLoadingSearchSuperbViews(false);
+      setLoadingSearchWorldViews(false);
     }
   }, [
     checkedCategoryLabels,
@@ -44,6 +44,6 @@ const useSearchSuperbView = () => {
     checkedMonthLabels,
     keyword,
   ]);
-  return { handleSearchSuperbView };
+  return { handleSearchWorldView };
 };
-export default useSearchSuperbView;
+export default useSearchWorldView;

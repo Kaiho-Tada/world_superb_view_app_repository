@@ -3,13 +3,13 @@ import userEvent from "@testing-library/user-event";
 import CountryCheckBox from "components/molecules/CountryCheckBox";
 import { act } from "react-dom/test-utils";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockContextValue = {
-  loadingSearchSuperbViews: false,
+  loadingSearchWorldViews: false,
   loadingCountryCheckBoxItems: false,
   countryCheckBoxItems: [
     {
@@ -41,9 +41,9 @@ const mockContextValueCheckedTrue = {
   ],
 };
 
-const mockContextValueLoadingSearchSuperbViews = {
+const mockContextValueLoadingSearchWorldViews = {
   ...mockContextValue,
-  loadingSearchSuperbViews: true,
+  loadingSearchWorldViews: true,
 };
 
 const mockContextValueLoadingCountryCheckBoxItems = {
@@ -62,7 +62,7 @@ jest.mock("hooks/api/country/useCountryHandleChange", () => ({
 }));
 
 test("CheckBoxがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CountryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "北米" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeInTheDocument();
@@ -70,7 +70,7 @@ test("CheckBoxがレンダリングされていること", () => {
 });
 
 test("countryCheckBoxItemsのcheckedがfalseの場合、CheckBoxがチェックされていないこと", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CountryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "北米" })).not.toBeChecked();
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).not.toBeChecked();
@@ -78,34 +78,34 @@ test("countryCheckBoxItemsのcheckedがfalseの場合、CheckBoxがチェック�
 });
 
 test("countryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
   render(<CountryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeChecked();
   expect(screen.getByRole("checkbox", { name: "カナダ" })).toBeChecked();
 });
 
 test("国のCheckboxが全てチェックされている場合、州のCheckboxがチェックされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
   render(<CountryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "北米" })).toBeChecked();
 });
 
-test("loadingSearchSuperbViewsがfalseの場合、CheckBoxが有効になっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+test("loadingSearchWorldViewsがfalseの場合、CheckBoxが有効になっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CountryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "北米" })).not.toBeDisabled();
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).not.toBeDisabled();
   expect(screen.getByRole("checkbox", { name: "カナダ" })).not.toBeDisabled();
 });
 
-test("loadingSearchSuperbViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
+test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
   render(<CountryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeDisabled();
 });
 
 test("loadingCountryCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(
+  spyOnUseWorldViewListContext.mockImplementation(
     () => mockContextValueLoadingCountryCheckBoxItems
   );
   render(<CountryCheckBox />);
@@ -113,7 +113,7 @@ test("loadingCountryCheckBoxItemsがtrueの場合、スピナーが表示され�
 });
 
 test("州のCheckBox押下でhandleChangeState関数が実行されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<CountryCheckBox />);
   const CheckBox = screen.getByRole("checkbox", { name: "北米" });
@@ -124,7 +124,7 @@ test("州のCheckBox押下でhandleChangeState関数が実行されること", a
 });
 
 test("国のCheckBox押下でhandleChangeCountry関数が実行されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<CountryCheckBox />);
   const CheckBox = screen.getByRole("checkbox", { name: "アメリカ" });

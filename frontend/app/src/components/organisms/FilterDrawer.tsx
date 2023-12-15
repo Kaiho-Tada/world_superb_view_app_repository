@@ -1,10 +1,10 @@
 import { Drawer, DrawerBody, DrawerContent, DrawerOverlay } from "@chakra-ui/react";
 import FilterDrawerAccordion from "components/organisms/FilterDrawerAccordion";
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { FC, memo } from "react";
 
 const FilterDrawer: FC = memo(() => {
-  const { onCloseFilterDrawer, isOpenFilterDrawer } = useSuperbViewListContext();
+  const { onCloseFilterDrawer, isOpenFilterDrawer } = useWorldViewListContext();
 
   return (
     <Drawer placement="right" onClose={onCloseFilterDrawer} isOpen={isOpenFilterDrawer}>

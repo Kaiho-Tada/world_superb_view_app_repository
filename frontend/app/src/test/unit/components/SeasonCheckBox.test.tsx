@@ -3,9 +3,9 @@ import userEvent from "@testing-library/user-event";
 import SeasonCheckBox from "components/molecules/SeasonCheckBox";
 import { act } from "react-dom/test-utils";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockContextValue = {
@@ -13,7 +13,7 @@ const mockContextValue = {
     { label: "1月", season: "冬", checked: false },
     { label: "2月", season: "冬", checked: false },
   ],
-  loadingSearchSuperbViews: false,
+  loadingSearchWorldViews: false,
 };
 
 const mockContextValueChecked = {
@@ -24,9 +24,9 @@ const mockContextValueChecked = {
   ],
 };
 
-const mockContextValueLoadingSearchSuperbViews = {
+const mockContextValueLoadingSearchWorldViews = {
   ...mockContextValue,
-  loadingSearchSuperbViews: true,
+  loadingSearchWorldViews: true,
 };
 
 const mockHandleChangeSeason = jest.fn();
@@ -40,7 +40,7 @@ jest.mock("hooks/season/useSeasonHandleChange", () => ({
 }));
 
 test("CheckBoxがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<SeasonCheckBox />);
   expect(screen.getByRole("checkbox", { name: "冬" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "1月" })).toBeInTheDocument();
@@ -48,7 +48,7 @@ test("CheckBoxがレンダリングされていること", () => {
 });
 
 test("monthCheckBoxItemsのcheckedがfalseの場合、CheckBoxがチェックされていないこと", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<SeasonCheckBox />);
   expect(screen.getByRole("checkbox", { name: "冬" })).not.toBeChecked();
   expect(screen.getByRole("checkbox", { name: "1月" })).not.toBeChecked();
@@ -56,27 +56,27 @@ test("monthCheckBoxItemsのcheckedがfalseの場合、CheckBoxがチェックさ
 });
 
 test("monthCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueChecked);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
   render(<SeasonCheckBox />);
   expect(screen.getByRole("checkbox", { name: "1月" })).toBeChecked();
   expect(screen.getByRole("checkbox", { name: "2月" })).toBeChecked();
 });
 
 test("月のCheckboxが全てチェックされている場合、季節のCheckboxがチェックされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueChecked);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
   render(<SeasonCheckBox />);
   expect(screen.getByRole("checkbox", { name: "冬" })).toBeChecked();
 });
 
-test("loadingSearchSuperbViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
+test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
   render(<SeasonCheckBox />);
   expect(screen.getByRole("checkbox", { name: "冬" })).toBeDisabled();
   expect(screen.getByRole("checkbox", { name: "1月" })).toBeDisabled();
 });
 
 test("季節のCheckbox押下でhandleChangeSeason関数が実行されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<SeasonCheckBox />);
   await act(async () => {
@@ -86,7 +86,7 @@ test("季節のCheckbox押下でhandleChangeSeason関数が実行されること
 });
 
 test("月のCheckbox押下でhandleChangeMonth関数が実行されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<SeasonCheckBox />);
   await act(async () => {

@@ -1,20 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import FilterDrawer from "components/organisms/FilterDrawer";
-import { SuperbViewListProvider } from "hooks/providers/SuperbViewListProvider";
+import { WorldViewListProvider } from "hooks/providers/WorldViewListProvider";
 
-jest.mock("hooks/providers/SuperbViewListProvider", () => ({
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  useSuperbViewListContext: () => ({
-    ...jest.requireActual("hooks/providers/SuperbViewListProvider").useSuperbViewListContext(),
+jest.mock("hooks/providers/WorldViewListProvider", () => ({
+  ...jest.requireActual("hooks/providers/WorldViewListProvider"),
+  useWorldViewListContext: () => ({
+    ...jest.requireActual("hooks/providers/WorldViewListProvider").useWorldViewListContext(),
     isOpenFilterDrawer: true,
   }),
 }));
 
 test("isOpenFilterDrawerの値がtrueの場合、FilterDrawerAccordionがレンダリングされていること", () => {
   render(
-    <SuperbViewListProvider>
+    <WorldViewListProvider>
       <FilterDrawer />
-    </SuperbViewListProvider>
+    </WorldViewListProvider>
   );
   expect(screen.getByRole("region", { name: "FilterDrawerAccordion" })).toBeInTheDocument();
 });

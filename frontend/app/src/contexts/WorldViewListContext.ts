@@ -2,24 +2,24 @@ import { createContext, Dispatch, SetStateAction } from "react";
 import { CategoryCheckBoxItem } from "types/api/category/categoryCheckBoxItem";
 import { CharacteristicCheckBoxItem } from "types/api/characteristic/characteristicCheckBoxItem";
 import { CountryCheckBoxItem } from "types/api/country/CountryCheckBoxItem";
-import { SuperbView } from "types/api/superbView";
+import { WorldView } from "types/api/worldView";
 import { RiskLevel } from "types/riskLevel";
 import { MonthCheckBoxItems } from "types/season/monthCheckBoxItems";
 
-export const SuperbViewListContext = createContext(
+export const WorldViewListContext = createContext(
   {} as {
     countryStates: string[];
     categoryClassifications: string[];
-    loadingSearchSuperbViews: boolean;
-    setLoadingSearchSuperbViews: React.Dispatch<React.SetStateAction<boolean>>;
+    loadingSearchWorldViews: boolean;
+    setLoadingSearchWorldViews: React.Dispatch<React.SetStateAction<boolean>>;
     checkedCategoryLabels: string[];
     setCheckedCategoryLabels: React.Dispatch<React.SetStateAction<string[]>>;
     checkedCountryLabels: string[];
     setCheckedCountryLabels: React.Dispatch<React.SetStateAction<string[]>>;
     checkedCharacteristicLabels: string[];
     setCheckedCharacteristicLabels: React.Dispatch<React.SetStateAction<string[]>>;
-    superbViews: Array<SuperbView>;
-    setSuperbViews: React.Dispatch<React.SetStateAction<Array<SuperbView>>>;
+    worldViews: Array<WorldView>;
+    setWorldViews: React.Dispatch<React.SetStateAction<Array<WorldView>>>;
     countryCheckBoxItems: Array<CountryCheckBoxItem>;
     setCountryCheckBoxItems: Dispatch<SetStateAction<CountryCheckBoxItem[]>>;
     categoryCheckBoxItems: Array<CategoryCheckBoxItem>;
@@ -50,4 +50,4 @@ export const SuperbViewListContext = createContext(
   }
 );
 
-export default SuperbViewListContext;
+export default WorldViewListContext;

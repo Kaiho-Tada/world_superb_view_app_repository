@@ -3,9 +3,9 @@ import useCategoryHandleChange from "hooks/api/category/useCategoryHandleChange"
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockSetCategoryCheckBoxItems = jest.fn();
@@ -38,7 +38,7 @@ const mockContextValueCheckedTrue = {
 describe("handleChangeClassification関数の挙動のテスト", () => {
   describe("e.target.valueの値とcategoryCheckBoxItemsのclassificationプロパティの値が同じである場合", () => {
     test("e.target.checkedがtrueの場合、categoryCheckBoxItemsのcheckedがtrueに更新されること", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
       const { result } = renderHook(() => useCategoryHandleChange());
       const mockEvent = { target: { value: "人工", checked: true } };
       act(() => {
@@ -59,7 +59,7 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
     });
 
     test("e.target.checkedがfalseの場合、categoryCheckBoxItemsのcheckedがfalseに更新されること", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
       const { result } = renderHook(() => useCategoryHandleChange());
       const mockEvent = { target: { value: "人工", checked: false } };
       act(() => {
@@ -81,7 +81,7 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
 
     describe("e.target.valueの値とcategoryCheckBoxItemsのclassificationの値が異なる場合", () => {
       test("monthCheckBoxItemsのcheckedが更新されないこと", () => {
-        spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+        spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
         const { result } = renderHook(() => useCategoryHandleChange());
         const mockEvent = { target: { value: "自然", checked: true } };
         act(() => {
@@ -106,7 +106,7 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
 
 describe("handleChangeCategory関数の挙動のテスト", () => {
   test("categoryCheckBoxItemsのcheckedがfalseの場合、trueに更新されること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
     const { result } = renderHook(() => useCategoryHandleChange());
     const mockEvent = { target: { value: "城" } };
     act(() => {
@@ -126,7 +126,7 @@ describe("handleChangeCategory関数の挙動のテスト", () => {
   });
 
   test("categoryCheckBoxItemsのcheckedがtrueの場合、falseに更新されること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
     const { result } = renderHook(() => useCategoryHandleChange());
     const mockEvent = { target: { value: "城" } };
     act(() => {

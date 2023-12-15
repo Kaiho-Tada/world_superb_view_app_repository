@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useSuperbViewListContext } from "../../providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "../../providers/WorldViewListProvider";
 
 const useClear = () => {
   const {
@@ -19,7 +19,7 @@ const useClear = () => {
     setCheckedRiskLevelLabels,
     setCheckedMonthLabels,
     setKeyword,
-  } = useSuperbViewListContext();
+  } = useWorldViewListContext();
 
   const handleClear = useCallback(() => {
     const clearedCategoryCheckBoxItems = categoryCheckBoxItems.map(

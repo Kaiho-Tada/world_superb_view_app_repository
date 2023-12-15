@@ -3,13 +3,13 @@ import userEvent from "@testing-library/user-event";
 import CharacteristicCheckBox from "components/molecules/CharacteristicCheckBox";
 import { act } from "react-dom/test-utils";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockContextValue = {
-  loadingSearchSuperbViews: false,
+  loadingSearchWorldViews: false,
   loadingCharacteristicCheckBoxItems: false,
   characteristicCheckBoxItems: [
     {
@@ -29,9 +29,9 @@ const mockContextValueCheckedTrue = {
   ],
 };
 
-const mockContextValueLoadingSearchSuperbViews = {
+const mockContextValueLoadingSearchWorldViews = {
   ...mockContextValue,
-  loadingSearchSuperbViews: true,
+  loadingSearchWorldViews: true,
 };
 
 const mockContextValueLoadingCharacteristicCheckBoxItems = {
@@ -46,25 +46,25 @@ jest.mock("hooks/api/characteristic/useCharacteristicHandleChange", () => ({
 }));
 
 test("CheckBoxがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CharacteristicCheckBox />);
   expect(screen.getByRole("checkbox", { name: "雄大" })).toBeInTheDocument();
 });
 
 test("characteristicCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
   render(<CharacteristicCheckBox />);
   expect(screen.getByRole("checkbox", { name: "雄大" })).toBeChecked();
 });
 
-test("loadingSearchSuperbViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
+test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
   render(<CharacteristicCheckBox />);
   expect(screen.getByRole("checkbox", { name: "雄大" })).toBeDisabled();
 });
 
 test("loadingCharacteristicCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(
+  spyOnUseWorldViewListContext.mockImplementation(
     () => mockContextValueLoadingCharacteristicCheckBoxItems
   );
   render(<CharacteristicCheckBox />);
@@ -72,7 +72,7 @@ test("loadingCharacteristicCheckBoxItemsがtrueの場合、スピナーが表示
 });
 
 test("CheckBox押下でhandleChangeCharacteristic関数が実行されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<CharacteristicCheckBox />);
   const CheckBox = screen.getByRole("checkbox", { name: "雄大" });

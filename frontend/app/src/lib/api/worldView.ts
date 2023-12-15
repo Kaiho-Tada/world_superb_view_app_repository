@@ -1,9 +1,9 @@
-import { SearchSuperbViewsProps } from "types/api/searchSuperbViews";
+import { SearchWorldViewsProps } from "types/api/searchWorldViews";
 import client from "./client";
 
-export const getAllSuperbViewsApi = () => client.get("/world_views");
+export const getAllWorldViewsApi = () => client.get("/world_views");
 
-export const searchSuperbViewsApi = (props: SearchSuperbViewsProps) => {
+export const searchWorldViewsApi = (props: SearchWorldViewsProps) => {
   const {
     checkedCategoryLabels,
     checkedCountryLabels,

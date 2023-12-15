@@ -1,13 +1,13 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
 import useCategoryHandleChange from "hooks/api/category/useCategoryHandleChange";
 import useGetCategoryCheckBoxInfo from "hooks/category/useGetCategoryCheckBoxInfo";
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { FC, memo } from "react";
 import { CategoryCheckBoxItem } from "types/api/category/categoryCheckBoxItem";
 
 const CategoryCheckBox: FC = memo(() => {
-  const { loadingSearchSuperbViews, categoryCheckBoxItems, loadingCategoryCheckBoxItems } =
-    useSuperbViewListContext();
+  const { loadingSearchWorldViews, categoryCheckBoxItems, loadingCategoryCheckBoxItems } =
+    useWorldViewListContext();
   const { handleChangeCategory } = useCategoryHandleChange();
   const { handleChangeClassification } = useCategoryHandleChange();
   const { handleGetCategoryCheckBoxInfo } = useGetCategoryCheckBoxInfo();
@@ -29,7 +29,7 @@ const CategoryCheckBox: FC = memo(() => {
             isChecked={information.allChecked}
             isIndeterminate={information.isIndeterminate}
             value={information.label}
-            disabled={loadingSearchSuperbViews}
+            disabled={loadingSearchWorldViews}
             onChange={handleChangeClassification}
             colorScheme="teal"
           >
@@ -45,7 +45,7 @@ const CategoryCheckBox: FC = memo(() => {
                   isChecked={categoryCheckBoxItem.checked}
                   value={categoryCheckBoxItem.label}
                   onChange={handleChangeCategory}
-                  isDisabled={loadingSearchSuperbViews}
+                  isDisabled={loadingSearchWorldViews}
                 >
                   {categoryCheckBoxItem.label}
                 </Checkbox>

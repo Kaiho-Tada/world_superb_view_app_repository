@@ -1,13 +1,13 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
 import useCountryHandleChange from "hooks/api/country/useCountryHandleChange";
 import useGetCountryCheckBoxInfo from "hooks/country/useGetCountryCheckBoxInfo";
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { FC } from "react";
 import { CountryCheckBoxItem } from "types/api/country/CountryCheckBoxItem";
 
 const CountryCheckBox: FC = () => {
-  const { loadingSearchSuperbViews, countryCheckBoxItems, loadingCountryCheckBoxItems } =
-    useSuperbViewListContext();
+  const { loadingSearchWorldViews, countryCheckBoxItems, loadingCountryCheckBoxItems } =
+    useWorldViewListContext();
   const { handleChangeCountry } = useCountryHandleChange();
   const { handleChangeState } = useCountryHandleChange();
   const { handleGetCountryCheckBoxInfo } = useGetCountryCheckBoxInfo();
@@ -33,7 +33,7 @@ const CountryCheckBox: FC = () => {
             isChecked={information.allChecked}
             isIndeterminate={information.isIndeterminate}
             value={information.label}
-            disabled={loadingSearchSuperbViews}
+            disabled={loadingSearchWorldViews}
             onChange={handleChangeState}
             colorScheme="teal"
           >
@@ -50,7 +50,7 @@ const CountryCheckBox: FC = () => {
                   isChecked={countryCheckBoxItem.checked}
                   value={countryCheckBoxItem.label}
                   onChange={handleChangeCountry}
-                  isDisabled={loadingSearchSuperbViews}
+                  isDisabled={loadingSearchWorldViews}
                 >
                   {countryCheckBoxItem.label}
                 </Checkbox>

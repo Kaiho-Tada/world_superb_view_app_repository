@@ -1,9 +1,9 @@
 import { renderHook } from "@testing-library/react";
 import useGetCountryCheckBoxInfo from "hooks/country/useGetCountryCheckBoxInfo";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockContextValue = {
@@ -68,21 +68,21 @@ const mockContextValueAllChecked = {
 
 describe("allCheckedのテスト", () => {
   test("引数の州のstateNameプロパティを持つ全てのcountryCheckBoxItemsのcheckedがfalseである場合、allCheckedはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueNotChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueNotChecked);
     const { result } = renderHook(() => useGetCountryCheckBoxInfo());
     const northAmericaInfo = result.current.handleGetCountryCheckBoxInfo("北米");
     expect(northAmericaInfo.allChecked).toBe(false);
   });
 
   test("引数の州のstateNameプロパティを持つcountryCheckBoxItemsの一部のcheckedがtrueである場合、allCheckedはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValuePartialChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValuePartialChecked);
     const { result } = renderHook(() => useGetCountryCheckBoxInfo());
     const northAmericaInfo = result.current.handleGetCountryCheckBoxInfo("北米");
     expect(northAmericaInfo.allChecked).toBe(false);
   });
 
   test("引数の州のstateNameプロパティを持つ全てのcountryCheckBoxItemsのcheckedがtrueである場合、allCheckedはtrueであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueAllChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueAllChecked);
     const { result } = renderHook(() => useGetCountryCheckBoxInfo());
     const northAmericaInfo = result.current.handleGetCountryCheckBoxInfo("北米");
     expect(northAmericaInfo.allChecked).toBe(true);
@@ -91,21 +91,21 @@ describe("allCheckedのテスト", () => {
 
 describe("isIndeterminateのテスト", () => {
   test("引数の州のstateNameプロパティを持つ全てのcountryCheckBoxItemsのcheckedがfalseである場合、isIndeterminateはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueNotChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueNotChecked);
     const { result } = renderHook(() => useGetCountryCheckBoxInfo());
     const northAmericaInfo = result.current.handleGetCountryCheckBoxInfo("北米");
     expect(northAmericaInfo.isIndeterminate).toBe(false);
   });
 
   test("引数の州のstateNameプロパティを持つcountryCheckBoxItemsの一部のcheckedがtrueである場合、isIndeterminateはtrueであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValuePartialChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValuePartialChecked);
     const { result } = renderHook(() => useGetCountryCheckBoxInfo());
     const northAmericaInfo = result.current.handleGetCountryCheckBoxInfo("北米");
     expect(northAmericaInfo.isIndeterminate).toBe(true);
   });
 
   test("引数の州のstateNameプロパティを持つ全てのcountryCheckBoxItemsのcheckedがtrueである場合、isIndeterminateはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueAllChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueAllChecked);
     const { result } = renderHook(() => useGetCountryCheckBoxInfo());
     const northAmericaInfo = result.current.handleGetCountryCheckBoxInfo("北米");
     expect(northAmericaInfo.isIndeterminate).toBe(false);
@@ -114,7 +114,7 @@ describe("isIndeterminateのテスト", () => {
 
 describe("labelのテスト", () => {
   test("引数の分類と同じ分類のlabelが返されること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
     const { result } = renderHook(() => useGetCountryCheckBoxInfo());
     const northAmericaInfo = result.current.handleGetCountryCheckBoxInfo("北米");
     const AsiaInfo = result.current.handleGetCountryCheckBoxInfo("アジア");

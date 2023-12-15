@@ -1,15 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import {
-  SuperbViewListProvider,
-  useSuperbViewListContext,
-} from "hooks/providers/SuperbViewListProvider";
+  useWorldViewListContext,
+  WorldViewListProvider,
+} from "hooks/providers/WorldViewListProvider";
 import { FC } from "react";
 
-describe("SuperbViewListProvider", () => {
-  test("SuperbViewListProviderの子コンポーネントにSuperbViewListページに必要な値が提供されること", () => {
+describe("WorldViewListProvider", () => {
+  test("WorldViewListProviderの子コンポーネントにWorldViewListページに必要な値が提供されること", () => {
     const TestComponent: FC = () => {
       const { countryStates, categoryClassifications, riskLevels, monthCheckBoxItems } =
-        useSuperbViewListContext();
+        useWorldViewListContext();
       return (
         <div>
           <div>countryStates: {countryStates.join(", ")}</div>
@@ -24,9 +24,9 @@ describe("SuperbViewListProvider", () => {
     };
 
     const { debug } = render(
-      <SuperbViewListProvider>
+      <WorldViewListProvider>
         <TestComponent />
-      </SuperbViewListProvider>
+      </WorldViewListProvider>
     );
     debug();
     const countryStatesElement = screen.getByText(

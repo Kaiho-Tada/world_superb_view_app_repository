@@ -3,9 +3,9 @@ import useCountryHandleChange from "hooks/api/country/useCountryHandleChange";
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 const mockSetCountryCheckBoxItems = jest.fn();
 const mockSetCheckedCountryLabels = jest.fn();
@@ -37,7 +37,7 @@ const mockContextValueCheckedTrue = {
 describe("handleChangeState関数の挙動のテスト", () => {
   describe("e.target.valueの値とcountryCheckBoxItemsのstateNameプロパティの値が同じである場合", () => {
     test("e.target.checkedがtrueの場合、countryCheckBoxItemsのcheckedがtrueに更新されること", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
       const { result } = renderHook(() => useCountryHandleChange());
       const mockEvent = { target: { value: "中南米", checked: true } };
       act(() => {
@@ -58,7 +58,7 @@ describe("handleChangeState関数の挙動のテスト", () => {
     });
 
     test("e.target.checkedがfalseの場合、countryCheckBoxItemsのcheckedがfalseに更新されること", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
       const { result } = renderHook(() => useCountryHandleChange());
       const mockEvent = { target: { value: "中南米", checked: false } };
       act(() => {
@@ -81,7 +81,7 @@ describe("handleChangeState関数の挙動のテスト", () => {
 
   describe("e.target.valueの値とcountryCheckBoxItemsのclassificationの値が異なる場合", () => {
     test("countryCheckBoxItemsのcheckedが更新されないこと", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
       const { result } = renderHook(() => useCountryHandleChange());
       const mockEvent = { target: { value: "アフリカ", checked: true } };
       act(() => {
@@ -105,7 +105,7 @@ describe("handleChangeState関数の挙動のテスト", () => {
 
 describe("handleChangeCountry関数の挙動のテスト", () => {
   test("countryCheckBoxItemsのcheckedがfalseの場合、trueに更新されること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
     const { result } = renderHook(() => useCountryHandleChange());
     const mockEvent = { target: { value: "ペルー" } };
     act(() => {
@@ -125,7 +125,7 @@ describe("handleChangeCountry関数の挙動のテスト", () => {
   });
 
   test("countryCheckBoxItemsのcheckedがtrueの場合、falseに更新されること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
     const { result } = renderHook(() => useCountryHandleChange());
     const mockEvent = { target: { value: "ペルー" } };
     act(() => {

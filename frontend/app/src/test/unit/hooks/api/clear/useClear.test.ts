@@ -13,9 +13,9 @@ const mockSetCheckedRiskLevelLabels = jest.fn();
 const mockSetKeyword = jest.fn();
 const mockSetCheckedMonthLabels = jest.fn();
 
-jest.mock("hooks/providers/SuperbViewListProvider", () => ({
-  ...jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  useSuperbViewListContext: () => ({
+jest.mock("hooks/providers/WorldViewListProvider", () => ({
+  ...jest.requireActual("hooks/providers/WorldViewListProvider"),
+  useWorldViewListContext: () => ({
     categoryCheckBoxItems: [
       {
         label: "城",

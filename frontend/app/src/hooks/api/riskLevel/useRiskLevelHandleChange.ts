@@ -1,8 +1,8 @@
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { ChangeEvent, useCallback } from "react";
 
 const useRiskLevelHandleChange = () => {
-  const { riskLevels, setRiskLevels, setCheckedRiskLevelLabels } = useSuperbViewListContext();
+  const { riskLevels, setRiskLevels, setCheckedRiskLevelLabels } = useWorldViewListContext();
 
   const handleChangeRiskLevel = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {

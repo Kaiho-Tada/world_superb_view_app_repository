@@ -1,13 +1,13 @@
 import { Checkbox, Flex, Image, VStack } from "@chakra-ui/react";
 import useRiskLevelHandleChange from "hooks/api/riskLevel/useRiskLevelHandleChange";
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import starIcon from "img/riskLevelStar.png";
 import zeroStarIcon from "img/zoroRiskLevelStar.png";
 import { FC, memo } from "react";
 import { RiskLevel } from "types/riskLevel";
 
 const RiskLevelCheckBox: FC = memo(() => {
-  const { riskLevels, loadingSearchSuperbViews } = useSuperbViewListContext();
+  const { riskLevels, loadingSearchWorldViews } = useWorldViewListContext();
   const { handleChangeRiskLevel } = useRiskLevelHandleChange();
 
   return (
@@ -22,7 +22,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               isChecked={riskLevel.checked}
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
-              isDisabled={loadingSearchSuperbViews}
+              isDisabled={loadingSearchWorldViews}
               aria-label="リスクレベル4"
             >
               <Flex align="center" pl="1">
@@ -43,7 +43,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               isChecked={riskLevel.checked}
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
-              isDisabled={loadingSearchSuperbViews}
+              isDisabled={loadingSearchWorldViews}
               aria-label="リスクレベル3"
             >
               <Flex align="center" pl="1">
@@ -63,7 +63,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               isChecked={riskLevel.checked}
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
-              isDisabled={loadingSearchSuperbViews}
+              isDisabled={loadingSearchWorldViews}
               aria-label="リスクレベル2"
             >
               <Flex align="center" pl="1">
@@ -82,7 +82,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               isChecked={riskLevel.checked}
               onChange={handleChangeRiskLevel}
               key={riskLevel.label}
-              isDisabled={loadingSearchSuperbViews}
+              isDisabled={loadingSearchWorldViews}
               aria-label="リスクレベル1"
             >
               <Flex align="center" pl="1">
@@ -99,7 +99,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               value={riskLevel.label}
               isChecked={riskLevel.checked}
               onChange={handleChangeRiskLevel}
-              isDisabled={loadingSearchSuperbViews}
+              isDisabled={loadingSearchWorldViews}
               key={riskLevel.label}
               aria-label="リスクレベル0"
             >

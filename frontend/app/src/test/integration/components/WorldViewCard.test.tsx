@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import SuperbViewCard from "components/organisms/superbView/SuperbViewCard";
+import SuperbViewCard from "components/organisms/worldView/WorldViewCard";
 
 const countries = [
   {

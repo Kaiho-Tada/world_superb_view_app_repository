@@ -2,34 +2,34 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import FilterSearchBox from "components/molecules/FilterSearchBox";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockSetKeyword = jest.fn();
 const mockSetShouldDebounce = jest.fn();
 const mockContextValue = {
   setKeyword: mockSetKeyword,
-  loadingSearchSuperbViews: false,
+  loadingSearchWorldViews: false,
   setShouldDebounce: mockSetShouldDebounce,
 };
 
-const mockContextValueLoadingSearchSuperbViews = {
+const mockContextValueLoadingSearchWorldViews = {
   setKeyword: mockSetKeyword,
-  loadingSearchSuperbViews: true,
+  loadingSearchWorldViews: true,
   setShouldDebounce: mockSetShouldDebounce,
 };
 
 test("テキストボックスがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterSearchBox />);
   expect(screen.getByRole("textbox", { name: "テキストボックス" })).toBeInTheDocument();
 });
 
 test("テキストボックスの入力をトリガーにkeywordが更新されること", async () => {
   const user = userEvent.setup();
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterSearchBox />);
   await user.type(screen.getByRole("textbox", { name: "テキストボックス" }), "キーワード");
   expect(mockSetKeyword).toHaveBeenCalledWith("キーワード");
@@ -38,35 +38,35 @@ test("テキストボックスの入力をトリガーにkeywordが更新され�
 
 test("キーワード更新の際にshouldDebounceがtrueに更新されること", async () => {
   const user = userEvent.setup();
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterSearchBox />);
   await user.type(screen.getByRole("textbox", { name: "テキストボックス" }), "キーワード");
   expect(mockSetShouldDebounce).toHaveBeenCalledWith(true);
   expect(mockSetShouldDebounce).toHaveBeenCalledTimes(5);
 });
 
-test("loadingSearchSuperbViewsがtrueの場合、テキストボックスが入力不可になっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
+test("loadingSearchWorldViewsがtrueの場合、テキストボックスが入力不可になっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
   render(<FilterSearchBox />);
   expect(screen.getByRole("textbox", { name: "テキストボックス" })).toBeDisabled();
 });
 
 test("クリアボタンがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterSearchBox />);
   expect(screen.getByRole("img", { name: "クリアボタン" })).toBeInTheDocument();
   expect(screen.getByRole("img", { name: "クリアボタン" })).toHaveStyle("pointerEvents: auto");
 });
 
-test("loadingSearchSuperbViewsがtrueの場合、クリアボタンが押下不可になっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
+test("loadingSearchWorldViewsがtrueの場合、クリアボタンが押下不可になっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
   render(<FilterSearchBox />);
   expect(screen.getByRole("img", { name: "クリアボタン" })).toHaveStyle("pointerEvents: none");
 });
 
 test("クリアボタン押下でテキストボックスの文字がリセットされること", async () => {
   const user = userEvent.setup();
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterSearchBox />);
   await user.click(screen.getByRole("img", { name: "クリアボタン" }));
   expect(mockSetKeyword).toHaveBeenCalledWith("");

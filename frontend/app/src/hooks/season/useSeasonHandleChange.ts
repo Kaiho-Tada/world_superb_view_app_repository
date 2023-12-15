@@ -1,9 +1,9 @@
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { ChangeEvent } from "react";
 
 const useSeasonHandleChange = () => {
   const { monthCheckBoxItems, setMonthCheckBoxItems, setCheckedMonthLabels } =
-    useSuperbViewListContext();
+    useWorldViewListContext();
 
   const handleChangeSeason = (e: ChangeEvent<HTMLInputElement>) => {
     const newCheckBoxItems = monthCheckBoxItems.map((originalCheckBoxItem) => {

@@ -4,9 +4,9 @@ import FilterAccordion from "components/organisms/FilterAccordion";
 import { act } from "react-dom/test-utils";
 
 window.scrollTo = jest.fn();
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const countryStates = ["アジア", "大洋州", "北米", "中南米", "ヨーロッパ", "中東", "アフリカ"];
@@ -41,13 +41,13 @@ const mockContextValue = {
     },
   ],
   monthCheckBoxItems: [{ label: "1月", season: "冬", checked: false }],
-  loadingSearchSuperbViews: false,
+  loadingSearchWorldViews: false,
   checkedCategoryLabels: [""],
 };
 
-const mockContextValueLoadingSearchSuperbViews = {
+const mockContextValueLoadingSearchWorldViews = {
   ...mockContextValue,
-  loadingSearchSuperbViews: true,
+  loadingSearchWorldViews: true,
 };
 
 const mockContextValueEmptyCheckedLabelsAndEmptyKeyword = {
@@ -67,19 +67,19 @@ jest.mock("hooks/api/clear/useClear", () => ({
 }));
 
 test("アコーディオンの見出しがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterAccordion />);
   expect(screen.getByRole("heading", { name: "絞り込み" })).toBeInTheDocument();
 });
 
 test("カテゴリーのアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterAccordion />);
   expect(screen.getByRole("button", { name: "カテゴリー" })).toBeInTheDocument();
 });
 
 test("カテゴリーのアコーディオンボタン押下でカテゴリーのcheckboxが表示されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterAccordion />);
   const button = screen.getByRole("button", { name: "カテゴリー" });
@@ -92,13 +92,13 @@ test("カテゴリーのアコーディオンボタン押下でカテゴリー�
 });
 
 test("地域のアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterAccordion />);
   expect(screen.getByRole("button", { name: "地域" })).toBeInTheDocument();
 });
 
 test("地域のアコーディオンボタン押下で国のcheckboxが表示されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterAccordion />);
   const AreaButton = screen.getByRole("button", { name: "地域" });
@@ -116,13 +116,13 @@ test("地域のアコーディオンボタン押下で国のcheckboxが表示さ
 });
 
 test("属性のアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterAccordion />);
   expect(screen.getByRole("button", { name: "属性" })).toBeInTheDocument();
 });
 
 test("属性のアコーディオンボタン押下で属性のcheckboxが表示されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterAccordion />);
   const characteristicButton = screen.getByRole("button", { name: "属性" });
@@ -133,13 +133,13 @@ test("属性のアコーディオンボタン押下で属性のcheckboxが表示
 });
 
 test("危険度のアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterAccordion />);
   expect(screen.getByRole("button", { name: "危険度" })).toBeInTheDocument();
 });
 
 test("危険度のアコーディオンボタン押下でリスクレベルのcheckboxが表示されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterAccordion />);
   const riskLevelButton = screen.getByRole("button", { name: "危険度" });
@@ -152,19 +152,19 @@ test("危険度のアコーディオンボタン押下でリスクレベルのch
 });
 
 test("クリアボタンがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterAccordion />);
   expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
 });
 
-test("loadingSearchSuperbViewsがtrueの場合、クリアボタンが押下不可になっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
+test("loadingSearchWorldViewsがtrueの場合、クリアボタンが押下不可になっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
   render(<FilterAccordion />);
   expect(screen.getByRole("button", { name: "クリア" })).toBeDisabled();
 });
 
 test("checkedLabelsが空配列でかつkeywordが空文字の場合、クリアボタンが押下不可になっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(
+  spyOnUseWorldViewListContext.mockImplementation(
     () => mockContextValueEmptyCheckedLabelsAndEmptyKeyword
   );
   render(<FilterAccordion />);
@@ -172,7 +172,7 @@ test("checkedLabelsが空配列でかつkeywordが空文字の場合、クリア
 });
 
 test("クリアボタン押下でhandleClear関数が実行されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterAccordion />);
   const clearButton = screen.getByRole("button", { name: "クリア" });
@@ -183,13 +183,13 @@ test("クリアボタン押下でhandleClear関数が実行されること", asy
 });
 
 test("キーワードのアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterAccordion />);
   expect(screen.getByRole("button", { name: "キーワード" })).toBeInTheDocument();
 });
 
 test("キーワードのアコーディオンボタン押下でFilterSearchBoxが表示されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterAccordion />);
   await act(async () => {
@@ -199,13 +199,13 @@ test("キーワードのアコーディオンボタン押下でFilterSearchBox�
 });
 
 test("ベストシーズンのアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterAccordion />);
   expect(screen.getByRole("button", { name: "ベストシーズン" })).toBeInTheDocument();
 });
 
 test("ベストシーズンのアコーディオンボタン押下でSeasonCheckBoxが表示されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterAccordion />);
   await act(async () => {

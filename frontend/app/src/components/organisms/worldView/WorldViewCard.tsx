@@ -14,7 +14,7 @@ type Props = {
   characteristics: Array<RefCharacteristic>;
 };
 
-const SuperbViewCard: FC<Props> = memo((props) => {
+const WorldViewCard: FC<Props> = memo((props) => {
   const { name, imageUrl, bestSeason, countries, categories, characteristics } = props;
   const countryNames = countries.map((country) => country.name);
   const countryNameResult = countryNames.length > 1 ? countryNames.join(" ") : countryNames[0];
@@ -117,4 +117,4 @@ const SuperbViewCard: FC<Props> = memo((props) => {
   );
 });
 
-export default SuperbViewCard;
+export default WorldViewCard;

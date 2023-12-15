@@ -1,9 +1,9 @@
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { ChangeEvent, useCallback } from "react";
 
 const useCategoryHandleChange = () => {
   const { setCheckedCategoryLabels, categoryCheckBoxItems, setCategoryCheckBoxItems } =
-    useSuperbViewListContext();
+    useWorldViewListContext();
 
   const handleChangeClassification = (e: ChangeEvent<HTMLInputElement>) => {
     const newCheckBoxItems = categoryCheckBoxItems.map((originalCheckBoxItem) => {

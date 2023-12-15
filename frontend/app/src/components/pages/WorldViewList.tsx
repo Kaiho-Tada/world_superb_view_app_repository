@@ -3,17 +3,17 @@ import Loading from "components/atoms/Loading";
 import Pagination from "components/molecules/Pagination";
 import FilterAccordion from "components/organisms/FilterAccordion";
 import FilterDrawer from "components/organisms/FilterDrawer";
-import SuperbViewCard from "components/organisms/superbView/SuperbViewCard";
-import useSearchSuperbView from "hooks/api/superbView/useSearchSuperbView";
+import WorldViewCard from "components/organisms/worldView/WorldViewCard";
+import useSearchWorldView from "hooks/api/worldView/useSearchWorldView";
 import useDebounce from "hooks/debounce/useDebounce";
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import filterIcon from "img/filterIcon.png";
 import { memo, useEffect, useState } from "react";
 
-const SuperbViewList = memo(() => {
+const WorldViewList = memo(() => {
   const {
-    superbViews,
-    loadingSearchSuperbViews,
+    worldViews,
+    loadingSearchWorldViews,
     onOpenFilterDrawer,
     checkedCategoryLabels,
     checkedCountryLabels,
@@ -26,16 +26,16 @@ const SuperbViewList = memo(() => {
     getCategoryCheckBoxItems,
     getCountryCheckBoxItems,
     getCharacteristicCheckBoxItems,
-  } = useSuperbViewListContext();
+  } = useWorldViewListContext();
 
-  const { handleSearchSuperbView } = useSearchSuperbView();
+  const { handleSearchWorldView } = useSearchWorldView();
   const { debounce } = useDebounce(1500);
   useEffect(() => {
     if (shouldDebounce) {
-      debounce(handleSearchSuperbView);
+      debounce(handleSearchWorldView);
       setShouldDebounce(false);
     } else {
-      handleSearchSuperbView();
+      handleSearchWorldView();
     }
   }, [
     checkedCategoryLabels,
@@ -59,8 +59,8 @@ const SuperbViewList = memo(() => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const endOffset = itemsOffset + itemsPerPage;
-  const currentViews = superbViews.slice(itemsOffset, endOffset);
-  const pageCount = Math.ceil(superbViews.length / itemsPerPage);
+  const currentViews = worldViews.slice(itemsOffset, endOffset);
+  const pageCount = Math.ceil(worldViews.length / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -71,7 +71,7 @@ const SuperbViewList = memo(() => {
   useEffect(() => {
     setItemsOffset(0);
     setCurrentPage(1);
-  }, [superbViews]);
+  }, [worldViews]);
 
   return (
     <Box my="10" mx="5">
@@ -90,25 +90,25 @@ const SuperbViewList = memo(() => {
       <Flex>
         <FilterAccordion />
         <Box w={{ sm: "100%", lg: "78%" }}>
-          {loadingSearchSuperbViews ? (
+          {loadingSearchWorldViews ? (
             <Loading />
           ) : (
             <>
               <Wrap role="list" aria-label="絶景一覧">
-                {currentViews.map((superbView) => (
+                {currentViews.map((worldView) => (
                   <WrapItem
                     role="listitem"
                     w={{ sm: "100%", md: "49%" }}
-                    key={superbView.id}
-                    aria-label={`絶景一覧: ${superbView.name}`}
+                    key={worldView.id}
+                    aria-label={`絶景一覧: ${worldView.name}`}
                   >
-                    <SuperbViewCard
-                      name={superbView.name}
-                      imageUrl={superbView.imageUrl}
-                      bestSeason={superbView.bestSeason}
-                      countries={superbView.countries}
-                      categories={superbView.categories}
-                      characteristics={superbView.characteristics}
+                    <WorldViewCard
+                      name={worldView.name}
+                      imageUrl={worldView.imageUrl}
+                      bestSeason={worldView.bestSeason}
+                      countries={worldView.countries}
+                      categories={worldView.categories}
+                      characteristics={worldView.characteristics}
                     />
                   </WrapItem>
                 ))}
@@ -126,4 +126,4 @@ const SuperbViewList = memo(() => {
   );
 });
 
-export default SuperbViewList;
+export default WorldViewList;

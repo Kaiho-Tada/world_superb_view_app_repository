@@ -3,9 +3,9 @@ import useCharacteristicHandleChange from "hooks/api/characteristic/useCharacter
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockSetCharacteristicCheckBoxItems = jest.fn();
@@ -35,7 +35,7 @@ const mockContextValueCheckedTrue = {
 
 describe("handleChangeCharacteristic関数の挙動のテスト", () => {
   test("characteristicCheckBoxItemsのcheckedがfalseの場合、trueに更新されること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
     const { result } = renderHook(() => useCharacteristicHandleChange());
     const mockEvent = { target: { value: "幻想・神秘的" } };
     act(() => {
@@ -55,7 +55,7 @@ describe("handleChangeCharacteristic関数の挙動のテスト", () => {
   });
 
   test("characteristicCheckBoxItemsのcheckedがtrueの場合、falseに更新されること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
     const { result } = renderHook(() => useCharacteristicHandleChange());
     const mockEvent = { target: { value: "幻想・神秘的" } };
     act(() => {

@@ -1,4 +1,4 @@
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { ChangeEvent, useCallback } from "react";
 
 const useCharacteristicHandleChange = () => {
@@ -6,7 +6,7 @@ const useCharacteristicHandleChange = () => {
     characteristicCheckBoxItems,
     setCharacteristicCheckBoxItems,
     setCheckedCharacteristicLabels,
-  } = useSuperbViewListContext();
+  } = useWorldViewListContext();
   const handleChangeCharacteristic = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const newCharacteristicCheckBoxItems = characteristicCheckBoxItems.map(

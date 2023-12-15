@@ -1,9 +1,9 @@
 import { renderHook } from "@testing-library/react";
 import useGetCategoryCheckBoxInfo from "hooks/category/useGetCategoryCheckBoxInfo";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockContextValue = {
@@ -68,21 +68,21 @@ const mockContextValueAllChecked = {
 
 describe("allCheckedのテスト", () => {
   test("引数の分類のclassificationプロパティを持つ全てのcategoryCheckBoxItemsのcheckedがfalseである場合、allCheckedはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueNotChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueNotChecked);
     const { result } = renderHook(() => useGetCategoryCheckBoxInfo());
     const natureInfo = result.current.handleGetCategoryCheckBoxInfo("自然");
     expect(natureInfo.allChecked).toBe(false);
   });
 
   test("引数の分類のclassificationプロパティを持つcategoryCheckBoxItemsの一部のcheckedがtrueである場合、allCheckedはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValuePartialChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValuePartialChecked);
     const { result } = renderHook(() => useGetCategoryCheckBoxInfo());
     const natureInfo = result.current.handleGetCategoryCheckBoxInfo("自然");
     expect(natureInfo.allChecked).toBe(false);
   });
 
   test("引数の分類のclassificationプロパティを持つ全てのcategoryCheckBoxItemsのcheckedがtrueである場合、allCheckedはtrueであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueAllChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueAllChecked);
     const { result } = renderHook(() => useGetCategoryCheckBoxInfo());
     const natureInfo = result.current.handleGetCategoryCheckBoxInfo("自然");
     expect(natureInfo.allChecked).toBe(true);
@@ -91,21 +91,21 @@ describe("allCheckedのテスト", () => {
 
 describe("isIndeterminateのテスト", () => {
   test("引数の分類のclassificationプロパティを持つ全てのcategoryCheckBoxItemsのcheckedがfalseである場合、isIndeterminateはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueNotChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueNotChecked);
     const { result } = renderHook(() => useGetCategoryCheckBoxInfo());
     const natureInfo = result.current.handleGetCategoryCheckBoxInfo("自然");
     expect(natureInfo.isIndeterminate).toBe(false);
   });
 
   test("引数の分類のclassificationプロパティを持つcategoryCheckBoxItemsの一部のcheckedがtrueである場合、isIndeterminateはtrueであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValuePartialChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValuePartialChecked);
     const { result } = renderHook(() => useGetCategoryCheckBoxInfo());
     const natureInfo = result.current.handleGetCategoryCheckBoxInfo("自然");
     expect(natureInfo.isIndeterminate).toBe(true);
   });
 
   test("引数の分類のclassificationプロパティを持つ全てのcategoryCheckBoxItemsのcheckedがtrueである場合、isIndeterminateはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueAllChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueAllChecked);
     const { result } = renderHook(() => useGetCategoryCheckBoxInfo());
     const natureInfo = result.current.handleGetCategoryCheckBoxInfo("自然");
     expect(natureInfo.isIndeterminate).toBe(false);
@@ -114,7 +114,7 @@ describe("isIndeterminateのテスト", () => {
 
 describe("labelのテスト", () => {
   test("引数の分類と同じ分類のlabelが返されること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
     const { result } = renderHook(() => useGetCategoryCheckBoxInfo());
     const natureInfo = result.current.handleGetCategoryCheckBoxInfo("自然");
     const artificialInfo = result.current.handleGetCategoryCheckBoxInfo("人工");

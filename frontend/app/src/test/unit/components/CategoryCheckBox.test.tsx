@@ -3,13 +3,13 @@ import userEvent from "@testing-library/user-event";
 import CategoryCheckBox from "components/molecules/CategoryCheckBox";
 import { act } from "react-dom/test-utils";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockContextValue = {
-  loadingSearchSuperbViews: false,
+  loadingSearchWorldViews: false,
   loadingCategoryCheckBoxItems: false,
   categoryCheckBoxItems: [
     {
@@ -41,9 +41,9 @@ const mockContextValueCheckedTrue = {
   ],
 };
 
-const mockContextValueLoadingSearchSuperbViews = {
+const mockContextValueLoadingSearchWorldViews = {
   ...mockContextValue,
-  loadingSearchSuperbViews: true,
+  loadingSearchWorldViews: true,
 };
 
 const mockContextValueLoadingCategoryCheckBoxItems = {
@@ -62,7 +62,7 @@ jest.mock("hooks/api/category/useCategoryHandleChange", () => ({
 }));
 
 test("CheckBoxがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "自然" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeInTheDocument();
@@ -70,7 +70,7 @@ test("CheckBoxがレンダリングされていること", () => {
 });
 
 test("categoryCheckBoxItemsのcheckedがfalseの場合、CheckBoxがチェックされていないこと", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "自然" })).not.toBeChecked();
   expect(screen.getByRole("checkbox", { name: "滝" })).not.toBeChecked();
@@ -78,34 +78,34 @@ test("categoryCheckBoxItemsのcheckedがfalseの場合、CheckBoxがチェック
 });
 
 test("categoryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeChecked();
   expect(screen.getByRole("checkbox", { name: "人工" })).toBeChecked();
 });
 
 test("カテゴリーのCheckboxが全てチェックされている場合、分類のCheckboxがチェックされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "自然" })).toBeChecked();
 });
 
-test("loadingSearchSuperbViewsがfalseの場合、CheckBoxが有効になっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+test("loadingSearchWorldViewsがfalseの場合、CheckBoxが有効になっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "自然" })).not.toBeDisabled();
   expect(screen.getByRole("checkbox", { name: "滝" })).not.toBeDisabled();
   expect(screen.getByRole("checkbox", { name: "塩湖" })).not.toBeDisabled();
 });
 
-test("loadingSearchSuperbViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
+test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeDisabled();
 });
 
 test("loadingCategoryCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(
+  spyOnUseWorldViewListContext.mockImplementation(
     () => mockContextValueLoadingCategoryCheckBoxItems
   );
   render(<CategoryCheckBox />);
@@ -113,7 +113,7 @@ test("loadingCategoryCheckBoxItemsがtrueの場合、スピナーが表示され
 });
 
 test("分類のCheckBox押下でhandleChangeClassification関数が実行されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<CategoryCheckBox />);
   const CheckBox = screen.getByRole("checkbox", { name: "自然" });
@@ -124,7 +124,7 @@ test("分類のCheckBox押下でhandleChangeClassification関数が実行され�
 });
 
 test("カテゴリーのCheckBox押下でhandleChangeCategory関数が実行されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<CategoryCheckBox />);
   const CheckBox = screen.getByRole("checkbox", { name: "滝" });

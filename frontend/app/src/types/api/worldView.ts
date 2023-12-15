@@ -2,7 +2,7 @@ import { RefCategory } from "types/ref/refCategory";
 import { RefCharacteristic } from "types/ref/refCharacteristic";
 import { RefCountry } from "types/ref/refCountry";
 
-export type SuperbView = {
+export type WorldView = {
   id: number;
   name: string;
   imageUrl: string;

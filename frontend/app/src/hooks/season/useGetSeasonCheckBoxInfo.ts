@@ -1,8 +1,8 @@
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 
 const useGetSeasonCheckBoxInfo = () => {
   const handleGetSeasonCheckBoxInfo = (season: string) => {
-    const { monthCheckBoxItems } = useSuperbViewListContext();
+    const { monthCheckBoxItems } = useWorldViewListContext();
 
     if (season === "春") {
       const filteredCheckedItems = monthCheckBoxItems.filter((item) => item.season === "春");

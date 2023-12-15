@@ -1,9 +1,9 @@
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { ChangeEvent, useCallback } from "react";
 
 const useCountryHandleChange = () => {
   const { countryCheckBoxItems, setCountryCheckBoxItems, setCheckedCountryLabels } =
-    useSuperbViewListContext();
+    useWorldViewListContext();
 
   const handleChangeState = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {

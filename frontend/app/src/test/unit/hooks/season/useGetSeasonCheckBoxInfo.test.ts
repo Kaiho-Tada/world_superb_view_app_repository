@@ -1,9 +1,9 @@
 import { renderHook } from "@testing-library/react";
 import useGetSeasonCheckBoxInfo from "hooks/season/useGetSeasonCheckBoxInfo";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockContextValue = {
@@ -39,21 +39,21 @@ const mockContextValueAllChecked = {
 };
 describe("allCheckedのテスト", () => {
   test("引数の季節のseasonプロパティを持つ全てのmonthCheckBoxItemsのcheckedがfalseである場合、allCheckedはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueNotChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueNotChecked);
     const { result } = renderHook(() => useGetSeasonCheckBoxInfo());
     const springInfo = result.current.handleGetSeasonCheckBoxInfo("春");
     expect(springInfo.allChecked).toBe(false);
   });
 
   test("引数の季節のseasonプロパティを持つmonthCheckBoxItemsの一部のcheckedがtrueである場合、allCheckedはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValuePartialChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValuePartialChecked);
     const { result } = renderHook(() => useGetSeasonCheckBoxInfo());
     const springInfo = result.current.handleGetSeasonCheckBoxInfo("春");
     expect(springInfo.allChecked).toBe(false);
   });
 
   test("引数の季節のseasonプロパティを持つ全てのmonthCheckBoxItemsのcheckedがtrueである場合、allCheckedはtrueであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueAllChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueAllChecked);
     const { result } = renderHook(() => useGetSeasonCheckBoxInfo());
     const springInfo = result.current.handleGetSeasonCheckBoxInfo("春");
     expect(springInfo.allChecked).toBe(true);
@@ -62,21 +62,21 @@ describe("allCheckedのテスト", () => {
 
 describe("isIndeterminateのテスト", () => {
   test("引数の季節のseasonプロパティを持つ全てのmonthCheckBoxItemsのcheckedがfalseである場合、isIndeterminateはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueNotChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueNotChecked);
     const { result } = renderHook(() => useGetSeasonCheckBoxInfo());
     const springInfo = result.current.handleGetSeasonCheckBoxInfo("春");
     expect(springInfo.isIndeterminate).toBe(false);
   });
 
   test("引数の季節のseasonプロパティを持つmonthCheckBoxItemsの一部のcheckedがtrueである場合、isIndeterminateはtrueであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValuePartialChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValuePartialChecked);
     const { result } = renderHook(() => useGetSeasonCheckBoxInfo());
     const springInfo = result.current.handleGetSeasonCheckBoxInfo("春");
     expect(springInfo.isIndeterminate).toBe(true);
   });
 
   test("引数の季節のseasonプロパティを持つ全てのmonthCheckBoxItemsのcheckedがtrueである場合、isIndeterminateはfalseであること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueAllChecked);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueAllChecked);
     const { result } = renderHook(() => useGetSeasonCheckBoxInfo());
     const springInfo = result.current.handleGetSeasonCheckBoxInfo("春");
     expect(springInfo.isIndeterminate).toBe(false);
@@ -85,7 +85,7 @@ describe("isIndeterminateのテスト", () => {
 
 describe("labelのテスト", () => {
   test("引数の季節と同じ季節のlabelが返されること", () => {
-    spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+    spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
     const { result } = renderHook(() => useGetSeasonCheckBoxInfo());
     const springInfo = result.current.handleGetSeasonCheckBoxInfo("春");
     const summerInfo = result.current.handleGetSeasonCheckBoxInfo("夏");

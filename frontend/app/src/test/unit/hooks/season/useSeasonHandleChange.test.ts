@@ -3,9 +3,9 @@ import useSeasonHandleChange from "hooks/season/useSeasonHandleChange";
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockSetMonthCheckBoxItems = jest.fn();
@@ -26,7 +26,7 @@ const mockContextValueCheckedTrue = {
 describe("handleChangeSeason関数の挙動のテスト", () => {
   describe("e.target.valueの値とmonthCheckBoxItemsのseasonプロパティの値が同じである場合", () => {
     test("e.target.checkedがtrueの場合、monthCheckBoxItemsのcheckedがtrueに更新されること", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
       const { result } = renderHook(() => useSeasonHandleChange());
       const mockEvent = { target: { value: "冬", checked: true } };
       act(() => {
@@ -43,7 +43,7 @@ describe("handleChangeSeason関数の挙動のテスト", () => {
     });
 
     test("e.target.checkedがfalseの場合、monthCheckBoxItemsのcheckedがfalseに更新されること", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
       const { result } = renderHook(() => useSeasonHandleChange());
       const mockEvent = { target: { value: "冬", checked: false } };
       act(() => {
@@ -62,7 +62,7 @@ describe("handleChangeSeason関数の挙動のテスト", () => {
 
   describe("e.target.valueの値とmonthCheckBoxItemsのseasonの値が異なる場合", () => {
     test("monthCheckBoxItemsのcheckedが更新されないこと", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
       const { result } = renderHook(() => useSeasonHandleChange());
       const mockEvent = { target: { value: "夏", checked: true } };
       act(() => {
@@ -83,7 +83,7 @@ describe("handleChangeSeason関数の挙動のテスト", () => {
 describe("handleChangeMonth関数の挙動のテスト", () => {
   describe("e.target.valueとmonthCheckBoxItemsのlabelプロパティの値が同じである場合", () => {
     test("monthCheckBoxItemsのcheckedがfalseの場合、trueに更新されること", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
       const { result } = renderHook(() => useSeasonHandleChange());
       const mockEvent = { target: { value: "1月" } };
       act(() => {
@@ -100,7 +100,7 @@ describe("handleChangeMonth関数の挙動のテスト", () => {
     });
 
     test("monthCheckBoxItemscheckedがtrueの場合、falseに更新されること", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
       const { result } = renderHook(() => useSeasonHandleChange());
       const mockEvent = { target: { value: "1月" } };
       act(() => {
@@ -119,7 +119,7 @@ describe("handleChangeMonth関数の挙動のテスト", () => {
 
   describe("e.target.valueとmonthCheckBoxItemsのlabelプロパティの値が異なる場合", () => {
     test("monthCheckBoxItemsのcheckedが更新されないこと", () => {
-      spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
       const { result } = renderHook(() => useSeasonHandleChange());
       const mockEvent = { target: { value: "2月" } };
       act(() => {

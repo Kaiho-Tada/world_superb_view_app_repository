@@ -1,11 +1,11 @@
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import { Flex, Input } from "@chakra-ui/react";
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { ChangeEvent, FC } from "react";
 
 const FilterSearchBox: FC = () => {
-  const { keyword, setKeyword, loadingSearchSuperbViews, setShouldDebounce } =
-    useSuperbViewListContext();
+  const { keyword, setKeyword, loadingSearchWorldViews, setShouldDebounce } =
+    useWorldViewListContext();
 
   const handleChangeKeyword = (e: ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
@@ -23,7 +23,7 @@ const FilterSearchBox: FC = () => {
         size="sm"
         border="none"
         _focus={{ boxShadow: "none" }}
-        disabled={loadingSearchSuperbViews}
+        disabled={loadingSearchWorldViews}
         value={keyword}
         onChange={handleChangeKeyword}
       />
@@ -32,9 +32,9 @@ const FilterSearchBox: FC = () => {
         aria-label="クリアボタン"
         boxSize={3.5}
         onClick={handleClearKeyword}
-        color={loadingSearchSuperbViews ? "gray.300" : "gray.500"}
-        _hover={{ cursor: loadingSearchSuperbViews ? "not-allowed" : "pointer" }}
-        style={{ pointerEvents: loadingSearchSuperbViews ? "none" : "auto" }}
+        color={loadingSearchWorldViews ? "gray.300" : "gray.500"}
+        _hover={{ cursor: loadingSearchWorldViews ? "not-allowed" : "pointer" }}
+        style={{ pointerEvents: loadingSearchWorldViews ? "none" : "auto" }}
       />
     </Flex>
   );

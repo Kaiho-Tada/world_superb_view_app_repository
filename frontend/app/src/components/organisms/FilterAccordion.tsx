@@ -15,19 +15,19 @@ import FilterSearchBox from "components/molecules/FilterSearchBox";
 import RiskLevelCheckBox from "components/molecules/RiskLevelCheckBox";
 import SeasonCheckBox from "components/molecules/SeasonCheckBox";
 import useClear from "hooks/api/clear/useClear";
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { FC, memo } from "react";
 
 const FilterAccordion: FC = memo(() => {
   const {
-    loadingSearchSuperbViews,
+    loadingSearchWorldViews,
     checkedCategoryLabels,
     checkedCountryLabels,
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
     checkedMonthLabels,
     keyword,
-  } = useSuperbViewListContext();
+  } = useWorldViewListContext();
   const { handleClear } = useClear();
 
   return (
@@ -54,7 +54,7 @@ const FilterAccordion: FC = memo(() => {
           onClick={handleClear}
           textAlign="right"
           disabled={
-            loadingSearchSuperbViews ||
+            loadingSearchWorldViews ||
             (!checkedCategoryLabels.length &&
               !checkedCountryLabels.length &&
               !checkedCharacteristicLabels.length &&

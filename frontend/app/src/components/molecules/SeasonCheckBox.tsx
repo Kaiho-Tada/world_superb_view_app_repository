@@ -1,10 +1,10 @@
 import { Box, Checkbox } from "@chakra-ui/react";
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import useGetSeasonCheckBoxInfo from "hooks/season/useGetSeasonCheckBoxInfo";
 import useSeasonHandleChange from "hooks/season/useSeasonHandleChange";
 
 const SeasonCheckBox = () => {
-  const { monthCheckBoxItems, loadingSearchSuperbViews } = useSuperbViewListContext();
+  const { monthCheckBoxItems, loadingSearchWorldViews } = useWorldViewListContext();
   const { handleChangeSeason, handleChangeMonth } = useSeasonHandleChange();
   const { handleGetSeasonCheckBoxInfo } = useGetSeasonCheckBoxInfo();
   const checkBoxInfo = [
@@ -22,7 +22,7 @@ const SeasonCheckBox = () => {
             isChecked={information.allChecked}
             isIndeterminate={information.isIndeterminate}
             value={information.label}
-            disabled={loadingSearchSuperbViews}
+            disabled={loadingSearchWorldViews}
             onChange={handleChangeSeason}
             colorScheme="teal"
           >
@@ -35,7 +35,7 @@ const SeasonCheckBox = () => {
                   key={checkBoxItem.label}
                   isChecked={checkBoxItem.checked}
                   value={checkBoxItem.label}
-                  disabled={loadingSearchSuperbViews}
+                  disabled={loadingSearchWorldViews}
                   onChange={handleChangeMonth}
                   colorScheme="teal"
                 >

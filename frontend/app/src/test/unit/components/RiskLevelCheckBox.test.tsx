@@ -3,9 +3,9 @@ import userEvent from "@testing-library/user-event";
 import RiskLevelCheckBox from "components/molecules/RiskLevelCheckBox";
 import { act } from "react-dom/test-utils";
 
-const spyOnUseSuperbViewListContext = jest.spyOn(
-  jest.requireActual("hooks/providers/SuperbViewListProvider"),
-  "useSuperbViewListContext"
+const spyOnUseWorldViewListContext = jest.spyOn(
+  jest.requireActual("hooks/providers/WorldViewListProvider"),
+  "useWorldViewListContext"
 );
 
 const mockContextValue = {
@@ -15,7 +15,7 @@ const mockContextValue = {
       checked: false,
     },
   ],
-  loadingSearchSuperbViews: false,
+  loadingSearchWorldViews: false,
 };
 
 const mockContextValueCheckedTrue = {
@@ -28,9 +28,9 @@ const mockContextValueCheckedTrue = {
   ],
 };
 
-const mockContextValueLoadingSearchSuperbViews = {
+const mockContextValueLoadingSearchWorldViews = {
   ...mockContextValue,
-  loadingSearchSuperbViews: true,
+  loadingSearchWorldViews: true,
 };
 
 const mockHandleChangeRiskLevel = jest.fn();
@@ -40,7 +40,7 @@ jest.mock("hooks/api/riskLevel/useRiskLevelHandleChange", () => ({
 }));
 
 test("checkboxがレンダリングされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<RiskLevelCheckBox />);
   expect(screen.getByRole("checkbox", { name: "リスクレベル4" })).toBeInTheDocument();
   const riskLevelImg = screen.getAllByRole("img", { name: "リスクレベル" });
@@ -50,19 +50,19 @@ test("checkboxがレンダリングされていること", () => {
 });
 
 test("riskLevelsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
   render(<RiskLevelCheckBox />);
   expect(screen.getByRole("checkbox", { name: "リスクレベル4" })).toBeChecked();
 });
 
-test("loadingSearchSuperbViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValueLoadingSearchSuperbViews);
+test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
   render(<RiskLevelCheckBox />);
   expect(screen.getByRole("checkbox", { name: "リスクレベル4" })).toBeDisabled();
 });
 
 test("CheckBox押下でhandleChangeRiskLevel関数が実行されること", async () => {
-  spyOnUseSuperbViewListContext.mockImplementation(() => mockContextValue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<RiskLevelCheckBox />);
   const checkbox = screen.getByRole("checkbox", { name: "リスクレベル4" });

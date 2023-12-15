@@ -1,8 +1,8 @@
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 
 const useGetCategoryCheckBoxInfo = () => {
   const handleGetCategoryCheckBoxInfo = (classification: string) => {
-    const { categoryCheckBoxItems } = useSuperbViewListContext();
+    const { categoryCheckBoxItems } = useWorldViewListContext();
 
     if (classification === "自然") {
       const filteredCheckedItems = categoryCheckBoxItems.filter(

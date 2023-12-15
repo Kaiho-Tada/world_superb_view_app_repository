@@ -1,4 +1,4 @@
-export type SearchSuperbViewsProps = {
+export type SearchWorldViewsProps = {
   checkedCategoryLabels: string[];
   checkedCountryLabels: string[];
   checkedCharacteristicLabels: string[];

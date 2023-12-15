@@ -1,10 +1,10 @@
 import { useDisclosure } from "@chakra-ui/react";
-import SuperbViewListContext from "contexts/SuperbViewListContext";
+import WorldViewListContext from "contexts/WorldViewListContext";
 import useGetAllCategoryCheckBoxItems from "hooks/api/category/useGetCategoryCheckBoxItems";
 import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/useGetCharacteristicCheckBoxItems";
 import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxItems";
 import { FC, ReactNode, useContext, useMemo, useState } from "react";
-import { SuperbView } from "types/api/superbView";
+import { WorldView } from "types/api/worldView";
 import { RiskLevel } from "types/riskLevel";
 import { MonthCheckBoxItems } from "types/season/monthCheckBoxItems";
 
@@ -12,12 +12,12 @@ type Props = {
   children: ReactNode;
 };
 
-export const useSuperbViewListContext = () => {
-  const superbViewListContext = useContext(SuperbViewListContext);
-  return useMemo(() => superbViewListContext, [superbViewListContext]);
+export const useWorldViewListContext = () => {
+  const worldViewListContext = useContext(WorldViewListContext);
+  return useMemo(() => worldViewListContext, [worldViewListContext]);
 };
 
-export const SuperbViewListProvider: FC<Props> = ({ children }) => {
+export const WorldViewListProvider: FC<Props> = ({ children }) => {
   const countryStates = ["アジア", "大洋州", "北米", "中南米", "ヨーロッパ", "中東", "アフリカ"];
   const categoryClassifications = ["自然", "人工"];
   const [checkedCategoryLabels, setCheckedCategoryLabels] = useState<Array<string>>([]);
@@ -25,7 +25,7 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
   const [checkedCharacteristicLabels, setCheckedCharacteristicLabels] = useState<Array<string>>([]);
   const [checkedRiskLevelLabels, setCheckedRiskLevelLabels] = useState<Array<string>>([]);
   const [checkedMonthLabels, setCheckedMonthLabels] = useState<Array<string>>([]);
-  const [loadingSearchSuperbViews, setLoadingSearchSuperbViews] = useState(false);
+  const [loadingSearchWorldViews, setLoadingSearchWorldViews] = useState(false);
   const [riskLevels, setRiskLevels] = useState<Array<RiskLevel>>([
     { label: "4", checked: false },
     { label: "3", checked: false },
@@ -35,7 +35,7 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
   ]);
   const [keyword, setKeyword] = useState<string>("");
   const [shouldDebounce, setShouldDebounce] = useState<boolean>(false);
-  const [superbViews, setSuperbViews] = useState<Array<SuperbView>>([]);
+  const [worldViews, setWorldViews] = useState<Array<WorldView>>([]);
   const [monthCheckBoxItems, setMonthCheckBoxItems] = useState<Array<MonthCheckBoxItems>>([
     { label: "1月", season: "冬", checked: false },
     { label: "2月", season: "冬", checked: false },
@@ -80,16 +80,16 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
     () => ({
       countryStates,
       categoryClassifications,
-      loadingSearchSuperbViews,
-      setLoadingSearchSuperbViews,
+      loadingSearchWorldViews,
+      setLoadingSearchWorldViews,
       checkedCategoryLabels,
       setCheckedCategoryLabels,
       checkedCountryLabels,
       setCheckedCountryLabels,
       checkedCharacteristicLabels,
       setCheckedCharacteristicLabels,
-      superbViews,
-      setSuperbViews,
+      worldViews,
+      setWorldViews,
       countryCheckBoxItems,
       setCountryCheckBoxItems,
       categoryCheckBoxItems,
@@ -121,16 +121,16 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
     [
       countryStates,
       categoryClassifications,
-      loadingSearchSuperbViews,
-      setLoadingSearchSuperbViews,
+      loadingSearchWorldViews,
+      setLoadingSearchWorldViews,
       checkedCategoryLabels,
       setCheckedCategoryLabels,
       checkedCountryLabels,
       setCheckedCountryLabels,
       checkedCharacteristicLabels,
       setCheckedCharacteristicLabels,
-      superbViews,
-      setSuperbViews,
+      worldViews,
+      setWorldViews,
       countryCheckBoxItems,
       setCountryCheckBoxItems,
       categoryCheckBoxItems,
@@ -160,5 +160,5 @@ export const SuperbViewListProvider: FC<Props> = ({ children }) => {
       setCheckedMonthLabels,
     ]
   );
-  return <SuperbViewListContext.Provider value={value}>{children}</SuperbViewListContext.Provider>;
+  return <WorldViewListContext.Provider value={value}>{children}</WorldViewListContext.Provider>;
 };

@@ -1,8 +1,8 @@
-import { useSuperbViewListContext } from "hooks/providers/SuperbViewListProvider";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 
 const useGetCountryCheckBoxInfo = () => {
   const handleGetCountryCheckBoxInfo = (classification: string) => {
-    const { countryCheckBoxItems } = useSuperbViewListContext();
+    const { countryCheckBoxItems } = useWorldViewListContext();
 
     if (classification === "アジア") {
       const filteredCheckedItems = countryCheckBoxItems.filter(
