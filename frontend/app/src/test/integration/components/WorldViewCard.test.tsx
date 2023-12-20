@@ -50,15 +50,24 @@ const characteristics = [
   },
 ];
 
+const favorites = [
+  {
+    id: 1,
+    userId: 1,
+    worldViewId: 1,
+  },
+];
 test("絶景画像がレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const SuperbViewImage = screen.getByRole("img", { name: "絶景画像" });
@@ -68,12 +77,14 @@ test("絶景画像がレンダリングされていること", () => {
 test("絶景名がレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const SuperbViewName = screen.getByRole("heading", { name: "絶景名" });
@@ -83,12 +94,14 @@ test("絶景名がレンダリングされていること", () => {
 test("絶景の概要がレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const SuperbViewDescription = screen.getByRole("heading", {
@@ -100,12 +113,14 @@ test("絶景の概要がレンダリングされていること", () => {
 test("国名の見出しがレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const BestSeasonHeading = screen.getByRole("heading", { name: "国名" });
@@ -115,12 +130,14 @@ test("国名の見出しがレンダリングされていること", () => {
 test("国名がレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const BestSeasonHeading = screen.getByRole("heading", { name: "countryName1 countryName2" });
@@ -130,12 +147,14 @@ test("国名がレンダリングされていること", () => {
 test("カテゴリーの見出しがレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const CategoryHeading = screen.getByRole("heading", { name: "カテゴリー" });
@@ -145,12 +164,14 @@ test("カテゴリーの見出しがレンダリングされていること", ()
 test("カテゴリー名がレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const CategoryHeading = screen.getByRole("heading", { name: "categoryName1 categoryName2" });
@@ -160,12 +181,14 @@ test("カテゴリー名がレンダリングされていること", () => {
 test("ベストシーズンの見出しがレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const BestSeasonHeading = screen.getByRole("heading", { name: "ベストシーズン" });
@@ -175,12 +198,14 @@ test("ベストシーズンの見出しがレンダリングされているこ�
 test("ベストシーズンがレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const BestSeason = screen.getByRole("heading", { name: "1月" });
@@ -190,12 +215,14 @@ test("ベストシーズンがレンダリングされていること", () => {
 test("リスクレベルの見出しがレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const riskLevelHeading = screen.getByRole("heading", { name: "リスクレベル" });
@@ -205,14 +232,32 @@ test("リスクレベルの見出しがレンダリングされていること",
 test("リスクレベルがレンダリングされていること", () => {
   render(
     <SuperbViewCard
+      id={1}
       name="絶景名"
       imageUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
       characteristics={characteristics}
+      favorites={favorites}
     />
   );
   const riskLevel = screen.getAllByRole("img", { name: "リスクレベル" });
   expect(riskLevel.length).toBe(2);
+});
+
+test("ハートアイコンが表示されていること", () => {
+  render(
+    <SuperbViewCard
+      id={1}
+      name="絶景名"
+      imageUrl="画像URL"
+      bestSeason="1月"
+      countries={countries}
+      categories={categories}
+      characteristics={characteristics}
+      favorites={favorites}
+    />
+  );
+  expect(screen.getByRole("img", { name: "ハートアイコン" })).toBeInTheDocument();
 });

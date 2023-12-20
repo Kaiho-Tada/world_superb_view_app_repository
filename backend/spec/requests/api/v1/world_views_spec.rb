@@ -32,7 +32,8 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           category_names: [category_city.name]
         }
         world_views = [civita_di_bagnoregio, machu_picchu]
-        world_views_json = world_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+        world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
+                                                         { countries: { include: :state } }],
                                                methods: [:image_url])
         expect(response).to have_http_status(200)
         expect(response.body).to eq world_views_json
@@ -66,7 +67,8 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           country_names: [country_italy.name]
         }
         world_views = [matera_cave_dwellings, civita_di_bagnoregio]
-        world_views_json = world_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+        world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
+                                                         { countries: { include: :state } }],
                                                methods: [:image_url])
         expect(response).to have_http_status(200)
         expect(response.body).to eq world_views_json
@@ -100,7 +102,8 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           characteristic_names: [characteristic_historic.name]
         }
         world_views = [civita_di_bagnoregio, machu_picchu]
-        world_views_json = world_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+        world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
+                                                         { countries: { include: :state } }],
                                                methods: [:image_url])
         expect(response).to have_http_status(200)
         expect(response.body).to eq world_views_json
@@ -134,7 +137,8 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           risk_levels: ["0"]
         }
         world_views = [matera_cave_dwellings, civita_di_bagnoregio]
-        world_views_json = world_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+        world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
+                                                         { countries: { include: :state } }],
                                                methods: [:image_url])
         expect(response).to have_http_status(200)
         expect(response.body).to eq world_views_json
@@ -168,7 +172,8 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           keyword: "マ"
         }
         world_views = [matera_cave_dwellings, machu_picchu]
-        world_views_json = world_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+        world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
+                                                         { countries: { include: :state } }],
                                                methods: [:image_url])
         expect(response).to have_http_status(200)
         expect(response.body).to eq world_views_json
@@ -179,7 +184,8 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           keyword: "イタリア"
         }
         world_views = [matera_cave_dwellings, civita_di_bagnoregio]
-        world_views_json = world_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+        world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
+                                                         { countries: { include: :state } }],
                                                methods: [:image_url])
         expect(response).to have_http_status(200)
         expect(response.body).to eq world_views_json
@@ -209,7 +215,8 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           months: ["1月", "3月", "7月"]
         }
         world_views = [world_view1, world_view2, world_view3]
-        world_views_json = world_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+        world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
+                                                         { countries: { include: :state } }],
                                                methods: [:image_url])
         expect(response).to have_http_status(200)
         expect(response.body).to eq world_views_json

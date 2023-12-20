@@ -103,12 +103,14 @@ const WorldViewList = memo(() => {
                     aria-label={`絶景一覧: ${worldView.name}`}
                   >
                     <WorldViewCard
+                      id={worldView.id}
                       name={worldView.name}
                       imageUrl={worldView.imageUrl}
                       bestSeason={worldView.bestSeason}
                       countries={worldView.countries}
                       categories={worldView.categories}
                       characteristics={worldView.characteristics}
+                      favorites={worldView.worldViewFavorites}
                     />
                   </WrapItem>
                 ))}

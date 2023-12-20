@@ -12,7 +12,8 @@ class Api::V1::WorldViewsController < ApplicationController
                            .filter_by_country_risk_level(world_view_params[:risk_levels])
                            .filter_by_keyword(world_view_params[:keyword])
                            .filter_by_month(world_view_params[:months])
-    render json: world_views.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
+    render json: world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
+                                               { countries: { include: :state } }],
                                      methods: [:image_url])
   end
 

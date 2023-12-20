@@ -7,6 +7,8 @@ class WorldView < ApplicationRecord
   has_many :categories, through: :world_view_categories
   has_many :world_view_characteristics, dependent: :destroy
   has_many :characteristics, through: :world_view_characteristics
+  has_many :world_view_favorites, dependent: :destroy
+  has_many :users, through: :world_view_favorites
 
   validates :name, length: { maximum: 30 }, presence: true
   validates :panorama_url, presence: true

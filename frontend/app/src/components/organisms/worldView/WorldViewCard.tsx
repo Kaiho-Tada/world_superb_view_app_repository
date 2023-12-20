@@ -1,21 +1,26 @@
 import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import Favorite from "components/atoms/worldView/Favorite";
 import RiskLevelStar from "components/molecules/RiskLevelStar";
 import { FC, memo } from "react";
+import { WorldViewFavorite } from "types/api/worldViewFavorite";
 import { RefCategory } from "types/ref/refCategory";
 import { RefCharacteristic } from "types/ref/refCharacteristic";
 import { RefCountry } from "types/ref/refCountry";
 
 type Props = {
+  id: number;
   name: string;
   imageUrl: string;
   bestSeason: string;
   countries: Array<RefCountry>;
   categories: Array<RefCategory>;
   characteristics: Array<RefCharacteristic>;
+  favorites: Array<WorldViewFavorite>;
 };
 
 const WorldViewCard: FC<Props> = memo((props) => {
-  const { name, imageUrl, bestSeason, countries, categories, characteristics } = props;
+  const { id, name, imageUrl, bestSeason, countries, categories, characteristics, favorites } =
+    props;
   const countryNames = countries.map((country) => country.name);
   const countryNameResult = countryNames.length > 1 ? countryNames.join(" ") : countryNames[0];
 
@@ -30,7 +35,7 @@ const WorldViewCard: FC<Props> = memo((props) => {
     characteristicNames.length > 1 ? characteristicNames.join(" ") : characteristicNames[0];
 
   return (
-    <Box>
+    <Box position="relative">
       <Flex h="245px" bg="gray.100" color="blue.800" _hover={{ cursor: "pointer", opacity: "0.8" }}>
         <Box w="100%">
           <Image h="100%" w="100%" src={imageUrl} alt="絶景画像" />
@@ -112,6 +117,7 @@ const WorldViewCard: FC<Props> = memo((props) => {
             </Flex>
           </Box>
         </Box>
+        <Favorite selectedId={id} favorites={favorites} />
       </Flex>
     </Box>
   );

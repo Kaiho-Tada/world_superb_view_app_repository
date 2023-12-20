@@ -17,6 +17,7 @@ const mockWorldViews = Array.from({ length: 30 }, (_, index) => ({
   countries: [],
   categories: [],
   characteristics: [],
+  worldViewFavorites: [],
 }));
 
 jest.mock("hooks/providers/WorldViewListProvider", () => ({
