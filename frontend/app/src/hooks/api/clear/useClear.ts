@@ -13,11 +13,14 @@ const useClear = () => {
     setRiskLevels,
     monthCheckBoxItems,
     setMonthCheckBoxItems,
+    bmiCheckBoxItems,
+    setBmiCheckBoxItems,
     setCheckedCategoryLabels,
     setCheckedCountryLabels,
     setCheckedCharacteristicLabels,
     setCheckedRiskLevelLabels,
     setCheckedMonthLabels,
+    setCheckedBmiLabels,
     setKeyword,
   } = useWorldViewListContext();
 
@@ -71,11 +74,21 @@ const useClear = () => {
     });
     setMonthCheckBoxItems(clearedMonthCheckBoxItems);
 
+    const clearedBmiCheckBoxItems = bmiCheckBoxItems.map((originalCheckBoxitems) => {
+      const checkBoxItems = { ...originalCheckBoxitems };
+      if (checkBoxItems.checked === true) {
+        checkBoxItems.checked = !checkBoxItems.checked;
+      }
+      return checkBoxItems;
+    });
+    setBmiCheckBoxItems(clearedBmiCheckBoxItems);
+
     setCheckedCategoryLabels([]);
     setCheckedCountryLabels([]);
     setCheckedCharacteristicLabels([]);
     setCheckedRiskLevelLabels([]);
     setCheckedMonthLabels([]);
+    setCheckedBmiLabels([]);
     setKeyword("");
   }, [categoryCheckBoxItems, countryCheckBoxItems, characteristicCheckBoxItems, riskLevels]);
   return { handleClear };

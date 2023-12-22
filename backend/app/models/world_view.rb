@@ -80,6 +80,15 @@ class WorldView < ApplicationRecord
     end
   }
 
+  scope :filter_by_country_bmi, lambda { |bmi_ranges|
+    return self if bmi_ranges.nil?
+
+    countries = Country.all.filter_by_bmi(bmi_ranges)
+    country_ids = countries&.map(&:id)&.join(",")
+
+    joins(:countries).where("countries.id IN (#{country_ids})").distinct
+  }
+
   def self.extract_months_range(input)
     ranges = input.scan(/(\d+)月〜(\d+)月/)
 

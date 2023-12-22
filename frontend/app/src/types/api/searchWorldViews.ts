@@ -4,5 +4,6 @@ export type SearchWorldViewsProps = {
   checkedCharacteristicLabels: string[];
   checkedRiskLevelLabels: string[];
   checkedMonthLabels: string[];
+  checkedBmiLabels: string[];
   keyword: string;
 };

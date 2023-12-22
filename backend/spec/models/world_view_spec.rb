@@ -184,5 +184,29 @@ RSpec.describe WorldView, type: :model do
         expect(WorldView.filter_by_month(["10月", "11月"])).to eq [world_view2]
       end
     end
+
+    describe "filter_by_country_bmi" do
+      it "引数で受け取ったbmi_rangesの範囲に含まれる値のbmiカラムを持つCountryモデルと関連付けしているWorldViewを返すこと" do
+        world_view1 = create(:world_view)
+        world_view2 = create(:world_view)
+        world_view3 = create(:world_view)
+        create(:world_view_country, world_view: world_view1, country: create(:country, bmi: 2.2))
+        create(:world_view_country, world_view: world_view2, country: create(:country, bmi: 35.9))
+        create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -5.1))
+        create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -40.2))
+        expect(WorldView.filter_by_country_bmi(["0%〜10%"])).to include world_view1
+        expect(WorldView.filter_by_country_bmi(["30%〜"])).to include world_view2
+        expect(WorldView.filter_by_country_bmi(["-10%〜0%"])).to include world_view3
+        expect(WorldView.filter_by_country_bmi(["〜-40%"])).to include world_view3
+      end
+
+      it "返されるWorldViewが重複しないこと" do
+        duplicate_world_view = create(:world_view)
+        create(:world_view_country, world_view: duplicate_world_view, country: create(:country, bmi: 35.9))
+        create(:world_view_country, world_view: duplicate_world_view, country: create(:country, bmi: -40.2))
+        result_world_view = WorldView.filter_by_country_bmi(["30%〜", "〜-40%"])
+        expect(result_world_view).to eq result_world_view.distinct
+      end
+    end
   end
 end

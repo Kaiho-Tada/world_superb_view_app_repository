@@ -100,12 +100,13 @@ state_info.each do |key, value|
   state.save!
 end
 
-country_names = ["ナミビア", "ザンビア", "エジプト", "エチオピア", "モロッコ", "モーリシャス", "セネガル", "ジンバブエ",
-                 "イタリア", "アイスランド", "ノルウェー", "フランス", "イギリス", "ロシア", "ウクライナ", "ボスニアヘルツェゴビナ",
-                 "ギリシャ", "ドイツ", "スロベニア", "スイス", "クロアチア", "アラブ首長国連邦", "レバノン", "ラオス", "ヨルダン",
-                 "キプロス", "トルコ", "フィリピン", "中国", "カンボジア", "ミャンマー", "インド", "スリランカ", "台湾", "インドネシア",
-                 "ニュージーランド", "オーストラリア", "アメリカ", "キューバ", "メキシコ", "カナダ", "アルゼンチン", "ボリビア", "ペルー",
-                 "ブラジル", "ベネズエラ", "チリ"]
+country_names = {"ナミビア"=>-1, "ザンビア"=>18, "エジプト"=>-15, "エチオピア"=>27, "モロッコ"=>32, "モーリシャス"=>-22, "セネガル"=>8,
+                 "ジンバブエ"=>-9, "イタリア"=>-35, "アイスランド"=>-24, "ノルウェー"=>-23, "フランス"=>-49, "イギリス"=>0, "ロシア"=>-41, "ウクライナ"=>28,
+                 "ボスニアヘルツェゴビナ"=>25, "ギリシャ"=>-1, "ドイツ"=>-36, "スロベニア"=>27, "スイス"=>-25, "クロアチア"=>35, "アラブ首長国連邦"=>-19,
+                 "レバノン"=>-31, "ラオス"=>21, "ヨルダン"=>16, "キプロス"=>-45, "トルコ"=>37, "フィリピン"=>-21, "中国"=>4, "カンボジア"=>-43, "ミャンマー"=>-39,
+                 "インド"=>19, "スリランカ"=>-25, "台湾"=>-9, "インドネシア"=>16, "ニュージーランド"=>16, "オーストラリア"=>6, "アメリカ"=>10, "キューバ"=>18,
+                 "メキシコ"=>20, "カナダ"=>-22, "アルゼンチン"=>-46, "ボリビア"=>26, "ペルー"=>-9, "ブラジル"=>32, "ベネズエラ"=>-24, "チリ"=>40}
+
 require "roo"
 xlsx = Roo::Excelx.new("./country.xlsx")
 
@@ -113,43 +114,43 @@ xlsx = Roo::Excelx.new("./country.xlsx")
   area_code = xlsx.cell(5 + i, 3)
   country_code = xlsx.cell(5 + i, 4)
   country_name = xlsx.cell(5 + i, 5)
-  country_names.each do |name|
-    next unless name == country_name
+  country_names.each do |key, value|
+    next unless key == country_name
 
     case area_code
     when 10
       state = State.find_by(name: "アジア")
-      country = Country.new(name: country_name, code: country_code, state:)
+      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 20
       state = State.find_by(name: "大洋州")
-      country = Country.new(name: country_name, code: country_code, state:)
+      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 30
       state = State.find_by(name: "北米")
-      country = Country.new(name: country_name, code: country_code, state:)
+      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 33
       state = State.find_by(name: "中南米")
-      country = Country.new(name: country_name, code: country_code, state:)
+      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 42
       state = State.find_by(name: "ヨーロッパ")
-      country = Country.new(name: country_name, code: country_code, state:)
+      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 50
       state = State.find_by(name: "中東")
-      country = Country.new(name: country_name, code: country_code, state:)
+      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 60
       state = State.find_by(name: "アフリカ")
-      country = Country.new(name: country_name, code: country_code, state:)
+      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     end

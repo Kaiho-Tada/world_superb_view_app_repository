@@ -7,6 +7,7 @@ const countries = [
     name: "countryName1",
     code: "0012",
     riskLevel: 1,
+    bmi: 11.2,
     state: {
       id: 1,
       name: "stateName1",
@@ -18,6 +19,7 @@ const countries = [
     name: "countryName2",
     code: "0014",
     riskLevel: 2,
+    bmi: -26.9,
     state: {
       id: 1,
       name: "stateName1",
@@ -260,4 +262,37 @@ test("ハートアイコンが表示されていること", () => {
     />
   );
   expect(screen.getByRole("img", { name: "ハートアイコン" })).toBeInTheDocument();
+});
+
+test("BMIの見出しがレンダリングされていること", () => {
+  render(
+    <SuperbViewCard
+      id={1}
+      name="絶景名"
+      imageUrl="画像URL"
+      bestSeason="1月"
+      countries={countries}
+      categories={categories}
+      characteristics={characteristics}
+      favorites={favorites}
+    />
+  );
+  const BestSeasonHeading = screen.getByRole("heading", { name: "BMI" });
+  expect(BestSeasonHeading).toBeInTheDocument();
+});
+
+test("BMI値がレンダリングされていること", () => {
+  render(
+    <SuperbViewCard
+      id={1}
+      name="絶景名"
+      imageUrl="画像URL"
+      bestSeason="1月"
+      countries={countries}
+      categories={categories}
+      characteristics={characteristics}
+      favorites={favorites}
+    />
+  );
+  expect(screen.getByRole("heading", { name: "11.2% -26.9%" })).toBeInTheDocument();
 });

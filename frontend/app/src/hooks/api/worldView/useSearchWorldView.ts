@@ -13,6 +13,7 @@ const useSearchWorldView = () => {
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
     checkedMonthLabels,
+    checkedBmiLabels,
     keyword,
   } = useWorldViewListContext();
 
@@ -25,6 +26,7 @@ const useSearchWorldView = () => {
         checkedCharacteristicLabels,
         checkedRiskLevelLabels,
         checkedMonthLabels,
+        checkedBmiLabels,
         keyword,
       });
       setWorldViews(res.data);
@@ -42,6 +44,7 @@ const useSearchWorldView = () => {
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
     checkedMonthLabels,
+    checkedBmiLabels,
     keyword,
   ]);
   return { handleSearchWorldView };

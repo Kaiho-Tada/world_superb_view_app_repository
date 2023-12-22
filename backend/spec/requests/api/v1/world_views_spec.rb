@@ -222,5 +222,35 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
         expect(response.body).to eq world_views_json
       end
     end
+
+    describe "filter_by_country_bmiスコープのテスト" do
+      it "paramsで受け取ったbmi_rangesの範囲に含まれるbmiカラムを持つCountryモデルと関連しているWorldViewを返すこと" do
+        world_view1 = create(:world_view)
+        world_view2 = create(:world_view)
+        world_view3 = create(:world_view)
+        create(:world_view_country, world_view: world_view1, country: create(:country, bmi: 23.4))
+        create(:world_view_country, world_view: world_view2, country: create(:country, bmi: -18.2))
+        create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -40.2))
+        get api_v1_world_views_search_path, params: {
+          bmi_ranges: ["20%〜30%", "〜-40%"]
+        }
+        expect(response).to have_http_status(200)
+        expect(response.body).to include world_view1.name
+        expect(response.body).not_to include world_view2.name
+        expect(response.body).to include world_view3.name
+      end
+
+      it "返されるWorldViewが重複しないこと" do
+        duplicated_world_view = create(:world_view)
+        create(:world_view_country, world_view: duplicated_world_view, country: create(:country, bmi: -10.2))
+        create(:world_view_country, world_view: duplicated_world_view, country: create(:country, bmi: 1.2))
+        get api_v1_world_views_search_path, params: {
+          bmi_ranges: ["-20%〜-10%", "0〜10%"]
+        }
+        json = JSON.parse(response.body)
+        expect(response).to have_http_status(200)
+        expect(json).to eq json.uniq
+      end
+    end
   end
 end

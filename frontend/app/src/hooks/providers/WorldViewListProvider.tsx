@@ -5,6 +5,7 @@ import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/u
 import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxItems";
 import { FC, ReactNode, useContext, useMemo, useState } from "react";
 import { WorldView } from "types/api/worldView";
+import { BmiCheckBoxItem } from "types/bmi/bmiCheckBoxItem";
 import { RiskLevel } from "types/riskLevel";
 import { MonthCheckBoxItems } from "types/season/monthCheckBoxItems";
 
@@ -25,6 +26,8 @@ export const WorldViewListProvider: FC<Props> = ({ children }) => {
   const [checkedCharacteristicLabels, setCheckedCharacteristicLabels] = useState<Array<string>>([]);
   const [checkedRiskLevelLabels, setCheckedRiskLevelLabels] = useState<Array<string>>([]);
   const [checkedMonthLabels, setCheckedMonthLabels] = useState<Array<string>>([]);
+  const [checkedBmiLabels, setCheckedBmiLabels] = useState<Array<string>>([]);
+
   const [loadingSearchWorldViews, setLoadingSearchWorldViews] = useState(false);
   const [riskLevels, setRiskLevels] = useState<Array<RiskLevel>>([
     { label: "4", checked: false },
@@ -49,6 +52,18 @@ export const WorldViewListProvider: FC<Props> = ({ children }) => {
     { label: "10月", season: "秋", checked: false },
     { label: "11月", season: "秋", checked: false },
     { label: "12月", season: "冬", checked: false },
+  ]);
+
+  const [bmiCheckBoxItems, setBmiCheckBoxItems] = useState<Array<BmiCheckBoxItem>>([
+    { label: "30%〜", checked: false },
+    { label: "20%〜30%", checked: false },
+    { label: "10%〜20%", checked: false },
+    { label: "0%〜10%", checked: false },
+    { label: "-10%〜0%", checked: false },
+    { label: "-20%〜-10%", checked: false },
+    { label: "-30%〜-20%", checked: false },
+    { label: "-40%〜-30%", checked: false },
+    { label: "〜-40%", checked: false },
   ]);
 
   const {
@@ -117,6 +132,10 @@ export const WorldViewListProvider: FC<Props> = ({ children }) => {
       setMonthCheckBoxItems,
       checkedMonthLabels,
       setCheckedMonthLabels,
+      bmiCheckBoxItems,
+      setBmiCheckBoxItems,
+      checkedBmiLabels,
+      setCheckedBmiLabels,
     }),
     [
       countryStates,
@@ -158,6 +177,10 @@ export const WorldViewListProvider: FC<Props> = ({ children }) => {
       setMonthCheckBoxItems,
       checkedMonthLabels,
       setCheckedMonthLabels,
+      bmiCheckBoxItems,
+      setBmiCheckBoxItems,
+      checkedBmiLabels,
+      setCheckedBmiLabels,
     ]
   );
   return <WorldViewListContext.Provider value={value}>{children}</WorldViewListContext.Provider>;

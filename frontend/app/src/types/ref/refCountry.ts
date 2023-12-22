@@ -3,4 +3,5 @@ export type RefCountry = {
   name: string;
   code: string;
   riskLevel: number;
+  bmi: number;
 };

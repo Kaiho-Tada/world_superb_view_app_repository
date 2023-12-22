@@ -25,6 +25,7 @@ const mockContextValueSucsess = {
   checkedCharacteristicLabels: ["歴史・文化的"],
   checkedRiskLevelLabels: ["1"],
   checkedMonthLabels: ["9月"],
+  checkedBmiLabels: ["4.0"],
   keyword: ["の"],
 };
 
@@ -41,6 +42,7 @@ mockAxios.onGet("/world_views/search").reply((config) => {
     config.params.characteristic_names.includes("歴史・文化的") &&
     config.params.risk_levels.includes("1") &&
     config.params.months.includes("9月") &&
+    config.params.bmi_ranges.includes("4.0") &&
     config.params.keyword.includes("の")
   ) {
     return [

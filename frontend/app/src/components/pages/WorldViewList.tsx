@@ -20,6 +20,7 @@ const WorldViewList = memo(() => {
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
     checkedMonthLabels,
+    checkedBmiLabels,
     keyword,
     shouldDebounce,
     setShouldDebounce,
@@ -43,6 +44,7 @@ const WorldViewList = memo(() => {
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
     checkedMonthLabels,
+    checkedBmiLabels,
     keyword,
   ]);
   useEffect(() => {

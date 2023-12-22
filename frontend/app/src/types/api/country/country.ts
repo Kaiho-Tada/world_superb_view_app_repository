@@ -7,5 +7,6 @@ export type Country = {
   code: string;
   riskLevel: number;
   state: RefState;
+  bmi: number;
   superbViews: Array<RefSuperbView>;
 };

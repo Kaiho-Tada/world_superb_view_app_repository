@@ -43,6 +43,7 @@ const mockContextValue = {
     },
   ],
   monthCheckBoxItems: [{ label: "1月", season: "冬", checked: false }],
+  bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
   onCloseFilterDrawer: mockOnCloseFilterDrawer,
   loadingSearchWorldViews: false,
   checkedCategoryLabels: [""],
@@ -60,6 +61,7 @@ const mockContextValueEmptyCheckedLabelsAndEmptyKeyword = {
   checkedCharacteristicLabels: [],
   checkedRiskLevelLabels: [],
   checkedMonthLabels: [],
+  checkedBmiLabels: [],
   keyword: "",
 };
 
@@ -234,4 +236,20 @@ test("ベストシーズンのアコーディオンボタン押下でSeasonCheck
   });
   expect(screen.getByRole("checkbox", { name: "冬" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "1月" })).toBeInTheDocument();
+});
+
+test("BMIのアコーディオンボタンがレンダリングされていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+  render(<FilterDrawerAccordion />);
+  expect(screen.getByRole("button", { name: "BMI" })).toBeInTheDocument();
+});
+
+test("BMIのアコーディオンボタン押下でBmiCheckBoxが表示されること", async () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+  const user = userEvent.setup();
+  render(<FilterDrawerAccordion />);
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "BMI" }));
+  });
+  expect(screen.getByRole("checkbox", { name: "0%〜10%" })).toBeInTheDocument();
 });

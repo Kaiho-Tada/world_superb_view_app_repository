@@ -34,9 +34,12 @@ const WorldViewCard: FC<Props> = memo((props) => {
   const characteristicNameResult =
     characteristicNames.length > 1 ? characteristicNames.join(" ") : characteristicNames[0];
 
+  const countryBmi = countries.map((country) => country.bmi);
+  const countryBmiResult = countryBmi.length > 1 ? countryBmi.join("% ") : countryBmi[0];
+
   return (
     <Box position="relative">
-      <Flex h="245px" bg="gray.100" color="blue.800" _hover={{ cursor: "pointer", opacity: "0.8" }}>
+      <Flex h="270px" bg="gray.100" color="blue.800" _hover={{ cursor: "pointer", opacity: "0.8" }}>
         <Box w="100%">
           <Image h="100%" w="100%" src={imageUrl} alt="絶景画像" />
         </Box>
@@ -113,6 +116,22 @@ const WorldViewCard: FC<Props> = memo((props) => {
               </Text>
               <Text role="heading" fontSize="xs" color="gray.500" noOfLines={1}>
                 {characteristicNameResult}
+              </Text>
+            </Flex>
+            <Flex mb="1">
+              <Text
+                role="heading"
+                bg="#B67B03"
+                fontSize="xs"
+                color="gray.100"
+                mr="2"
+                px="1"
+                noOfLines={1}
+              >
+                BMI
+              </Text>
+              <Text role="heading" fontSize="xs" color="gray.500" noOfLines={1}>
+                {countryBmiResult}%
               </Text>
             </Flex>
           </Box>

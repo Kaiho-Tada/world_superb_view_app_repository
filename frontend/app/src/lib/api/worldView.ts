@@ -10,6 +10,7 @@ export const searchWorldViewsApi = (props: SearchWorldViewsProps) => {
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
     checkedMonthLabels,
+    checkedBmiLabels,
     keyword,
   } = props;
 
@@ -20,6 +21,7 @@ export const searchWorldViewsApi = (props: SearchWorldViewsProps) => {
       characteristicNames: checkedCharacteristicLabels,
       riskLevels: checkedRiskLevelLabels,
       months: checkedMonthLabels,
+      bmiRanges: checkedBmiLabels,
       keyword,
     },
   });

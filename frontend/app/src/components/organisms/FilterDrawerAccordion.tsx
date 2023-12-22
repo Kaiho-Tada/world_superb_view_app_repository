@@ -9,6 +9,7 @@ import {
   Flex,
   Heading,
 } from "@chakra-ui/react";
+import BmiCheckBox from "components/molecules/BmiCheckBox";
 import CategoryCheckBox from "components/molecules/CategoryCheckBox";
 import CharacteristicCheckBox from "components/molecules/CharacteristicCheckBox";
 import CountryCheckBox from "components/molecules/CountryCheckBox";
@@ -27,6 +28,7 @@ const FilterDrawerAccordion = () => {
     checkedCharacteristicLabels,
     checkedRiskLevelLabels,
     checkedMonthLabels,
+    checkedBmiLabels,
     keyword,
   } = useWorldViewListContext();
   const { handleClear } = useClear();
@@ -53,6 +55,7 @@ const FilterDrawerAccordion = () => {
               !checkedCharacteristicLabels.length &&
               !checkedRiskLevelLabels.length &&
               !checkedMonthLabels.length &&
+              !checkedBmiLabels.length &&
               keyword === "")
           }
         >
@@ -125,6 +128,17 @@ const FilterDrawerAccordion = () => {
         </AccordionButton>
         <AccordionPanel pb={4}>
           <SeasonCheckBox />
+        </AccordionPanel>
+      </AccordionItem>
+      <AccordionItem>
+        <AccordionButton fontWeight="bold" textShadow="2px 2px #000000">
+          <Box as="span" flex="1" textAlign="left">
+            BMI
+          </Box>
+          <AccordionIcon />
+        </AccordionButton>
+        <AccordionPanel pb={4}>
+          <BmiCheckBox />
         </AccordionPanel>
       </AccordionItem>
     </Accordion>

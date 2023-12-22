@@ -3,6 +3,7 @@ import { CategoryCheckBoxItem } from "types/api/category/categoryCheckBoxItem";
 import { CharacteristicCheckBoxItem } from "types/api/characteristic/characteristicCheckBoxItem";
 import { CountryCheckBoxItem } from "types/api/country/CountryCheckBoxItem";
 import { WorldView } from "types/api/worldView";
+import { BmiCheckBoxItem } from "types/bmi/bmiCheckBoxItem";
 import { RiskLevel } from "types/riskLevel";
 import { MonthCheckBoxItems } from "types/season/monthCheckBoxItems";
 
@@ -47,6 +48,10 @@ export const WorldViewListContext = createContext(
     setMonthCheckBoxItems: React.Dispatch<React.SetStateAction<MonthCheckBoxItems[]>>;
     checkedMonthLabels: string[];
     setCheckedMonthLabels: React.Dispatch<React.SetStateAction<string[]>>;
+    bmiCheckBoxItems: BmiCheckBoxItem[];
+    setBmiCheckBoxItems: React.Dispatch<React.SetStateAction<BmiCheckBoxItem[]>>;
+    checkedBmiLabels: string[];
+    setCheckedBmiLabels: React.Dispatch<React.SetStateAction<string[]>>;
   }
 );
 
