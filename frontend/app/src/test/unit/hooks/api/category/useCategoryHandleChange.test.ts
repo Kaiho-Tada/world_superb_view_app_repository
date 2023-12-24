@@ -8,31 +8,31 @@ const spyOnUseWorldViewListContext = jest.spyOn(
   "useWorldViewListContext"
 );
 
-const mockSetCategoryCheckBoxItems = jest.fn();
-const mockSetCheckedCategoryLabels = jest.fn();
-
+const mockDispatch = jest.fn();
 const mockContextValueCheckedFalse = {
-  setCategoryCheckBoxItems: mockSetCategoryCheckBoxItems,
-  setCheckedCategoryLabels: mockSetCheckedCategoryLabels,
-  categoryCheckBoxItems: [
-    {
-      label: "城",
-      classification: "人工",
-      checked: false,
-    },
-  ],
+  dispatch: mockDispatch,
+  state: {
+    categoryCheckBoxItems: [
+      {
+        label: "城",
+        classification: "人工",
+        checked: false,
+      },
+    ],
+  },
 };
 
 const mockContextValueCheckedTrue = {
-  setCategoryCheckBoxItems: mockSetCategoryCheckBoxItems,
-  setCheckedCategoryLabels: mockSetCheckedCategoryLabels,
-  categoryCheckBoxItems: [
-    {
-      label: "城",
-      classification: "人工",
-      checked: true,
-    },
-  ],
+  dispatch: mockDispatch,
+  state: {
+    categoryCheckBoxItems: [
+      {
+        label: "城",
+        classification: "人工",
+        checked: true,
+      },
+    ],
+  },
 };
 
 describe("handleChangeClassification関数の挙動のテスト", () => {
@@ -44,20 +44,21 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
       act(() => {
         result.current.handleChangeClassification(mockEvent as ChangeEvent<HTMLInputElement>);
       });
-
-      expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledWith([
-        {
-          label: "城",
-          classification: "人工",
-          checked: true,
-        },
-      ]);
-      expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedCategoryLabels).toHaveBeenCalledWith(["城"]);
-      expect(mockSetCheckedCategoryLabels).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CATEGORY_CHECKBOX_ITEMS",
+        payload: [
+          {
+            label: "城",
+            classification: "人工",
+            checked: true,
+          },
+        ],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_CATEGORY_LABELS",
+        payload: ["城"],
+      });
     });
-
     test("e.target.checkedがfalseの場合、categoryCheckBoxItemsのcheckedがfalseに更新されること", () => {
       spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
       const { result } = renderHook(() => useCategoryHandleChange());
@@ -65,40 +66,43 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
       act(() => {
         result.current.handleChangeClassification(mockEvent as ChangeEvent<HTMLInputElement>);
       });
-
-      expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledWith([
-        {
-          label: "城",
-          classification: "人工",
-          checked: false,
-        },
-      ]);
-      expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedCategoryLabels).toHaveBeenCalledWith([]);
-      expect(mockSetCheckedCategoryLabels).toHaveBeenCalledTimes(1);
-    });
-
-    describe("e.target.valueの値とcategoryCheckBoxItemsのclassificationの値が異なる場合", () => {
-      test("monthCheckBoxItemsのcheckedが更新されないこと", () => {
-        spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
-        const { result } = renderHook(() => useCategoryHandleChange());
-        const mockEvent = { target: { value: "自然", checked: true } };
-        act(() => {
-          result.current.handleChangeClassification(mockEvent as ChangeEvent<HTMLInputElement>);
-        });
-
-        expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledWith([
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CATEGORY_CHECKBOX_ITEMS",
+        payload: [
           {
             label: "城",
             classification: "人工",
             checked: false,
           },
-        ]);
-        expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledTimes(1);
-
-        expect(mockSetCheckedCategoryLabels).toHaveBeenCalledWith([]);
-        expect(mockSetCheckedCategoryLabels).toHaveBeenCalledTimes(1);
+        ],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_CATEGORY_LABELS",
+        payload: [],
+      });
+    });
+  });
+  describe("e.target.valueの値とcategoryCheckBoxItemsのclassificationの値が異なる場合", () => {
+    test("monthCheckBoxItemsのcheckedが更新されないこと", () => {
+      spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedFalse);
+      const { result } = renderHook(() => useCategoryHandleChange());
+      const mockEvent = { target: { value: "自然", checked: true } };
+      act(() => {
+        result.current.handleChangeClassification(mockEvent as ChangeEvent<HTMLInputElement>);
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CATEGORY_CHECKBOX_ITEMS",
+        payload: [
+          {
+            label: "城",
+            classification: "人工",
+            checked: false,
+          },
+        ],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_CATEGORY_LABELS",
+        payload: [],
       });
     });
   });
@@ -112,19 +116,21 @@ describe("handleChangeCategory関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeCategory(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledWith([
-      {
-        label: "城",
-        classification: "人工",
-        checked: true,
-      },
-    ]);
-    expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedCategoryLabels).toHaveBeenCalledWith(["城"]);
-    expect(mockSetCheckedCategoryLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CATEGORY_CHECKBOX_ITEMS",
+      payload: [
+        {
+          label: "城",
+          classification: "人工",
+          checked: true,
+        },
+      ],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_CATEGORY_LABELS",
+      payload: ["城"],
+    });
   });
-
   test("categoryCheckBoxItemsのcheckedがtrueの場合、falseに更新されること", () => {
     spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
     const { result } = renderHook(() => useCategoryHandleChange());
@@ -132,16 +138,19 @@ describe("handleChangeCategory関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeCategory(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledWith([
-      {
-        label: "城",
-        classification: "人工",
-        checked: false,
-      },
-    ]);
-    expect(mockSetCategoryCheckBoxItems).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedCategoryLabels).toHaveBeenCalledWith([]);
-    expect(mockSetCheckedCategoryLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CATEGORY_CHECKBOX_ITEMS",
+      payload: [
+        {
+          label: "城",
+          classification: "人工",
+          checked: false,
+        },
+      ],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_CATEGORY_LABELS",
+      payload: [],
+    });
   });
 });

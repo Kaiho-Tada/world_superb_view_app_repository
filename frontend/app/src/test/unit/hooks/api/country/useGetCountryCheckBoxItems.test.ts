@@ -12,6 +12,13 @@ jest.mock("@chakra-ui/react", () => ({
 
 const mockAxios = new MockAdapter(client);
 
+const mockDispatch = jest.fn();
+jest.mock("hooks/providers/WorldViewListProvider", () => ({
+  useWorldViewListContext: () => ({
+    dispatch: mockDispatch,
+  }),
+}));
+
 test("countryCheckBoxItems取得成功時のテスト", async () => {
   mockAxios.onGet("/countries").reply(200, [
     {
@@ -32,37 +39,40 @@ test("countryCheckBoxItems取得成功時のテスト", async () => {
     },
   ]);
   const { result } = renderHook(() => useGetCountryCheckBoxItems());
-  expect(result.current.countryCheckBoxItems).toEqual([]);
-  expect(result.current.loadingCountryCheckBoxItems).toBe(false);
   await act(() => {
     result.current.getCountryCheckBoxItems();
   });
-
-  expect(result.current.countryCheckBoxItems).toEqual([
-    {
-      label: "アメリカ",
-      stateName: "北米",
-      checked: false,
-    },
-    {
-      label: "中国",
-      stateName: "アジア",
-      checked: false,
-    },
-  ]);
-  expect(result.current.loadingCountryCheckBoxItems).toBe(false);
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS",
+    payload: true,
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_COUNTRY_CHECKBOX_ITEMS",
+    payload: [
+      {
+        label: "アメリカ",
+        stateName: "北米",
+        checked: false,
+      },
+      {
+        label: "中国",
+        stateName: "アジア",
+        checked: false,
+      },
+    ],
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS",
+    payload: false,
+  });
 });
 
 test("countryCheckBoxItems取得失敗時のテスト", async () => {
   mockAxios.onGet("/countries").reply(500);
   const { result } = renderHook(() => useGetCountryCheckBoxItems());
-  expect(result.current.countryCheckBoxItems).toEqual([]);
-  expect(result.current.loadingCountryCheckBoxItems).toBe(false);
   await act(() => {
     result.current.getCountryCheckBoxItems();
   });
-  expect(result.current.countryCheckBoxItems).toEqual([]);
-  expect(result.current.loadingCountryCheckBoxItems).toBe(false);
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "countriesの取得に失敗しました。",
     status: "error",

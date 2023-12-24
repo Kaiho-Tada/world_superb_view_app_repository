@@ -4,10 +4,14 @@ import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { FC, memo } from "react";
 
 const FilterDrawer: FC = memo(() => {
-  const { onCloseFilterDrawer, isOpenFilterDrawer } = useWorldViewListContext();
+  const { state, dispatch } = useWorldViewListContext();
 
   return (
-    <Drawer placement="right" onClose={onCloseFilterDrawer} isOpen={isOpenFilterDrawer}>
+    <Drawer
+      placement="right"
+      onClose={() => dispatch({ type: "CLOSE_FILTER_DRAWER" })}
+      isOpen={state.isOpenFilterDrawer}
+    >
       <DrawerOverlay>
         <DrawerContent>
           <DrawerBody py={3} bg="blue.800">

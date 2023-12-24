@@ -5,33 +5,31 @@ import { FC } from "react";
 import { CharacteristicCheckBoxItem } from "types/api/characteristic/characteristicCheckBoxItem";
 
 const CharacteristicCheckBox: FC = () => {
-  const {
-    loadingSearchWorldViews,
-    characteristicCheckBoxItems,
-    loadingCharacteristicCheckBoxItems,
-  } = useWorldViewListContext();
+  const { state } = useWorldViewListContext();
   const { handleChangeCharacteristic } = useCharacteristicHandleChange();
 
-  return loadingCharacteristicCheckBoxItems === true ? (
+  return state.loadingCharacteristicCheckBoxItems === true ? (
     <Center h="10vh">
       <Spinner role="status" aria-label="読み込み中" />
     </Center>
   ) : (
     <>
-      {characteristicCheckBoxItems.map((characteristicCheckBoxItem: CharacteristicCheckBoxItem) => (
-        <Checkbox
-          aria-hidden="false"
-          key={characteristicCheckBoxItem.label}
-          size="md"
-          colorScheme="green"
-          isChecked={characteristicCheckBoxItem.checked}
-          value={characteristicCheckBoxItem.label}
-          onChange={handleChangeCharacteristic}
-          isDisabled={loadingSearchWorldViews}
-        >
-          {characteristicCheckBoxItem.label}
-        </Checkbox>
-      ))}
+      {state.characteristicCheckBoxItems.map(
+        (characteristicCheckBoxItem: CharacteristicCheckBoxItem) => (
+          <Checkbox
+            aria-hidden="false"
+            key={characteristicCheckBoxItem.label}
+            size="md"
+            colorScheme="green"
+            isChecked={characteristicCheckBoxItem.checked}
+            value={characteristicCheckBoxItem.label}
+            onChange={handleChangeCharacteristic}
+            isDisabled={state.loadingSearchWorldViews}
+          >
+            {characteristicCheckBoxItem.label}
+          </Checkbox>
+        )
+      )}
     </>
   );
 };

@@ -2,30 +2,29 @@ import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { ChangeEvent, useCallback } from "react";
 
 const useBmiHandleChange = () => {
-  const { bmiCheckBoxItems, setBmiCheckBoxItems, setCheckedBmiLabels } = useWorldViewListContext();
+  const { state, dispatch } = useWorldViewListContext();
+
   const handleChangeBmi = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const newCheckBoxItems = bmiCheckBoxItems.map((originalCheckBoxIems) => {
+      const newCheckBoxItems = state.bmiCheckBoxItems.map((originalCheckBoxIems) => {
         const checkBoxIem = { ...originalCheckBoxIems };
         if (checkBoxIem.label === e.target.value) {
           checkBoxIem.checked = !checkBoxIem.checked;
         }
         return checkBoxIem;
       });
-      setBmiCheckBoxItems(newCheckBoxItems);
+      dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: newCheckBoxItems });
 
       const checkedCheckBoxItems = newCheckBoxItems.filter(
         (newCheckBoxItem) => newCheckBoxItem.checked === true
       );
-
-      const newCheckedBmiLabels = checkedCheckBoxItems.map(
+      const newCheckedLabels = checkedCheckBoxItems.map(
         (checkedCheckBoxItem) => checkedCheckBoxItem.label
       );
-      setCheckedBmiLabels(newCheckedBmiLabels);
+      dispatch({ type: "SET_CHECKED_BMI_LABELS", payload: newCheckedLabels });
     },
-    [bmiCheckBoxItems]
+    [state.bmiCheckBoxItems]
   );
-
   return { handleChangeBmi };
 };
 

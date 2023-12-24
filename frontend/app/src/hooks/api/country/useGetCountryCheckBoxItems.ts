@@ -1,17 +1,14 @@
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import useMessage from "hooks/useMessage";
 import getAllCountriesApi from "lib/api/country";
-import { useState } from "react";
 import { Country } from "types/api/country/country";
-import { CountryCheckBoxItem } from "types/api/country/CountryCheckBoxItem";
 
 const useGetCountryCheckBoxItems = () => {
-  const [loadingCountryCheckBoxItems, setLoadingCountryCheckBoxItems] = useState(false);
-  const [countryCheckBoxItems, setCountryCheckBoxItems] = useState<Array<CountryCheckBoxItem>>([]);
-
+  const { dispatch } = useWorldViewListContext();
   const { showMessage } = useMessage();
 
   const getCountryCheckBoxItems = async () => {
-    setLoadingCountryCheckBoxItems(true);
+    dispatch({ type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS", payload: true });
     try {
       const res = await getAllCountriesApi();
       const countries = res.data;
@@ -20,19 +17,15 @@ const useGetCountryCheckBoxItems = () => {
         stateName: country.state.name,
         checked: false,
       }));
-      setCountryCheckBoxItems(countriesWithCheckBox);
+      dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: countriesWithCheckBox });
     } catch (error) {
       showMessage({ title: "countriesの取得に失敗しました。", status: "error" });
     } finally {
-      setLoadingCountryCheckBoxItems(false);
+      dispatch({ type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS", payload: false });
     }
   };
-
   return {
     getCountryCheckBoxItems,
-    countryCheckBoxItems,
-    setCountryCheckBoxItems,
-    loadingCountryCheckBoxItems,
   };
 };
 export default useGetCountryCheckBoxItems;

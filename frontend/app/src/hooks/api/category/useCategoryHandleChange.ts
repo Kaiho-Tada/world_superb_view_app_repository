@@ -2,18 +2,17 @@ import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { ChangeEvent, useCallback } from "react";
 
 const useCategoryHandleChange = () => {
-  const { setCheckedCategoryLabels, categoryCheckBoxItems, setCategoryCheckBoxItems } =
-    useWorldViewListContext();
+  const { state, dispatch } = useWorldViewListContext();
 
   const handleChangeClassification = (e: ChangeEvent<HTMLInputElement>) => {
-    const newCheckBoxItems = categoryCheckBoxItems.map((originalCheckBoxItem) => {
+    const newCheckBoxItems = state.categoryCheckBoxItems.map((originalCheckBoxItem) => {
       const checkBoxItem = { ...originalCheckBoxItem };
       if (e.target.value === checkBoxItem.classification) {
         checkBoxItem.checked = e.target.checked;
       }
       return checkBoxItem;
     });
-    setCategoryCheckBoxItems(newCheckBoxItems);
+    dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
 
     const checkedCheckBoxItems = newCheckBoxItems.filter(
       (newCheckBoxItem) => newCheckBoxItem.checked === true
@@ -22,19 +21,21 @@ const useCategoryHandleChange = () => {
     const newCheckBoxItemLabels = checkedCheckBoxItems.map(
       (checkedCheckBoxItem) => checkedCheckBoxItem.label
     );
-    setCheckedCategoryLabels(newCheckBoxItemLabels);
+    dispatch({ type: "SET_CHECKED_CATEGORY_LABELS", payload: newCheckBoxItemLabels });
   };
 
   const handleChangeCategory = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const newCategoryCheckBoxItems = categoryCheckBoxItems.map((originalCategoryCheckBoxItem) => {
-        const categoryCheckBoxItem = { ...originalCategoryCheckBoxItem };
-        if (categoryCheckBoxItem.label === e.target.value) {
-          categoryCheckBoxItem.checked = !categoryCheckBoxItem.checked;
+      const newCategoryCheckBoxItems = state.categoryCheckBoxItems.map(
+        (originalCategoryCheckBoxItem) => {
+          const categoryCheckBoxItem = { ...originalCategoryCheckBoxItem };
+          if (categoryCheckBoxItem.label === e.target.value) {
+            categoryCheckBoxItem.checked = !categoryCheckBoxItem.checked;
+          }
+          return categoryCheckBoxItem;
         }
-        return categoryCheckBoxItem;
-      });
-      setCategoryCheckBoxItems(newCategoryCheckBoxItems);
+      );
+      dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCategoryCheckBoxItems });
 
       const checkedCategoryCheckBoxItems = newCategoryCheckBoxItems.filter(
         (newCategoryWithCheckBoxData) => newCategoryWithCheckBoxData.checked === true
@@ -43,9 +44,9 @@ const useCategoryHandleChange = () => {
       const newCheckedCategoryLabels = checkedCategoryCheckBoxItems.map(
         (checkedCategoryCheckBoxItem) => checkedCategoryCheckBoxItem.label
       );
-      setCheckedCategoryLabels(newCheckedCategoryLabels);
+      dispatch({ type: "SET_CHECKED_CATEGORY_LABELS", payload: newCheckedCategoryLabels });
     },
-    [categoryCheckBoxItems]
+    [state.categoryCheckBoxItems]
   );
   return { handleChangeClassification, handleChangeCategory };
 };

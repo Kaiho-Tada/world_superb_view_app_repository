@@ -2,10 +2,10 @@ import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 
 const useGetCategoryCheckBoxInfo = () => {
   const handleGetCategoryCheckBoxInfo = (classification: string) => {
-    const { categoryCheckBoxItems } = useWorldViewListContext();
+    const { state } = useWorldViewListContext();
 
     if (classification === "自然") {
-      const filteredCheckedItems = categoryCheckBoxItems.filter(
+      const filteredCheckedItems = state.categoryCheckBoxItems.filter(
         (item) => item.classification === "自然"
       );
       const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
@@ -13,7 +13,7 @@ const useGetCategoryCheckBoxInfo = () => {
       const isIndeterminate = checkedItemBooleans.some(Boolean) && !allChecked;
       return { allChecked, isIndeterminate, label: "自然" };
     }
-    const filteredCheckedItems = categoryCheckBoxItems.filter(
+    const filteredCheckedItems = state.categoryCheckBoxItems.filter(
       (item) => item.classification === "人工"
     );
     const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);

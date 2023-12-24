@@ -11,7 +11,12 @@ jest.mock("@chakra-ui/react", () => ({
 }));
 
 const mockAxios = new MockAdapter(client);
-
+const mockDispatch = jest.fn();
+jest.mock("hooks/providers/WorldViewListProvider", () => ({
+  useWorldViewListContext: () => ({
+    dispatch: mockDispatch,
+  }),
+}));
 test("categoryCheckBoxItems取得成功時のテスト", async () => {
   mockAxios.onGet("/categories").reply(200, [
     {
@@ -26,37 +31,40 @@ test("categoryCheckBoxItems取得成功時のテスト", async () => {
     },
   ]);
   const { result } = renderHook(() => useGetCategoryCheckBoxItems());
-  expect(result.current.categoryCheckBoxItems).toEqual([]);
-  expect(result.current.loadingCategoryCheckBoxItems).toBe(false);
   await act(() => {
     result.current.getCategoryCheckBoxItems();
   });
-
-  expect(result.current.categoryCheckBoxItems).toEqual([
-    {
-      label: "洞窟",
-      classification: "自然",
-      checked: false,
-    },
-    {
-      label: "城",
-      classification: "人工",
-      checked: false,
-    },
-  ]);
-  expect(result.current.loadingCategoryCheckBoxItems).toBe(false);
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS",
+    payload: true,
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_CATEGORY_CHECKBOX_ITEMS",
+    payload: [
+      {
+        label: "洞窟",
+        classification: "自然",
+        checked: false,
+      },
+      {
+        label: "城",
+        classification: "人工",
+        checked: false,
+      },
+    ],
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS",
+    payload: false,
+  });
 });
 
 test("categoryCheckBoxItems取得失敗時のテスト", async () => {
   mockAxios.onGet("/categories").reply(500);
   const { result } = renderHook(() => useGetCategoryCheckBoxItems());
-  expect(result.current.categoryCheckBoxItems).toEqual([]);
-  expect(result.current.loadingCategoryCheckBoxItems).toBe(false);
   await act(() => {
     result.current.getCategoryCheckBoxItems();
   });
-  expect(result.current.categoryCheckBoxItems).toEqual([]);
-  expect(result.current.loadingCategoryCheckBoxItems).toBe(false);
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "categoriesの取得に失敗しました。",
     status: "error",

@@ -8,29 +8,29 @@ const spyOnUseWorldViewListContext = jest.spyOn(
   "useWorldViewListContext"
 );
 
-const mockSetRiskLevels = jest.fn();
-const mockSetCheckedRiskLevelLabels = jest.fn();
-
+const mockDispatch = jest.fn();
 const mockContextValueCheckedFalse = {
-  setRiskLevels: mockSetRiskLevels,
-  setCheckedRiskLevelLabels: mockSetCheckedRiskLevelLabels,
-  riskLevels: [
-    {
-      label: "4",
-      checked: false,
-    },
-  ],
+  dispatch: mockDispatch,
+  state: {
+    riskLevelCheckBoxItems: [
+      {
+        label: "4",
+        checked: false,
+      },
+    ],
+  },
 };
 
 const mockContextValueCheckedTrue = {
-  setRiskLevels: mockSetRiskLevels,
-  setCheckedRiskLevelLabels: mockSetCheckedRiskLevelLabels,
-  riskLevels: [
-    {
-      label: "4",
-      checked: true,
-    },
-  ],
+  dispatch: mockDispatch,
+  state: {
+    riskLevelCheckBoxItems: [
+      {
+        label: "4",
+        checked: true,
+      },
+    ],
+  },
 };
 
 describe("handleChangeRiskLevel関数の挙動のテスト", () => {
@@ -41,17 +41,19 @@ describe("handleChangeRiskLevel関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeRiskLevel(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-
-    expect(mockSetRiskLevels).toHaveBeenCalledWith([
-      {
-        label: "4",
-        checked: true,
-      },
-    ]);
-    expect(mockSetRiskLevels).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedRiskLevelLabels).toHaveBeenCalledWith(["4"]);
-    expect(mockSetCheckedRiskLevelLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_RISK_LEVEL_CHECKBOX_ITEMS",
+      payload: [
+        {
+          label: "4",
+          checked: true,
+        },
+      ],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_RISK_LEVEL_LABELS",
+      payload: ["4"],
+    });
   });
 
   test("categoriesWithCheckBoxDataのcheckedがtrueの場合、falseに更新されること", () => {
@@ -61,16 +63,18 @@ describe("handleChangeRiskLevel関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeRiskLevel(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-
-    expect(mockSetRiskLevels).toHaveBeenCalledWith([
-      {
-        label: "4",
-        checked: false,
-      },
-    ]);
-    expect(mockSetRiskLevels).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedRiskLevelLabels).toHaveBeenCalledWith([]);
-    expect(mockSetCheckedRiskLevelLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_RISK_LEVEL_CHECKBOX_ITEMS",
+      payload: [
+        {
+          label: "4",
+          checked: false,
+        },
+      ],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_RISK_LEVEL_LABELS",
+      payload: [],
+    });
   });
 });

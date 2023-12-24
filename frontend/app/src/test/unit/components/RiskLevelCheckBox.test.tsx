@@ -9,28 +9,34 @@ const spyOnUseWorldViewListContext = jest.spyOn(
 );
 
 const mockContextValue = {
-  riskLevels: [
-    {
-      label: "4",
-      checked: false,
-    },
-  ],
-  loadingSearchWorldViews: false,
+  state: {
+    riskLevelCheckBoxItems: [
+      {
+        label: "4",
+        checked: false,
+      },
+    ],
+    loadingSearchWorldViews: false,
+  },
 };
 
-const mockContextValueCheckedTrue = {
-  ...mockContextValue,
-  riskLevels: [
-    {
-      label: "4",
-      checked: true,
-    },
-  ],
+const mockContextValueChecked = {
+  state: {
+    ...mockContextValue.state,
+    riskLevelCheckBoxItems: [
+      {
+        label: "4",
+        checked: true,
+      },
+    ],
+  },
 };
 
 const mockContextValueLoadingSearchWorldViews = {
-  ...mockContextValue,
-  loadingSearchWorldViews: true,
+  state: {
+    ...mockContextValue.state,
+    loadingSearchWorldViews: true,
+  },
 };
 
 const mockHandleChangeRiskLevel = jest.fn();
@@ -49,8 +55,8 @@ test("checkboxがレンダリングされていること", () => {
   expect(screen.getByRole("checkbox", { name: "リスクレベル4" })).not.toBeDisabled();
 });
 
-test("riskLevelsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+test("riskLevelCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
   render(<RiskLevelCheckBox />);
   expect(screen.getByRole("checkbox", { name: "リスクレベル4" })).toBeChecked();
 });

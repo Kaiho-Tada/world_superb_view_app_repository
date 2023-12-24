@@ -4,23 +4,20 @@ import { useWorldViewListContext as useWorldViewListContextMock } from "hooks/pr
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 
-const mockSetBmiCheckBoxItems = jest.fn();
-const mockSetCheckedBmiLabels = jest.fn();
 jest.mock("hooks/providers/WorldViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/WorldViewListProvider"),
   useWorldViewListContext: jest.fn(),
 }));
 
+const mockDispatch = jest.fn();
 const mockContextValue = {
-  bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
-  setBmiCheckBoxItems: mockSetBmiCheckBoxItems,
-  setCheckedBmiLabels: mockSetCheckedBmiLabels,
+  state: { bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }] },
+  dispatch: mockDispatch,
 };
 
 const mockContextValueChecked = {
-  bmiCheckBoxItems: [{ label: "0%〜10%", checked: true }],
-  setBmiCheckBoxItems: mockSetBmiCheckBoxItems,
-  setCheckedBmiLabels: mockSetCheckedBmiLabels,
+  state: { bmiCheckBoxItems: [{ label: "0%〜10%", checked: true }] },
+  dispatch: mockDispatch,
 };
 
 describe("e.target.valueとbmiCheckBoxItemsのlabelプロパティの値が同じである場合", () => {
@@ -31,11 +28,14 @@ describe("e.target.valueとbmiCheckBoxItemsのlabelプロパティの値が同�
     act(() => {
       result.current.handleChangeBmi(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetBmiCheckBoxItems).toHaveBeenCalledWith([{ label: "0%〜10%", checked: true }]);
-    expect(mockSetBmiCheckBoxItems).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedBmiLabels).toHaveBeenCalledWith(["0%〜10%"]);
-    expect(mockSetCheckedBmiLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_BMI_CHECKBOX_ITEMS",
+      payload: [{ label: "0%〜10%", checked: true }],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_BMI_LABELS",
+      payload: ["0%〜10%"],
+    });
   });
 
   test("bmiCheckBoxItemsのcheckedがtrueの場合、falseに更新されること", () => {
@@ -45,11 +45,14 @@ describe("e.target.valueとbmiCheckBoxItemsのlabelプロパティの値が同�
     act(() => {
       result.current.handleChangeBmi(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetBmiCheckBoxItems).toHaveBeenCalledWith([{ label: "0%〜10%", checked: false }]);
-    expect(mockSetBmiCheckBoxItems).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedBmiLabels).toHaveBeenCalledWith([]);
-    expect(mockSetCheckedBmiLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_BMI_CHECKBOX_ITEMS",
+      payload: [{ label: "0%〜10%", checked: false }],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_BMI_LABELS",
+      payload: [],
+    });
   });
 });
 
@@ -61,10 +64,13 @@ describe("e.target.valueとbmiCheckBoxItemsのlabelプロパティの値が異�
     act(() => {
       result.current.handleChangeBmi(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetBmiCheckBoxItems).toHaveBeenCalledWith([{ label: "0%〜10%", checked: false }]);
-    expect(mockSetBmiCheckBoxItems).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedBmiLabels).toHaveBeenCalledWith([]);
-    expect(mockSetCheckedBmiLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_BMI_CHECKBOX_ITEMS",
+      payload: [{ label: "0%〜10%", checked: false }],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_BMI_LABELS",
+      payload: [],
+    });
   });
 });

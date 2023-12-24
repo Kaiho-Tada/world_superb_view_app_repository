@@ -4,7 +4,6 @@ import WorldViewList from "components/pages/WorldViewList";
 import { WorldViewListProvider } from "hooks/providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
-const mockOnOpenFilterDrawer = jest.fn();
 const mockGetCategoryCheckBoxItems = jest.fn();
 const mockGetCountryCheckBoxItems = jest.fn();
 const mockGetCharacteristicCheckBoxItems = jest.fn();
@@ -20,15 +19,36 @@ const mockWorldViews = Array.from({ length: 30 }, (_, index) => ({
   worldViewFavorites: [],
 }));
 
+jest.mock("hooks/api/category/useGetCategoryCheckBoxItems", () => ({
+  __esModule: true,
+  default: () => ({
+    getCategoryCheckBoxItems: mockGetCategoryCheckBoxItems,
+  }),
+}));
+
+jest.mock("hooks/api/country/useGetCountryCheckBoxItems", () => ({
+  __esModule: true,
+  default: () => ({
+    getCountryCheckBoxItems: mockGetCountryCheckBoxItems,
+  }),
+}));
+
+jest.mock("hooks/api/characteristic/useGetCharacteristicCheckBoxItems", () => ({
+  __esModule: true,
+  default: () => ({
+    getCharacteristicCheckBoxItems: mockGetCharacteristicCheckBoxItems,
+  }),
+}));
+const mockDispatch = jest.fn();
 jest.mock("hooks/providers/WorldViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/WorldViewListProvider"),
   useWorldViewListContext: () => ({
-    ...jest.requireActual("hooks/providers/WorldViewListProvider").useWorldViewListContext(),
-    getCategoryCheckBoxItems: mockGetCategoryCheckBoxItems,
-    getCountryCheckBoxItems: mockGetCountryCheckBoxItems,
-    getCharacteristicCheckBoxItems: mockGetCharacteristicCheckBoxItems,
-    onOpenFilterDrawer: mockOnOpenFilterDrawer,
-    worldViews: mockWorldViews,
+    dispatch: mockDispatch,
+    state: {
+      ...jest.requireActual("hooks/providers/WorldViewListProvider").useWorldViewListContext()
+        .state,
+      worldViews: mockWorldViews,
+    },
   }),
 }));
 
@@ -94,7 +114,7 @@ test("絞り込みボタン押下でonOpenFilterDrawer関数が実行される�
   await act(async () => {
     await user.click(filterButton);
   });
-  expect(mockOnOpenFilterDrawer).toHaveBeenCalledTimes(1);
+  expect(mockDispatch).toHaveBeenCalledWith({ type: "OPEN_FILTER_DRAWER" });
 });
 
 test("絞り込みのアコーディオンがレンダリングされていること", () => {

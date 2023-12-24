@@ -2,30 +2,10 @@ import { useCallback } from "react";
 import { useWorldViewListContext } from "../../providers/WorldViewListProvider";
 
 const useClear = () => {
-  const {
-    categoryCheckBoxItems,
-    setCategoryCheckBoxItems,
-    countryCheckBoxItems,
-    setCountryCheckBoxItems,
-    characteristicCheckBoxItems,
-    setCharacteristicCheckBoxItems,
-    riskLevels,
-    setRiskLevels,
-    monthCheckBoxItems,
-    setMonthCheckBoxItems,
-    bmiCheckBoxItems,
-    setBmiCheckBoxItems,
-    setCheckedCategoryLabels,
-    setCheckedCountryLabels,
-    setCheckedCharacteristicLabels,
-    setCheckedRiskLevelLabels,
-    setCheckedMonthLabels,
-    setCheckedBmiLabels,
-    setKeyword,
-  } = useWorldViewListContext();
+  const { state, dispatch } = useWorldViewListContext();
 
   const handleClear = useCallback(() => {
-    const clearedCategoryCheckBoxItems = categoryCheckBoxItems.map(
+    const clearedCategoryCheckBoxItems = state.categoryCheckBoxItems.map(
       (originalCategoryCheckBoxItem) => {
         const categoryCheckBoxItem = { ...originalCategoryCheckBoxItem };
         if (categoryCheckBoxItem.checked === true) {
@@ -34,9 +14,9 @@ const useClear = () => {
         return categoryCheckBoxItem;
       }
     );
-    setCategoryCheckBoxItems(clearedCategoryCheckBoxItems);
+    dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: clearedCategoryCheckBoxItems });
 
-    const clearedCharacteristicCheckBoxItems = characteristicCheckBoxItems.map(
+    const clearedCharacteristicCheckBoxItems = state.characteristicCheckBoxItems.map(
       (originalCharacteristicCheckBoxItem) => {
         const characteristicCheckBoxItem = { ...originalCharacteristicCheckBoxItem };
         if (characteristicCheckBoxItem.checked === true) {
@@ -45,52 +25,65 @@ const useClear = () => {
         return characteristicCheckBoxItem;
       }
     );
-    setCharacteristicCheckBoxItems(clearedCharacteristicCheckBoxItems);
-
-    const clearedCountryCheckBoxItems = countryCheckBoxItems.map((originalCountryCheckBoxItem) => {
-      const countryCheckBoxItem = { ...originalCountryCheckBoxItem };
-      if (countryCheckBoxItem.checked === true) {
-        countryCheckBoxItem.checked = !countryCheckBoxItem.checked;
-      }
-      return countryCheckBoxItem;
+    dispatch({
+      type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+      payload: clearedCharacteristicCheckBoxItems,
     });
-    setCountryCheckBoxItems(clearedCountryCheckBoxItems);
 
-    const clearedRiskLevels = riskLevels.map((originalRiskLevel) => {
-      const riskLevel = { ...originalRiskLevel };
+    const clearedCountryCheckBoxItems = state.countryCheckBoxItems.map(
+      (originalCountryCheckBoxItem) => {
+        const countryCheckBoxItem = { ...originalCountryCheckBoxItem };
+        if (countryCheckBoxItem.checked === true) {
+          countryCheckBoxItem.checked = !countryCheckBoxItem.checked;
+        }
+        return countryCheckBoxItem;
+      }
+    );
+    dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: clearedCountryCheckBoxItems });
+
+    const clearedRiskLevels = state.riskLevelCheckBoxItems.map((originalRiskLevelCheckBoxItem) => {
+      const riskLevel = { ...originalRiskLevelCheckBoxItem };
       if (riskLevel.checked === true) {
         riskLevel.checked = !riskLevel.checked;
       }
       return riskLevel;
     });
-    setRiskLevels(clearedRiskLevels);
+    dispatch({ type: "SET_RISK_LEVEL_CHECKBOX_ITEMS", payload: clearedRiskLevels });
 
-    const clearedMonthCheckBoxItems = monthCheckBoxItems.map((originalMonthCheckBoxItem) => {
+    const clearedMonthCheckBoxItems = state.monthCheckBoxItems.map((originalMonthCheckBoxItem) => {
       const monthCheckBoxItem = { ...originalMonthCheckBoxItem };
       if (monthCheckBoxItem.checked === true) {
         monthCheckBoxItem.checked = !monthCheckBoxItem.checked;
       }
       return monthCheckBoxItem;
     });
-    setMonthCheckBoxItems(clearedMonthCheckBoxItems);
+    dispatch({ type: "SET_MONTH_CHECKBOX_ITEMS", payload: clearedMonthCheckBoxItems });
 
-    const clearedBmiCheckBoxItems = bmiCheckBoxItems.map((originalCheckBoxitems) => {
+    const clearedBmiCheckBoxItems = state.bmiCheckBoxItems.map((originalCheckBoxitems) => {
       const checkBoxItems = { ...originalCheckBoxitems };
       if (checkBoxItems.checked === true) {
         checkBoxItems.checked = !checkBoxItems.checked;
       }
       return checkBoxItems;
     });
-    setBmiCheckBoxItems(clearedBmiCheckBoxItems);
+    dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: clearedBmiCheckBoxItems });
 
-    setCheckedCategoryLabels([]);
-    setCheckedCountryLabels([]);
-    setCheckedCharacteristicLabels([]);
-    setCheckedRiskLevelLabels([]);
-    setCheckedMonthLabels([]);
-    setCheckedBmiLabels([]);
-    setKeyword("");
-  }, [categoryCheckBoxItems, countryCheckBoxItems, characteristicCheckBoxItems, riskLevels]);
+    dispatch({ type: "SET_CHECKED_CATEGORY_LABELS", payload: [] });
+    dispatch({ type: "SET_CHECKED_COUNTRY_LABELS", payload: [] });
+    dispatch({
+      type: "SET_CHECKED_CHARACTERISTIC_LABELS",
+      payload: [],
+    });
+    dispatch({ type: "SET_CHECKED_RISK_LEVEL_LABELS", payload: [] });
+    dispatch({ type: "SET_CHECKED_MONTH_LABELS", payload: [] });
+    dispatch({ type: "SET_CHECKED_BMI_LABELS", payload: [] });
+    dispatch({ type: "SET_KEYWORD", payload: "" });
+  }, [
+    state.categoryCheckBoxItems,
+    state.countryCheckBoxItems,
+    state.characteristicCheckBoxItems,
+    state.riskLevelCheckBoxItems,
+  ]);
   return { handleClear };
 };
 export default useClear;

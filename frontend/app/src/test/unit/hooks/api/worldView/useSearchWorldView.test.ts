@@ -9,29 +9,27 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-const mockSetLoadingSearchWorldViews = jest.fn();
-const mockSetWorldViews = jest.fn();
-
 const spyOnUseWorldViewListContext = jest.spyOn(
   jest.requireActual("hooks/providers/WorldViewListProvider"),
   "useWorldViewListContext"
 );
-
+const mockDispatch = jest.fn();
 const mockContextValueSucsess = {
-  setLoadingSearchWorldViews: mockSetLoadingSearchWorldViews,
-  setWorldViews: mockSetWorldViews,
-  checkedCategoryLabels: ["遺跡"],
-  checkedCountryLabels: ["中国"],
-  checkedCharacteristicLabels: ["歴史・文化的"],
-  checkedRiskLevelLabels: ["1"],
-  checkedMonthLabels: ["9月"],
-  checkedBmiLabels: ["4.0"],
-  keyword: ["の"],
+  dispatch: mockDispatch,
+  state: {
+    checkedCategoryLabels: ["遺跡"],
+    checkedCountryLabels: ["中国"],
+    checkedCharacteristicLabels: ["歴史・文化的"],
+    checkedRiskLevelLabels: ["1"],
+    checkedMonthLabels: ["9月"],
+    checkedBmiLabels: ["4.0"],
+    keyword: ["の"],
+  },
 };
 
 const mockContextValueFailure = {
-  setLoadingSearchWorldViews: mockSetLoadingSearchWorldViews,
-  setWorldViews: mockSetWorldViews,
+  dispatch: mockDispatch,
+  state: {},
 };
 
 const mockAxios = new MockAdapter(client);
@@ -62,26 +60,36 @@ test("handleSearchWorldView成功時のテスト", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueSucsess);
   const { result } = renderHook(() => useSearchWorldView());
   await result.current.handleSearchWorldView();
-  expect(mockSetLoadingSearchWorldViews).toHaveBeenCalledWith(true);
-  expect(mockSetWorldViews).toHaveBeenCalledWith([
-    {
-      id: 1,
-      name: "万里の長城",
-    },
-  ]);
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_SEARCH_WORLDVIEWS",
+    payload: true,
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_WORLD_VIEWS",
+    payload: [
+      {
+        id: 1,
+        name: "万里の長城",
+      },
+    ],
+  });
+
   expect(mockUseToast).not.toHaveBeenCalledWith();
   expect(mockUseToast).toHaveBeenCalledTimes(0);
-  expect(mockSetLoadingSearchWorldViews).toHaveBeenCalledWith(false);
-  expect(mockSetLoadingSearchWorldViews).toHaveBeenCalledTimes(2);
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_SEARCH_WORLDVIEWS",
+    payload: false,
+  });
 });
 
 test("handleSearchWorldView失敗時のテスト", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueFailure);
   const { result } = renderHook(() => useSearchWorldView());
   await result.current.handleSearchWorldView();
-  expect(mockSetLoadingSearchWorldViews).toHaveBeenCalledWith(true);
-  expect(mockSetWorldViews).not.toHaveBeenCalledWith();
-  expect(mockSetWorldViews).toHaveBeenCalledTimes(0);
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_SEARCH_WORLDVIEWS",
+    payload: true,
+  });
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "絶景一覧の取得に失敗しました。",
     status: "error",
@@ -90,6 +98,8 @@ test("handleSearchWorldView失敗時のテスト", async () => {
     isClosable: true,
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
-  expect(mockSetLoadingSearchWorldViews).toHaveBeenCalledWith(false);
-  expect(mockSetLoadingSearchWorldViews).toHaveBeenCalledTimes(2);
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_SEARCH_WORLDVIEWS",
+    payload: false,
+  });
 });

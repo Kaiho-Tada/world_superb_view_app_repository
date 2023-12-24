@@ -7,20 +7,19 @@ const spyOnUseWorldViewListContext = jest.spyOn(
   "useWorldViewListContext"
 );
 
-const mockSetKeyword = jest.fn();
-const mockSetShouldDebounce = jest.fn();
+const mockDispatch = jest.fn();
 const mockContextValue = {
-  setKeyword: mockSetKeyword,
-  loadingSearchWorldViews: false,
-  setShouldDebounce: mockSetShouldDebounce,
+  dispatch: mockDispatch,
+  state: {
+    loadingSearchWorldViews: false,
+  },
 };
-
 const mockContextValueLoadingSearchWorldViews = {
-  setKeyword: mockSetKeyword,
-  loadingSearchWorldViews: true,
-  setShouldDebounce: mockSetShouldDebounce,
+  dispatch: mockDispatch,
+  state: {
+    loadingSearchWorldViews: true,
+  },
 };
-
 test("テキストボックスがレンダリングされていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterSearchBox />);
@@ -32,8 +31,7 @@ test("テキストボックスの入力をトリガーにkeywordが更新され�
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterSearchBox />);
   await user.type(screen.getByRole("textbox", { name: "テキストボックス" }), "キーワード");
-  expect(mockSetKeyword).toHaveBeenCalledWith("キーワード");
-  expect(mockSetKeyword).toHaveBeenCalledTimes(5);
+  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_KEYWORD", payload: "キーワード" });
 });
 
 test("キーワード更新の際にshouldDebounceがtrueに更新されること", async () => {
@@ -41,8 +39,7 @@ test("キーワード更新の際にshouldDebounceがtrueに更新されるこ�
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterSearchBox />);
   await user.type(screen.getByRole("textbox", { name: "テキストボックス" }), "キーワード");
-  expect(mockSetShouldDebounce).toHaveBeenCalledWith(true);
-  expect(mockSetShouldDebounce).toHaveBeenCalledTimes(5);
+  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_SHOULD_DEBOUNCE", payload: true });
 });
 
 test("loadingSearchWorldViewsがtrueの場合、テキストボックスが入力不可になっていること", () => {
@@ -69,6 +66,6 @@ test("クリアボタン押下でテキストボックスの文字がリセッ�
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterSearchBox />);
   await user.click(screen.getByRole("img", { name: "クリアボタン" }));
-  expect(mockSetKeyword).toHaveBeenCalledWith("");
-  expect(mockSetKeyword).toHaveBeenCalledTimes(1);
+  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_KEYWORD", payload: "" });
+  expect(mockDispatch).toHaveBeenCalledTimes(1);
 });

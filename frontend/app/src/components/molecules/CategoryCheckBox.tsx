@@ -6,18 +6,16 @@ import { FC, memo } from "react";
 import { CategoryCheckBoxItem } from "types/api/category/categoryCheckBoxItem";
 
 const CategoryCheckBox: FC = memo(() => {
-  const { loadingSearchWorldViews, categoryCheckBoxItems, loadingCategoryCheckBoxItems } =
-    useWorldViewListContext();
+  const { state } = useWorldViewListContext();
   const { handleChangeCategory } = useCategoryHandleChange();
   const { handleChangeClassification } = useCategoryHandleChange();
   const { handleGetCategoryCheckBoxInfo } = useGetCategoryCheckBoxInfo();
-
   const checkBoxInfo = [
     handleGetCategoryCheckBoxInfo("自然"),
     handleGetCategoryCheckBoxInfo("人工"),
   ];
 
-  return loadingCategoryCheckBoxItems === true ? (
+  return state.loadingCategoryCheckBoxItems === true ? (
     <Center h="10vh">
       <Spinner role="status" aria-label="読み込み中" />
     </Center>
@@ -29,14 +27,14 @@ const CategoryCheckBox: FC = memo(() => {
             isChecked={information.allChecked}
             isIndeterminate={information.isIndeterminate}
             value={information.label}
-            disabled={loadingSearchWorldViews}
+            disabled={state.loadingSearchWorldViews}
             onChange={handleChangeClassification}
             colorScheme="teal"
           >
             {information.label}
           </Checkbox>
           <Box pl={6} my={1}>
-            {categoryCheckBoxItems.map((categoryCheckBoxItem: CategoryCheckBoxItem) =>
+            {state.categoryCheckBoxItems.map((categoryCheckBoxItem: CategoryCheckBoxItem) =>
               categoryCheckBoxItem.classification === information.label ? (
                 <Checkbox
                   key={categoryCheckBoxItem.label}
@@ -45,7 +43,7 @@ const CategoryCheckBox: FC = memo(() => {
                   isChecked={categoryCheckBoxItem.checked}
                   value={categoryCheckBoxItem.label}
                   onChange={handleChangeCategory}
-                  isDisabled={loadingSearchWorldViews}
+                  isDisabled={state.loadingSearchWorldViews}
                 >
                   {categoryCheckBoxItem.label}
                 </Checkbox>

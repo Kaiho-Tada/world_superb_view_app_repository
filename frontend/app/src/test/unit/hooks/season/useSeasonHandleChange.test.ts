@@ -8,19 +8,19 @@ const spyOnUseWorldViewListContext = jest.spyOn(
   "useWorldViewListContext"
 );
 
-const mockSetMonthCheckBoxItems = jest.fn();
-const mockSetCheckedMonthLabels = jest.fn();
-
+const mockDispatch = jest.fn();
 const mockContextValueCheckedFalse = {
-  setMonthCheckBoxItems: mockSetMonthCheckBoxItems,
-  setCheckedMonthLabels: mockSetCheckedMonthLabels,
-  monthCheckBoxItems: [{ label: "1月", season: "冬", checked: false }],
+  dispatch: mockDispatch,
+  state: {
+    monthCheckBoxItems: [{ label: "1月", season: "冬", checked: false }],
+  },
 };
 
 const mockContextValueCheckedTrue = {
-  setMonthCheckBoxItems: mockSetMonthCheckBoxItems,
-  setCheckedMonthLabels: mockSetCheckedMonthLabels,
-  monthCheckBoxItems: [{ label: "1月", season: "冬", checked: true }],
+  dispatch: mockDispatch,
+  state: {
+    monthCheckBoxItems: [{ label: "1月", season: "冬", checked: true }],
+  },
 };
 
 describe("handleChangeSeason関数の挙動のテスト", () => {
@@ -32,14 +32,14 @@ describe("handleChangeSeason関数の挙動のテスト", () => {
       act(() => {
         result.current.handleChangeSeason(mockEvent as ChangeEvent<HTMLInputElement>);
       });
-
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledWith([
-        { label: "1月", season: "冬", checked: true },
-      ]);
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledWith(["1月"]);
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_MONTH_CHECKBOX_ITEMS",
+        payload: [{ label: "1月", season: "冬", checked: true }],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_MONTH_LABELS",
+        payload: ["1月"],
+      });
     });
 
     test("e.target.checkedがfalseの場合、monthCheckBoxItemsのcheckedがfalseに更新されること", () => {
@@ -49,14 +49,14 @@ describe("handleChangeSeason関数の挙動のテスト", () => {
       act(() => {
         result.current.handleChangeSeason(mockEvent as ChangeEvent<HTMLInputElement>);
       });
-
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledWith([
-        { label: "1月", season: "冬", checked: false },
-      ]);
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledWith([]);
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_MONTH_CHECKBOX_ITEMS",
+        payload: [{ label: "1月", season: "冬", checked: false }],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_MONTH_LABELS",
+        payload: [],
+      });
     });
   });
 
@@ -68,14 +68,14 @@ describe("handleChangeSeason関数の挙動のテスト", () => {
       act(() => {
         result.current.handleChangeSeason(mockEvent as ChangeEvent<HTMLInputElement>);
       });
-
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledWith([
-        { label: "1月", season: "冬", checked: false },
-      ]);
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledWith([]);
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_MONTH_CHECKBOX_ITEMS",
+        payload: [{ label: "1月", season: "冬", checked: false }],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_MONTH_LABELS",
+        payload: [],
+      });
     });
   });
 });
@@ -89,14 +89,14 @@ describe("handleChangeMonth関数の挙動のテスト", () => {
       act(() => {
         result.current.handleChangeMonth(mockEvent as ChangeEvent<HTMLInputElement>);
       });
-
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledWith([
-        { label: "1月", season: "冬", checked: true },
-      ]);
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledWith(["1月"]);
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_MONTH_CHECKBOX_ITEMS",
+        payload: [{ label: "1月", season: "冬", checked: true }],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_MONTH_LABELS",
+        payload: ["1月"],
+      });
     });
 
     test("monthCheckBoxItemscheckedがtrueの場合、falseに更新されること", () => {
@@ -106,14 +106,14 @@ describe("handleChangeMonth関数の挙動のテスト", () => {
       act(() => {
         result.current.handleChangeMonth(mockEvent as ChangeEvent<HTMLInputElement>);
       });
-
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledWith([
-        { label: "1月", season: "冬", checked: false },
-      ]);
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledWith([]);
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_MONTH_CHECKBOX_ITEMS",
+        payload: [{ label: "1月", season: "冬", checked: false }],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_MONTH_LABELS",
+        payload: [],
+      });
     });
   });
 
@@ -125,14 +125,14 @@ describe("handleChangeMonth関数の挙動のテスト", () => {
       act(() => {
         result.current.handleChangeMonth(mockEvent as ChangeEvent<HTMLInputElement>);
       });
-
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledWith([
-        { label: "1月", season: "冬", checked: false },
-      ]);
-      expect(mockSetMonthCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledWith([]);
-      expect(mockSetCheckedMonthLabels).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_MONTH_CHECKBOX_ITEMS",
+        payload: [{ label: "1月", season: "冬", checked: false }],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_MONTH_LABELS",
+        payload: [],
+      });
     });
   });
 });

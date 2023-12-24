@@ -2,30 +2,30 @@ import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 
 const useGetSeasonCheckBoxInfo = () => {
   const handleGetSeasonCheckBoxInfo = (season: string) => {
-    const { monthCheckBoxItems } = useWorldViewListContext();
+    const { state } = useWorldViewListContext();
 
     if (season === "春") {
-      const filteredCheckedItems = monthCheckBoxItems.filter((item) => item.season === "春");
+      const filteredCheckedItems = state.monthCheckBoxItems.filter((item) => item.season === "春");
       const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
       const allChecked = checkedItemBooleans.every(Boolean);
       const isIndeterminate = checkedItemBooleans.some(Boolean) && !allChecked;
       return { allChecked, isIndeterminate, label: "春" };
     }
     if (season === "夏") {
-      const filteredCheckedItems = monthCheckBoxItems.filter((item) => item.season === "夏");
+      const filteredCheckedItems = state.monthCheckBoxItems.filter((item) => item.season === "夏");
       const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
       const allChecked = checkedItemBooleans.every(Boolean);
       const isIndeterminate = checkedItemBooleans.some(Boolean) && !allChecked;
       return { allChecked, isIndeterminate, label: "夏" };
     }
     if (season === "秋") {
-      const filteredCheckedItems = monthCheckBoxItems.filter((item) => item.season === "秋");
+      const filteredCheckedItems = state.monthCheckBoxItems.filter((item) => item.season === "秋");
       const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
       const allChecked = checkedItemBooleans.every(Boolean);
       const isIndeterminate = checkedItemBooleans.some(Boolean) && !allChecked;
       return { allChecked, isIndeterminate, label: "秋" };
     }
-    const filteredCheckedItems = monthCheckBoxItems.filter((item) => item.season === "冬");
+    const filteredCheckedItems = state.monthCheckBoxItems.filter((item) => item.season === "冬");
     const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
     const allChecked = checkedItemBooleans.every(Boolean);
     const isIndeterminate = checkedItemBooleans.some(Boolean) && !allChecked;

@@ -20,16 +20,7 @@ import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { FC, memo } from "react";
 
 const FilterAccordion: FC = memo(() => {
-  const {
-    loadingSearchWorldViews,
-    checkedCategoryLabels,
-    checkedCountryLabels,
-    checkedCharacteristicLabels,
-    checkedRiskLevelLabels,
-    checkedMonthLabels,
-    checkedBmiLabels,
-    keyword,
-  } = useWorldViewListContext();
+  const { state } = useWorldViewListContext();
   const { handleClear } = useClear();
 
   return (
@@ -56,14 +47,14 @@ const FilterAccordion: FC = memo(() => {
           onClick={handleClear}
           textAlign="right"
           disabled={
-            loadingSearchWorldViews ||
-            (!checkedCategoryLabels.length &&
-              !checkedCountryLabels.length &&
-              !checkedCharacteristicLabels.length &&
-              !checkedRiskLevelLabels.length &&
-              !checkedMonthLabels.length &&
-              !checkedBmiLabels.length &&
-              keyword === "")
+            state.loadingSearchWorldViews ||
+            (!state.checkedCategoryLabels.length &&
+              !state.checkedCountryLabels.length &&
+              !state.checkedCharacteristicLabels.length &&
+              !state.checkedRiskLevelLabels.length &&
+              !state.checkedMonthLabels.length &&
+              !state.checkedBmiLabels.length &&
+              state.keyword === "")
           }
         >
           <Heading size="xs" textShadow="2px 2px #000000">

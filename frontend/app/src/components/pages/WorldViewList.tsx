@@ -4,6 +4,9 @@ import Pagination from "components/molecules/Pagination";
 import FilterAccordion from "components/organisms/FilterAccordion";
 import FilterDrawer from "components/organisms/FilterDrawer";
 import WorldViewCard from "components/organisms/worldView/WorldViewCard";
+import useGetCategoryCheckBoxItems from "hooks/api/category/useGetCategoryCheckBoxItems";
+import useGetCharacteristicCheckBoxItems from "hooks/api/characteristic/useGetCharacteristicCheckBoxItems";
+import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxItems";
 import useSearchWorldView from "hooks/api/worldView/useSearchWorldView";
 import useDebounce from "hooks/debounce/useDebounce";
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
@@ -11,41 +14,27 @@ import filterIcon from "img/filterIcon.png";
 import { memo, useEffect, useState } from "react";
 
 const WorldViewList = memo(() => {
-  const {
-    worldViews,
-    loadingSearchWorldViews,
-    onOpenFilterDrawer,
-    checkedCategoryLabels,
-    checkedCountryLabels,
-    checkedCharacteristicLabels,
-    checkedRiskLevelLabels,
-    checkedMonthLabels,
-    checkedBmiLabels,
-    keyword,
-    shouldDebounce,
-    setShouldDebounce,
-    getCategoryCheckBoxItems,
-    getCountryCheckBoxItems,
-    getCharacteristicCheckBoxItems,
-  } = useWorldViewListContext();
-
+  const { state, dispatch } = useWorldViewListContext();
+  const { getCategoryCheckBoxItems } = useGetCategoryCheckBoxItems();
+  const { getCountryCheckBoxItems } = useGetCountryCheckBoxItems();
+  const { getCharacteristicCheckBoxItems } = useGetCharacteristicCheckBoxItems();
   const { handleSearchWorldView } = useSearchWorldView();
   const { debounce } = useDebounce(1500);
   useEffect(() => {
-    if (shouldDebounce) {
+    if (state.shouldDebounce) {
       debounce(handleSearchWorldView);
-      setShouldDebounce(false);
+      dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
     } else {
       handleSearchWorldView();
     }
   }, [
-    checkedCategoryLabels,
-    checkedCountryLabels,
-    checkedCharacteristicLabels,
-    checkedRiskLevelLabels,
-    checkedMonthLabels,
-    checkedBmiLabels,
-    keyword,
+    state.checkedCategoryLabels,
+    state.checkedCountryLabels,
+    state.checkedCharacteristicLabels,
+    state.checkedRiskLevelLabels,
+    state.checkedMonthLabels,
+    state.checkedBmiLabels,
+    state.keyword,
   ]);
   useEffect(() => {
     getCategoryCheckBoxItems();
@@ -61,8 +50,8 @@ const WorldViewList = memo(() => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const endOffset = itemsOffset + itemsPerPage;
-  const currentViews = worldViews.slice(itemsOffset, endOffset);
-  const pageCount = Math.ceil(worldViews.length / itemsPerPage);
+  const currentViews = state.worldViews.slice(itemsOffset, endOffset);
+  const pageCount = Math.ceil(state.worldViews.length / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -73,7 +62,7 @@ const WorldViewList = memo(() => {
   useEffect(() => {
     setItemsOffset(0);
     setCurrentPage(1);
-  }, [worldViews]);
+  }, [state.worldViews]);
 
   return (
     <Box my="10" mx="5">
@@ -81,7 +70,7 @@ const WorldViewList = memo(() => {
         display={{ base: "flex", lg: "none" }}
         colorScheme="red"
         variant="outline"
-        onClick={onOpenFilterDrawer}
+        onClick={() => dispatch({ type: "OPEN_FILTER_DRAWER" })}
         bg="white"
         mb="4"
       >
@@ -92,7 +81,7 @@ const WorldViewList = memo(() => {
       <Flex>
         <FilterAccordion />
         <Box w={{ sm: "100%", lg: "78%" }}>
-          {loadingSearchWorldViews ? (
+          {state.loadingSearchWorldViews ? (
             <Loading />
           ) : (
             <>

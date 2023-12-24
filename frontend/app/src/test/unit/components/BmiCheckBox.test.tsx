@@ -10,18 +10,24 @@ jest.mock("hooks/providers/WorldViewListProvider", () => ({
 }));
 
 const mockContextValue = {
-  bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
-  loadingSearchWorldViews: false,
+  state: {
+    bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
+    loadingSearchWorldViews: false,
+  },
 };
 
 const mockContextValueChecked = {
-  bmiCheckBoxItems: [{ label: "0%〜10%", checked: true }],
-  loadingSearchWorldViews: false,
+  state: {
+    bmiCheckBoxItems: [{ label: "0%〜10%", checked: true }],
+    loadingSearchWorldViews: false,
+  },
 };
 
 const mockContextValueLoading = {
-  bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
-  loadingSearchWorldViews: true,
+  state: {
+    bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
+    loadingSearchWorldViews: true,
+  },
 };
 
 const mockHandleChangeBmi = jest.fn();

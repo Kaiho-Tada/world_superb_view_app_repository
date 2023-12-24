@@ -1,19 +1,14 @@
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import useMessage from "hooks/useMessage";
 import getAllCharacteristicsApi from "lib/api/characteristic";
-import { useState } from "react";
 import { Characteristic } from "types/api/characteristic/characteristic";
-import { CharacteristicCheckBoxItem } from "types/api/characteristic/characteristicCheckBoxItem";
 
 const useGetCharacteristicCheckBoxItems = () => {
-  const [loadingCharacteristicCheckBoxItems, setLoadingCharacteristicCheckBoxItems] =
-    useState(false);
-  const [characteristicCheckBoxItems, setCharacteristicCheckBoxItems] = useState<
-    Array<CharacteristicCheckBoxItem>
-  >([]);
+  const { dispatch } = useWorldViewListContext();
   const { showMessage } = useMessage();
 
   const getCharacteristicCheckBoxItems = async () => {
-    setLoadingCharacteristicCheckBoxItems(true);
+    dispatch({ type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS", payload: true });
     try {
       const res = await getAllCharacteristicsApi();
       const characteristics = res.data;
@@ -23,19 +18,18 @@ const useGetCharacteristicCheckBoxItems = () => {
           checked: false,
         })
       );
-      setCharacteristicCheckBoxItems(newCharacteristicCheckBoxItems);
+      dispatch({
+        type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+        payload: newCharacteristicCheckBoxItems,
+      });
     } catch (error) {
       showMessage({ title: "characteristicsの取得に失敗しました。", status: "error" });
     } finally {
-      setLoadingCharacteristicCheckBoxItems(false);
+      dispatch({ type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS", payload: false });
     }
   };
-
   return {
     getCharacteristicCheckBoxItems,
-    characteristicCheckBoxItems,
-    setCharacteristicCheckBoxItems,
-    loadingCharacteristicCheckBoxItems,
   };
 };
 export default useGetCharacteristicCheckBoxItems;

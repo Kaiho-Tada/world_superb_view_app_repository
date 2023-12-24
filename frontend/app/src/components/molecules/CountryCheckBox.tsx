@@ -6,8 +6,7 @@ import { FC } from "react";
 import { CountryCheckBoxItem } from "types/api/country/CountryCheckBoxItem";
 
 const CountryCheckBox: FC = () => {
-  const { loadingSearchWorldViews, countryCheckBoxItems, loadingCountryCheckBoxItems } =
-    useWorldViewListContext();
+  const { state } = useWorldViewListContext();
   const { handleChangeCountry } = useCountryHandleChange();
   const { handleChangeState } = useCountryHandleChange();
   const { handleGetCountryCheckBoxInfo } = useGetCountryCheckBoxInfo();
@@ -21,7 +20,7 @@ const CountryCheckBox: FC = () => {
     handleGetCountryCheckBoxInfo("アフリカ"),
   ];
 
-  return loadingCountryCheckBoxItems === true ? (
+  return state.loadingCountryCheckBoxItems === true ? (
     <Center h="10vh">
       <Spinner role="status" aria-label="読み込み中" />
     </Center>
@@ -33,14 +32,14 @@ const CountryCheckBox: FC = () => {
             isChecked={information.allChecked}
             isIndeterminate={information.isIndeterminate}
             value={information.label}
-            disabled={loadingSearchWorldViews}
+            disabled={state.loadingSearchWorldViews}
             onChange={handleChangeState}
             colorScheme="teal"
           >
             {information.label}
           </Checkbox>
           <Box pl={6} my={1}>
-            {countryCheckBoxItems.map((countryCheckBoxItem: CountryCheckBoxItem) =>
+            {state.countryCheckBoxItems.map((countryCheckBoxItem: CountryCheckBoxItem) =>
               countryCheckBoxItem.stateName === information.label ? (
                 <Checkbox
                   aria-hidden="false"
@@ -50,7 +49,7 @@ const CountryCheckBox: FC = () => {
                   isChecked={countryCheckBoxItem.checked}
                   value={countryCheckBoxItem.label}
                   onChange={handleChangeCountry}
-                  isDisabled={loadingSearchWorldViews}
+                  isDisabled={state.loadingSearchWorldViews}
                 >
                   {countryCheckBoxItem.label}
                 </Checkbox>

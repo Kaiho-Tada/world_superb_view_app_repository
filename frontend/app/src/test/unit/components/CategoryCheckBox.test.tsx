@@ -9,46 +9,54 @@ const spyOnUseWorldViewListContext = jest.spyOn(
 );
 
 const mockContextValue = {
-  loadingSearchWorldViews: false,
-  loadingCategoryCheckBoxItems: false,
-  categoryCheckBoxItems: [
-    {
-      label: "滝",
-      classification: "自然",
-      checked: false,
-    },
-    {
-      label: "塩湖",
-      classification: "自然",
-      checked: false,
-    },
-  ],
+  state: {
+    loadingSearchWorldViews: false,
+    loadingCategoryCheckBoxItems: false,
+    categoryCheckBoxItems: [
+      {
+        label: "滝",
+        classification: "自然",
+        checked: false,
+      },
+      {
+        label: "塩湖",
+        classification: "自然",
+        checked: false,
+      },
+    ],
+  },
 };
 
-const mockContextValueCheckedTrue = {
-  ...mockContextValue,
-  categoryCheckBoxItems: [
-    {
-      label: "滝",
-      classification: "自然",
-      checked: true,
-    },
-    {
-      label: "塩湖",
-      classification: "自然",
-      checked: true,
-    },
-  ],
+const mockContextValueChecked = {
+  state: {
+    ...mockContextValue.state,
+    categoryCheckBoxItems: [
+      {
+        label: "滝",
+        classification: "自然",
+        checked: true,
+      },
+      {
+        label: "塩湖",
+        classification: "自然",
+        checked: true,
+      },
+    ],
+  },
 };
 
 const mockContextValueLoadingSearchWorldViews = {
-  ...mockContextValue,
-  loadingSearchWorldViews: true,
+  state: {
+    ...mockContextValue.state,
+    loadingSearchWorldViews: true,
+  },
 };
 
 const mockContextValueLoadingCategoryCheckBoxItems = {
-  ...mockContextValue,
-  loadingCategoryCheckBoxItems: true,
+  state: {
+    ...mockContextValue.state,
+    loadingCategoryCheckBoxItems: true,
+  },
 };
 
 const mockHandleChangeClassification = jest.fn();
@@ -78,14 +86,14 @@ test("categoryCheckBoxItemsのcheckedがfalseの場合、CheckBoxがチェック
 });
 
 test("categoryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeChecked();
   expect(screen.getByRole("checkbox", { name: "人工" })).toBeChecked();
 });
 
 test("カテゴリーのCheckboxが全てチェックされている場合、分類のCheckboxがチェックされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "自然" })).toBeChecked();
 });

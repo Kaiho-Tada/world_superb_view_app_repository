@@ -9,34 +9,42 @@ const spyOnUseWorldViewListContext = jest.spyOn(
 );
 
 const mockContextValue = {
-  loadingSearchWorldViews: false,
-  loadingCharacteristicCheckBoxItems: false,
-  characteristicCheckBoxItems: [
-    {
-      label: "雄大",
-      checked: false,
-    },
-  ],
+  state: {
+    loadingSearchWorldViews: false,
+    loadingCharacteristicCheckBoxItems: false,
+    characteristicCheckBoxItems: [
+      {
+        label: "雄大",
+        checked: false,
+      },
+    ],
+  },
 };
 
-const mockContextValueCheckedTrue = {
-  ...mockContextValue,
-  characteristicCheckBoxItems: [
-    {
-      label: "雄大",
-      checked: true,
-    },
-  ],
+const mockContextValueChecked = {
+  state: {
+    ...mockContextValue.state,
+    characteristicCheckBoxItems: [
+      {
+        label: "雄大",
+        checked: true,
+      },
+    ],
+  },
 };
 
 const mockContextValueLoadingSearchWorldViews = {
-  ...mockContextValue,
-  loadingSearchWorldViews: true,
+  state: {
+    ...mockContextValue.state,
+    loadingSearchWorldViews: true,
+  },
 };
 
 const mockContextValueLoadingCharacteristicCheckBoxItems = {
-  ...mockContextValue,
-  loadingCharacteristicCheckBoxItems: true,
+  state: {
+    ...mockContextValue.state,
+    loadingCharacteristicCheckBoxItems: true,
+  },
 };
 
 const mockHandleChangeCharacteristic = jest.fn();
@@ -52,7 +60,7 @@ test("CheckBoxがレンダリングされていること", () => {
 });
 
 test("characteristicCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
   render(<CharacteristicCheckBox />);
   expect(screen.getByRole("checkbox", { name: "雄大" })).toBeChecked();
 });

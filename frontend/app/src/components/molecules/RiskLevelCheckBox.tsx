@@ -4,25 +4,25 @@ import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import starIcon from "img/riskLevelStar.png";
 import zeroStarIcon from "img/zoroRiskLevelStar.png";
 import { FC, memo } from "react";
-import { RiskLevel } from "types/riskLevel";
+import { RiskLevelCheckBoxItem } from "types/riskLevelCheckBoxItem";
 
 const RiskLevelCheckBox: FC = memo(() => {
-  const { riskLevels, loadingSearchWorldViews } = useWorldViewListContext();
+  const { state } = useWorldViewListContext();
   const { handleChangeRiskLevel } = useRiskLevelHandleChange();
 
   return (
     <VStack align="left">
-      {riskLevels.map((riskLevel: RiskLevel) => {
-        if (riskLevel.label === "4") {
+      {state.riskLevelCheckBoxItems.map((riskLevelCheckBoxItem: RiskLevelCheckBoxItem) => {
+        if (riskLevelCheckBoxItem.label === "4") {
           return (
             <Checkbox
               size="md"
               colorScheme="green"
-              value={riskLevel.label}
-              isChecked={riskLevel.checked}
+              value={riskLevelCheckBoxItem.label}
+              isChecked={riskLevelCheckBoxItem.checked}
               onChange={handleChangeRiskLevel}
-              key={riskLevel.label}
-              isDisabled={loadingSearchWorldViews}
+              key={riskLevelCheckBoxItem.label}
+              isDisabled={state.loadingSearchWorldViews}
               aria-label="リスクレベル4"
             >
               <Flex align="center" pl="1">
@@ -34,16 +34,16 @@ const RiskLevelCheckBox: FC = memo(() => {
             </Checkbox>
           );
         }
-        if (riskLevel.label === "3") {
+        if (riskLevelCheckBoxItem.label === "3") {
           return (
             <Checkbox
               size="md"
               colorScheme="green"
-              value={riskLevel.label}
-              isChecked={riskLevel.checked}
+              value={riskLevelCheckBoxItem.label}
+              isChecked={riskLevelCheckBoxItem.checked}
               onChange={handleChangeRiskLevel}
-              key={riskLevel.label}
-              isDisabled={loadingSearchWorldViews}
+              key={riskLevelCheckBoxItem.label}
+              isDisabled={state.loadingSearchWorldViews}
               aria-label="リスクレベル3"
             >
               <Flex align="center" pl="1">
@@ -54,16 +54,16 @@ const RiskLevelCheckBox: FC = memo(() => {
             </Checkbox>
           );
         }
-        if (riskLevel.label === "2") {
+        if (riskLevelCheckBoxItem.label === "2") {
           return (
             <Checkbox
               size="md"
               colorScheme="green"
-              value={riskLevel.label}
-              isChecked={riskLevel.checked}
+              value={riskLevelCheckBoxItem.label}
+              isChecked={riskLevelCheckBoxItem.checked}
               onChange={handleChangeRiskLevel}
-              key={riskLevel.label}
-              isDisabled={loadingSearchWorldViews}
+              key={riskLevelCheckBoxItem.label}
+              isDisabled={state.loadingSearchWorldViews}
               aria-label="リスクレベル2"
             >
               <Flex align="center" pl="1">
@@ -73,16 +73,16 @@ const RiskLevelCheckBox: FC = memo(() => {
             </Checkbox>
           );
         }
-        if (riskLevel.label === "1") {
+        if (riskLevelCheckBoxItem.label === "1") {
           return (
             <Checkbox
               size="md"
               colorScheme="green"
-              value={riskLevel.label}
-              isChecked={riskLevel.checked}
+              value={riskLevelCheckBoxItem.label}
+              isChecked={riskLevelCheckBoxItem.checked}
               onChange={handleChangeRiskLevel}
-              key={riskLevel.label}
-              isDisabled={loadingSearchWorldViews}
+              key={riskLevelCheckBoxItem.label}
+              isDisabled={state.loadingSearchWorldViews}
               aria-label="リスクレベル1"
             >
               <Flex align="center" pl="1">
@@ -91,16 +91,16 @@ const RiskLevelCheckBox: FC = memo(() => {
             </Checkbox>
           );
         }
-        if (riskLevel.label === "0") {
+        if (riskLevelCheckBoxItem.label === "0") {
           return (
             <Checkbox
               size="md"
               colorScheme="green"
-              value={riskLevel.label}
-              isChecked={riskLevel.checked}
+              value={riskLevelCheckBoxItem.label}
+              isChecked={riskLevelCheckBoxItem.checked}
               onChange={handleChangeRiskLevel}
-              isDisabled={loadingSearchWorldViews}
-              key={riskLevel.label}
+              isDisabled={state.loadingSearchWorldViews}
+              key={riskLevelCheckBoxItem.label}
               aria-label="リスクレベル0"
             >
               <Flex align="center" pl="1">

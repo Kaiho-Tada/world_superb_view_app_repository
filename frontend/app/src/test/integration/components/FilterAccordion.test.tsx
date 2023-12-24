@@ -12,54 +12,60 @@ const spyOnUseWorldViewListContext = jest.spyOn(
 const countryStates = ["アジア", "大洋州", "北米", "中南米", "ヨーロッパ", "中東", "アフリカ"];
 const categoryClassifications = ["自然", "人工"];
 const mockContextValue = {
-  countryStates,
-  categoryClassifications,
-  categoryCheckBoxItems: [
-    {
-      label: "滝",
-      classification: "自然",
-      checked: false,
-    },
-  ],
-  countryCheckBoxItems: [
-    {
-      label: "アメリカ",
-      stateName: "北米",
-      checked: false,
-    },
-  ],
-  characteristicCheckBoxItems: [
-    {
-      label: "雄大",
-      checked: false,
-    },
-  ],
-  riskLevels: [
-    {
-      label: "4",
-      checked: false,
-    },
-  ],
-  monthCheckBoxItems: [{ label: "1月", season: "冬", checked: false }],
-  bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
-  loadingSearchWorldViews: false,
-  checkedCategoryLabels: [""],
+  state: {
+    countryStates,
+    categoryClassifications,
+    categoryCheckBoxItems: [
+      {
+        label: "滝",
+        classification: "自然",
+        checked: false,
+      },
+    ],
+    countryCheckBoxItems: [
+      {
+        label: "アメリカ",
+        stateName: "北米",
+        checked: false,
+      },
+    ],
+    characteristicCheckBoxItems: [
+      {
+        label: "雄大",
+        checked: false,
+      },
+    ],
+    riskLevelCheckBoxItems: [
+      {
+        label: "4",
+        checked: false,
+      },
+    ],
+    monthCheckBoxItems: [{ label: "1月", season: "冬", checked: false }],
+    bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
+    loadingSearchWorldViews: false,
+    checkedCategoryLabels: [""],
+  },
 };
 
 const mockContextValueLoadingSearchWorldViews = {
-  ...mockContextValue,
-  loadingSearchWorldViews: true,
+  state: {
+    ...mockContextValue.state,
+    loadingSearchWorldViews: true,
+  },
 };
 
 const mockContextValueEmptyCheckedLabelsAndEmptyKeyword = {
-  ...mockContextValue,
-  checkedCategoryLabels: [],
-  checkedCountryLabels: [],
-  checkedCharacteristicLabels: [],
-  checkedRiskLevelLabels: [],
-  checkedMonthLabels: [],
-  checkedBmiLabels: [],
-  keyword: "",
+  state: {
+    ...mockContextValue.state,
+    checkedCategoryLabels: [],
+    checkedCountryLabels: [],
+    checkedCharacteristicLabels: [],
+    checkedRiskLevelLabels: [],
+    checkedMonthLabels: [],
+    checkedBmiLabels: [],
+    keyword: "",
+  },
 };
 
 const mockHandleClear = jest.fn();

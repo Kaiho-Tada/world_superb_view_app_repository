@@ -5,8 +5,11 @@ import { WorldViewListProvider } from "hooks/providers/WorldViewListProvider";
 jest.mock("hooks/providers/WorldViewListProvider", () => ({
   ...jest.requireActual("hooks/providers/WorldViewListProvider"),
   useWorldViewListContext: () => ({
-    ...jest.requireActual("hooks/providers/WorldViewListProvider").useWorldViewListContext(),
-    isOpenFilterDrawer: true,
+    state: {
+      ...jest.requireActual("hooks/providers/WorldViewListProvider").useWorldViewListContext()
+        .state,
+      isOpenFilterDrawer: true,
+    },
   }),
 }));
 

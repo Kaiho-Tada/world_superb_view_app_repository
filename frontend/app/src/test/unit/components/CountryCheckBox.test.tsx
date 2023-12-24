@@ -9,46 +9,54 @@ const spyOnUseWorldViewListContext = jest.spyOn(
 );
 
 const mockContextValue = {
-  loadingSearchWorldViews: false,
-  loadingCountryCheckBoxItems: false,
-  countryCheckBoxItems: [
-    {
-      label: "アメリカ",
-      stateName: "北米",
-      checked: false,
-    },
-    {
-      label: "カナダ",
-      stateName: "北米",
-      checked: false,
-    },
-  ],
+  state: {
+    loadingSearchWorldViews: false,
+    loadingCountryCheckBoxItems: false,
+    countryCheckBoxItems: [
+      {
+        label: "アメリカ",
+        stateName: "北米",
+        checked: false,
+      },
+      {
+        label: "カナダ",
+        stateName: "北米",
+        checked: false,
+      },
+    ],
+  },
 };
 
-const mockContextValueCheckedTrue = {
-  ...mockContextValue,
-  countryCheckBoxItems: [
-    {
-      label: "アメリカ",
-      stateName: "北米",
-      checked: true,
-    },
-    {
-      label: "カナダ",
-      stateName: "北米",
-      checked: true,
-    },
-  ],
+const mockContextValueChecked = {
+  state: {
+    ...mockContextValue.state,
+    countryCheckBoxItems: [
+      {
+        label: "アメリカ",
+        stateName: "北米",
+        checked: true,
+      },
+      {
+        label: "カナダ",
+        stateName: "北米",
+        checked: true,
+      },
+    ],
+  },
 };
 
 const mockContextValueLoadingSearchWorldViews = {
-  ...mockContextValue,
-  loadingSearchWorldViews: true,
+  state: {
+    ...mockContextValue.state,
+    loadingSearchWorldViews: true,
+  },
 };
 
 const mockContextValueLoadingCountryCheckBoxItems = {
-  ...mockContextValue,
-  loadingCountryCheckBoxItems: true,
+  state: {
+    ...mockContextValue.state,
+    loadingCountryCheckBoxItems: true,
+  },
 };
 
 const mockHandleChangeState = jest.fn();
@@ -78,14 +86,14 @@ test("countryCheckBoxItemsのcheckedがfalseの場合、CheckBoxがチェック�
 });
 
 test("countryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
   render(<CountryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeChecked();
   expect(screen.getByRole("checkbox", { name: "カナダ" })).toBeChecked();
 });
 
 test("国のCheckboxが全てチェックされている場合、州のCheckboxがチェックされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueCheckedTrue);
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
   render(<CountryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "北米" })).toBeChecked();
 });

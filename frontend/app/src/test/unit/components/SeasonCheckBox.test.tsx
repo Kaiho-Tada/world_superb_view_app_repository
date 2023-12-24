@@ -9,24 +9,30 @@ const spyOnUseWorldViewListContext = jest.spyOn(
 );
 
 const mockContextValue = {
-  monthCheckBoxItems: [
-    { label: "1月", season: "冬", checked: false },
-    { label: "2月", season: "冬", checked: false },
-  ],
-  loadingSearchWorldViews: false,
+  state: {
+    monthCheckBoxItems: [
+      { label: "1月", season: "冬", checked: false },
+      { label: "2月", season: "冬", checked: false },
+    ],
+    loadingSearchWorldViews: false,
+  },
 };
 
 const mockContextValueChecked = {
-  ...mockContextValue,
-  monthCheckBoxItems: [
-    { label: "1月", season: "冬", checked: true },
-    { label: "2月", season: "冬", checked: true },
-  ],
+  state: {
+    ...mockContextValue.state,
+    monthCheckBoxItems: [
+      { label: "1月", season: "冬", checked: true },
+      { label: "2月", season: "冬", checked: true },
+    ],
+  },
 };
 
 const mockContextValueLoadingSearchWorldViews = {
-  ...mockContextValue,
-  loadingSearchWorldViews: true,
+  state: {
+    ...mockContextValue.state,
+    loadingSearchWorldViews: true,
+  },
 };
 
 const mockHandleChangeSeason = jest.fn();

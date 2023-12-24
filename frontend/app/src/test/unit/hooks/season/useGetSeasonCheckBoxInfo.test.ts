@@ -7,35 +7,43 @@ const spyOnUseWorldViewListContext = jest.spyOn(
 );
 
 const mockContextValue = {
-  monthCheckBoxItems: [
-    { label: "4月", season: "春", checked: false },
-    { label: "8月", season: "夏", checked: false },
-    { label: "10月", season: "秋", checked: false },
-    { label: "12月", season: "冬", checked: false },
-  ],
+  state: {
+    monthCheckBoxItems: [
+      { label: "4月", season: "春", checked: false },
+      { label: "8月", season: "夏", checked: false },
+      { label: "10月", season: "秋", checked: false },
+      { label: "12月", season: "冬", checked: false },
+    ],
+  },
 };
 const mockContextValueNotChecked = {
-  monthCheckBoxItems: [
-    { label: "3月", season: "春", checked: false },
-    { label: "4月", season: "春", checked: false },
-    { label: "5月", season: "春", checked: false },
-  ],
+  state: {
+    monthCheckBoxItems: [
+      { label: "3月", season: "春", checked: false },
+      { label: "4月", season: "春", checked: false },
+      { label: "5月", season: "春", checked: false },
+    ],
+  },
 };
 
 const mockContextValuePartialChecked = {
-  monthCheckBoxItems: [
-    { label: "3月", season: "春", checked: true },
-    { label: "4月", season: "春", checked: false },
-    { label: "5月", season: "春", checked: false },
-  ],
+  state: {
+    monthCheckBoxItems: [
+      { label: "3月", season: "春", checked: true },
+      { label: "4月", season: "春", checked: false },
+      { label: "5月", season: "春", checked: false },
+    ],
+  },
 };
 
 const mockContextValueAllChecked = {
-  monthCheckBoxItems: [
-    { label: "3月", season: "春", checked: true },
-    { label: "4月", season: "春", checked: true },
-    { label: "5月", season: "春", checked: true },
-  ],
+  state: {
+    monthCheckBoxItems: [
+      { label: "3月", season: "春", checked: true },
+      { label: "4月", season: "春", checked: true },
+      { label: "5月", season: "春", checked: true },
+    ],
+  },
 };
 describe("allCheckedのテスト", () => {
   test("引数の季節のseasonプロパティを持つ全てのmonthCheckBoxItemsのcheckedがfalseである場合、allCheckedはfalseであること", () => {

@@ -1,4 +1,4 @@
-export type RiskLevel = {
+export type RiskLevelCheckBoxItem = {
   label: string;
   checked: boolean;
 };

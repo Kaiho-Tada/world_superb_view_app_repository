@@ -20,23 +20,13 @@ import useClear from "hooks/api/clear/useClear";
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 
 const FilterDrawerAccordion = () => {
-  const {
-    onCloseFilterDrawer,
-    loadingSearchWorldViews,
-    checkedCategoryLabels,
-    checkedCountryLabels,
-    checkedCharacteristicLabels,
-    checkedRiskLevelLabels,
-    checkedMonthLabels,
-    checkedBmiLabels,
-    keyword,
-  } = useWorldViewListContext();
+  const { state, dispatch } = useWorldViewListContext();
   const { handleClear } = useClear();
 
   return (
     <Accordion allowMultiple mt="4" role="region" aria-label="FilterDrawerAccordion">
       <Flex justify="space-between" pb="1" pr="1" align="center">
-        <CloseButton size="md" onClick={onCloseFilterDrawer} />
+        <CloseButton size="md" onClick={() => dispatch({ type: "CLOSE_FILTER_DRAWER" })} />
         <Box as="span" pl="3" pr="5">
           <Heading size="md" textShadow="2px 2px #000000">
             絞り込み
@@ -49,14 +39,14 @@ const FilterDrawerAccordion = () => {
           onClick={handleClear}
           textAlign="right"
           disabled={
-            loadingSearchWorldViews ||
-            (!checkedCategoryLabels.length &&
-              !checkedCountryLabels.length &&
-              !checkedCharacteristicLabels.length &&
-              !checkedRiskLevelLabels.length &&
-              !checkedMonthLabels.length &&
-              !checkedBmiLabels.length &&
-              keyword === "")
+            state.loadingSearchWorldViews ||
+            (!state.checkedCategoryLabels.length &&
+              !state.checkedCountryLabels.length &&
+              !state.checkedCharacteristicLabels.length &&
+              !state.checkedRiskLevelLabels.length &&
+              !state.checkedMonthLabels.length &&
+              !state.checkedBmiLabels.length &&
+              state.keyword === "")
           }
         >
           <Heading size="xs" textShadow="2px 2px #000000">

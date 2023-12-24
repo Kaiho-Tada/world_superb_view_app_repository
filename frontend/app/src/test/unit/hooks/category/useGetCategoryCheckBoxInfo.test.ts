@@ -7,63 +7,71 @@ const spyOnUseWorldViewListContext = jest.spyOn(
 );
 
 const mockContextValue = {
-  categoryCheckBoxItems: [
-    {
-      label: "砂漠",
-      classification: "自然",
-      checked: false,
-    },
-    {
-      label: "城",
-      classification: "人工",
-      checked: false,
-    },
-  ],
+  state: {
+    categoryCheckBoxItems: [
+      {
+        label: "砂漠",
+        classification: "自然",
+        checked: false,
+      },
+      {
+        label: "城",
+        classification: "人工",
+        checked: false,
+      },
+    ],
+  },
 };
 
 const mockContextValueNotChecked = {
-  categoryCheckBoxItems: [
-    {
-      label: "砂漠",
-      classification: "自然",
-      checked: false,
-    },
-    {
-      label: "洞窟",
-      classification: "自然",
-      checked: false,
-    },
-  ],
+  state: {
+    categoryCheckBoxItems: [
+      {
+        label: "砂漠",
+        classification: "自然",
+        checked: false,
+      },
+      {
+        label: "洞窟",
+        classification: "自然",
+        checked: false,
+      },
+    ],
+  },
 };
 
 const mockContextValuePartialChecked = {
-  categoryCheckBoxItems: [
-    {
-      label: "砂漠",
-      classification: "自然",
-      checked: true,
-    },
-    {
-      label: "洞窟",
-      classification: "自然",
-      checked: false,
-    },
-  ],
+  state: {
+    categoryCheckBoxItems: [
+      {
+        label: "砂漠",
+        classification: "自然",
+        checked: true,
+      },
+      {
+        label: "洞窟",
+        classification: "自然",
+        checked: false,
+      },
+    ],
+  },
 };
 
 const mockContextValueAllChecked = {
-  categoryCheckBoxItems: [
-    {
-      label: "砂漠",
-      classification: "自然",
-      checked: true,
-    },
-    {
-      label: "洞窟",
-      classification: "自然",
-      checked: true,
-    },
-  ],
+  state: {
+    categoryCheckBoxItems: [
+      {
+        label: "砂漠",
+        classification: "自然",
+        checked: true,
+      },
+      {
+        label: "洞窟",
+        classification: "自然",
+        checked: true,
+      },
+    ],
+  },
 };
 
 describe("allCheckedのテスト", () => {

@@ -7,63 +7,71 @@ const spyOnUseWorldViewListContext = jest.spyOn(
 );
 
 const mockContextValue = {
-  countryCheckBoxItems: [
-    {
-      label: "アメリカ",
-      stateName: "北米",
-      checked: false,
-    },
-    {
-      label: "中国",
-      stateName: "アジア",
-      checked: false,
-    },
-  ],
+  state: {
+    countryCheckBoxItems: [
+      {
+        label: "アメリカ",
+        stateName: "北米",
+        checked: false,
+      },
+      {
+        label: "中国",
+        stateName: "アジア",
+        checked: false,
+      },
+    ],
+  },
 };
 
 const mockContextValueNotChecked = {
-  countryCheckBoxItems: [
-    {
-      label: "アメリカ",
-      stateName: "北米",
-      checked: false,
-    },
-    {
-      label: "カナダ",
-      stateName: "北米",
-      checked: false,
-    },
-  ],
+  state: {
+    countryCheckBoxItems: [
+      {
+        label: "アメリカ",
+        stateName: "北米",
+        checked: false,
+      },
+      {
+        label: "カナダ",
+        stateName: "北米",
+        checked: false,
+      },
+    ],
+  },
 };
 
 const mockContextValuePartialChecked = {
-  countryCheckBoxItems: [
-    {
-      label: "アメリカ",
-      stateName: "北米",
-      checked: true,
-    },
-    {
-      label: "カナダ",
-      stateName: "北米",
-      checked: false,
-    },
-  ],
+  state: {
+    countryCheckBoxItems: [
+      {
+        label: "アメリカ",
+        stateName: "北米",
+        checked: true,
+      },
+      {
+        label: "カナダ",
+        stateName: "北米",
+        checked: false,
+      },
+    ],
+  },
 };
 
 const mockContextValueAllChecked = {
-  countryCheckBoxItems: [
-    {
-      label: "アメリカ",
-      stateName: "北米",
-      checked: true,
-    },
-    {
-      label: "カナダ",
-      stateName: "北米",
-      checked: true,
-    },
-  ],
+  state: {
+    countryCheckBoxItems: [
+      {
+        label: "アメリカ",
+        stateName: "北米",
+        checked: true,
+      },
+      {
+        label: "カナダ",
+        stateName: "北米",
+        checked: true,
+      },
+    ],
+  },
 };
 
 describe("allCheckedのテスト", () => {

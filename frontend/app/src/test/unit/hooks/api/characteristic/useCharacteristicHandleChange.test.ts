@@ -8,29 +8,29 @@ const spyOnUseWorldViewListContext = jest.spyOn(
   "useWorldViewListContext"
 );
 
-const mockSetCharacteristicCheckBoxItems = jest.fn();
-const mockSetCheckedCharacteristicLabels = jest.fn();
-
+const mockDispatch = jest.fn();
 const mockContextValueCheckedFalse = {
-  setCharacteristicCheckBoxItems: mockSetCharacteristicCheckBoxItems,
-  setCheckedCharacteristicLabels: mockSetCheckedCharacteristicLabels,
-  characteristicCheckBoxItems: [
-    {
-      label: "幻想・神秘的",
-      checked: false,
-    },
-  ],
+  dispatch: mockDispatch,
+  state: {
+    characteristicCheckBoxItems: [
+      {
+        label: "幻想・神秘的",
+        checked: false,
+      },
+    ],
+  },
 };
 
 const mockContextValueCheckedTrue = {
-  setCharacteristicCheckBoxItems: mockSetCharacteristicCheckBoxItems,
-  setCheckedCharacteristicLabels: mockSetCheckedCharacteristicLabels,
-  characteristicCheckBoxItems: [
-    {
-      label: "幻想・神秘的",
-      checked: true,
-    },
-  ],
+  dispatch: mockDispatch,
+  state: {
+    characteristicCheckBoxItems: [
+      {
+        label: "幻想・神秘的",
+        checked: true,
+      },
+    ],
+  },
 };
 
 describe("handleChangeCharacteristic関数の挙動のテスト", () => {
@@ -41,17 +41,19 @@ describe("handleChangeCharacteristic関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeCharacteristic(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-
-    expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledWith([
-      {
-        label: "幻想・神秘的",
-        checked: true,
-      },
-    ]);
-    expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledWith(["幻想・神秘的"]);
-    expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+      payload: [
+        {
+          label: "幻想・神秘的",
+          checked: true,
+        },
+      ],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_CHARACTERISTIC_LABELS",
+      payload: ["幻想・神秘的"],
+    });
   });
 
   test("characteristicCheckBoxItemsのcheckedがtrueの場合、falseに更新されること", () => {
@@ -61,16 +63,18 @@ describe("handleChangeCharacteristic関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeCharacteristic(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-
-    expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledWith([
-      {
-        label: "幻想・神秘的",
-        checked: false,
-      },
-    ]);
-    expect(mockSetCharacteristicCheckBoxItems).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledWith([]);
-    expect(mockSetCheckedCharacteristicLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+      payload: [
+        {
+          label: "幻想・神秘的",
+          checked: false,
+        },
+      ],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_CHARACTERISTIC_LABELS",
+      payload: [],
+    });
   });
 });

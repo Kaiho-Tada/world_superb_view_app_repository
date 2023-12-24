@@ -7,31 +7,31 @@ const spyOnUseWorldViewListContext = jest.spyOn(
   jest.requireActual("hooks/providers/WorldViewListProvider"),
   "useWorldViewListContext"
 );
-const mockSetCountryCheckBoxItems = jest.fn();
-const mockSetCheckedCountryLabels = jest.fn();
-
+const mockDispatch = jest.fn();
 const mockContextValueCheckedFalse = {
-  setCountryCheckBoxItems: mockSetCountryCheckBoxItems,
-  setCheckedCountryLabels: mockSetCheckedCountryLabels,
-  countryCheckBoxItems: [
-    {
-      label: "ペルー",
-      stateName: "中南米",
-      checked: false,
-    },
-  ],
+  dispatch: mockDispatch,
+  state: {
+    countryCheckBoxItems: [
+      {
+        label: "ペルー",
+        stateName: "中南米",
+        checked: false,
+      },
+    ],
+  },
 };
 
 const mockContextValueCheckedTrue = {
-  setCountryCheckBoxItems: mockSetCountryCheckBoxItems,
-  setCheckedCountryLabels: mockSetCheckedCountryLabels,
-  countryCheckBoxItems: [
-    {
-      label: "ペルー",
-      stateName: "中南米",
-      checked: true,
-    },
-  ],
+  dispatch: mockDispatch,
+  state: {
+    countryCheckBoxItems: [
+      {
+        label: "ペルー",
+        stateName: "中南米",
+        checked: true,
+      },
+    ],
+  },
 };
 
 describe("handleChangeState関数の挙動のテスト", () => {
@@ -43,18 +43,20 @@ describe("handleChangeState関数の挙動のテスト", () => {
       act(() => {
         result.current.handleChangeState(mockEvent as ChangeEvent<HTMLInputElement>);
       });
-
-      expect(mockSetCountryCheckBoxItems).toHaveBeenCalledWith([
-        {
-          label: "ペルー",
-          stateName: "中南米",
-          checked: true,
-        },
-      ]);
-      expect(mockSetCountryCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedCountryLabels).toHaveBeenCalledWith(["ペルー"]);
-      expect(mockSetCheckedCountryLabels).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_COUNTRY_CHECKBOX_ITEMS",
+        payload: [
+          {
+            label: "ペルー",
+            stateName: "中南米",
+            checked: true,
+          },
+        ],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_COUNTRY_LABELS",
+        payload: ["ペルー"],
+      });
     });
 
     test("e.target.checkedがfalseの場合、countryCheckBoxItemsのcheckedがfalseに更新されること", () => {
@@ -65,17 +67,20 @@ describe("handleChangeState関数の挙動のテスト", () => {
         result.current.handleChangeState(mockEvent as ChangeEvent<HTMLInputElement>);
       });
 
-      expect(mockSetCountryCheckBoxItems).toHaveBeenCalledWith([
-        {
-          label: "ペルー",
-          stateName: "中南米",
-          checked: false,
-        },
-      ]);
-      expect(mockSetCountryCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedCountryLabels).toHaveBeenCalledWith([]);
-      expect(mockSetCheckedCountryLabels).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_COUNTRY_CHECKBOX_ITEMS",
+        payload: [
+          {
+            label: "ペルー",
+            stateName: "中南米",
+            checked: false,
+          },
+        ],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_COUNTRY_LABELS",
+        payload: [],
+      });
     });
   });
 
@@ -87,18 +92,20 @@ describe("handleChangeState関数の挙動のテスト", () => {
       act(() => {
         result.current.handleChangeState(mockEvent as ChangeEvent<HTMLInputElement>);
       });
-
-      expect(mockSetCountryCheckBoxItems).toHaveBeenCalledWith([
-        {
-          label: "ペルー",
-          stateName: "中南米",
-          checked: false,
-        },
-      ]);
-      expect(mockSetCountryCheckBoxItems).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCheckedCountryLabels).toHaveBeenCalledWith([]);
-      expect(mockSetCheckedCountryLabels).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_COUNTRY_CHECKBOX_ITEMS",
+        payload: [
+          {
+            label: "ペルー",
+            stateName: "中南米",
+            checked: false,
+          },
+        ],
+      });
+      expect(mockDispatch).toHaveBeenCalledWith({
+        type: "SET_CHECKED_COUNTRY_LABELS",
+        payload: [],
+      });
     });
   });
 });
@@ -111,17 +118,20 @@ describe("handleChangeCountry関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeCountry(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetCountryCheckBoxItems).toHaveBeenCalledWith([
-      {
-        label: "ペルー",
-        stateName: "中南米",
-        checked: true,
-      },
-    ]);
-    expect(mockSetCountryCheckBoxItems).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedCountryLabels).toHaveBeenCalledWith(["ペルー"]);
-    expect(mockSetCheckedCountryLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_COUNTRY_CHECKBOX_ITEMS",
+      payload: [
+        {
+          label: "ペルー",
+          stateName: "中南米",
+          checked: true,
+        },
+      ],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_COUNTRY_LABELS",
+      payload: ["ペルー"],
+    });
   });
 
   test("countryCheckBoxItemsのcheckedがtrueの場合、falseに更新されること", () => {
@@ -131,16 +141,19 @@ describe("handleChangeCountry関数の挙動のテスト", () => {
     act(() => {
       result.current.handleChangeCountry(mockEvent as ChangeEvent<HTMLInputElement>);
     });
-    expect(mockSetCountryCheckBoxItems).toHaveBeenCalledWith([
-      {
-        label: "ペルー",
-        stateName: "中南米",
-        checked: false,
-      },
-    ]);
-    expect(mockSetCountryCheckBoxItems).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCheckedCountryLabels).toHaveBeenCalledWith([]);
-    expect(mockSetCheckedCountryLabels).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_COUNTRY_CHECKBOX_ITEMS",
+      payload: [
+        {
+          label: "ペルー",
+          stateName: "中南米",
+          checked: false,
+        },
+      ],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_CHECKED_COUNTRY_LABELS",
+      payload: [],
+    });
   });
 });

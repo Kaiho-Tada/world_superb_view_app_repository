@@ -1,11 +1,12 @@
 import useMessage from "hooks/useMessage";
-import { getAllWorldViewsApi } from "lib/api/worldView";
+import worldViewApi from "lib/api/worldViewApi";
 import { useState } from "react";
 import { WorldView } from "types/api/worldView";
 
 const useGetAllWorldViews = () => {
   const [loadingWorldViews, setLoadingWorldViews] = useState(false);
   const [WorldViews, setWorldViews] = useState<Array<WorldView>>([]);
+  const { getAllWorldViewsApi } = worldViewApi();
   const { showMessage } = useMessage();
 
   const getAllWorldViews = async () => {

@@ -12,6 +12,12 @@ jest.mock("@chakra-ui/react", () => ({
 
 const mockAxios = new MockAdapter(client);
 
+const mockDispatch = jest.fn();
+jest.mock("hooks/providers/WorldViewListProvider", () => ({
+  useWorldViewListContext: () => ({
+    dispatch: mockDispatch,
+  }),
+}));
 test("characteristicCheckBoxItems取得成功時のテスト", async () => {
   mockAxios.onGet("/characteristics").reply(200, [
     {
@@ -24,35 +30,39 @@ test("characteristicCheckBoxItems取得成功時のテスト", async () => {
     },
   ]);
   const { result } = renderHook(() => useGetAllCharacteristicsWithCheckBoxData());
-  expect(result.current.characteristicCheckBoxItems).toEqual([]);
-  expect(result.current.loadingCharacteristicCheckBoxItems).toBe(false);
   await act(() => {
     result.current.getCharacteristicCheckBoxItems();
   });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS",
+    payload: true,
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+    payload: [
+      {
+        label: "奇妙・不思議",
+        checked: false,
+      },
+      {
+        label: "ロマンチック",
+        checked: false,
+      },
+    ],
+  });
 
-  expect(result.current.characteristicCheckBoxItems).toEqual([
-    {
-      label: "奇妙・不思議",
-      checked: false,
-    },
-    {
-      label: "ロマンチック",
-      checked: false,
-    },
-  ]);
-  expect(result.current.loadingCharacteristicCheckBoxItems).toBe(false);
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS",
+    payload: false,
+  });
 });
 
 test("characteristicCheckBoxItems取得失敗時のテスト", async () => {
   mockAxios.onGet("/characteristics").reply(500);
   const { result } = renderHook(() => useGetAllCharacteristicsWithCheckBoxData());
-  expect(result.current.characteristicCheckBoxItems).toEqual([]);
-  expect(result.current.loadingCharacteristicCheckBoxItems).toBe(false);
   await act(() => {
     result.current.getCharacteristicCheckBoxItems();
   });
-  expect(result.current.characteristicCheckBoxItems).toEqual([]);
-  expect(result.current.loadingCharacteristicCheckBoxItems).toBe(false);
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "characteristicsの取得に失敗しました。",
     status: "error",

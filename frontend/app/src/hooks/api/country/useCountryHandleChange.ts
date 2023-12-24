@@ -2,53 +2,52 @@ import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { ChangeEvent, useCallback } from "react";
 
 const useCountryHandleChange = () => {
-  const { countryCheckBoxItems, setCountryCheckBoxItems, setCheckedCountryLabels } =
-    useWorldViewListContext();
+  const { state, dispatch } = useWorldViewListContext();
 
   const handleChangeState = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const newCheckBoxItems = countryCheckBoxItems.map((originalCheckBoxItem) => {
+      const newCheckBoxItems = state.countryCheckBoxItems.map((originalCheckBoxItem) => {
         const checkBoxItem = { ...originalCheckBoxItem };
         if (e.target.value === checkBoxItem.stateName) {
           checkBoxItem.checked = e.target.checked;
         }
         return checkBoxItem;
       });
-      setCountryCheckBoxItems(newCheckBoxItems);
+      dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
 
       const checkedCheckBoxItems = newCheckBoxItems.filter(
         (newCheckBoxItem) => newCheckBoxItem.checked === true
       );
-
       const newCheckBoxItemLabels = checkedCheckBoxItems.map(
         (checkedCheckBoxItem) => checkedCheckBoxItem.label
       );
-      setCheckedCountryLabels(newCheckBoxItemLabels);
+      dispatch({ type: "SET_CHECKED_COUNTRY_LABELS", payload: newCheckBoxItemLabels });
     },
-    [countryCheckBoxItems]
+    [state.countryCheckBoxItems]
   );
 
   const handleChangeCountry = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const newCountryCheckBoxItems = countryCheckBoxItems.map((originalCountryCheckBoxItem) => {
-        const countryCheckBoxItem = { ...originalCountryCheckBoxItem };
-        if (countryCheckBoxItem.label === e.target.value) {
-          countryCheckBoxItem.checked = !countryCheckBoxItem.checked;
+      const newCountryCheckBoxItems = state.countryCheckBoxItems.map(
+        (originalCountryCheckBoxItem) => {
+          const countryCheckBoxItem = { ...originalCountryCheckBoxItem };
+          if (countryCheckBoxItem.label === e.target.value) {
+            countryCheckBoxItem.checked = !countryCheckBoxItem.checked;
+          }
+          return countryCheckBoxItem;
         }
-        return countryCheckBoxItem;
-      });
-      setCountryCheckBoxItems(newCountryCheckBoxItems);
+      );
+      dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCountryCheckBoxItems });
 
       const checkedCountryCheckBoxItems = newCountryCheckBoxItems.filter(
         (newCountryCheckBoxItem) => newCountryCheckBoxItem.checked === true
       );
-
       const newCheckedCountryLabels = checkedCountryCheckBoxItems.map(
         (checkedCountryCheckBoxItem) => checkedCountryCheckBoxItem.label
       );
-      setCheckedCountryLabels(newCheckedCountryLabels);
+      dispatch({ type: "SET_CHECKED_COUNTRY_LABELS", payload: newCheckedCountryLabels });
     },
-    [countryCheckBoxItems]
+    [state.countryCheckBoxItems]
   );
   return { handleChangeState, handleChangeCountry };
 };

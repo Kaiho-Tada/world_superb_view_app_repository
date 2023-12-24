@@ -4,11 +4,11 @@ import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { BmiCheckBoxItem } from "types/bmi/bmiCheckBoxItem";
 
 const BmiCheckBox = () => {
-  const { bmiCheckBoxItems, loadingSearchWorldViews } = useWorldViewListContext();
+  const { state } = useWorldViewListContext();
   const { handleChangeBmi } = useBmiHandleChange();
   return (
     <Box style={{ display: "flex", flexDirection: "column" }}>
-      {bmiCheckBoxItems.map((bmiCheckBoxIem: BmiCheckBoxItem) => (
+      {state.bmiCheckBoxItems.map((bmiCheckBoxIem: BmiCheckBoxItem) => (
         <Checkbox
           key={bmiCheckBoxIem.label}
           size="md"
@@ -16,7 +16,7 @@ const BmiCheckBox = () => {
           isChecked={bmiCheckBoxIem.checked}
           value={bmiCheckBoxIem.label}
           onChange={handleChangeBmi}
-          isDisabled={loadingSearchWorldViews}
+          isDisabled={state.loadingSearchWorldViews}
           mb="1"
         >
           {bmiCheckBoxIem.label}

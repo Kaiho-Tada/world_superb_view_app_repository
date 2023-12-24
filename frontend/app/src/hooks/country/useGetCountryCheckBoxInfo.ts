@@ -2,10 +2,10 @@ import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 
 const useGetCountryCheckBoxInfo = () => {
   const handleGetCountryCheckBoxInfo = (classification: string) => {
-    const { countryCheckBoxItems } = useWorldViewListContext();
+    const { state } = useWorldViewListContext();
 
     if (classification === "アジア") {
-      const filteredCheckedItems = countryCheckBoxItems.filter(
+      const filteredCheckedItems = state.countryCheckBoxItems.filter(
         (item) => item.stateName === "アジア"
       );
       const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
@@ -14,7 +14,7 @@ const useGetCountryCheckBoxInfo = () => {
       return { allChecked, isIndeterminate, label: "アジア" };
     }
     if (classification === "大洋州") {
-      const filteredCheckedItems = countryCheckBoxItems.filter(
+      const filteredCheckedItems = state.countryCheckBoxItems.filter(
         (item) => item.stateName === "大洋州"
       );
       const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
@@ -23,14 +23,16 @@ const useGetCountryCheckBoxInfo = () => {
       return { allChecked, isIndeterminate, label: "大洋州" };
     }
     if (classification === "北米") {
-      const filteredCheckedItems = countryCheckBoxItems.filter((item) => item.stateName === "北米");
+      const filteredCheckedItems = state.countryCheckBoxItems.filter(
+        (item) => item.stateName === "北米"
+      );
       const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
       const allChecked = checkedItemBooleans.every(Boolean);
       const isIndeterminate = checkedItemBooleans.some(Boolean) && !allChecked;
       return { allChecked, isIndeterminate, label: "北米" };
     }
     if (classification === "中南米") {
-      const filteredCheckedItems = countryCheckBoxItems.filter(
+      const filteredCheckedItems = state.countryCheckBoxItems.filter(
         (item) => item.stateName === "中南米"
       );
       const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
@@ -39,7 +41,7 @@ const useGetCountryCheckBoxInfo = () => {
       return { allChecked, isIndeterminate, label: "中南米" };
     }
     if (classification === "ヨーロッパ") {
-      const filteredCheckedItems = countryCheckBoxItems.filter(
+      const filteredCheckedItems = state.countryCheckBoxItems.filter(
         (item) => item.stateName === "ヨーロッパ"
       );
       const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
@@ -48,13 +50,15 @@ const useGetCountryCheckBoxInfo = () => {
       return { allChecked, isIndeterminate, label: "ヨーロッパ" };
     }
     if (classification === "中東") {
-      const filteredCheckedItems = countryCheckBoxItems.filter((item) => item.stateName === "中東");
+      const filteredCheckedItems = state.countryCheckBoxItems.filter(
+        (item) => item.stateName === "中東"
+      );
       const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
       const allChecked = checkedItemBooleans.every(Boolean);
       const isIndeterminate = checkedItemBooleans.some(Boolean) && !allChecked;
       return { allChecked, isIndeterminate, label: "中東" };
     }
-    const filteredCheckedItems = countryCheckBoxItems.filter(
+    const filteredCheckedItems = state.countryCheckBoxItems.filter(
       (item) => item.stateName === "アフリカ"
     );
     const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
