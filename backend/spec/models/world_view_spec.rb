@@ -65,14 +65,13 @@ RSpec.describe WorldView, type: :model do
   end
 
   describe "スコープのテスト" do
-    let!(:matera_cave_dwellings) { create(:world_view, name: "マテーラの洞窟住居") }
-    let!(:civita_di_bagnoregio) { create(:world_view, name: "チヴィタディバニョレージョ") }
-    let!(:machu_picchu) { create(:world_view, name: "マチュピチュ") }
-
     describe "filter_by_category_nameスコープのテスト" do
       let!(:category_city) { create(:category, name: "都市") }
       let!(:category_cave) { create(:category, name: "洞窟") }
       it "引数で受け取ったcategoy_namesに一致するカテゴリーを持つWorldViewを返すこと" do
+        matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
+        civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
+        machu_picchu = create(:world_view, name: "マチュピチュ")
         create(:world_view_category, world_view: matera_cave_dwellings, category: category_cave)
         create(:world_view_category, world_view: civita_di_bagnoregio, category: category_city)
         create(:world_view_category, world_view: machu_picchu, category: category_city)
@@ -92,6 +91,9 @@ RSpec.describe WorldView, type: :model do
 
     describe "filter_by_country_nameスコープのテスト" do
       it "引数で受け取ったcountry_namesに一致する国を持つWorldViewを返すこと" do
+        matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
+        civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
+        machu_picchu = create(:world_view, name: "マチュピチュ")
         country_italy = create(:country, name: "イタリア")
         country_peru = create(:country, name: "ペルー")
         create(:world_view_country, world_view: matera_cave_dwellings, country: country_italy)
@@ -115,6 +117,9 @@ RSpec.describe WorldView, type: :model do
       let!(:characteristic_historic) { create(:characteristic, name: "歴史・文化的") }
       let!(:characteristic_fantasy) { create(:characteristic, name: "幻想・神秘的") }
       it "引数で受け取ったcharacteristic_namesに一致する属性を持つWorldViewを返すこと" do
+        matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
+        civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
+        machu_picchu = create(:world_view, name: "マチュピチュ")
         create(:world_view_characteristic, world_view: matera_cave_dwellings, characteristic: characteristic_historic)
         create(:world_view_characteristic, world_view: civita_di_bagnoregio, characteristic: characteristic_fantasy)
         create(:world_view_characteristic, world_view: machu_picchu, characteristic: characteristic_historic)
@@ -134,6 +139,9 @@ RSpec.describe WorldView, type: :model do
 
     describe "filter_by_country_risk_levelスコープのテスト" do
       it "引数で受け取ったrisk_levelに一致する国を持つWorldViewを返すこと" do
+        matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
+        civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
+        machu_picchu = create(:world_view, name: "マチュピチュ")
         country_italy = create(:country, name: "イタリア", risk_level: 0)
         country_peru = create(:country, name: "ペルー", risk_level: 3)
         create(:world_view_country, world_view: matera_cave_dwellings, country: country_italy)
@@ -155,6 +163,9 @@ RSpec.describe WorldView, type: :model do
 
     describe "filter_by_keywordスコープのテスト" do
       it "引数で受け取ったkeywordに部分一致する名前と国名を持つWorldViewを返すこと" do
+        matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
+        civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
+        machu_picchu = create(:world_view, name: "マチュピチュ")
         country_italy = create(:country, name: "イタリア")
         country_peru = create(:country, name: "ペルー")
         create(:world_view_country, world_view: matera_cave_dwellings, country: country_italy)
