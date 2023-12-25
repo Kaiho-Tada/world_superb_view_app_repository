@@ -15,7 +15,7 @@ import CountryCheckBox from "components/molecules/CountryCheckBox";
 import FilterSearchBox from "components/molecules/FilterSearchBox";
 import RiskLevelCheckBox from "components/molecules/RiskLevelCheckBox";
 import SeasonCheckBox from "components/molecules/SeasonCheckBox";
-import useClear from "hooks/api/clear/useClear";
+import useClear from "hooks/clear/useClear";
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { FC, memo } from "react";
 

@@ -61,7 +61,7 @@ const mockContextValueLoadingCountryCheckBoxItems = {
 
 const mockHandleChangeState = jest.fn();
 const mockHandleChangeCountry = jest.fn();
-jest.mock("hooks/api/country/useCountryHandleChange", () => ({
+jest.mock("hooks/country/useCountryHandleChange", () => ({
   __esModule: true,
   default: () => ({
     handleChangeState: mockHandleChangeState,

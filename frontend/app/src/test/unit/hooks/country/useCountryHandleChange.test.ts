@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import useCountryHandleChange from "hooks/api/country/useCountryHandleChange";
+import useCountryHandleChange from "hooks/country/useCountryHandleChange";
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 

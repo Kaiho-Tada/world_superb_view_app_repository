@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import useCharacteristicHandleChange from "hooks/api/characteristic/useCharacteristicHandleChange";
+import useCharacteristicHandleChange from "hooks/characteristic/useCharacteristicHandleChange";
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 

@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useDeleteUser from "hooks/api/useDeleteUser";
+import useDeleteUser from "hooks/api/auth/useDeleteUser";
 import Cookies from "js-cookie";
 import client from "lib/api/client";
 

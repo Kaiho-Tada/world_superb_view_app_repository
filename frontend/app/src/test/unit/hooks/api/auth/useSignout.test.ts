@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useSignout from "hooks/api/useSignout";
+import useSignout from "hooks/api/auth/useSignout";
 import Cookies from "js-cookie";
 import client from "lib/api/client";
 

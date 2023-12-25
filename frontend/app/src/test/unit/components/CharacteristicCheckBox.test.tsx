@@ -48,7 +48,7 @@ const mockContextValueLoadingCharacteristicCheckBoxItems = {
 };
 
 const mockHandleChangeCharacteristic = jest.fn();
-jest.mock("hooks/api/characteristic/useCharacteristicHandleChange", () => ({
+jest.mock("hooks/characteristic/useCharacteristicHandleChange", () => ({
   __esModule: true,
   default: () => ({ handleChangeCharacteristic: mockHandleChangeCharacteristic }),
 }));

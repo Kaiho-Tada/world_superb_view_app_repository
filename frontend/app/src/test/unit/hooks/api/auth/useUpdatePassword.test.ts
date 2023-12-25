@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useUpdatePassword from "hooks/api/useUpdatePassword";
+import useUpdatePassword from "hooks/api/auth/useUpdatePassword";
 import client from "lib/api/client";
 import { act } from "react-dom/test-utils";
 

@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import useRiskLevelHandleChange from "hooks/api/riskLevel/useRiskLevelHandleChange";
+import useRiskLevelHandleChange from "hooks/riskLevel/useRiskLevelHandleChange";
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 

@@ -71,7 +71,7 @@ const mockContextValueEmptyCheckedLabelsAndEmptyKeyword = {
 };
 
 const mockHandleClear = jest.fn();
-jest.mock("hooks/api/clear/useClear", () => ({
+jest.mock("hooks/clear/useClear", () => ({
   __esModule: true,
   default: () => ({ handleClear: mockHandleClear }),
 }));

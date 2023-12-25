@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useUpdateUser from "hooks/api/useUpdateUser";
+import useUpdateUser from "hooks/api/auth/useUpdateUser";
 import Cookies from "js-cookie";
 import client from "lib/api/client";
 

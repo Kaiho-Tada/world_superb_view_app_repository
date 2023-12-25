@@ -10,9 +10,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import AuthButton from "components/atoms/button/AuthButton";
-import useDeleteUser from "hooks/api/useDeleteUser";
-import useUpdatePassword from "hooks/api/useUpdatePassword";
-import useUpdateUser from "hooks/api/useUpdateUser";
+import useDeleteUser from "hooks/api/auth/useDeleteUser";
+import useUpdatePassword from "hooks/api/auth/useUpdatePassword";
+import useUpdateUser from "hooks/api/auth/useUpdateUser";
 import { useAuth } from "hooks/providers/useAuthProvider";
 import { ChangeEvent, memo, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";

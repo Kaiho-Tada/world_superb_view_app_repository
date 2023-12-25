@@ -10,8 +10,8 @@ import {
   PopoverTrigger,
   Text,
 } from "@chakra-ui/react";
-import useGuestLogin from "hooks/api/useGuestLogin";
-import useSignout from "hooks/api/useSignout";
+import useGuestLogin from "hooks/api/auth/useGuestLogin";
+import useSignout from "hooks/api/auth/useSignout";
 import { useAuth } from "hooks/providers/useAuthProvider";
 import personIcon from "img/person.png";
 import profileIcon from "img/profile.png";

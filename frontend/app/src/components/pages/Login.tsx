@@ -11,8 +11,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import AuthButton from "components/atoms/button/AuthButton";
-import useGuestLogin from "hooks/api/useGuestLogin";
-import useLogin from "hooks/api/useLogin";
+import useGuestLogin from "hooks/api/auth/useGuestLogin";
+import useLogin from "hooks/api/auth/useLogin";
 import { useAuth } from "hooks/providers/useAuthProvider";
 import { ChangeEvent, FC, memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";

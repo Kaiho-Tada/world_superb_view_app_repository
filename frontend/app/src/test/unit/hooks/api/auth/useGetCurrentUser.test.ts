@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useGetCurrentUser from "hooks/api/useGetCurrentUser";
+import useGetCurrentUser from "hooks/api/auth/useGetCurrentUser";
 import client from "lib/api/client";
 
 const mockUseNavigate = jest.fn();

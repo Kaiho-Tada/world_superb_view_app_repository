@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import useClear from "hooks/api/clear/useClear";
+import useClear from "hooks/clear/useClear";
 
 const mockDispatch = jest.fn();
 jest.mock("hooks/providers/WorldViewListProvider", () => ({

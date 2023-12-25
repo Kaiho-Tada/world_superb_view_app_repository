@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import useCategoryHandleChange from "hooks/api/category/useCategoryHandleChange";
+import useCategoryHandleChange from "hooks/category/useCategoryHandleChange";
 import { ChangeEvent } from "react";
 import { act } from "react-dom/test-utils";
 

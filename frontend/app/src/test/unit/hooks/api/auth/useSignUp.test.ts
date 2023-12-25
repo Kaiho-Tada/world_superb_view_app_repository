@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useSignUp from "hooks/api/useSignUp";
+import useSignUp from "hooks/api/auth/useSignUp";
 import client from "lib/api/client";
 
 const mockUseNavigate = jest.fn();

@@ -1,5 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import useGetCurrentUser from "hooks/api/useGetCurrentUser";
+import useGetCurrentUser from "hooks/api/auth/useGetCurrentUser";
 import { useAuth } from "hooks/providers/useAuthProvider";
 import { FC, memo, useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";

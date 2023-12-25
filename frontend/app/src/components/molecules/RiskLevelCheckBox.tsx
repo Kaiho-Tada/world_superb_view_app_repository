@@ -1,6 +1,6 @@
 import { Checkbox, Flex, Image, VStack } from "@chakra-ui/react";
-import useRiskLevelHandleChange from "hooks/api/riskLevel/useRiskLevelHandleChange";
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
+import useRiskLevelHandleChange from "hooks/riskLevel/useRiskLevelHandleChange";
 import starIcon from "img/riskLevelStar.png";
 import zeroStarIcon from "img/zoroRiskLevelStar.png";
 import { FC, memo } from "react";

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { act, renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useLogin from "hooks/api/useLogin";
+import useLogin from "hooks/api/auth/useLogin";
 import Cookies from "js-cookie";
 import client from "lib/api/client";
 

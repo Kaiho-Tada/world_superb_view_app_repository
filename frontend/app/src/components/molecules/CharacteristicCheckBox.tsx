@@ -1,5 +1,5 @@
 import { Center, Checkbox, Spinner } from "@chakra-ui/react";
-import useCharacteristicHandleChange from "hooks/api/characteristic/useCharacteristicHandleChange";
+import useCharacteristicHandleChange from "hooks/characteristic/useCharacteristicHandleChange";
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { FC } from "react";
 import { CharacteristicCheckBoxItem } from "types/api/characteristic/characteristicCheckBoxItem";

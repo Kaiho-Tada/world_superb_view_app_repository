@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useWorldViewListContext } from "../../providers/WorldViewListProvider";
+import { useWorldViewListContext } from "../providers/WorldViewListProvider";
 
 const useClear = () => {
   const { state, dispatch } = useWorldViewListContext();

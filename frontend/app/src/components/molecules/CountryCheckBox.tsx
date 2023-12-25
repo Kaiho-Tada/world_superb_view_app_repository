@@ -1,5 +1,5 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
-import useCountryHandleChange from "hooks/api/country/useCountryHandleChange";
+import useCountryHandleChange from "hooks/country/useCountryHandleChange";
 import useGetCountryCheckBoxInfo from "hooks/country/useGetCountryCheckBoxInfo";
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { FC } from "react";

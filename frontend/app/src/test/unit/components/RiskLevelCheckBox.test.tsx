@@ -40,7 +40,7 @@ const mockContextValueLoadingSearchWorldViews = {
 };
 
 const mockHandleChangeRiskLevel = jest.fn();
-jest.mock("hooks/api/riskLevel/useRiskLevelHandleChange", () => ({
+jest.mock("hooks/riskLevel/useRiskLevelHandleChange", () => ({
   __esModule: true,
   default: () => ({ handleChangeRiskLevel: mockHandleChangeRiskLevel }),
 }));

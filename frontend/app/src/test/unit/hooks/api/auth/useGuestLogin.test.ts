@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import useGuestLogin from "hooks/api/useGuestLogin";
+import useGuestLogin from "hooks/api/auth/useGuestLogin";
 import Cookies from "js-cookie";
 import client from "lib/api/client";
 

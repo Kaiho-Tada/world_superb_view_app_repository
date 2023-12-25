@@ -61,7 +61,7 @@ const mockContextValueLoadingCategoryCheckBoxItems = {
 
 const mockHandleChangeClassification = jest.fn();
 const mockHandleChangeCategory = jest.fn();
-jest.mock("hooks/api/category/useCategoryHandleChange", () => ({
+jest.mock("hooks/category/useCategoryHandleChange", () => ({
   __esModule: true,
   default: () => ({
     handleChangeClassification: mockHandleChangeClassification,

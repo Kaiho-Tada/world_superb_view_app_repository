@@ -1,5 +1,5 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
-import useCategoryHandleChange from "hooks/api/category/useCategoryHandleChange";
+import useCategoryHandleChange from "hooks/category/useCategoryHandleChange";
 import useGetCategoryCheckBoxInfo from "hooks/category/useGetCategoryCheckBoxInfo";
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { FC, memo } from "react";
