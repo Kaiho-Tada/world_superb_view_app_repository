@@ -22,13 +22,11 @@ import { FC, memo } from "react";
 const FilterAccordion: FC = memo(() => {
   const { state } = useWorldViewListContext();
   const { handleClear } = useClear();
-
-  return (
+  return state.isOpenFilterAccordion ? (
     <Accordion
       allowMultiple
       w="19%"
       display={{ base: "none", lg: "block" }}
-      ml={4}
       mr={6}
       color="white"
       role="region"
@@ -140,6 +138,6 @@ const FilterAccordion: FC = memo(() => {
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
-  );
+  ) : null;
 });
 export default FilterAccordion;

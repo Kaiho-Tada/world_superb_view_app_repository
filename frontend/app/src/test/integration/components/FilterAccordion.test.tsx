@@ -45,6 +45,7 @@ const mockContextValue = {
     bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
     loadingSearchWorldViews: false,
     checkedCategoryLabels: [""],
+    isOpenFilterAccordion: true,
   },
 };
 
@@ -68,11 +69,24 @@ const mockContextValueEmptyCheckedLabelsAndEmptyKeyword = {
   },
 };
 
+const mockContextValueNotOpenFilterAccordion = {
+  state: {
+    ...mockContextValue.state,
+    isOpenFilterAccordion: false,
+  },
+};
+
 const mockHandleClear = jest.fn();
 jest.mock("hooks/clear/useClear", () => ({
   __esModule: true,
   default: () => ({ handleClear: mockHandleClear }),
 }));
+
+test("アコーディオンがレンダリングされていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+  render(<FilterAccordion />);
+  expect(screen.getByRole("region", { name: "絞り込み" })).toBeInTheDocument();
+});
 
 test("アコーディオンの見出しがレンダリングされていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
@@ -237,4 +251,10 @@ test("BMIのアコーディオンボタン押下でBmiCheckBoxが表示される
     await user.click(screen.getByRole("button", { name: "BMI" }));
   });
   expect(screen.getByRole("checkbox", { name: "0%〜10%" })).toBeInTheDocument();
+});
+
+test("isOpenFilterAccordionがfalseの場合、アコーディオンが非表示になっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueNotOpenFilterAccordion);
+  render(<FilterAccordion />);
+  expect(screen.queryByRole("region", { name: "絞り込み" })).not.toBeInTheDocument();
 });

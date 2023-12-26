@@ -7,6 +7,14 @@ import { act } from "react-dom/test-utils";
 const mockGetCategoryCheckBoxItems = jest.fn();
 const mockGetCountryCheckBoxItems = jest.fn();
 const mockGetCharacteristicCheckBoxItems = jest.fn();
+const mockHandleClickFilterButton = jest.fn();
+
+jest.mock("hooks/useClickFilterButton", () => ({
+  __esModule: true,
+  default: () => ({
+    handleClickFilterButton: mockHandleClickFilterButton,
+  }),
+}));
 
 const mockWorldViews = Array.from({ length: 30 }, (_, index) => ({
   id: index + 1,
@@ -114,7 +122,7 @@ test("絞り込みボタン押下でonOpenFilterDrawer関数が実行される�
   await act(async () => {
     await user.click(filterButton);
   });
-  expect(mockDispatch).toHaveBeenCalledWith({ type: "OPEN_FILTER_DRAWER" });
+  expect(mockHandleClickFilterButton).toHaveBeenCalledTimes(1);
 });
 
 test("絞り込みのアコーディオンがレンダリングされていること", () => {

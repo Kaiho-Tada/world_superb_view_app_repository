@@ -10,6 +10,7 @@ import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxI
 import useSearchWorldView from "hooks/api/worldView/useSearchWorldView";
 import useDebounce from "hooks/debounce/useDebounce";
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
+import useClickFilterButton from "hooks/useClickFilterButton";
 import filterIcon from "img/filterIcon.png";
 import { memo, useEffect, useState } from "react";
 
@@ -20,6 +21,7 @@ const WorldViewList = memo(() => {
   const { getCharacteristicCheckBoxItems } = useGetCharacteristicCheckBoxItems();
   const { handleSearchWorldView } = useSearchWorldView();
   const { debounce } = useDebounce(1500);
+  const { handleClickFilterButton } = useClickFilterButton();
   useEffect(() => {
     if (state.shouldDebounce) {
       debounce(handleSearchWorldView);
@@ -65,22 +67,26 @@ const WorldViewList = memo(() => {
   }, [state.worldViews]);
 
   return (
-    <Box my="10" mx="5">
-      <Button
-        display={{ base: "flex", lg: "none" }}
-        colorScheme="red"
-        variant="outline"
-        onClick={() => dispatch({ type: "OPEN_FILTER_DRAWER" })}
-        bg="white"
-        mb="4"
-      >
-        <Image boxSize="20px" src={filterIcon} color="red" mr="2" />
-        <Heading size="sm">絞り込み</Heading>
-      </Button>
+    <Box my="10" ml="10">
+      <Flex mb="6">
+        <Button
+          colorScheme="red"
+          variant="outline"
+          onClick={handleClickFilterButton}
+          size="lg"
+          bg="gray.100"
+          _hover={{ cursor: "pointer", opacity: "0.8" }}
+          borderRadius="0"
+        >
+          <Image boxSize="20px" src={filterIcon} color="red" mr="2" />
+          <Heading size="sm">絞り込み</Heading>
+        </Button>
+      </Flex>
+
       <FilterDrawer />
       <Flex>
         <FilterAccordion />
-        <Box w={{ sm: "100%", lg: "78%" }}>
+        <Box w={{ sm: "100%", lg: state.isOpenFilterAccordion ? "78%" : "100%" }}>
           {state.loadingSearchWorldViews ? (
             <Loading />
           ) : (

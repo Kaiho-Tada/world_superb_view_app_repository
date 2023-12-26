@@ -30,7 +30,9 @@ export type Action =
   | { type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: CharacteristicCheckBoxItem[] }
   | { type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS"; payload: boolean }
   | { type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS"; payload: boolean }
-  | { type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: boolean };
+  | { type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: boolean }
+  | { type: "OPEN_FILTER_ACCODION" }
+  | { type: "CLOSE_FILTER_ACCODION" };
 
 type State = {
   countryStates: string[];
@@ -55,6 +57,7 @@ type State = {
   checkedMonthLabels: string[];
   bmiCheckBoxItems: BmiCheckBoxItem[];
   checkedBmiLabels: string[];
+  isOpenFilterAccordion: boolean;
 };
 
 const initialState: State = {
@@ -109,6 +112,7 @@ const initialState: State = {
   countryCheckBoxItems: [],
   loadingCharacteristicCheckBoxItems: false,
   characteristicCheckBoxItems: [],
+  isOpenFilterAccordion: true,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -175,6 +179,12 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS":
       return { ...state, loadingCharacteristicCheckBoxItems: action.payload };
+
+    case "OPEN_FILTER_ACCODION":
+      return { ...state, isOpenFilterAccordion: true };
+
+    case "CLOSE_FILTER_ACCODION":
+      return { ...state, isOpenFilterAccordion: false };
 
     default:
       return state;
