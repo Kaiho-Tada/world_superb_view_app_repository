@@ -74,10 +74,10 @@ class WorldView < ApplicationRecord
     return self if months.nil?
 
     numeric_months = months.map { |month| month.gsub(/[^0-9]/, "").to_i }
-
-    select do |world_view|
+    world_view_ids = WorldView.select do |world_view|
       (extract_months_range(world_view.best_season) & numeric_months).any?
-    end
+    end.pluck(:id)
+    where(id: world_view_ids)
   }
 
   scope :filter_by_country_bmi, lambda { |bmi_ranges|
