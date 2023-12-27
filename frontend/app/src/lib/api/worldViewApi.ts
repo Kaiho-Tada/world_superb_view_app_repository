@@ -14,6 +14,7 @@ const worldViewApi = () => {
         months: state.checkedMonthLabels,
         bmiRanges: state.checkedBmiLabels,
         keyword: state.keyword,
+        sortCriteria: state.sortCriteria,
       },
     });
   return { searchWorldViewApi, getAllWorldViewsApi };

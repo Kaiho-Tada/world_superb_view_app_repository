@@ -480,3 +480,16 @@ test("SET_SHOULD_DEBOUNCEアクションがディスパッチされた際、shou
 
   expect(result.current.state.shouldDebounce).toBe(true);
 });
+
+test("SET_SORT_CRITERIAアクションがディスパッチされた際、sortCriteriaが指定された文字列に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.sortCriteria).toEqual("");
+
+  act(() => {
+    result.current.dispatch({ type: "SET_SORT_CRITERIA", payload: "latest" });
+  });
+
+  expect(result.current.state.sortCriteria).toEqual("latest");
+});

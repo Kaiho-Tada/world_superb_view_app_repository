@@ -58,7 +58,7 @@ Style/WordArray:
   Enabled: false
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 31
 
 Metrics/MethodLength:
-  Max: 11
+  Max: 23

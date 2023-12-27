@@ -125,6 +125,15 @@ test("絞り込みボタン押下でonOpenFilterDrawer関数が実行される�
   expect(mockHandleClickFilterButton).toHaveBeenCalledTimes(1);
 });
 
+test("並べ替えのSelectBoxがレンダリングされていること", () => {
+  render(
+    <WorldViewListProvider>
+      <WorldViewList />
+    </WorldViewListProvider>
+  );
+  expect(screen.getByRole("combobox", { name: "並び替えオプションの選択" })).toBeInTheDocument();
+});
+
 test("絞り込みのアコーディオンがレンダリングされていること", () => {
   render(
     <WorldViewListProvider>

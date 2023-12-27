@@ -219,5 +219,55 @@ RSpec.describe WorldView, type: :model do
         expect(result_world_view).to eq result_world_view.distinct
       end
     end
+
+    describe "sort_by_latestスコープのテスト" do
+      it "レコードが新しい順に取得できること" do
+        world_view1 = create(:world_view, created_at: 3.days.ago)
+        world_view2 = create(:world_view, created_at: 2.days.ago)
+        world_view3 = create(:world_view, created_at: 1.day.ago)
+        expect(WorldView.sort_by_latest).to eq [world_view3, world_view2, world_view1]
+      end
+    end
+
+    describe "sort_by_country_bmiスコープのテスト" do
+      it "関連のCountryのBMIの値が低い順にレコードが取得できること" do
+        world_view1 = create(:world_view)
+        world_view2 = create(:world_view)
+        world_view3 = create(:world_view)
+        create(:world_view_country, world_view: world_view1, country: create(:country, bmi: 13.6))
+        create(:world_view_country, world_view: world_view2, country: create(:country, bmi: -0.5))
+        create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -22.2))
+        expect(WorldView.sort_by_country_bmi).to eq [world_view3, world_view2, world_view1]
+      end
+    end
+
+    describe "sort_by_country_risk_levelスコープのテスト" do
+      it "関連のCountryのrisk_levelの値が低い順にレコードが取得できること" do
+        world_view1 = create(:world_view)
+        world_view2 = create(:world_view)
+        world_view3 = create(:world_view)
+        world_view4 = create(:world_view)
+        create(:world_view_country, world_view: world_view1, country: create(:country, risk_level: 4))
+        create(:world_view_country, world_view: world_view2, country: create(:country, risk_level: 3))
+        create(:world_view_country, world_view: world_view3, country: create(:country, risk_level: 2))
+        create(:world_view_country, world_view: world_view4, country: create(:country, risk_level: 1))
+        expect(WorldView.sort_by_country_risk_level).to eq [world_view4, world_view3, world_view2, world_view1]
+      end
+    end
+
+    describe "sort_by_favorite_countスコープのテスト" do
+      it "favoriteの数が多い順にレコードが取得できること" do
+        world_view1 = create(:world_view)
+        world_view2 = create(:world_view)
+        world_view3 = create(:world_view)
+        create(:world_view_favorite, world_view: world_view1, user: create(:user))
+        create(:world_view_favorite, world_view: world_view2, user: create(:user))
+        create(:world_view_favorite, world_view: world_view2, user: create(:user))
+        create(:world_view_favorite, world_view: world_view3, user: create(:user))
+        create(:world_view_favorite, world_view: world_view3, user: create(:user))
+        create(:world_view_favorite, world_view: world_view3, user: create(:user))
+        expect(WorldView.sort_by_favorite_count).to eq [world_view3, world_view2, world_view1]
+      end
+    end
   end
 end

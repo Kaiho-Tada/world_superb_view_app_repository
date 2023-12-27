@@ -30,7 +30,8 @@ export type Action =
   | { type: "OPEN_FILTER_ACCODION" }
   | { type: "CLOSE_FILTER_ACCODION" }
   | { type: "SET_WORLD_VIEWS"; payload: WorldView[] }
-  | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean };
+  | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean }
+  | { type: "SET_SORT_CRITERIA"; payload: string };
 
 type State = {
   countryStates: string[];
@@ -56,6 +57,7 @@ type State = {
   isOpenFilterAccordion: boolean;
   worldViews: Array<WorldView>;
   shouldDebounce: boolean;
+  sortCriteria: string;
 };
 
 const initialState: State = {
@@ -111,6 +113,7 @@ const initialState: State = {
   isOpenFilterAccordion: true,
   worldViews: [],
   shouldDebounce: false,
+  sortCriteria: "",
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -183,6 +186,9 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_SHOULD_DEBOUNCE":
       return { ...state, shouldDebounce: action.payload };
+
+    case "SET_SORT_CRITERIA":
+      return { ...state, sortCriteria: action.payload };
 
     default:
       return state;

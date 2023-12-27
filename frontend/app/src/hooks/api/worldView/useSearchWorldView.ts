@@ -1,13 +1,12 @@
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import useMessage from "hooks/useMessage";
 import WorldViewApi from "lib/api/worldViewApi";
-import { useCallback } from "react";
 
 const useSearchWorldView = () => {
-  const { state, dispatch } = useWorldViewListContext();
+  const { dispatch } = useWorldViewListContext();
   const { searchWorldViewApi } = WorldViewApi();
   const { showMessage } = useMessage();
-  const handleSearchWorldView = useCallback(async () => {
+  const handleSearchWorldView = async () => {
     dispatch({ type: "SET_LOADING_SEARCH_WORLDVIEWS", payload: true });
     try {
       const res = await searchWorldViewApi();
@@ -20,15 +19,7 @@ const useSearchWorldView = () => {
     } finally {
       dispatch({ type: "SET_LOADING_SEARCH_WORLDVIEWS", payload: false });
     }
-  }, [
-    state.checkedCategoryLabels,
-    state.checkedCountryLabels,
-    state.checkedCharacteristicLabels,
-    state.checkedRiskLevelLabels,
-    state.checkedMonthLabels,
-    state.checkedBmiLabels,
-    state.keyword,
-  ]);
+  };
   return { handleSearchWorldView };
 };
 export default useSearchWorldView;

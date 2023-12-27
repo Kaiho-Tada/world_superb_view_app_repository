@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Heading, Image, Wrap, WrapItem } from "@chakra-ui/react";
 import Loading from "components/atoms/Loading";
+import SortSelectBox from "components/atoms/SortSelectBox";
 import Pagination from "components/molecules/Pagination";
 import FilterAccordion from "components/organisms/FilterAccordion";
 import FilterDrawer from "components/organisms/FilterDrawer";
@@ -37,6 +38,7 @@ const WorldViewList = memo(() => {
     state.checkedMonthLabels,
     state.checkedBmiLabels,
     state.keyword,
+    state.sortCriteria,
   ]);
   useEffect(() => {
     getCategoryCheckBoxItems();
@@ -81,8 +83,8 @@ const WorldViewList = memo(() => {
           <Image boxSize="20px" src={filterIcon} color="red" mr="2" />
           <Heading size="sm">絞り込み</Heading>
         </Button>
+        <SortSelectBox />
       </Flex>
-
       <FilterDrawer />
       <Flex>
         <FilterAccordion />

@@ -14,11 +14,14 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
   end
 
   describe "GET api/v1/world_views/search" do
-    let!(:matera_cave_dwellings) { create(:world_view, name: "マテーラの洞窟住居") }
-    let!(:civita_di_bagnoregio) { create(:world_view, name: "チヴィタディバニョレージョ") }
-    let!(:machu_picchu) { create(:world_view, name: "マチュピチュ") }
+    # let!(:matera_cave_dwellings) { create(:world_view, name: "マテーラの洞窟住居") }
+    # let!(:civita_di_bagnoregio) { create(:world_view, name: "チヴィタディバニョレージョ") }
+    # let!(:machu_picchu) { create(:world_view, name: "マチュピチュ") }
 
     describe "filter_by_category_nameスコープのテスト" do
+      let!(:matera_cave_dwellings) { create(:world_view, name: "マテーラの洞窟住居") }
+      let!(:civita_di_bagnoregio) { create(:world_view, name: "チヴィタディバニョレージョ") }
+      let!(:machu_picchu) { create(:world_view, name: "マチュピチュ") }
       let!(:category_city) { create(:category, name: "都市") }
       let!(:category_cave) { create(:category, name: "洞窟") }
       before do
@@ -54,6 +57,9 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
     end
 
     describe "filter_by_country_nameスコープのテスト" do
+      let!(:matera_cave_dwellings) { create(:world_view, name: "マテーラの洞窟住居") }
+      let!(:civita_di_bagnoregio) { create(:world_view, name: "チヴィタディバニョレージョ") }
+      let!(:machu_picchu) { create(:world_view, name: "マチュピチュ") }
       let!(:country_italy) { create(:country, name: "イタリア") }
       let!(:country_peru) { create(:country, name: "ペルー") }
       before do
@@ -89,6 +95,9 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
     end
 
     describe "filter_by_characteristic_nameスコープのテスト" do
+      let!(:matera_cave_dwellings) { create(:world_view, name: "マテーラの洞窟住居") }
+      let!(:civita_di_bagnoregio) { create(:world_view, name: "チヴィタディバニョレージョ") }
+      let!(:machu_picchu) { create(:world_view, name: "マチュピチュ") }
       let!(:characteristic_historic) { create(:characteristic, name: "歴史・文化的") }
       let!(:characteristic_fantasy) { create(:characteristic, name: "幻想・神秘的") }
       before do
@@ -124,6 +133,9 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
     end
 
     describe "filter_by_country_risk_levelスコープのテスト" do
+      let!(:matera_cave_dwellings) { create(:world_view, name: "マテーラの洞窟住居") }
+      let!(:civita_di_bagnoregio) { create(:world_view, name: "チヴィタディバニョレージョ") }
+      let!(:machu_picchu) { create(:world_view, name: "マチュピチュ") }
       let!(:country_italy) { create(:country, name: "イタリア", risk_level: 0) }
       let!(:country_peru) { create(:country, name: "ペルー", risk_level: 1) }
       before do
@@ -159,6 +171,9 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
     end
 
     describe "filter_by_keywordスコープのテスト" do
+      let!(:matera_cave_dwellings) { create(:world_view, name: "マテーラの洞窟住居") }
+      let!(:civita_di_bagnoregio) { create(:world_view, name: "チヴィタディバニョレージョ") }
+      let!(:machu_picchu) { create(:world_view, name: "マチュピチュ") }
       let!(:country_italy) { create(:country, name: "イタリア") }
       let!(:country_peru) { create(:country, name: "ペルー") }
       before do
@@ -250,6 +265,76 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
         json = JSON.parse(response.body)
         expect(response).to have_http_status(200)
         expect(json).to eq json.uniq
+      end
+    end
+
+    describe "sort_by_latestスコープのテスト" do
+      it "レコードが新しい順に取得できること" do
+        world_view1 = create(:world_view, created_at: 3.days.ago)
+        world_view2 = create(:world_view, created_at: 2.days.ago)
+        world_view3 = create(:world_view, created_at: 1.day.ago)
+        get api_v1_world_views_search_path, params: {
+          sort_criteria: "latest"
+        }
+        json = JSON.parse(response.body)
+        expect(response).to have_http_status(200)
+        expect(json.pluck("id")).to eq [world_view3, world_view2, world_view1].pluck(:id)
+      end
+    end
+
+    describe "sort_by_country_bmiスコープのテスト" do
+      it "関連のCountryのBMIの値が低い順にレコードが取得できること" do
+        world_view1 = create(:world_view)
+        world_view2 = create(:world_view)
+        world_view3 = create(:world_view)
+        create(:world_view_country, world_view: world_view1, country: create(:country, bmi: 13.6))
+        create(:world_view_country, world_view: world_view2, country: create(:country, bmi: -0.5))
+        create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -22.2))
+        get api_v1_world_views_search_path, params: {
+          sort_criteria: "bmi"
+        }
+        json = JSON.parse(response.body)
+        expect(response).to have_http_status(200)
+        expect(json.pluck("id")).to eq [world_view3, world_view2, world_view1].pluck(:id)
+      end
+    end
+
+    describe "sort_by_country_risk_levelスコープのテスト" do
+      it "関連のCountryのrisk_levelの値が低い順にレコードが取得できること" do
+        world_view1 = create(:world_view)
+        world_view2 = create(:world_view)
+        world_view3 = create(:world_view)
+        world_view4 = create(:world_view)
+        create(:world_view_country, world_view: world_view1, country: create(:country, risk_level: 4))
+        create(:world_view_country, world_view: world_view2, country: create(:country, risk_level: 3))
+        create(:world_view_country, world_view: world_view3, country: create(:country, risk_level: 2))
+        create(:world_view_country, world_view: world_view4, country: create(:country, risk_level: 1))
+        get api_v1_world_views_search_path, params: {
+          sort_criteria: "riskLevel"
+        }
+        json = JSON.parse(response.body)
+        expect(response).to have_http_status(200)
+        expect(json.pluck("id")).to eq [world_view4, world_view3, world_view2, world_view1].pluck(:id)
+      end
+    end
+
+    describe "sort_by_favorite_countスコープのテスト" do
+      it "favoriteの数が多い順にレコードが取得できること" do
+        world_view1 = create(:world_view)
+        world_view2 = create(:world_view)
+        world_view3 = create(:world_view)
+        create(:world_view_favorite, world_view: world_view1, user: create(:user))
+        create(:world_view_favorite, world_view: world_view2, user: create(:user))
+        create(:world_view_favorite, world_view: world_view2, user: create(:user))
+        create(:world_view_favorite, world_view: world_view3, user: create(:user))
+        create(:world_view_favorite, world_view: world_view3, user: create(:user))
+        create(:world_view_favorite, world_view: world_view3, user: create(:user))
+        get api_v1_world_views_search_path, params: {
+          sort_criteria: "favorite"
+        }
+        json = JSON.parse(response.body)
+        expect(response).to have_http_status(200)
+        expect(json.pluck("id")).to eq [world_view3, world_view2, world_view1].pluck(:id)
       end
     end
   end

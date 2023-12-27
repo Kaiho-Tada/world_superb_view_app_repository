@@ -89,6 +89,24 @@ class WorldView < ApplicationRecord
     joins(:countries).where("countries.id IN (#{country_ids})").distinct
   }
 
+  scope :sort_by_latest, lambda {
+    order(created_at: :desc)
+  }
+
+  scope :sort_by_country_bmi, lambda {
+    joins(:countries).select("world_views.*, countries.bmi").order("countries.bmi ASC")
+  }
+
+  scope :sort_by_country_risk_level, lambda {
+    joins(:countries).select("world_views.*, countries.risk_level").order("countries.risk_level ASC")
+  }
+
+  scope :sort_by_favorite_count, lambda {
+    left_joins(:world_view_favorites)
+      .group(:id)
+      .order("COUNT(world_view_favorites.id) DESC")
+  }
+
   def self.extract_months_range(input)
     ranges = input.scan(/(\d+)月〜(\d+)月/)
 
