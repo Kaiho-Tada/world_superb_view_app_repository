@@ -2,7 +2,7 @@ import Home from "components/pages/Home";
 import Login from "components/pages/Login";
 import Profile from "components/pages/Profile";
 import SignUp from "components/pages/SignUp";
-import WorldViewList from "components/pages/WorldViewList";
+import WorldViewListPage from "components/pages/WorldViewListPage";
 import CommonLayout from "components/templates/CommonLayout";
 import GuestRestrictedRoute from "components/templates/GuestRestrictedRoute";
 import PrivateRoute from "components/templates/PrivateRoute";
@@ -19,7 +19,7 @@ const Router: FC = memo(() => (
         element={
           <CommonLayout>
             <WorldViewListProvider>
-              <WorldViewList />
+              <WorldViewListPage />
             </WorldViewListProvider>
           </CommonLayout>
         }

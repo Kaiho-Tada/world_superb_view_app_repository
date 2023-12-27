@@ -1,11 +1,11 @@
-import { Box, Flex, Wrap, WrapItem } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import FilterButton from "components/atoms/FilterButton";
 import Loading from "components/atoms/Loading";
 import SortSelectBox from "components/atoms/SortSelectBox";
 import Pagination from "components/molecules/Pagination";
 import FilterAccordion from "components/organisms/FilterAccordion";
 import FilterDrawer from "components/organisms/FilterDrawer";
-import WorldViewCard from "components/organisms/worldView/WorldViewCard";
+import WorldViewList from "components/organisms/worldView/WorldViewList";
 import useGetCategoryCheckBoxItems from "hooks/api/category/useGetCategoryCheckBoxItems";
 import useGetCharacteristicCheckBoxItems from "hooks/api/characteristic/useGetCharacteristicCheckBoxItems";
 import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxItems";
@@ -14,7 +14,7 @@ import useDebounce from "hooks/debounce/useDebounce";
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import { memo, useEffect, useState } from "react";
 
-const WorldViewList = memo(() => {
+const WorldViewListPage = memo(() => {
   const { state, dispatch } = useWorldViewListContext();
   const { getCategoryCheckBoxItems } = useGetCategoryCheckBoxItems();
   const { getCountryCheckBoxItems } = useGetCountryCheckBoxItems();
@@ -80,27 +80,7 @@ const WorldViewList = memo(() => {
             <Loading />
           ) : (
             <>
-              <Wrap role="list" aria-label="絶景一覧">
-                {currentViews.map((worldView) => (
-                  <WrapItem
-                    role="listitem"
-                    w={{ sm: "100%", md: "49%" }}
-                    key={worldView.id}
-                    aria-label={`絶景一覧: ${worldView.name}`}
-                  >
-                    <WorldViewCard
-                      id={worldView.id}
-                      name={worldView.name}
-                      imageUrl={worldView.imageUrl}
-                      bestSeason={worldView.bestSeason}
-                      countries={worldView.countries}
-                      categories={worldView.categories}
-                      characteristics={worldView.characteristics}
-                      favorites={worldView.worldViewFavorites}
-                    />
-                  </WrapItem>
-                ))}
-              </Wrap>
+              <WorldViewList currentViews={currentViews} />
               <Pagination
                 pageCount={pageCount}
                 currentPage={currentPage}
@@ -114,4 +94,4 @@ const WorldViewList = memo(() => {
   );
 });
 
-export default WorldViewList;
+export default WorldViewListPage;
