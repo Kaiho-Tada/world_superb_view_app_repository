@@ -130,7 +130,7 @@ describe("ログイン済みの挙動のテスト", () => {
       );
       const superbViewsListLink = screen.getByRole("link", { name: "絶景一覧" });
       await user.click(superbViewsListLink);
-      expect(mockUseNavigate).toHaveBeenCalledWith("/superb_views");
+      expect(mockUseNavigate).toHaveBeenCalledWith("/world_views");
       expect(mockUseNavigate).toHaveBeenCalledTimes(1);
     });
   });

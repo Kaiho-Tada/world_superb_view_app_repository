@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Header: FC = memo(() => {
   const navigate = useNavigate();
   const onClickHome = useCallback(() => navigate("/home"), [navigate]);
-  const onClickSuperbViews = useCallback(() => navigate("/superb_views"), [navigate]);
+  const onClickSuperbViews = useCallback(() => navigate("/world_views"), [navigate]);
   const { isSignedIn } = useAuth();
 
   return (

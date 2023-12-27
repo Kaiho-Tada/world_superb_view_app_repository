@@ -15,7 +15,7 @@ const Router: FC = memo(() => (
   <Routes>
     <Route path="/" element={<PrivateRoute />}>
       <Route
-        path="/superb_views"
+        path="/world_views"
         element={
           <CommonLayout>
             <WorldViewListProvider>
