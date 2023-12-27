@@ -1,4 +1,5 @@
-import { Box, Button, Flex, Heading, Image, Wrap, WrapItem } from "@chakra-ui/react";
+import { Box, Flex, Wrap, WrapItem } from "@chakra-ui/react";
+import FilterButton from "components/atoms/FilterButton";
 import Loading from "components/atoms/Loading";
 import SortSelectBox from "components/atoms/SortSelectBox";
 import Pagination from "components/molecules/Pagination";
@@ -11,8 +12,6 @@ import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxI
 import useSearchWorldView from "hooks/api/worldView/useSearchWorldView";
 import useDebounce from "hooks/debounce/useDebounce";
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
-import useClickFilterButton from "hooks/useClickFilterButton";
-import filterIcon from "img/filterIcon.png";
 import { memo, useEffect, useState } from "react";
 
 const WorldViewList = memo(() => {
@@ -22,7 +21,6 @@ const WorldViewList = memo(() => {
   const { getCharacteristicCheckBoxItems } = useGetCharacteristicCheckBoxItems();
   const { handleSearchWorldView } = useSearchWorldView();
   const { debounce } = useDebounce(1500);
-  const { handleClickFilterButton } = useClickFilterButton();
   useEffect(() => {
     if (state.shouldDebounce) {
       debounce(handleSearchWorldView);
@@ -71,18 +69,7 @@ const WorldViewList = memo(() => {
   return (
     <Box my="10" ml="10">
       <Flex mb="6">
-        <Button
-          colorScheme="red"
-          variant="outline"
-          onClick={handleClickFilterButton}
-          size="lg"
-          bg="gray.100"
-          _hover={{ cursor: "pointer", opacity: "0.8" }}
-          borderRadius="0"
-        >
-          <Image boxSize="20px" src={filterIcon} color="red" mr="2" />
-          <Heading size="sm">絞り込み</Heading>
-        </Button>
+        <FilterButton />
         <SortSelectBox />
       </Flex>
       <FilterDrawer />

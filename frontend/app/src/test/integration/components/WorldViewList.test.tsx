@@ -7,12 +7,12 @@ import { act } from "react-dom/test-utils";
 const mockGetCategoryCheckBoxItems = jest.fn();
 const mockGetCountryCheckBoxItems = jest.fn();
 const mockGetCharacteristicCheckBoxItems = jest.fn();
-const mockHandleClickFilterButton = jest.fn();
 
+// useClickFilterButton関数内のuseBreakpointValue関数の戻り値がundefinedになりエラーが発生するのを回避
 jest.mock("hooks/useClickFilterButton", () => ({
   __esModule: true,
   default: () => ({
-    handleClickFilterButton: mockHandleClickFilterButton,
+    handleClickFilterButton: jest.fn(),
   }),
 }));
 
@@ -100,29 +100,6 @@ test("初回レンダリング時にgetAllCharacteristicsWithCheckBoxData関数�
     </WorldViewListProvider>
   );
   expect(mockGetCharacteristicCheckBoxItems).toHaveBeenCalledTimes(1);
-});
-
-test("絞り込みボタンがレンダリングされていること", () => {
-  render(
-    <WorldViewListProvider>
-      <WorldViewList />
-    </WorldViewListProvider>
-  );
-  expect(screen.getByRole("button", { name: "絞り込み" })).toBeInTheDocument();
-});
-
-test("絞り込みボタン押下でonOpenFilterDrawer関数が実行されること", async () => {
-  const user = userEvent.setup();
-  render(
-    <WorldViewListProvider>
-      <WorldViewList />
-    </WorldViewListProvider>
-  );
-  const filterButton = screen.getByRole("button", { name: "絞り込み" });
-  await act(async () => {
-    await user.click(filterButton);
-  });
-  expect(mockHandleClickFilterButton).toHaveBeenCalledTimes(1);
 });
 
 test("並べ替えのSelectBoxがレンダリングされていること", () => {
