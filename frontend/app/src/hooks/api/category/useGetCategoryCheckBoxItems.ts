@@ -1,6 +1,6 @@
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import useMessage from "hooks/useMessage";
-import getAllCategoriesApi from "lib/api/category";
+import getAllCategoriesApi from "lib/api/categoryApi";
 import { Category } from "types/api/category/category";
 
 const useGetCategoryCheckBoxItems = () => {

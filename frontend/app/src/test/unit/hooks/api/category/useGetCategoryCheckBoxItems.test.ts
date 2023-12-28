@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import useGetCategoryCheckBoxItems from "hooks/api/category/useGetCategoryCheckBoxItems";
-import mockGetAllCategoriesApi from "lib/api/category";
+import mockGetAllCategoriesApi from "lib/api/categoryApi";
 import { act } from "react-dom/test-utils";
 
 const mockUseToast = jest.fn();
@@ -9,7 +9,7 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-jest.mock("lib/api/category", () => ({
+jest.mock("lib/api/categoryApi", () => ({
   __esModule: true,
   default: jest.fn(),
 }));

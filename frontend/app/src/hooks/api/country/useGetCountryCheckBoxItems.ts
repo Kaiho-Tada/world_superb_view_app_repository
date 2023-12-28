@@ -1,6 +1,6 @@
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import useMessage from "hooks/useMessage";
-import getAllCountriesApi from "lib/api/country";
+import getAllCountriesApi from "lib/api/countryApi";
 import { Country } from "types/api/country/country";
 
 const useGetCountryCheckBoxItems = () => {

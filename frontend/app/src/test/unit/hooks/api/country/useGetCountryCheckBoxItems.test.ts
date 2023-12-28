@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxItems";
-import mockGetAllCountriesApi from "lib/api/country";
+import mockGetAllCountriesApi from "lib/api/countryApi";
 import { act } from "react-dom/test-utils";
 
 const mockUseToast = jest.fn();
@@ -9,7 +9,7 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-jest.mock("lib/api/country", () => ({
+jest.mock("lib/api/countryApi", () => ({
   __esModule: true,
   default: jest.fn(),
 }));

@@ -1,6 +1,6 @@
 import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import useMessage from "hooks/useMessage";
-import getAllCharacteristicsApi from "lib/api/characteristic";
+import getAllCharacteristicsApi from "lib/api/characteristicApi";
 import { Characteristic } from "types/api/characteristic/characteristic";
 
 const useGetCharacteristicCheckBoxItems = () => {

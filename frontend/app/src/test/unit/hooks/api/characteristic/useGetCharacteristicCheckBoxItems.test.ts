@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import useGetAllCharacteristicsWithCheckBoxData from "hooks/api/characteristic/useGetCharacteristicCheckBoxItems";
-import mockGetAllCharacteristicsApi from "lib/api/characteristic";
+import mockGetAllCharacteristicsApi from "lib/api/characteristicApi";
 import { act } from "react-dom/test-utils";
 
 const mockUseToast = jest.fn();
@@ -9,7 +9,7 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-jest.mock("lib/api/characteristic", () => ({
+jest.mock("lib/api/characteristicApi", () => ({
   __esModule: true,
   default: jest.fn(),
 }));
