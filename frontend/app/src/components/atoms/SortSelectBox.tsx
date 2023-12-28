@@ -1,9 +1,11 @@
 import { Flex, Image, Select } from "@chakra-ui/react";
+import { useWorldViewListContext } from "hooks/providers/WorldViewListProvider";
 import useSortWordView from "hooks/worldView/sort/useSortWordView";
 import sortIcon from "img/sortIcon.png";
 
 const SortSelectBox = () => {
   const { handleSortChangeWorldView } = useSortWordView();
+  const { state } = useWorldViewListContext();
 
   return (
     <Flex
@@ -25,6 +27,7 @@ const SortSelectBox = () => {
         _hover={{ cursor: "pointer" }}
         onChange={handleSortChangeWorldView}
         aria-label="並び替えオプションの選択"
+        disabled={state.loadingSearchWorldViews}
       >
         <option value="BMI値が低い順">BMI値が低い順</option>
         <option value="新しい順">新しい順</option>
