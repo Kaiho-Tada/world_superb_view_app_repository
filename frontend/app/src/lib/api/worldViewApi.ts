@@ -3,7 +3,6 @@ import client from "./client";
 
 const worldViewApi = () => {
   const { state } = useWorldViewListContext();
-  const getAllWorldViewsApi = () => client.get("/world_views");
   const searchWorldViewApi = () =>
     client.get("/world_views/search", {
       params: {
@@ -17,6 +16,6 @@ const worldViewApi = () => {
         sortCriteria: state.sortCriteria,
       },
     });
-  return { searchWorldViewApi, getAllWorldViewsApi };
+  return { searchWorldViewApi };
 };
 export default worldViewApi;
