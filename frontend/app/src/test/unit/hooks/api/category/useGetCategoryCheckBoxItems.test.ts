@@ -71,11 +71,19 @@ test("categoryCheckBoxItems取得失敗時のテスト", async () => {
   await act(async () => {
     await result.current.getCategoryCheckBoxItems();
   });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS",
+    payload: true,
+  });
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "categoriesの取得に失敗しました。",
     status: "error",
     position: "top",
     duration: 5000,
     isClosable: true,
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS",
+    payload: false,
   });
 });

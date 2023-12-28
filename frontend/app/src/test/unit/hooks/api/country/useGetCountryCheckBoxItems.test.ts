@@ -78,11 +78,19 @@ test("countryCheckBoxItems取得失敗時のテスト", async () => {
   await act(async () => {
     await result.current.getCountryCheckBoxItems();
   });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS",
+    payload: true,
+  });
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "countriesの取得に失敗しました。",
     status: "error",
     position: "top",
     duration: 5000,
     isClosable: true,
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS",
+    payload: false,
   });
 });
