@@ -1,7 +1,6 @@
 import { renderHook } from "@testing-library/react";
-import MockAdapter from "axios-mock-adapter";
 import useGetCountryCheckBoxItems from "hooks/api/country/useGetCountryCheckBoxItems";
-import client from "lib/api/client";
+import mockGetAllCountriesApi from "lib/api/country";
 import { act } from "react-dom/test-utils";
 
 const mockUseToast = jest.fn();
@@ -10,7 +9,10 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-const mockAxios = new MockAdapter(client);
+jest.mock("lib/api/country", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
 const mockDispatch = jest.fn();
 jest.mock("hooks/providers/WorldViewListProvider", () => ({
@@ -20,27 +22,30 @@ jest.mock("hooks/providers/WorldViewListProvider", () => ({
 }));
 
 test("countryCheckBoxItems取得成功時のテスト", async () => {
-  mockAxios.onGet("/countries").reply(200, [
-    {
-      id: 1,
-      name: "アメリカ",
-      state: {
+  (mockGetAllCountriesApi as jest.Mock).mockResolvedValue({
+    data: [
+      {
         id: 1,
-        name: "北米",
+        name: "アメリカ",
+        state: {
+          id: 1,
+          name: "北米",
+        },
       },
-    },
-    {
-      id: 2,
-      name: "中国",
-      state: {
+      {
         id: 2,
-        name: "アジア",
+        name: "中国",
+        state: {
+          id: 2,
+          name: "アジア",
+        },
       },
-    },
-  ]);
+    ],
+  });
+
   const { result } = renderHook(() => useGetCountryCheckBoxItems());
-  await act(() => {
-    result.current.getCountryCheckBoxItems();
+  await act(async () => {
+    await result.current.getCountryCheckBoxItems();
   });
   expect(mockDispatch).toHaveBeenCalledWith({
     type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS",
@@ -68,10 +73,10 @@ test("countryCheckBoxItems取得成功時のテスト", async () => {
 });
 
 test("countryCheckBoxItems取得失敗時のテスト", async () => {
-  mockAxios.onGet("/countries").reply(500);
+  (mockGetAllCountriesApi as jest.Mock).mockRejectedValue(new Error());
   const { result } = renderHook(() => useGetCountryCheckBoxItems());
-  await act(() => {
-    result.current.getCountryCheckBoxItems();
+  await act(async () => {
+    await result.current.getCountryCheckBoxItems();
   });
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "countriesの取得に失敗しました。",

@@ -1,7 +1,6 @@
 import { renderHook } from "@testing-library/react";
-import MockAdapter from "axios-mock-adapter";
 import useGetCategoryCheckBoxItems from "hooks/api/category/useGetCategoryCheckBoxItems";
-import client from "lib/api/client";
+import mockGetAllCategoriesApi from "lib/api/category";
 import { act } from "react-dom/test-utils";
 
 const mockUseToast = jest.fn();
@@ -10,29 +9,36 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-const mockAxios = new MockAdapter(client);
+jest.mock("lib/api/category", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
 const mockDispatch = jest.fn();
 jest.mock("hooks/providers/WorldViewListProvider", () => ({
   useWorldViewListContext: () => ({
     dispatch: mockDispatch,
   }),
 }));
+
 test("categoryCheckBoxItems取得成功時のテスト", async () => {
-  mockAxios.onGet("/categories").reply(200, [
-    {
-      id: 1,
-      name: "洞窟",
-      classification: "自然",
-    },
-    {
-      id: 2,
-      name: "城",
-      classification: "人工",
-    },
-  ]);
+  (mockGetAllCategoriesApi as jest.Mock).mockResolvedValue({
+    data: [
+      {
+        id: 1,
+        name: "洞窟",
+        classification: "自然",
+      },
+      {
+        id: 2,
+        name: "城",
+        classification: "人工",
+      },
+    ],
+  });
   const { result } = renderHook(() => useGetCategoryCheckBoxItems());
-  await act(() => {
-    result.current.getCategoryCheckBoxItems();
+  await act(async () => {
+    await result.current.getCategoryCheckBoxItems();
   });
   expect(mockDispatch).toHaveBeenCalledWith({
     type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS",
@@ -60,10 +66,10 @@ test("categoryCheckBoxItems取得成功時のテスト", async () => {
 });
 
 test("categoryCheckBoxItems取得失敗時のテスト", async () => {
-  mockAxios.onGet("/categories").reply(500);
+  (mockGetAllCategoriesApi as jest.Mock).mockRejectedValue(new Error());
   const { result } = renderHook(() => useGetCategoryCheckBoxItems());
-  await act(() => {
-    result.current.getCategoryCheckBoxItems();
+  await act(async () => {
+    await result.current.getCategoryCheckBoxItems();
   });
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "categoriesの取得に失敗しました。",
