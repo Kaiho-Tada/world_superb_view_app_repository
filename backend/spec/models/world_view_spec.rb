@@ -12,12 +12,6 @@ RSpec.describe WorldView, type: :model do
       expect(world_view.errors.full_messages).to eq ["絶景名を入力してください"]
     end
 
-    it "panorama_urlがない場合、無効な状態であること" do
-      world_view = build(:world_view, panorama_url: nil)
-      world_view.valid?
-      expect(world_view.errors.full_messages).to eq ["パノラマURLを入力してください"]
-    end
-
     it "best_seasonがない場合、無効な状態であること" do
       world_view = build(:world_view, best_season: nil)
       world_view.valid?

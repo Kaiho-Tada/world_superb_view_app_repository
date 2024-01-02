@@ -11,7 +11,6 @@ class WorldView < ApplicationRecord
   has_many :users, through: :world_view_favorites
 
   validates :name, length: { maximum: 30 }, presence: true
-  validates :panorama_url, presence: true
   validates :best_season, length: { maximum: 30 }, presence: true
   validate :validate_image
 
