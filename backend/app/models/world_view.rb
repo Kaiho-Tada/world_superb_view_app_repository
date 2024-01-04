@@ -58,7 +58,7 @@ class WorldView < ApplicationRecord
   }
 
   scope :filter_by_keyword, lambda { |keyword|
-    return self if keyword.nil?
+    return self if keyword.blank?
 
     joins(:countries)
       .where("world_views.name LIKE(?) or countries.name LIKE(?)", "%#{keyword}%", "%#{keyword}%").distinct
