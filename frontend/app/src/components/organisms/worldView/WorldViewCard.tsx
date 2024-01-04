@@ -10,7 +10,7 @@ import { RefCountry } from "types/ref/refCountry";
 type Props = {
   id: number;
   name: string;
-  imageUrl: string;
+  imgUrl: string;
   bestSeason: string;
   countries: Array<RefCountry>;
   categories: Array<RefCategory>;
@@ -19,8 +19,7 @@ type Props = {
 };
 
 const WorldViewCard: FC<Props> = memo((props) => {
-  const { id, name, imageUrl, bestSeason, countries, categories, characteristics, favorites } =
-    props;
+  const { id, name, imgUrl, bestSeason, countries, categories, characteristics, favorites } = props;
   const countryNames = countries.map((country) => country.name);
   const countryNameResult = countryNames.length > 1 ? countryNames.join(" ") : countryNames[0];
 
@@ -52,7 +51,7 @@ const WorldViewCard: FC<Props> = memo((props) => {
           _hover={{ cursor: "pointer", opacity: "0.8" }}
         >
           <Box w="100%">
-            <Image h="100%" w="100%" src={imageUrl} alt="絶景画像" />
+            <Image h="100%" w="100%" src={imgUrl} alt="絶景画像" />
           </Box>
           <Box>
             <Heading fontSize="lg" pt="3" pl="3" textShadow="1px 1px" noOfLines={1}>

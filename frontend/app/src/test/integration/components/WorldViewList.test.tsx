@@ -4,9 +4,8 @@ import WorldViewList from "components/organisms/worldView/WorldViewList";
 const mockWorldViews = Array.from({ length: 10 }, (_, index) => ({
   id: index + 1,
   name: `worldView${index + 1}`,
-  imageUrl: "画像URL",
+  imgUrl: "画像URL",
   bestSeason: "1月",
-  panoramaUrl: "panoramaUrl",
   countries: [],
   categories: [],
   characteristics: [],

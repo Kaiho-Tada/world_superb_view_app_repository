@@ -64,7 +64,7 @@ test("絶景画像がレンダリングされていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -81,7 +81,7 @@ test("絶景名がレンダリングされていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -98,7 +98,7 @@ test("絶景の概要がレンダリングされていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -117,7 +117,7 @@ test("国名の見出しがレンダリングされていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -134,7 +134,7 @@ test("国名がレンダリングされていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -151,7 +151,7 @@ test("カテゴリーの見出しがレンダリングされていること", ()
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -168,7 +168,7 @@ test("カテゴリー名がレンダリングされていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -185,7 +185,7 @@ test("ベストシーズンの見出しがレンダリングされているこ�
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -202,7 +202,7 @@ test("ベストシーズンがレンダリングされていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -219,7 +219,7 @@ test("リスクレベルの見出しがレンダリングされていること",
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -236,7 +236,7 @@ test("リスクレベルがレンダリングされていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -253,7 +253,7 @@ test("ハートアイコンが表示されていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -269,7 +269,7 @@ test("BMIの見出しがレンダリングされていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}
@@ -286,7 +286,7 @@ test("BMI値がレンダリングされていること", () => {
     <SuperbViewCard
       id={1}
       name="絶景名"
-      imageUrl="画像URL"
+      imgUrl="画像URL"
       bestSeason="1月"
       countries={countries}
       categories={categories}

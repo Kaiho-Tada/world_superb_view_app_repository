@@ -1,15 +1,13 @@
 class Api::V1::WorldViewsController < ApplicationController
   def index
-    render json: WorldView.all.to_json(include: [:categories, :characteristics, { countries: { include: :state } }],
-                                       methods: [:image_url])
+    render json: WorldView.all.to_json(include: [:categories, :characteristics, { countries: { include: :state } }])
   end
 
   def search
     filtered_world_views = world_view_filter(WorldView)
     sorted_world_views = world_view_sort(filtered_world_views)
     render json: sorted_world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
-                                                      { countries: { include: :state } }],
-                                            methods: [:image_url])
+                                                      { countries: { include: :state } }])
   end
 
   private

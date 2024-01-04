@@ -1,5 +1,6 @@
 import { Wrap } from "@chakra-ui/react";
 import WorldViewCard from "components/organisms/worldView/WorldViewCard";
+import defaultImg from "img/default.png";
 import { FC } from "react";
 import { WorldView } from "types/api/worldView";
 
@@ -13,7 +14,7 @@ const WorldViewList: FC<Props> = ({ currentViews }) => (
       <WorldViewCard
         id={worldView.id}
         name={worldView.name}
-        imageUrl={worldView.imageUrl}
+        imgUrl={worldView.imgUrl ? worldView.imgUrl : defaultImg}
         bestSeason={worldView.bestSeason}
         countries={worldView.countries}
         categories={worldView.categories}

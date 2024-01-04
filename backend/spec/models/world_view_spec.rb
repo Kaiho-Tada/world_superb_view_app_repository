@@ -18,12 +18,6 @@ RSpec.describe WorldView, type: :model do
       expect(world_view.errors.full_messages).to eq ["ベストシーズンを入力してください"]
     end
 
-    it "画像データがない場合、無効な状態であること" do
-      world_view = build(:world_view, portrait: nil)
-      world_view.valid?
-      expect(world_view.errors.full_messages).to eq ["画像データが存在しません"]
-    end
-
     it "nameは30文字以内であること" do
       world_view = build(:world_view, name: "a" * 31)
       world_view.valid?
@@ -38,13 +32,6 @@ RSpec.describe WorldView, type: :model do
   end
 
   describe "メソッドのテスト" do
-    describe "image_urlメソッドのテスト" do
-      it "image_urlメソッドで生成されるurlが意図した形式であること" do
-        world_view = create(:world_view)
-        expect(world_view.image_url).to match(%r{http://localhost:3001/rails/active_storage/blobs/redirect/.+/test_image.jpeg})
-      end
-    end
-
     describe "extract_months_rangeメソッドのテスト" do
       it "引数の期間が数字に展開されること" do
         expect(WorldView.extract_months_range("6月〜8月")).to match_array [6, 7, 8]

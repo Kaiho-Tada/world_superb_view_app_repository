@@ -441,9 +441,8 @@ test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldVie
         {
           id: 1,
           name: "name",
-          imageUrl: "imageUrl",
+          imgUrl: "imageUrl",
           bestSeason: "bestSeason",
-          panoramaUrl: "panoramaUrl",
           countries: [],
           categories: [],
           characteristics: [],
@@ -457,9 +456,8 @@ test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldVie
     {
       id: 1,
       name: "name",
-      imageUrl: "imageUrl",
+      imgUrl: "imageUrl",
       bestSeason: "bestSeason",
-      panoramaUrl: "panoramaUrl",
       countries: [],
       categories: [],
       characteristics: [],

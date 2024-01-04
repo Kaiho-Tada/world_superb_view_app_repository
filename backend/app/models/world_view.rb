@@ -12,11 +12,6 @@ class WorldView < ApplicationRecord
 
   validates :name, length: { maximum: 30 }, presence: true
   validates :best_season, length: { maximum: 30 }, presence: true
-  validate :validate_image
-
-  def image_url
-    url_for(portrait)
-  end
 
   scope :filter_by_category_name, lambda { |category_names|
     return self if category_names.nil?
@@ -119,13 +114,5 @@ class WorldView < ApplicationRecord
         (start_month..end_month).to_a
       end
     end
-  end
-
-  private
-
-  def validate_image
-    return unless portrait.attached? == false
-
-    errors.add(:portrait, "が存在しません")
   end
 end
