@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import SuperbViewCard from "components/organisms/worldView/WorldViewCard";
+import WorldViewCard from "components/organisms/worldView/WorldViewCard";
 
 const countries = [
   {
@@ -61,7 +61,7 @@ const favorites = [
 ];
 test("絶景画像がレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -78,7 +78,7 @@ test("絶景画像がレンダリングされていること", () => {
 
 test("絶景名がレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -95,7 +95,7 @@ test("絶景名がレンダリングされていること", () => {
 
 test("絶景の概要がレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -114,7 +114,7 @@ test("絶景の概要がレンダリングされていること", () => {
 
 test("国名の見出しがレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -131,7 +131,7 @@ test("国名の見出しがレンダリングされていること", () => {
 
 test("国名がレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -148,7 +148,7 @@ test("国名がレンダリングされていること", () => {
 
 test("カテゴリーの見出しがレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -165,7 +165,7 @@ test("カテゴリーの見出しがレンダリングされていること", ()
 
 test("カテゴリー名がレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -182,7 +182,7 @@ test("カテゴリー名がレンダリングされていること", () => {
 
 test("ベストシーズンの見出しがレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -199,7 +199,7 @@ test("ベストシーズンの見出しがレンダリングされているこ�
 
 test("ベストシーズンがレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -216,7 +216,7 @@ test("ベストシーズンがレンダリングされていること", () => {
 
 test("リスクレベルの見出しがレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -233,7 +233,7 @@ test("リスクレベルの見出しがレンダリングされていること",
 
 test("リスクレベルがレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -250,7 +250,7 @@ test("リスクレベルがレンダリングされていること", () => {
 
 test("ハートアイコンが表示されていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -266,7 +266,7 @@ test("ハートアイコンが表示されていること", () => {
 
 test("BMIの見出しがレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
@@ -283,7 +283,7 @@ test("BMIの見出しがレンダリングされていること", () => {
 
 test("BMI値がレンダリングされていること", () => {
   render(
-    <SuperbViewCard
+    <WorldViewCard
       id={1}
       name="絶景名"
       imgUrl="画像URL"
