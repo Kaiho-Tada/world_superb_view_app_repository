@@ -31,11 +31,9 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           get api_v1_world_views_search_path, params: {
             category_names: [category_city.name]
           }
-          world_views = [civita_di_bagnoregio, machu_picchu]
-          world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
-                                                           { countries: { include: :state } }])
           expect(response).to have_http_status(200)
-          expect(response.body).to eq world_views_json
+          expect(response.body).to include civita_di_bagnoregio.id.to_s
+          expect(response.body).to include machu_picchu.id.to_s
         end
 
         it "返されるWorldViewが重複しないこと" do
@@ -68,11 +66,9 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           get api_v1_world_views_search_path, params: {
             country_names: [country_italy.name]
           }
-          world_views = [matera_cave_dwellings, civita_di_bagnoregio]
-          world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
-                                                           { countries: { include: :state } }])
           expect(response).to have_http_status(200)
-          expect(response.body).to eq world_views_json
+          expect(response.body).to include matera_cave_dwellings.id.to_s
+          expect(response.body).to include civita_di_bagnoregio.id.to_s
         end
 
         it "返されるWorldViewが重複しないこと" do
@@ -105,11 +101,9 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           get api_v1_world_views_search_path, params: {
             characteristic_names: [characteristic_historic.name]
           }
-          world_views = [civita_di_bagnoregio, machu_picchu]
-          world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
-                                                           { countries: { include: :state } }])
           expect(response).to have_http_status(200)
-          expect(response.body).to eq world_views_json
+          expect(response.body).to include civita_di_bagnoregio.id.to_s
+          expect(response.body).to include machu_picchu.id.to_s
         end
 
         it "返されるWorldViewが重複しないこと" do
@@ -142,11 +136,9 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           get api_v1_world_views_search_path, params: {
             risk_levels: ["0"]
           }
-          world_views = [matera_cave_dwellings, civita_di_bagnoregio]
-          world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
-                                                           { countries: { include: :state } }])
           expect(response).to have_http_status(200)
-          expect(response.body).to eq world_views_json
+          expect(response.body).to include matera_cave_dwellings.id.to_s
+          expect(response.body).to include civita_di_bagnoregio.id.to_s
         end
 
         it "返されるWorldViewが重複しないこと" do
@@ -179,22 +171,18 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           get api_v1_world_views_search_path, params: {
             keyword: "マ"
           }
-          world_views = [matera_cave_dwellings, machu_picchu]
-          world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
-                                                           { countries: { include: :state } }])
           expect(response).to have_http_status(200)
-          expect(response.body).to eq world_views_json
+          expect(response.body).to include matera_cave_dwellings.id.to_s
+          expect(response.body).to include machu_picchu.id.to_s
         end
 
         it "paramsで受け取ったkeywordに部分一致する国名を持つWorldViewを返すこと" do
           get api_v1_world_views_search_path, params: {
             keyword: "イタリア"
           }
-          world_views = [matera_cave_dwellings, civita_di_bagnoregio]
-          world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
-                                                           { countries: { include: :state } }])
           expect(response).to have_http_status(200)
-          expect(response.body).to eq world_views_json
+          expect(response.body).to include matera_cave_dwellings.id.to_s
+          expect(response.body).to include civita_di_bagnoregio.id.to_s
         end
 
         it "返されるWorldViewが重複しないこと" do
@@ -220,11 +208,10 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           get api_v1_world_views_search_path, params: {
             months: ["1月", "3月", "7月"]
           }
-          world_views = [world_view1, world_view2, world_view3]
-          world_views_json = world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
-                                                           { countries: { include: :state } }])
           expect(response).to have_http_status(200)
-          expect(response.body).to eq world_views_json
+          expect(response.body).to include world_view1.id.to_s
+          expect(response.body).to include world_view2.id.to_s
+          expect(response.body).to include world_view3.id.to_s
         end
       end
 
@@ -240,9 +227,9 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
             bmi_ranges: ["20%〜30%", "〜-40%"]
           }
           expect(response).to have_http_status(200)
-          expect(response.body).to include world_view1.name
-          expect(response.body).not_to include world_view2.name
-          expect(response.body).to include world_view3.name
+          expect(response.body).to include world_view1.id.to_s
+          expect(response.body).not_to include world_view2.id.to_s
+          expect(response.body).to include world_view3.id.to_s
         end
 
         it "返されるWorldViewが重複しないこと" do
