@@ -10,6 +10,8 @@ const mockWorldViews = Array.from({ length: 10 }, (_, index) => ({
   categories: [],
   characteristics: [],
   worldViewFavorites: [],
+  gifUrl: "gifUrl",
+  gifSite: "gifSite",
 }));
 
 test("絶景一覧が表示されていること", () => {

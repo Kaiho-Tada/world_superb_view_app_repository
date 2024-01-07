@@ -64,10 +64,10 @@ world_view_info = [
   {:name=>"バラデロ", :best_season=>"12月〜4月", :img_id=>"MGIKD3TaLcY"},
   {:name=>"チェチェンイッツァ", :best_season=>"12月〜2月", :img_id=>"UfK0P6WygEE"},
   {:name=>"グランセノーテ", :best_season=>"11月〜3月", :img_id=>"_xghbzYF8Mc"},
-  {:name=>"アブラハム湖", :best_season=>"12月〜3月", :img_id=>"X_FgiWMCn_s"},
-  {:name=>"レイク・ルイーズ", :best_season=>"6月〜8月", :img_id=>"CUeTCPQLRg4"},
+  {:name=>"アブラハム湖", :best_season=>"12月〜3月", :img_id=>"Bcmo7nbuX5Q"},
+  {:name=>"レイク・ルイーズ", :best_season=>"6月〜8月", :img_id=>"K4Wp13Ocz5E"},
   {:name=>"イグアスの滝", :best_season=>"9月〜2月", :img_id=>"X_FgiWMCn_s"},
-  {:name=>"ロス・グラシアレス国立公園", :best_season=>"12月〜2月", :img_id=>"CUeTCPQLRg4"},
+  {:name=>"ロス・グラシアレス国立公園", :best_season=>"12月〜2月", :img_id=>"iqE-xqzw-Fg"},
   {:name=>"グラシアル・ペリート・モレノ", :best_season=>"12月〜3月", :img_id=>"SH_oYiwg224"},
   {:name=>"ウユニ塩湖", :best_season=>"5月〜10月", :img_id=>"NiooDGT-Zlk"},
   {:name=>"ヴィニクンカ山", :best_season=>"5月〜10月", :img_id=>"hjanvZlqoB8"},
@@ -313,4 +313,88 @@ characteristic_world_views.each do |key, value|
     world_view = WorldView.find_by(name: world_view_name)
     world_view.characteristics << characteristic
   end
+end
+
+giphy_info = [
+  {:name=>:デットフレイ, :gif_id=>"23ggXoUh6jQGQJPsV7"},
+  {:name=>:サハラ砂漠, :gif_id=>"1wwv6MnSsQwP6"},
+  {:name=>:ラック・ローズ, :gif_id=>"l1J9M7qq3YVzWFdzq"},
+  {:name=>:マテーラの洞窟住居, :gif_id=>"wHgCHlQ8kkXC4asU3M"},
+  {:name=>:セリャラントスフォス, :gif_id=>"KWgrae4lheUla"},
+  {:name=>:バトナ氷河, :gif_id=>"HtcwxReWfOzGE"},
+  {:name=>:ストーンヘンジ, :gif_id=>"6JF9OnZbifXW0"},
+  {:name=>:セブンシスターズ, :gif_id=>"Q9ue5P7AsMVZIahhsf"},
+  {:name=>:メテオラ修道院, :gif_id=>"5xtDarCCwgQ8dWyB680"},
+  {:name=>:ノイシュバンシュタイン城, :gif_id=>"5zciGdyLq9ERi"},
+  {:name=>:マッターホルン, :gif_id=>"Sye75bfzPZrmo"},
+  {:name=>:シェイクザビードグランドモスク, :gif_id=>"hrwVTCfiQeNoqPPxAN"},
+  {:name=>:クアンシーの滝, :gif_id=>"Nqi5KJIEGStWg"},
+  {:name=>:ペトラ遺跡, :gif_id=>"XdDFxuig0dK0cA97jJ"},
+  {:name=>:ペトラトゥロミウ海岸, :gif_id=>"ySqRTXKHYnkiU4KgWi"},
+  {:name=>:アンコールワット, :gif_id=>"MFgbAPxgTF2A2Q8pfA"},
+  {:name=>:シュエサンドーパゴダ, :gif_id=>"26Ff0D3mQyuzZv2x2"},
+  {:name=>:パンゴン湖, :gif_id=>"sOUgQvvq0UAaI8vWgQ"},
+  {:name=>:イジェン火山, :gif_id=>"26FeVSMH9LWbJMZWg"},
+  {:name=>:ミルフォードサウンドフィヨルド, :gif_id=>"3o7WTxRUJdjBFYTG2Q"},
+  {:name=>:テカポ湖, :gif_id=>"RinlylTzxh9CK18gmi"},
+  {:name=>:ワイトモ洞窟, :gif_id=>"3o72F2HX45exjjG1dm"},
+  {:name=>:エアーズロック, :gif_id=>"4Ho7rS3JDrWrrg8PHU"},
+  {:name=>:ホワイトヘブンビーチ, :gif_id=>"PNguMl15pVFwuSCob9"},
+  {:name=>:モニュメントバレー, :gif_id=>"9RXPJ4HLB9nGeWptgT"},
+  {:name=>:ザウェーブ, :gif_id=>"26BoDaGmBiFKjxBQI"},
+  {:name=>:カセドラルロック, :gif_id=>"dxIny9AWK8V3fZK6bB"},
+  {:name=>:ホースシューベンド, :gif_id=>"348lnZ8wegNSIcSVr9"},
+  {:name=>:ホワイトサンズ国立公園, :gif_id=>"dYwgNfzNJ20W8f9Pp2"},
+  {:name=>:ロス・グラシアレス国立公園, :gif_id=>"jqHv1oqVI2cT9DQEEy"},
+  {:name=>:グラシアル・ペリート・モレノ, :gif_id=>"WvRJAUzx0mVHedgUGs"},
+  {:name=>:ウユニ塩湖, :gif_id=>"PivUoEqa51GQU"},
+  {:name=>:マチュピチュ, :gif_id=>"9X51ywIgdzSuI"},
+  {:name=>:レンソイス国立公園, :gif_id=>"uvTO7fQREeltrkqX2w"},
+  {:name=>:バイカル湖, :gif_id=>"HQdAzWTWdGawo"},
+  {:name=>:サルベーションマウンテン, :gif_id=>"3oEduH2TwlxOoCq0a4"}
+  {:name=>:リーセフィヨルド, :gif_id=>"jtECvT0NC5YQofL8T1"},
+  {:name=>:スタリモスト橋, :gif_id=>"nTR2HYf7gXH9u"},
+  {:name=>:プライスキャニオン国立公園, :gif_id=>"l41YfHHI5vKoyiFIA"},
+  {:name=>:エルニド, :gif_id=>"0UxCdQRROmUpcNZiuQ"},
+  {:name=>:トロルの舌, :gif_id=>"eImViBxgtPaPkj0qQv"},
+]
+
+giphy_info.each do |info|
+  name = info[:name]
+  gif_id = info[:gif_id]
+  world_view = WorldView.find_by(name: name)
+  gif_url = FetchGiphyGifService.new.call(gif_id)
+  world_view.update!(gif_url: gif_url, gif_site: "giphy")
+end
+
+
+tenor_info = [
+  {:name=>:ヴィクトリアの滝, :gif_id=>"20463409"},
+  {:name=>:ルクソール, :gif_id=>"19047929"},
+  {:name=>:アイトベンハドゥ, :gif_id=>"18832791"},
+  {:name=>:ドロミテ渓谷, :gif_id=>"15697259"},
+  {:name=>:グロッタ・アズッラ, :gif_id=>"27519602"},
+  {:name=>:スワローズネスト, :gif_id=>"7454455"},
+  {:name=>:モン・サン・ミシェル, :gif_id=>"11700256"},
+  {:name=>:ナヴァイオビーチ, :gif_id=>"2776513781675643624"},
+  {:name=>:プリトヴィッツェ湖群国立公園, :gif_id=>"3579959"},
+  {:name=>:ブレッド湖, :gif_id=>"10837449"},
+  {:name=>:グランドキャニオン国立公園, :gif_id=>"15124034"},
+  {:name=>:万里の長城, :gif_id=>"12356600"},
+  {:name=>:チェチェンイッツァ, :gif_id=>"18899741"},
+  {:name=>:グランセノーテ, :gif_id=>"27519605"},
+  {:name=>:フェルナンド・デ・ノローニャ, :gif_id=>"20730694"},
+  {:name=>:イグアスの滝, :gif_id=>"20458917"},
+  {:name=>:ゲイシール, :gif_id=>"15364892"},
+  {:name=>:エンジェルフォール, :gif_id=>"14292869"},
+{:name=>:レイク・ルイーズ, :gif_id=>"15607102"},
+{:name=>:バラデロ, :gif_id=>"7969087"}
+]
+
+tenor_info.each do |info|
+  name = info[:name]
+  gif_id = info[:gif_id]
+  world_view = WorldView.find_by(name: name)
+  gif_url = FetchTenorGifService.new.call(gif_id)
+  world_view.update!(gif_url: gif_url, gif_site: "tenor")
 end

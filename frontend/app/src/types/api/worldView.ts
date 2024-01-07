@@ -12,4 +12,6 @@ export type WorldView = {
   categories: Array<RefCategory>;
   characteristics: Array<RefCharacteristic>;
   worldViewFavorites: Array<WorldViewFavorite>;
+  gifUrl: string | null;
+  gifSite: string | null;
 };

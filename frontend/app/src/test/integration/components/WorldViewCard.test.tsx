@@ -1,5 +1,7 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import WorldViewCard from "components/organisms/worldView/WorldViewCard";
+import { act } from "react-dom/test-utils";
 
 const countries = [
   {
@@ -70,6 +72,8 @@ test("絶景画像がレンダリングされていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const SuperbViewImage = screen.getByRole("img", { name: "絶景画像" });
@@ -87,6 +91,8 @@ test("絶景名がレンダリングされていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const SuperbViewName = screen.getByRole("heading", { name: "絶景名" });
@@ -104,6 +110,8 @@ test("絶景の概要がレンダリングされていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const SuperbViewDescription = screen.getByRole("heading", {
@@ -123,6 +131,8 @@ test("国名の見出しがレンダリングされていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const BestSeasonHeading = screen.getByRole("heading", { name: "国名" });
@@ -140,6 +150,8 @@ test("国名がレンダリングされていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const BestSeasonHeading = screen.getByRole("heading", { name: "countryName1 countryName2" });
@@ -157,6 +169,8 @@ test("カテゴリーの見出しがレンダリングされていること", ()
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const CategoryHeading = screen.getByRole("heading", { name: "カテゴリー" });
@@ -174,6 +188,8 @@ test("カテゴリー名がレンダリングされていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const CategoryHeading = screen.getByRole("heading", { name: "categoryName1 categoryName2" });
@@ -191,6 +207,8 @@ test("ベストシーズンの見出しがレンダリングされているこ�
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const BestSeasonHeading = screen.getByRole("heading", { name: "ベストシーズン" });
@@ -208,6 +226,8 @@ test("ベストシーズンがレンダリングされていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const BestSeason = screen.getByRole("heading", { name: "1月" });
@@ -225,6 +245,8 @@ test("リスクレベルの見出しがレンダリングされていること",
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const riskLevelHeading = screen.getByRole("heading", { name: "リスクレベル" });
@@ -242,6 +264,8 @@ test("リスクレベルがレンダリングされていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const riskLevel = screen.getAllByRole("img", { name: "リスクレベル" });
@@ -259,6 +283,8 @@ test("ハートアイコンが表示されていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   expect(screen.getByRole("img", { name: "ハートアイコン" })).toBeInTheDocument();
@@ -275,6 +301,8 @@ test("BMIの見出しがレンダリングされていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   const BestSeasonHeading = screen.getByRole("heading", { name: "BMI" });
@@ -292,7 +320,31 @@ test("BMI値がレンダリングされていること", () => {
       categories={categories}
       characteristics={characteristics}
       favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
     />
   );
   expect(screen.getByRole("heading", { name: "11.2% -26.9%" })).toBeInTheDocument();
+});
+
+test("絶景カード押下でモーダルが表示されること", async () => {
+  const user = userEvent.setup();
+  render(
+    <WorldViewCard
+      id={1}
+      name="絶景名"
+      imgUrl="画像URL"
+      bestSeason="1月"
+      countries={countries}
+      categories={categories}
+      characteristics={characteristics}
+      favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
+    />
+  );
+  await act(async () => {
+    await user.click(screen.getByRole("heading", { name: "リスクレベル" }));
+  });
+  expect(screen.getByRole("dialog", { name: "絶景モーダル" })).toBeInTheDocument();
 });

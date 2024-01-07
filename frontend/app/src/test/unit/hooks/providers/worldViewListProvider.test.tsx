@@ -447,6 +447,8 @@ test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldVie
           categories: [],
           characteristics: [],
           worldViewFavorites: [],
+          gifUrl: "gifUrl",
+          gifSite: "gifSite",
         },
       ],
     });
@@ -462,6 +464,8 @@ test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldVie
       categories: [],
       characteristics: [],
       worldViewFavorites: [],
+      gifUrl: "gifUrl",
+      gifSite: "gifSite",
     },
   ]);
 });

@@ -20,6 +20,8 @@ const WorldViewList: FC<Props> = ({ currentViews }) => (
         categories={worldView.categories}
         characteristics={worldView.characteristics}
         favorites={worldView.worldViewFavorites}
+        gifUrl={worldView.gifUrl || worldView.imgUrl || defaultImg}
+        gifSite={worldView.gifSite || null}
       />
     ))}
   </Wrap>
