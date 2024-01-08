@@ -63,4 +63,12 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.before(:suite) do
+    Rails.application.load_tasks
+  end
+
+  config.before(:each) do
+    Rake.application.tasks.each(&:reenable)
+  end
 end
