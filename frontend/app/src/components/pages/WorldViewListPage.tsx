@@ -67,7 +67,7 @@ const WorldViewListPage = memo(() => {
   }, [state.worldViews]);
 
   return (
-    <Box my="10" ml="10">
+    <Box my="10" mx={{ base: "0", sm: "6", lg: "10" }}>
       <Flex mb="6">
         <FilterButton />
         <SortSelectBox />

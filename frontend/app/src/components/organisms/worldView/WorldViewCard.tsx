@@ -73,13 +73,12 @@ const WorldViewCard: FC<Props> = memo((props) => {
             bg="gray.100"
             color="blue.800"
             _hover={{ cursor: "pointer", opacity: "0.8" }}
-            // onClick={gifUrl && onOpen}
-            onClick={gifUrl ? onOpen : undefined}
+            onClick={onOpen}
           >
-            <Box w="100%">
+            <Box w="42%">
               <Image h="100%" w="100%" src={imgUrl} alt="絶景画像" />
             </Box>
-            <Box>
+            <Box w="57%">
               <Heading fontSize="lg" pt="3" pl="3" textShadow="1px 1px" noOfLines={1}>
                 {name}
               </Heading>
