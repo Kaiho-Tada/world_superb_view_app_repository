@@ -1,4 +1,4 @@
-import { AuthProvider } from "hooks/providers/useAuthProvider";
+import { AuthProvider } from "providers/useAuthProvider";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
