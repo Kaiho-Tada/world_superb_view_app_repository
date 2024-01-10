@@ -12,6 +12,7 @@ const WorldViewList: FC<Props> = ({ currentViews }) => (
   <Wrap role="list" aria-label="絶景一覧">
     {currentViews.map((worldView) => (
       <WorldViewCard
+        key={worldView.id}
         id={worldView.id}
         name={worldView.name}
         imgUrl={worldView.imgUrl ? worldView.imgUrl : defaultImg}

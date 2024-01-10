@@ -220,6 +220,15 @@ RSpec.describe WorldView, type: :model do
         create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -22.2))
         expect(WorldView.sort_by_country_bmi).to eq [world_view3, world_view2, world_view1]
       end
+
+      it "返されるレコードが重複している場合はBMI値の低いレコードが取得されること" do
+        duplicate_world_view = create(:world_view)
+        non_duplicate_world_view = create(:world_view)
+        create(:world_view_country, world_view: duplicate_world_view, country: create(:country, bmi: 10.0))
+        create(:world_view_country, world_view: non_duplicate_world_view, country: create(:country, bmi: 0.0))
+        create(:world_view_country, world_view: duplicate_world_view, country: create(:country, bmi: -10.0))
+        expect(WorldView.sort_by_country_bmi).to eq [duplicate_world_view, non_duplicate_world_view]
+      end
     end
 
     describe "sort_by_country_risk_levelスコープのテスト" do
@@ -233,6 +242,15 @@ RSpec.describe WorldView, type: :model do
         create(:world_view_country, world_view: world_view3, country: create(:country, risk_level: 2))
         create(:world_view_country, world_view: world_view4, country: create(:country, risk_level: 1))
         expect(WorldView.sort_by_country_risk_level).to eq [world_view4, world_view3, world_view2, world_view1]
+      end
+
+      it "返されるレコードが重複している場合はリスクレベルの低いレコードが取得されること" do
+        duplicate_world_view = create(:world_view)
+        non_duplicate_world_view = create(:world_view)
+        create(:world_view_country, world_view: duplicate_world_view, country: create(:country, risk_level: 3))
+        create(:world_view_country, world_view: non_duplicate_world_view, country: create(:country, risk_level: 2))
+        create(:world_view_country, world_view: duplicate_world_view, country: create(:country, risk_level: 1))
+        expect(WorldView.sort_by_country_risk_level).to eq [duplicate_world_view, non_duplicate_world_view]
       end
     end
 

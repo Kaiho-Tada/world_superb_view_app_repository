@@ -88,11 +88,11 @@ class WorldView < ApplicationRecord
   }
 
   scope :sort_by_country_bmi, lambda {
-    joins(:countries).select("world_views.*, countries.bmi").order("countries.bmi ASC")
+    joins(:countries).group("world_views.id").order("MIN(countries.bmi) ASC")
   }
 
   scope :sort_by_country_risk_level, lambda {
-    joins(:countries).select("world_views.*, countries.risk_level").order("countries.risk_level ASC")
+    joins(:countries).group("world_views.id").order("MIN(countries.risk_level) ASC")
   }
 
   scope :sort_by_favorite_count, lambda {
