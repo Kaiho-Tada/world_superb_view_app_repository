@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_10_091348) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_10_094446) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -106,6 +106,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_10_091348) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_world_view_categories_on_category_id"
+    t.index ["world_view_id", "category_id"], name: "index_world_view_categories_on_world_view_id_and_category_id", unique: true
     t.index ["world_view_id"], name: "index_world_view_categories_on_world_view_id"
   end
 
@@ -115,6 +116,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_10_091348) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["characteristic_id"], name: "index_world_view_characteristics_on_characteristic_id"
+    t.index ["world_view_id", "characteristic_id"], name: "index_unique_on_world_view_id_and_characteristic_id", unique: true
     t.index ["world_view_id"], name: "index_world_view_characteristics_on_world_view_id"
   end
 
@@ -124,6 +126,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_10_091348) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["country_id"], name: "index_world_view_countries_on_country_id"
+    t.index ["world_view_id", "country_id"], name: "index_world_view_countries_on_world_view_id_and_country_id", unique: true
     t.index ["world_view_id"], name: "index_world_view_countries_on_world_view_id"
   end
 
