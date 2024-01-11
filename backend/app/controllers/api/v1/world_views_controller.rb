@@ -6,8 +6,12 @@ class Api::V1::WorldViewsController < ApplicationController
   def search
     filtered_world_views = world_view_filter(WorldView)
     sorted_world_views = world_view_sort(filtered_world_views)
-    render json: sorted_world_views.to_json(include: [:categories, :characteristics, :world_view_favorites,
-                                                      { countries: { include: :state } }])
+    render json: sorted_world_views.preload(:categories, :characteristics, :world_view_favorites, :countries)
+                                   .as_json(except: %i[created_at updated_at],
+                                            include: [{ categories: { only: %i[id name] } },
+                                                      { characteristics: { only: %i[id name] } },
+                                                      { world_view_favorites: { only: %i[id user_id] } },
+                                                      { countries: { only: %i[id name risk_level bmi] } }])
   end
 
   private

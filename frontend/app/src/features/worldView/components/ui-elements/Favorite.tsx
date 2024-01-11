@@ -2,13 +2,13 @@ import { Image } from "@chakra-ui/react";
 import likedHeartIcon from "assets/likedHeartIcon.png";
 import unlikedHeartIcon from "assets/unlikedHeartIcon.png";
 import useHandleChangeFavorite from "features/worldView/hooks/api/useHandleChangeFavorite";
-import { WorldViewFavorite } from "features/worldView/types/api/worldViewFavorite";
+import { RefWorldViewFavorite } from "features/worldView/types/ref/refWorldViewFavorite";
 import { useAuth } from "providers/useAuthProvider";
 import { FC, useEffect, useState } from "react";
 
 type FavoriteProps = {
   selectedId: number;
-  favorites: Array<WorldViewFavorite>;
+  favorites: Array<RefWorldViewFavorite>;
 };
 
 const Favorite: FC<FavoriteProps> = ({ selectedId, favorites }) => {

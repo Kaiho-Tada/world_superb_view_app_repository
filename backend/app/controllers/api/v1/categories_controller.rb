@@ -1,5 +1,5 @@
 class Api::V1::CategoriesController < ApplicationController
   def index
-    render json: Category.all.to_json(include: [:world_views])
+    render json: Category.select(:id, :name, :classification).as_json
   end
 end
