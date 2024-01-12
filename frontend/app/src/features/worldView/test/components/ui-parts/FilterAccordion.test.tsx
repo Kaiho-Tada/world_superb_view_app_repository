@@ -16,32 +16,34 @@ const mockContextValue = {
     countryStates,
     categoryClassifications,
     categoryCheckBoxItems: [
-      {
-        label: "滝",
-        classification: "自然",
-        checked: false,
-      },
+      { label: "滝", classification: "自然", checked: false },
+      { label: "都市", classification: "人工", checked: false },
     ],
     countryCheckBoxItems: [
-      {
-        label: "アメリカ",
-        stateName: "北米",
-        checked: false,
-      },
+      { label: "中国", stateName: "アジア", checked: false },
+      { label: "オーストラリア", stateName: "大洋州", checked: false },
+      { label: "アメリカ", stateName: "北米", checked: true },
+      { label: "メキシコ", stateName: "中南米", checked: false },
+      { label: "イギリス", stateName: "ヨーロッパ", checked: false },
+      { label: "トルコ", stateName: "中東", checked: false },
+      { label: "エジプト", stateName: "アフリカ", checked: false },
     ],
-    characteristicCheckBoxItems: [
-      {
-        label: "雄大",
-        checked: false,
-      },
+    characteristicCheckBoxItems: [{ label: "雄大", checked: false }],
+    riskLevelCheckBoxItems: [{ label: "4", checked: false }],
+    monthCheckBoxItems: [
+      { label: "1月", season: "冬", checked: false },
+      { label: "2月", season: "冬", checked: false },
+      { label: "3月", season: "春", checked: false },
+      { label: "4月", season: "春", checked: false },
+      { label: "5月", season: "春", checked: false },
+      { label: "6月", season: "夏", checked: false },
+      { label: "7月", season: "夏", checked: false },
+      { label: "8月", season: "夏", checked: false },
+      { label: "9月", season: "秋", checked: false },
+      { label: "10月", season: "秋", checked: false },
+      { label: "11月", season: "秋", checked: false },
+      { label: "12月", season: "冬", checked: false },
     ],
-    riskLevelCheckBoxItems: [
-      {
-        label: "4",
-        checked: false,
-      },
-    ],
-    monthCheckBoxItems: [{ label: "1月", season: "冬", checked: false }],
     bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
     loadingSearchWorldViews: false,
     checkedCategoryLabels: [""],
@@ -111,6 +113,7 @@ test("カテゴリーのアコーディオンボタン押下でカテゴリー�
   expect(screen.getByRole("checkbox", { name: "自然" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "人工" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "都市" })).toBeInTheDocument();
 });
 
 test("地域のアコーディオンボタンがレンダリングされていること", () => {
@@ -134,7 +137,13 @@ test("地域のアコーディオンボタン押下で国のcheckboxが表示さ
   expect(screen.getByRole("checkbox", { name: "ヨーロッパ" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "中東" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "アフリカ" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "中国" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "オーストラリア" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "メキシコ" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "イギリス" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "トルコ" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "エジプト" })).toBeInTheDocument();
 });
 
 test("属性のアコーディオンボタンがレンダリングされていること", () => {
@@ -233,8 +242,22 @@ test("ベストシーズンのアコーディオンボタン押下でSeasonCheck
   await act(async () => {
     await user.click(screen.getByRole("button", { name: "ベストシーズン" }));
   });
+  expect(screen.getByRole("checkbox", { name: "春" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "夏" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "秋" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "冬" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "1月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "2月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "3月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "4月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "5月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "6月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "7月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "8月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "9月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "10月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "11月" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "12月" })).toBeInTheDocument();
 });
 
 test("BMIのアコーディオンボタンがレンダリングされていること", () => {

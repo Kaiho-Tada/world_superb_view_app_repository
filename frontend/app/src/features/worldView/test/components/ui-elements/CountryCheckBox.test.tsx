@@ -13,16 +13,14 @@ const mockContextValue = {
     loadingSearchWorldViews: false,
     loadingCountryCheckBoxItems: false,
     countryCheckBoxItems: [
-      {
-        label: "アメリカ",
-        stateName: "北米",
-        checked: false,
-      },
-      {
-        label: "カナダ",
-        stateName: "北米",
-        checked: false,
-      },
+      { label: "アメリカ", stateName: "北米", checked: false },
+      { label: "カナダ", stateName: "北米", checked: false },
+      { label: "中国", stateName: "アジア", checked: false },
+      { label: "オーストラリア", stateName: "大洋州", checked: false },
+      { label: "メキシコ", stateName: "中南米", checked: false },
+      { label: "イギリス", stateName: "ヨーロッパ", checked: false },
+      { label: "トルコ", stateName: "中東", checked: false },
+      { label: "エジプト", stateName: "アフリカ", checked: false },
     ],
   },
 };
@@ -31,16 +29,14 @@ const mockContextValueChecked = {
   state: {
     ...mockContextValue.state,
     countryCheckBoxItems: [
-      {
-        label: "アメリカ",
-        stateName: "北米",
-        checked: true,
-      },
-      {
-        label: "カナダ",
-        stateName: "北米",
-        checked: true,
-      },
+      { label: "アメリカ", stateName: "北米", checked: true },
+      { label: "カナダ", stateName: "北米", checked: true },
+      { label: "中国", stateName: "アジア", checked: false },
+      { label: "オーストラリア", stateName: "大洋州", checked: false },
+      { label: "メキシコ", stateName: "中南米", checked: false },
+      { label: "イギリス", stateName: "ヨーロッパ", checked: false },
+      { label: "トルコ", stateName: "中東", checked: false },
+      { label: "エジプト", stateName: "アフリカ", checked: false },
     ],
   },
 };
@@ -109,7 +105,9 @@ test("loadingSearchWorldViewsがfalseの場合、CheckBoxが有効になって�
 test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
   render(<CountryCheckBox />);
+  expect(screen.getByRole("checkbox", { name: "北米" })).toBeDisabled();
   expect(screen.getByRole("checkbox", { name: "アメリカ" })).toBeDisabled();
+  expect(screen.getByRole("checkbox", { name: "カナダ" })).toBeDisabled();
 });
 
 test("loadingCountryCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {

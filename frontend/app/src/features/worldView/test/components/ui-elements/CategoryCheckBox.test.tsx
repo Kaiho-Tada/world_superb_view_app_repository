@@ -13,16 +13,9 @@ const mockContextValue = {
     loadingSearchWorldViews: false,
     loadingCategoryCheckBoxItems: false,
     categoryCheckBoxItems: [
-      {
-        label: "滝",
-        classification: "自然",
-        checked: false,
-      },
-      {
-        label: "塩湖",
-        classification: "自然",
-        checked: false,
-      },
+      { label: "滝", classification: "自然", checked: false },
+      { label: "塩湖", classification: "自然", checked: false },
+      { label: "廃墟", classification: "人工", checked: false },
     ],
   },
 };
@@ -31,16 +24,9 @@ const mockContextValueChecked = {
   state: {
     ...mockContextValue.state,
     categoryCheckBoxItems: [
-      {
-        label: "滝",
-        classification: "自然",
-        checked: true,
-      },
-      {
-        label: "塩湖",
-        classification: "自然",
-        checked: true,
-      },
+      { label: "滝", classification: "自然", checked: true },
+      { label: "塩湖", classification: "自然", checked: true },
+      { label: "廃墟", classification: "人工", checked: true },
     ],
   },
 };
@@ -73,43 +59,55 @@ test("CheckBoxがレンダリングされていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "自然" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "人工" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeInTheDocument();
   expect(screen.getByRole("checkbox", { name: "塩湖" })).toBeInTheDocument();
+  expect(screen.getByRole("checkbox", { name: "廃墟" })).toBeInTheDocument();
 });
 
 test("categoryCheckBoxItemsのcheckedがfalseの場合、CheckBoxがチェックされていないこと", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "自然" })).not.toBeChecked();
+  expect(screen.getByRole("checkbox", { name: "人工" })).not.toBeChecked();
   expect(screen.getByRole("checkbox", { name: "滝" })).not.toBeChecked();
   expect(screen.getByRole("checkbox", { name: "塩湖" })).not.toBeChecked();
+  expect(screen.getByRole("checkbox", { name: "廃墟" })).not.toBeChecked();
 });
 
 test("categoryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeChecked();
-  expect(screen.getByRole("checkbox", { name: "人工" })).toBeChecked();
+  expect(screen.getByRole("checkbox", { name: "塩湖" })).toBeChecked();
+  expect(screen.getByRole("checkbox", { name: "廃墟" })).toBeChecked();
 });
 
 test("カテゴリーのCheckboxが全てチェックされている場合、分類のCheckboxがチェックされていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "自然" })).toBeChecked();
+  expect(screen.getByRole("checkbox", { name: "人工" })).toBeChecked();
 });
 
 test("loadingSearchWorldViewsがfalseの場合、CheckBoxが有効になっていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CategoryCheckBox />);
   expect(screen.getByRole("checkbox", { name: "自然" })).not.toBeDisabled();
+  expect(screen.getByRole("checkbox", { name: "人工" })).not.toBeDisabled();
   expect(screen.getByRole("checkbox", { name: "滝" })).not.toBeDisabled();
   expect(screen.getByRole("checkbox", { name: "塩湖" })).not.toBeDisabled();
+  expect(screen.getByRole("checkbox", { name: "廃墟" })).not.toBeDisabled();
 });
 
 test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
   render(<CategoryCheckBox />);
+  expect(screen.getByRole("checkbox", { name: "自然" })).toBeDisabled();
+  expect(screen.getByRole("checkbox", { name: "人工" })).toBeDisabled();
   expect(screen.getByRole("checkbox", { name: "滝" })).toBeDisabled();
+  expect(screen.getByRole("checkbox", { name: "塩湖" })).toBeDisabled();
+  expect(screen.getByRole("checkbox", { name: "廃墟" })).toBeDisabled();
 });
 
 test("loadingCategoryCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {

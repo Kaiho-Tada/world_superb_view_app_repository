@@ -1,6 +1,6 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
-import useGetCountryCheckBoxInfo from "features/worldView/hooks/checkBoxInfo/useGetCountryCheckBoxInfo";
 import useCountryHandleChange from "features/worldView/hooks/filter/useCountryHandleChange";
+import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 import { CountryCheckBoxItem } from "features/worldView/types/checkBoxItems/CountryCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { FC } from "react";
@@ -9,15 +9,15 @@ const CountryCheckBox: FC = () => {
   const { state } = useWorldViewListContext();
   const { handleChangeCountry } = useCountryHandleChange();
   const { handleChangeState } = useCountryHandleChange();
-  const { handleGetCountryCheckBoxInfo } = useGetCountryCheckBoxInfo();
+  const { handleGetCheckBoxInfo } = useGetCheckBoxInfo();
   const checkBoxInfo = [
-    handleGetCountryCheckBoxInfo("アジア"),
-    handleGetCountryCheckBoxInfo("大洋州"),
-    handleGetCountryCheckBoxInfo("北米"),
-    handleGetCountryCheckBoxInfo("中南米"),
-    handleGetCountryCheckBoxInfo("ヨーロッパ"),
-    handleGetCountryCheckBoxInfo("中東"),
-    handleGetCountryCheckBoxInfo("アフリカ"),
+    handleGetCheckBoxInfo({ parent: "アジア", checkBoxItems: state.countryCheckBoxItems }),
+    handleGetCheckBoxInfo({ parent: "大洋州", checkBoxItems: state.countryCheckBoxItems }),
+    handleGetCheckBoxInfo({ parent: "北米", checkBoxItems: state.countryCheckBoxItems }),
+    handleGetCheckBoxInfo({ parent: "中南米", checkBoxItems: state.countryCheckBoxItems }),
+    handleGetCheckBoxInfo({ parent: "ヨーロッパ", checkBoxItems: state.countryCheckBoxItems }),
+    handleGetCheckBoxInfo({ parent: "中東", checkBoxItems: state.countryCheckBoxItems }),
+    handleGetCheckBoxInfo({ parent: "アフリカ", checkBoxItems: state.countryCheckBoxItems }),
   ];
 
   return state.loadingCountryCheckBoxItems === true ? (

@@ -1,6 +1,6 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
-import useGetCategoryCheckBoxInfo from "features/worldView/hooks/checkBoxInfo/useGetCategoryCheckBoxInfo";
 import useCategoryHandleChange from "features/worldView/hooks/filter/useCategoryHandleChange";
+import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 import { CategoryCheckBoxItem } from "features/worldView/types/checkBoxItems/categoryCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { FC, memo } from "react";
@@ -9,10 +9,16 @@ const CategoryCheckBox: FC = memo(() => {
   const { state } = useWorldViewListContext();
   const { handleChangeCategory } = useCategoryHandleChange();
   const { handleChangeClassification } = useCategoryHandleChange();
-  const { handleGetCategoryCheckBoxInfo } = useGetCategoryCheckBoxInfo();
+  const { handleGetCheckBoxInfo } = useGetCheckBoxInfo();
   const checkBoxInfo = [
-    handleGetCategoryCheckBoxInfo("自然"),
-    handleGetCategoryCheckBoxInfo("人工"),
+    handleGetCheckBoxInfo({
+      parent: "自然",
+      checkBoxItems: state.categoryCheckBoxItems,
+    }),
+    handleGetCheckBoxInfo({
+      parent: "人工",
+      checkBoxItems: state.categoryCheckBoxItems,
+    }),
   ];
 
   return state.loadingCategoryCheckBoxItems === true ? (

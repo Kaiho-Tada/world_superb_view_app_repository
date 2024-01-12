@@ -1,17 +1,17 @@
 import { Box, Checkbox } from "@chakra-ui/react";
-import useGetSeasonCheckBoxInfo from "features/worldView/hooks/checkBoxInfo/useGetSeasonCheckBoxInfo";
 import useSeasonHandleChange from "features/worldView/hooks/filter/useSeasonHandleChange";
+import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 
 const SeasonCheckBox = () => {
   const { state } = useWorldViewListContext();
   const { handleChangeSeason, handleChangeMonth } = useSeasonHandleChange();
-  const { handleGetSeasonCheckBoxInfo } = useGetSeasonCheckBoxInfo();
+  const { handleGetCheckBoxInfo } = useGetCheckBoxInfo();
   const checkBoxInfo = [
-    handleGetSeasonCheckBoxInfo("春"),
-    handleGetSeasonCheckBoxInfo("夏"),
-    handleGetSeasonCheckBoxInfo("秋"),
-    handleGetSeasonCheckBoxInfo("冬"),
+    handleGetCheckBoxInfo({ parent: "春", checkBoxItems: state.monthCheckBoxItems }),
+    handleGetCheckBoxInfo({ parent: "夏", checkBoxItems: state.monthCheckBoxItems }),
+    handleGetCheckBoxInfo({ parent: "秋", checkBoxItems: state.monthCheckBoxItems }),
+    handleGetCheckBoxInfo({ parent: "冬", checkBoxItems: state.monthCheckBoxItems }),
   ];
 
   return (
