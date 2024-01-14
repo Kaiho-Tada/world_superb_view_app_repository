@@ -1,5 +1,5 @@
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { ChangeEvent, useCallback } from "react";
+import { ChangeEvent } from "react";
 
 const useCategoryHandleChange = () => {
   const { state, dispatch } = useWorldViewListContext();
@@ -24,30 +24,6 @@ const useCategoryHandleChange = () => {
     dispatch({ type: "SET_CHECKED_CATEGORY_LABELS", payload: newCheckBoxItemLabels });
   };
 
-  const handleChangeCategory = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const newCategoryCheckBoxItems = state.categoryCheckBoxItems.map(
-        (originalCategoryCheckBoxItem) => {
-          const categoryCheckBoxItem = { ...originalCategoryCheckBoxItem };
-          if (categoryCheckBoxItem.label === e.target.value) {
-            categoryCheckBoxItem.checked = !categoryCheckBoxItem.checked;
-          }
-          return categoryCheckBoxItem;
-        }
-      );
-      dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCategoryCheckBoxItems });
-
-      const checkedCategoryCheckBoxItems = newCategoryCheckBoxItems.filter(
-        (newCategoryWithCheckBoxData) => newCategoryWithCheckBoxData.checked === true
-      );
-
-      const newCheckedCategoryLabels = checkedCategoryCheckBoxItems.map(
-        (checkedCategoryCheckBoxItem) => checkedCategoryCheckBoxItem.label
-      );
-      dispatch({ type: "SET_CHECKED_CATEGORY_LABELS", payload: newCheckedCategoryLabels });
-    },
-    [state.categoryCheckBoxItems]
-  );
-  return { handleChangeClassification, handleChangeCategory };
+  return { handleChangeClassification };
 };
 export default useCategoryHandleChange;

@@ -26,29 +26,6 @@ const useCountryHandleChange = () => {
     [state.countryCheckBoxItems]
   );
 
-  const handleChangeCountry = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const newCountryCheckBoxItems = state.countryCheckBoxItems.map(
-        (originalCountryCheckBoxItem) => {
-          const countryCheckBoxItem = { ...originalCountryCheckBoxItem };
-          if (countryCheckBoxItem.label === e.target.value) {
-            countryCheckBoxItem.checked = !countryCheckBoxItem.checked;
-          }
-          return countryCheckBoxItem;
-        }
-      );
-      dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCountryCheckBoxItems });
-
-      const checkedCountryCheckBoxItems = newCountryCheckBoxItems.filter(
-        (newCountryCheckBoxItem) => newCountryCheckBoxItem.checked === true
-      );
-      const newCheckedCountryLabels = checkedCountryCheckBoxItems.map(
-        (checkedCountryCheckBoxItem) => checkedCountryCheckBoxItem.label
-      );
-      dispatch({ type: "SET_CHECKED_COUNTRY_LABELS", payload: newCheckedCountryLabels });
-    },
-    [state.countryCheckBoxItems]
-  );
-  return { handleChangeState, handleChangeCountry };
+  return { handleChangeState };
 };
 export default useCountryHandleChange;

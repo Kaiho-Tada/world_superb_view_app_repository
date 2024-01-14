@@ -1,12 +1,31 @@
 import { Center, Checkbox, Spinner } from "@chakra-ui/react";
-import useCharacteristicHandleChange from "features/worldView/hooks/filter/useCharacteristicHandleChange";
+import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
 import { CharacteristicCheckBoxItem } from "features/worldView/types/checkBoxItems/characteristicCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { FC } from "react";
+import { ChangeEvent, FC } from "react";
 
 const CharacteristicCheckBox: FC = () => {
-  const { state } = useWorldViewListContext();
-  const { handleChangeCharacteristic } = useCharacteristicHandleChange();
+  const { state, dispatch } = useWorldViewListContext();
+  const { handleChangeCheckBox } = useHandleChangeCheckBox();
+  const checkBoxItems = state.characteristicCheckBoxItems;
+
+  const checkBoxItemsDispatch = (newCheckBoxItems: CharacteristicCheckBoxItem[]) => {
+    dispatch({
+      type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+      payload: newCheckBoxItems,
+    });
+  };
+
+  const checkedLabelsDispatch = (newCheckedLabels: string[]) => {
+    dispatch({
+      type: "SET_CHECKED_CHARACTERISTIC_LABELS",
+      payload: newCheckedLabels,
+    });
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChangeCheckBox({ checkBoxItems, checkBoxItemsDispatch, e, checkedLabelsDispatch });
+  };
 
   return state.loadingCharacteristicCheckBoxItems === true ? (
     <Center h="10vh">
@@ -23,7 +42,7 @@ const CharacteristicCheckBox: FC = () => {
             colorScheme="green"
             isChecked={characteristicCheckBoxItem.checked}
             value={characteristicCheckBoxItem.label}
-            onChange={handleChangeCharacteristic}
+            onChange={handleChange}
             isDisabled={state.loadingSearchWorldViews}
           >
             {characteristicCheckBoxItem.label}

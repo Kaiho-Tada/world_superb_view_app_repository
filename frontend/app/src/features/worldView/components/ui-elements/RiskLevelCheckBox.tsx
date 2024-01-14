@@ -1,14 +1,27 @@
 import { Checkbox, Flex, Image, VStack } from "@chakra-ui/react";
 import starIcon from "assets/riskLevelStar.png";
 import zeroStarIcon from "assets/zoroRiskLevelStar.png";
-import useRiskLevelHandleChange from "features/worldView/hooks/filter/useRiskLevelHandleChange";
+import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
 import { RiskLevelCheckBoxItem } from "features/worldView/types/checkBoxItems/riskLevelCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { FC, memo } from "react";
+import { ChangeEvent, FC, memo } from "react";
 
 const RiskLevelCheckBox: FC = memo(() => {
-  const { state } = useWorldViewListContext();
-  const { handleChangeRiskLevel } = useRiskLevelHandleChange();
+  const { state, dispatch } = useWorldViewListContext();
+  const { handleChangeCheckBox } = useHandleChangeCheckBox();
+  const checkBoxItems = state.riskLevelCheckBoxItems;
+
+  const checkBoxItemsDispatch = (newCheckBoxItems: RiskLevelCheckBoxItem[]) => {
+    dispatch({ type: "SET_RISK_LEVEL_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  };
+
+  const checkedLabelsDispatch = (newCheckedLabels: string[]) => {
+    dispatch({ type: "SET_CHECKED_RISK_LEVEL_LABELS", payload: newCheckedLabels });
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChangeCheckBox({ checkBoxItems, checkBoxItemsDispatch, e, checkedLabelsDispatch });
+  };
 
   return (
     <VStack align="left">
@@ -20,7 +33,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               colorScheme="green"
               value={riskLevelCheckBoxItem.label}
               isChecked={riskLevelCheckBoxItem.checked}
-              onChange={handleChangeRiskLevel}
+              onChange={handleChange}
               key={riskLevelCheckBoxItem.label}
               isDisabled={state.loadingSearchWorldViews}
               aria-label="リスクレベル4"
@@ -41,7 +54,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               colorScheme="green"
               value={riskLevelCheckBoxItem.label}
               isChecked={riskLevelCheckBoxItem.checked}
-              onChange={handleChangeRiskLevel}
+              onChange={handleChange}
               key={riskLevelCheckBoxItem.label}
               isDisabled={state.loadingSearchWorldViews}
               aria-label="リスクレベル3"
@@ -61,7 +74,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               colorScheme="green"
               value={riskLevelCheckBoxItem.label}
               isChecked={riskLevelCheckBoxItem.checked}
-              onChange={handleChangeRiskLevel}
+              onChange={handleChange}
               key={riskLevelCheckBoxItem.label}
               isDisabled={state.loadingSearchWorldViews}
               aria-label="リスクレベル2"
@@ -80,7 +93,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               colorScheme="green"
               value={riskLevelCheckBoxItem.label}
               isChecked={riskLevelCheckBoxItem.checked}
-              onChange={handleChangeRiskLevel}
+              onChange={handleChange}
               key={riskLevelCheckBoxItem.label}
               isDisabled={state.loadingSearchWorldViews}
               aria-label="リスクレベル1"
@@ -98,7 +111,7 @@ const RiskLevelCheckBox: FC = memo(() => {
               colorScheme="green"
               value={riskLevelCheckBoxItem.label}
               isChecked={riskLevelCheckBoxItem.checked}
-              onChange={handleChangeRiskLevel}
+              onChange={handleChange}
               isDisabled={state.loadingSearchWorldViews}
               key={riskLevelCheckBoxItem.label}
               aria-label="リスクレベル0"

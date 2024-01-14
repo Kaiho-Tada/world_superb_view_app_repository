@@ -8,7 +8,9 @@ const spyOnUseWorldViewListContext = jest.spyOn(
   "useWorldViewListContext"
 );
 
+const mockDispatch = jest.fn();
 const mockContextValue = {
+  dispatch: mockDispatch,
   state: {
     monthCheckBoxItems: [
       { label: "1月", season: "冬", checked: false },
@@ -56,12 +58,10 @@ const mockContextValueLoadingSearchWorldViews = {
 };
 
 const mockHandleChangeSeason = jest.fn();
-const mockHandleChangeMonth = jest.fn();
 jest.mock("features/worldView/hooks/filter/useSeasonHandleChange", () => ({
   __esModule: true,
   default: () => ({
     handleChangeSeason: mockHandleChangeSeason,
-    handleChangeMonth: mockHandleChangeMonth,
   }),
 }));
 
@@ -125,12 +125,62 @@ test("季節のCheckbox押下でhandleChangeSeason関数が実行されること
   expect(mockHandleChangeSeason).toHaveBeenCalledTimes(1);
 });
 
-test("月のCheckbox押下でhandleChangeMonth関数が実行されること", async () => {
+test("checkbox押下でhandleChangeCheckBox関数内でdispatchが実行されること", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<SeasonCheckBox />);
   await act(async () => {
     await user.click(screen.getByRole("checkbox", { name: "3月" }));
   });
-  expect(mockHandleChangeMonth).toHaveBeenCalledTimes(1);
+
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_MONTH_CHECKBOX_ITEMS",
+    payload: expect.any(Array),
+  });
+
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_CHECKED_MONTH_LABELS",
+    payload: expect.any(Array),
+  });
+});
+
+test("checkbox押下でhandleChangeCheckBox関数が実行されること", async () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+
+  const spyOnUseHandleChangeCheckBox = jest.spyOn(
+    jest.requireActual("features/worldView/hooks/useHandleChangeCheckBox"),
+    "default"
+  );
+  const mockHandleChangeCheckBox = jest.fn();
+  spyOnUseHandleChangeCheckBox.mockImplementation(() => ({
+    handleChangeCheckBox: mockHandleChangeCheckBox,
+  }));
+
+  const user = userEvent.setup();
+  render(<SeasonCheckBox />);
+  await act(async () => {
+    await user.click(screen.getByRole("checkbox", { name: "3月" }));
+  });
+
+  expect(mockHandleChangeCheckBox).toHaveBeenCalledWith(
+    expect.objectContaining({
+      e: expect.objectContaining({ target: expect.objectContaining({ value: "3月" }) }),
+      checkBoxItems: [
+        { label: "1月", season: "冬", checked: false },
+        { label: "2月", season: "冬", checked: false },
+        { label: "3月", season: "春", checked: false },
+        { label: "4月", season: "春", checked: false },
+        { label: "5月", season: "春", checked: false },
+        { label: "6月", season: "夏", checked: false },
+        { label: "7月", season: "夏", checked: false },
+        { label: "8月", season: "夏", checked: false },
+        { label: "9月", season: "秋", checked: false },
+        { label: "10月", season: "秋", checked: false },
+        { label: "11月", season: "秋", checked: false },
+        { label: "12月", season: "冬", checked: false },
+      ],
+      checkBoxItemsDispatch: expect.any(Function),
+      checkedLabelsDispatch: expect.any(Function),
+    })
+  );
 });

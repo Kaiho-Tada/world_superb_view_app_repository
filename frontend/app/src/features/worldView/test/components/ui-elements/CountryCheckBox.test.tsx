@@ -8,7 +8,9 @@ const spyOnUseWorldViewListContext = jest.spyOn(
   "useWorldViewListContext"
 );
 
+const mockDispatch = jest.fn();
 const mockContextValue = {
+  dispatch: mockDispatch,
   state: {
     loadingSearchWorldViews: false,
     loadingCountryCheckBoxItems: false,
@@ -56,12 +58,10 @@ const mockContextValueLoadingCountryCheckBoxItems = {
 };
 
 const mockHandleChangeState = jest.fn();
-const mockHandleChangeCountry = jest.fn();
 jest.mock("features/worldView/hooks/filter/useCountryHandleChange", () => ({
   __esModule: true,
   default: () => ({
     handleChangeState: mockHandleChangeState,
-    handleChangeCountry: mockHandleChangeCountry,
   }),
 }));
 
@@ -129,7 +129,7 @@ test("州のCheckBox押下でhandleChangeState関数が実行されること", a
   expect(mockHandleChangeState).toHaveBeenCalledTimes(1);
 });
 
-test("国のCheckBox押下でhandleChangeCountry関数が実行されること", async () => {
+test("国のcheckbox押下でhandleChangeCheckBox関数内でdispatchが実行されること", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<CountryCheckBox />);
@@ -137,5 +137,52 @@ test("国のCheckBox押下でhandleChangeCountry関数が実行されること",
   await act(async () => {
     await user.click(CheckBox);
   });
-  expect(mockHandleChangeCountry).toHaveBeenCalledTimes(1);
+
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_COUNTRY_CHECKBOX_ITEMS",
+    payload: expect.any(Array),
+  });
+
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_CHECKED_COUNTRY_LABELS",
+    payload: expect.any(Array),
+  });
+});
+
+test("国のcheckbox押下でhandleChangeCheckBox関数が実行されること", async () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+
+  const spyOnUseHandleChangeCheckBox = jest.spyOn(
+    jest.requireActual("features/worldView/hooks/useHandleChangeCheckBox"),
+    "default"
+  );
+  const mockHandleChangeCheckBox = jest.fn();
+  spyOnUseHandleChangeCheckBox.mockImplementation(() => ({
+    handleChangeCheckBox: mockHandleChangeCheckBox,
+  }));
+
+  const user = userEvent.setup();
+  render(<CountryCheckBox />);
+  const CheckBox = screen.getByRole("checkbox", { name: "アメリカ" });
+  await act(async () => {
+    await user.click(CheckBox);
+  });
+
+  expect(mockHandleChangeCheckBox).toHaveBeenCalledWith(
+    expect.objectContaining({
+      e: expect.objectContaining({ target: expect.objectContaining({ value: "アメリカ" }) }),
+      checkBoxItems: [
+        { label: "アメリカ", stateName: "北米", checked: false },
+        { label: "カナダ", stateName: "北米", checked: false },
+        { label: "中国", stateName: "アジア", checked: false },
+        { label: "オーストラリア", stateName: "大洋州", checked: false },
+        { label: "メキシコ", stateName: "中南米", checked: false },
+        { label: "イギリス", stateName: "ヨーロッパ", checked: false },
+        { label: "トルコ", stateName: "中東", checked: false },
+        { label: "エジプト", stateName: "アフリカ", checked: false },
+      ],
+      checkBoxItemsDispatch: expect.any(Function),
+      checkedLabelsDispatch: expect.any(Function),
+    })
+  );
 });

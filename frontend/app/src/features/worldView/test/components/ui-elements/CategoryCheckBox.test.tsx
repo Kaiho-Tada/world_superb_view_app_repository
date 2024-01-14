@@ -8,7 +8,9 @@ const spyOnUseWorldViewListContext = jest.spyOn(
   "useWorldViewListContext"
 );
 
+const mockDispatch = jest.fn();
 const mockContextValue = {
+  dispatch: mockDispatch,
   state: {
     loadingSearchWorldViews: false,
     loadingCategoryCheckBoxItems: false,
@@ -46,12 +48,10 @@ const mockContextValueLoadingCategoryCheckBoxItems = {
 };
 
 const mockHandleChangeClassification = jest.fn();
-const mockHandleChangeCategory = jest.fn();
 jest.mock("features/worldView/hooks/filter/useCategoryHandleChange", () => ({
   __esModule: true,
   default: () => ({
     handleChangeClassification: mockHandleChangeClassification,
-    handleChangeCategory: mockHandleChangeCategory,
   }),
 }));
 
@@ -129,13 +129,52 @@ test("分類のCheckBox押下でhandleChangeClassification関数が実行され�
   expect(mockHandleChangeClassification).toHaveBeenCalledTimes(1);
 });
 
-test("カテゴリーのCheckBox押下でhandleChangeCategory関数が実行されること", async () => {
+test("カテゴリーのcheckbox押下でhandleChangeCheckBox関数内でdispatchが実行されること", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<CategoryCheckBox />);
-  const CheckBox = screen.getByRole("checkbox", { name: "滝" });
   await act(async () => {
-    await user.click(CheckBox);
+    await user.click(screen.getByRole("checkbox", { name: "滝" }));
   });
-  expect(mockHandleChangeCategory).toHaveBeenCalledTimes(1);
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_CATEGORY_CHECKBOX_ITEMS",
+    payload: expect.any(Array),
+  });
+
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_CHECKED_CATEGORY_LABELS",
+    payload: expect.any(Array),
+  });
+});
+
+test("カテゴリーのcheckbox押下でhandleChangeCheckBox関数が実行されること", async () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+
+  const spyOnUseHandleChangeCheckBox = jest.spyOn(
+    jest.requireActual("features/worldView/hooks/useHandleChangeCheckBox"),
+    "default"
+  );
+  const mockHandleChangeCheckBox = jest.fn();
+  spyOnUseHandleChangeCheckBox.mockImplementation(() => ({
+    handleChangeCheckBox: mockHandleChangeCheckBox,
+  }));
+
+  const user = userEvent.setup();
+  render(<CategoryCheckBox />);
+  await act(async () => {
+    await user.click(screen.getByRole("checkbox", { name: "滝" }));
+  });
+
+  expect(mockHandleChangeCheckBox).toHaveBeenCalledWith(
+    expect.objectContaining({
+      e: expect.objectContaining({ target: expect.objectContaining({ value: "滝" }) }),
+      checkBoxItems: [
+        { label: "滝", classification: "自然", checked: false },
+        { label: "塩湖", classification: "自然", checked: false },
+        { label: "廃墟", classification: "人工", checked: false },
+      ],
+      checkBoxItemsDispatch: expect.any(Function),
+      checkedLabelsDispatch: expect.any(Function),
+    })
+  );
 });

@@ -1,13 +1,32 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
 import useCategoryHandleChange from "features/worldView/hooks/filter/useCategoryHandleChange";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
+import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
 import { CategoryCheckBoxItem } from "features/worldView/types/checkBoxItems/categoryCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { FC, memo } from "react";
+import { ChangeEvent, FC, memo } from "react";
 
 const CategoryCheckBox: FC = memo(() => {
-  const { state } = useWorldViewListContext();
-  const { handleChangeCategory } = useCategoryHandleChange();
+  const { state, dispatch } = useWorldViewListContext();
+  const { handleChangeCheckBox } = useHandleChangeCheckBox();
+
+  const checkBoxItemsDispatch = (newCheckBoxItems: CategoryCheckBoxItem[]) => {
+    dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  };
+
+  const checkedLabelsDispatch = (newCheckedLabels: string[]) => {
+    dispatch({ type: "SET_CHECKED_CATEGORY_LABELS", payload: newCheckedLabels });
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChangeCheckBox<CategoryCheckBoxItem[]>({
+      e,
+      checkBoxItems: state.categoryCheckBoxItems,
+      checkBoxItemsDispatch,
+      checkedLabelsDispatch,
+    });
+  };
+
   const { handleChangeClassification } = useCategoryHandleChange();
   const { handleGetCheckBoxInfo } = useGetCheckBoxInfo();
   const checkBoxInfo = [
@@ -48,7 +67,7 @@ const CategoryCheckBox: FC = memo(() => {
                   colorScheme="teal"
                   isChecked={categoryCheckBoxItem.checked}
                   value={categoryCheckBoxItem.label}
-                  onChange={handleChangeCategory}
+                  onChange={handleChange}
                   isDisabled={state.loadingSearchWorldViews}
                 >
                   {categoryCheckBoxItem.label}

@@ -8,7 +8,9 @@ const spyOnUseWorldViewListContext = jest.spyOn(
   "useWorldViewListContext"
 );
 
+const mockDispatch = jest.fn();
 const mockContextValue = {
+  dispatch: mockDispatch,
   state: {
     loadingSearchWorldViews: false,
     loadingCharacteristicCheckBoxItems: false,
@@ -47,12 +49,6 @@ const mockContextValueLoadingCharacteristicCheckBoxItems = {
   },
 };
 
-const mockHandleChangeCharacteristic = jest.fn();
-jest.mock("features/worldView/hooks/filter/useCharacteristicHandleChange", () => ({
-  __esModule: true,
-  default: () => ({ handleChangeCharacteristic: mockHandleChangeCharacteristic }),
-}));
-
 test("CheckBoxがレンダリングされていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CharacteristicCheckBox />);
@@ -79,7 +75,7 @@ test("loadingCharacteristicCheckBoxItemsがtrueの場合、スピナーが表示
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
 });
 
-test("CheckBox押下でhandleChangeCharacteristic関数が実行されること", async () => {
+test("checkbox押下でhandleChangeCheckBox関数内でdispatchが実行されること", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<CharacteristicCheckBox />);
@@ -87,5 +83,43 @@ test("CheckBox押下でhandleChangeCharacteristic関数が実行されること"
   await act(async () => {
     await user.click(CheckBox);
   });
-  expect(mockHandleChangeCharacteristic).toHaveBeenCalledTimes(1);
+
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+    payload: expect.any(Array),
+  });
+
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_CHECKED_CHARACTERISTIC_LABELS",
+    payload: expect.any(Array),
+  });
+});
+
+test("checkbox押下でhandleChangeCheckBox関数が実行されること", async () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+
+  const spyOnUseHandleChangeCheckBox = jest.spyOn(
+    jest.requireActual("features/worldView/hooks/useHandleChangeCheckBox"),
+    "default"
+  );
+  const mockHandleChangeCheckBox = jest.fn();
+  spyOnUseHandleChangeCheckBox.mockImplementation(() => ({
+    handleChangeCheckBox: mockHandleChangeCheckBox,
+  }));
+
+  const user = userEvent.setup();
+  render(<CharacteristicCheckBox />);
+  const CheckBox = screen.getByRole("checkbox", { name: "雄大" });
+  await act(async () => {
+    await user.click(CheckBox);
+  });
+
+  expect(mockHandleChangeCheckBox).toHaveBeenCalledWith(
+    expect.objectContaining({
+      e: expect.objectContaining({ target: expect.objectContaining({ value: "雄大" }) }),
+      checkBoxItems: [{ label: "雄大", checked: false }],
+      checkBoxItemsDispatch: expect.any(Function),
+      checkedLabelsDispatch: expect.any(Function),
+    })
+  );
 });

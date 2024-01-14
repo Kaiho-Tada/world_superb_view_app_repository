@@ -1,13 +1,33 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
 import useCountryHandleChange from "features/worldView/hooks/filter/useCountryHandleChange";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
+import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
 import { CountryCheckBoxItem } from "features/worldView/types/checkBoxItems/CountryCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { FC } from "react";
+import { ChangeEvent, FC } from "react";
 
 const CountryCheckBox: FC = () => {
-  const { state } = useWorldViewListContext();
-  const { handleChangeCountry } = useCountryHandleChange();
+  const { state, dispatch } = useWorldViewListContext();
+  const { handleChangeCheckBox } = useHandleChangeCheckBox();
+  const checkBoxItems = state.countryCheckBoxItems;
+
+  const checkBoxItemsDispatch = (newCheckBoxItems: CountryCheckBoxItem[]) => {
+    dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  };
+
+  const checkedLabelsDispatch = (newCheckedLabels: string[]) => {
+    dispatch({ type: "SET_CHECKED_COUNTRY_LABELS", payload: newCheckedLabels });
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChangeCheckBox<CountryCheckBoxItem[]>({
+      checkBoxItems,
+      checkBoxItemsDispatch,
+      e,
+      checkedLabelsDispatch,
+    });
+  };
+
   const { handleChangeState } = useCountryHandleChange();
   const { handleGetCheckBoxInfo } = useGetCheckBoxInfo();
   const checkBoxInfo = [
@@ -48,7 +68,7 @@ const CountryCheckBox: FC = () => {
                   colorScheme="teal"
                   isChecked={countryCheckBoxItem.checked}
                   value={countryCheckBoxItem.label}
-                  onChange={handleChangeCountry}
+                  onChange={handleChange}
                   isDisabled={state.loadingSearchWorldViews}
                 >
                   {countryCheckBoxItem.label}
