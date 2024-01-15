@@ -9,19 +9,38 @@ import {
   Flex,
   Heading,
 } from "@chakra-ui/react";
-import BmiCheckBox from "features/worldView/components/ui-elements/BmiCheckBox";
 import CategoryCheckBox from "features/worldView/components/ui-elements/CategoryCheckBox";
-import CharacteristicCheckBox from "features/worldView/components/ui-elements/CharacteristicCheckBox";
 import CountryCheckBox from "features/worldView/components/ui-elements/CountryCheckBox";
 import FilterSearchBox from "features/worldView/components/ui-elements/FilterSearchBox";
 import RiskLevelCheckBox from "features/worldView/components/ui-elements/RiskLevelCheckBox";
 import SeasonCheckBox from "features/worldView/components/ui-elements/SeasonCheckBox";
 import useClear from "features/worldView/hooks/clear/useClear";
+import { BmiCheckBoxItem } from "features/worldView/types/checkBoxItems/bmiCheckBoxItem";
+import { CharacteristicCheckBoxItem } from "features/worldView/types/checkBoxItems/characteristicCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
+import CheckBox from "../ui-elements/CheckBox";
 
 const FilterDrawerAccordion = () => {
   const { state, dispatch } = useWorldViewListContext();
   const { handleClear } = useClear();
+  const characteristicCheckBoxItemsDispatch = (newCheckBoxItems: CharacteristicCheckBoxItem[]) => {
+    dispatch({
+      type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+      payload: newCheckBoxItems,
+    });
+  };
+  const characteristicCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
+    dispatch({
+      type: "SET_CHECKED_CHARACTERISTIC_LABELS",
+      payload: newCheckedLabels,
+    });
+  };
+  const bmiCheckBoxItemsDispatch = (newCheckBoxItems: BmiCheckBoxItem[]) => {
+    dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  };
+  const bmiCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
+    dispatch({ type: "SET_CHECKED_BMI_LABELS", payload: newCheckedLabels });
+  };
 
   return (
     <Accordion allowMultiple mt="4" role="region" aria-label="FilterDrawerAccordion">
@@ -95,7 +114,14 @@ const FilterDrawerAccordion = () => {
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel pb={4}>
-          <CharacteristicCheckBox />
+          <CheckBox
+            checkBoxItems={state.characteristicCheckBoxItems}
+            loadingCheckBoxItems={state.loadingCharacteristicCheckBoxItems}
+            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            vertical={false}
+            checkBoxItemsDispatch={characteristicCheckBoxItemsDispatch}
+            checkedLabelsDispatch={characteristicCheckedLabelsDispatch}
+          />
         </AccordionPanel>
       </AccordionItem>
       <AccordionItem>
@@ -128,7 +154,14 @@ const FilterDrawerAccordion = () => {
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel pb={4}>
-          <BmiCheckBox />
+          <CheckBox
+            checkBoxItems={state.bmiCheckBoxItems}
+            loadingCheckBoxItems={false}
+            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            vertical
+            checkBoxItemsDispatch={bmiCheckBoxItemsDispatch}
+            checkedLabelsDispatch={bmiCheckedLabelsDispatch}
+          />
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
