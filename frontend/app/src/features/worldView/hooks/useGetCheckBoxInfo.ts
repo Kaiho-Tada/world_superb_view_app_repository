@@ -1,4 +1,4 @@
-import { NestedCheckBoxItem } from "../types/checkBoxItems/nestedCheckBoxItem";
+import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 const useGetCheckBoxInfo = () => {
   const handleGetCheckBoxInfo = ({

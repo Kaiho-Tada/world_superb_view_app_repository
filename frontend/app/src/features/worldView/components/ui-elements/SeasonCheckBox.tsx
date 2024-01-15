@@ -1,14 +1,13 @@
 import { Box, Checkbox } from "@chakra-ui/react";
-import useSeasonHandleChange from "features/worldView/hooks/filter/useSeasonHandleChange";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
-import { NestedCheckBoxItem } from "features/worldView/types/checkBoxItems/nestedCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent } from "react";
+import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
 
 const SeasonCheckBox = () => {
   const { state, dispatch } = useWorldViewListContext();
-  const { handleChangeSeason } = useSeasonHandleChange();
   const { handleChangeCheckBox } = useHandleChangeCheckBox();
   const checkBoxItems = state.monthCheckBoxItems;
 
@@ -28,6 +27,16 @@ const SeasonCheckBox = () => {
       checkedLabelsDispatch,
     });
   };
+
+  const handleChaneParent = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChangeParentCheckBox({
+      e,
+      checkBoxItems: state.monthCheckBoxItems,
+      checkBoxItemsDispatch,
+      checkedLabelsDispatch,
+    });
+  };
+
   const { handleGetCheckBoxInfo } = useGetCheckBoxInfo();
   const checkBoxInfo = [
     handleGetCheckBoxInfo({ parent: "春", checkBoxItems: state.monthCheckBoxItems }),
@@ -45,7 +54,7 @@ const SeasonCheckBox = () => {
             isIndeterminate={information.isIndeterminate}
             value={information.label}
             disabled={state.loadingSearchWorldViews}
-            onChange={handleChangeSeason}
+            onChange={handleChaneParent}
             colorScheme="teal"
           >
             {information.label}

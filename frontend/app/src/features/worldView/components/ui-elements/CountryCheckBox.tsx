@@ -1,10 +1,10 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
-import useCountryHandleChange from "features/worldView/hooks/filter/useCountryHandleChange";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
-import { NestedCheckBoxItem } from "features/worldView/types/checkBoxItems/nestedCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent, FC } from "react";
+import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
 
 const CountryCheckBox: FC = () => {
   const { state, dispatch } = useWorldViewListContext();
@@ -28,7 +28,14 @@ const CountryCheckBox: FC = () => {
     });
   };
 
-  const { handleChangeState } = useCountryHandleChange();
+  const handleChaneParent = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChangeParentCheckBox({
+      e,
+      checkBoxItems: state.countryCheckBoxItems,
+      checkBoxItemsDispatch,
+      checkedLabelsDispatch,
+    });
+  };
   const { handleGetCheckBoxInfo } = useGetCheckBoxInfo();
   const checkBoxInfo = [
     handleGetCheckBoxInfo({ parent: "アジア", checkBoxItems: state.countryCheckBoxItems }),
@@ -53,7 +60,7 @@ const CountryCheckBox: FC = () => {
             isIndeterminate={information.isIndeterminate}
             value={information.label}
             disabled={state.loadingSearchWorldViews}
-            onChange={handleChangeState}
+            onChange={handleChaneParent}
             colorScheme="teal"
           >
             {information.label}

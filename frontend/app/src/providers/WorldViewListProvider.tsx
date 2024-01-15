@@ -1,7 +1,7 @@
 import { WorldView } from "features/worldView/types/api/worldView";
 import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
-import { NestedCheckBoxItem } from "features/worldView/types/checkBoxItems/nestedCheckBoxItem";
 import { createContext, Dispatch, FC, ReactNode, useContext, useMemo, useReducer } from "react";
+import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 export type Action =
   | { type: "SET_CATEGORY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }

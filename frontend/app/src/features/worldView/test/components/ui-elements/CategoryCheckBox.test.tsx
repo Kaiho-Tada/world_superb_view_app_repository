@@ -47,14 +47,6 @@ const mockContextValueLoadingCategoryCheckBoxItems = {
   },
 };
 
-const mockHandleChangeClassification = jest.fn();
-jest.mock("features/worldView/hooks/filter/useCategoryHandleChange", () => ({
-  __esModule: true,
-  default: () => ({
-    handleChangeClassification: mockHandleChangeClassification,
-  }),
-}));
-
 test("CheckBoxがレンダリングされていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CategoryCheckBox />);
@@ -118,15 +110,31 @@ test("loadingCategoryCheckBoxItemsがtrueの場合、スピナーが表示され
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
 });
 
-test("分類のCheckBox押下でhandleChangeClassification関数が実行されること", async () => {
+test("親のCheckBox押下でhandleChangeParentCheckBox関数が実行されること", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+  const spyOnHandleChangeParentCheckBox = jest.spyOn(
+    jest.requireActual("utils/handleChangeParentCheckBox"),
+    "default"
+  );
+
   const user = userEvent.setup();
   render(<CategoryCheckBox />);
   const CheckBox = screen.getByRole("checkbox", { name: "自然" });
   await act(async () => {
     await user.click(CheckBox);
   });
-  expect(mockHandleChangeClassification).toHaveBeenCalledTimes(1);
+  expect(spyOnHandleChangeParentCheckBox).toHaveBeenCalledWith(
+    expect.objectContaining({
+      e: expect.objectContaining({ target: expect.objectContaining({ value: "自然" }) }),
+      checkBoxItems: [
+        { label: "滝", parentLabel: "自然", checked: false },
+        { label: "塩湖", parentLabel: "自然", checked: false },
+        { label: "廃墟", parentLabel: "人工", checked: false },
+      ],
+      checkBoxItemsDispatch: expect.any(Function),
+      checkedLabelsDispatch: expect.any(Function),
+    })
+  );
 });
 
 test("カテゴリーのcheckbox押下でhandleChangeCheckBox関数内でdispatchが実行されること", async () => {

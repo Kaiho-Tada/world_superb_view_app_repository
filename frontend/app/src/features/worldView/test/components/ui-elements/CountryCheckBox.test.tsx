@@ -57,14 +57,6 @@ const mockContextValueLoadingCountryCheckBoxItems = {
   },
 };
 
-const mockHandleChangeState = jest.fn();
-jest.mock("features/worldView/hooks/filter/useCountryHandleChange", () => ({
-  __esModule: true,
-  default: () => ({
-    handleChangeState: mockHandleChangeState,
-  }),
-}));
-
 test("CheckBoxがレンダリングされていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<CountryCheckBox />);
@@ -118,15 +110,36 @@ test("loadingCountryCheckBoxItemsがtrueの場合、スピナーが表示され�
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
 });
 
-test("州のCheckBox押下でhandleChangeState関数が実行されること", async () => {
+test("親のCheckBox押下でhandleChangeParentCheckBox関数が実行されること", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+  const spyOnHandleChangeParentCheckBox = jest.spyOn(
+    jest.requireActual("utils/handleChangeParentCheckBox"),
+    "default"
+  );
   const user = userEvent.setup();
   render(<CountryCheckBox />);
   const CheckBox = screen.getByRole("checkbox", { name: "北米" });
   await act(async () => {
     await user.click(CheckBox);
   });
-  expect(mockHandleChangeState).toHaveBeenCalledTimes(1);
+
+  expect(spyOnHandleChangeParentCheckBox).toHaveBeenCalledWith(
+    expect.objectContaining({
+      e: expect.objectContaining({ target: expect.objectContaining({ value: "北米" }) }),
+      checkBoxItems: [
+        { label: "アメリカ", parentLabel: "北米", checked: false },
+        { label: "カナダ", parentLabel: "北米", checked: false },
+        { label: "中国", parentLabel: "アジア", checked: false },
+        { label: "オーストラリア", parentLabel: "大洋州", checked: false },
+        { label: "メキシコ", parentLabel: "中南米", checked: false },
+        { label: "イギリス", parentLabel: "ヨーロッパ", checked: false },
+        { label: "トルコ", parentLabel: "中東", checked: false },
+        { label: "エジプト", parentLabel: "アフリカ", checked: false },
+      ],
+      checkBoxItemsDispatch: expect.any(Function),
+      checkedLabelsDispatch: expect.any(Function),
+    })
+  );
 });
 
 test("国のcheckbox押下でhandleChangeCheckBox関数内でdispatchが実行されること", async () => {

@@ -57,14 +57,6 @@ const mockContextValueLoadingSearchWorldViews = {
   },
 };
 
-const mockHandleChangeSeason = jest.fn();
-jest.mock("features/worldView/hooks/filter/useSeasonHandleChange", () => ({
-  __esModule: true,
-  default: () => ({
-    handleChangeSeason: mockHandleChangeSeason,
-  }),
-}));
-
 test("CheckBoxがレンダリングされていること", () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<SeasonCheckBox />);
@@ -115,14 +107,38 @@ test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになって�
   expect(screen.getByRole("checkbox", { name: "5月" })).toBeDisabled();
 });
 
-test("季節のCheckbox押下でhandleChangeSeason関数が実行されること", async () => {
+test("親のCheckbox押下でhandleChangeParentCheckBox関数が実行されること", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+  const spyOnHandleChangeParentCheckBox = jest.spyOn(
+    jest.requireActual("utils/handleChangeParentCheckBox"),
+    "default"
+  );
   const user = userEvent.setup();
   render(<SeasonCheckBox />);
   await act(async () => {
     await user.click(screen.getByRole("checkbox", { name: "春" }));
   });
-  expect(mockHandleChangeSeason).toHaveBeenCalledTimes(1);
+  expect(spyOnHandleChangeParentCheckBox).toHaveBeenCalledWith(
+    expect.objectContaining({
+      e: expect.objectContaining({ target: expect.objectContaining({ value: "春" }) }),
+      checkBoxItems: [
+        { label: "1月", parentLabel: "冬", checked: false },
+        { label: "2月", parentLabel: "冬", checked: false },
+        { label: "3月", parentLabel: "春", checked: false },
+        { label: "4月", parentLabel: "春", checked: false },
+        { label: "5月", parentLabel: "春", checked: false },
+        { label: "6月", parentLabel: "夏", checked: false },
+        { label: "7月", parentLabel: "夏", checked: false },
+        { label: "8月", parentLabel: "夏", checked: false },
+        { label: "9月", parentLabel: "秋", checked: false },
+        { label: "10月", parentLabel: "秋", checked: false },
+        { label: "11月", parentLabel: "秋", checked: false },
+        { label: "12月", parentLabel: "冬", checked: false },
+      ],
+      checkBoxItemsDispatch: expect.any(Function),
+      checkedLabelsDispatch: expect.any(Function),
+    })
+  );
 });
 
 test("checkbox押下でhandleChangeCheckBox関数内でdispatchが実行されること", async () => {

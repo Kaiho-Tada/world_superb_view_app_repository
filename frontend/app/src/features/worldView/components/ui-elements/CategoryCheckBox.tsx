@@ -1,10 +1,10 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
-import useCategoryHandleChange from "features/worldView/hooks/filter/useCategoryHandleChange";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
-import { NestedCheckBoxItem } from "features/worldView/types/checkBoxItems/nestedCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent, FC, memo } from "react";
+import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
 
 const CategoryCheckBox: FC = memo(() => {
   const { state, dispatch } = useWorldViewListContext();
@@ -27,7 +27,14 @@ const CategoryCheckBox: FC = memo(() => {
     });
   };
 
-  const { handleChangeClassification } = useCategoryHandleChange();
+  const handleChaneParent = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChangeParentCheckBox({
+      e,
+      checkBoxItems: state.categoryCheckBoxItems,
+      checkBoxItemsDispatch,
+      checkedLabelsDispatch,
+    });
+  };
   const { handleGetCheckBoxInfo } = useGetCheckBoxInfo();
   const checkBoxInfo = [
     handleGetCheckBoxInfo({
@@ -53,7 +60,7 @@ const CategoryCheckBox: FC = memo(() => {
             isIndeterminate={information.isIndeterminate}
             value={information.label}
             disabled={state.loadingSearchWorldViews}
-            onChange={handleChangeClassification}
+            onChange={handleChaneParent}
             colorScheme="teal"
           >
             {information.label}
