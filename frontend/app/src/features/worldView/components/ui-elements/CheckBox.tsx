@@ -1,7 +1,7 @@
 import { Box, Center, Checkbox, Spinner } from "@chakra-ui/react";
-import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
 import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
 import { ChangeEvent, CSSProperties, FC } from "react";
+import handleChangeCheckBox from "utils/handleChangeCheckBox";
 
 type Props = {
   checkBoxItems: CheckBoxItem[];
@@ -21,7 +21,6 @@ const CheckBox: FC<Props> = (props) => {
     checkBoxItemsDispatch,
     checkedLabelsDispatch,
   } = props;
-  const { handleChangeCheckBox } = useHandleChangeCheckBox();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleChangeCheckBox({ checkBoxItems, checkBoxItemsDispatch, e, checkedLabelsDispatch });

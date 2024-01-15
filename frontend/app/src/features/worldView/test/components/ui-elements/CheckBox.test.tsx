@@ -80,14 +80,10 @@ test("verticalがtrueの場合、CheckBoxが縦並びに配置されているこ
 });
 
 test("checkbox押下でhandleChangeCheckBox関数が実行されること", async () => {
-  const spyOnUseHandleChangeCheckBox = jest.spyOn(
-    jest.requireActual("features/worldView/hooks/useHandleChangeCheckBox"),
+  const spyOnHandleChangeCheckBox = jest.spyOn(
+    jest.requireActual("utils/handleChangeCheckBox"),
     "default"
   );
-  const mockHandleChangeCheckBox = jest.fn();
-  spyOnUseHandleChangeCheckBox.mockImplementation(() => ({
-    handleChangeCheckBox: mockHandleChangeCheckBox,
-  }));
 
   const user = userEvent.setup();
   render(
@@ -104,7 +100,7 @@ test("checkbox押下でhandleChangeCheckBox関数が実行されること", asyn
     await user.click(screen.getByRole("checkbox", { name: "ラベル" }));
   });
 
-  expect(mockHandleChangeCheckBox).toHaveBeenCalledWith(
+  expect(spyOnHandleChangeCheckBox).toHaveBeenCalledWith(
     expect.objectContaining({
       e: expect.objectContaining({ target: expect.objectContaining({ value: "ラベル" }) }),
       checkBoxItems: [{ label: "ラベル", checked: false }],

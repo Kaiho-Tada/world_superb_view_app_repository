@@ -1,14 +1,13 @@
 import { Box, Checkbox } from "@chakra-ui/react";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
-import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent } from "react";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import handleChangeCheckBox from "utils/handleChangeCheckBox";
 import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
 
 const SeasonCheckBox = () => {
   const { state, dispatch } = useWorldViewListContext();
-  const { handleChangeCheckBox } = useHandleChangeCheckBox();
   const checkBoxItems = state.monthCheckBoxItems;
 
   const checkBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {

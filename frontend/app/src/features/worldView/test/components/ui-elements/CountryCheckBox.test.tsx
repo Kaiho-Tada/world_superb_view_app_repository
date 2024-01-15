@@ -165,14 +165,10 @@ test("国のcheckbox押下でhandleChangeCheckBox関数内でdispatchが実行�
 test("国のcheckbox押下でhandleChangeCheckBox関数が実行されること", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
 
-  const spyOnUseHandleChangeCheckBox = jest.spyOn(
-    jest.requireActual("features/worldView/hooks/useHandleChangeCheckBox"),
+  const spyOnHandleChangeCheckBox = jest.spyOn(
+    jest.requireActual("utils/handleChangeCheckBox"),
     "default"
   );
-  const mockHandleChangeCheckBox = jest.fn();
-  spyOnUseHandleChangeCheckBox.mockImplementation(() => ({
-    handleChangeCheckBox: mockHandleChangeCheckBox,
-  }));
 
   const user = userEvent.setup();
   render(<CountryCheckBox />);
@@ -181,7 +177,7 @@ test("国のcheckbox押下でhandleChangeCheckBox関数が実行されること"
     await user.click(CheckBox);
   });
 
-  expect(mockHandleChangeCheckBox).toHaveBeenCalledWith(
+  expect(spyOnHandleChangeCheckBox).toHaveBeenCalledWith(
     expect.objectContaining({
       e: expect.objectContaining({ target: expect.objectContaining({ value: "アメリカ" }) }),
       checkBoxItems: [

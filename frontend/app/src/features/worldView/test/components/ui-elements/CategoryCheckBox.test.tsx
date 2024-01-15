@@ -158,14 +158,10 @@ test("カテゴリーのcheckbox押下でhandleChangeCheckBox関数内でdispatc
 test("カテゴリーのcheckbox押下でhandleChangeCheckBox関数が実行されること", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
 
-  const spyOnUseHandleChangeCheckBox = jest.spyOn(
-    jest.requireActual("features/worldView/hooks/useHandleChangeCheckBox"),
+  const spyOnHandleChangeCheckBox = jest.spyOn(
+    jest.requireActual("utils/handleChangeCheckBox"),
     "default"
   );
-  const mockHandleChangeCheckBox = jest.fn();
-  spyOnUseHandleChangeCheckBox.mockImplementation(() => ({
-    handleChangeCheckBox: mockHandleChangeCheckBox,
-  }));
 
   const user = userEvent.setup();
   render(<CategoryCheckBox />);
@@ -173,7 +169,7 @@ test("カテゴリーのcheckbox押下でhandleChangeCheckBox関数が実行さ�
     await user.click(screen.getByRole("checkbox", { name: "滝" }));
   });
 
-  expect(mockHandleChangeCheckBox).toHaveBeenCalledWith(
+  expect(spyOnHandleChangeCheckBox).toHaveBeenCalledWith(
     expect.objectContaining({
       e: expect.objectContaining({ target: expect.objectContaining({ value: "滝" }) }),
       checkBoxItems: [

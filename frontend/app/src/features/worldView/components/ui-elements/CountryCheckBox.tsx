@@ -1,14 +1,13 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
-import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent, FC } from "react";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import handleChangeCheckBox from "utils/handleChangeCheckBox";
 import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
 
 const CountryCheckBox: FC = () => {
   const { state, dispatch } = useWorldViewListContext();
-  const { handleChangeCheckBox } = useHandleChangeCheckBox();
   const checkBoxItems = state.countryCheckBoxItems;
 
   const checkBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {

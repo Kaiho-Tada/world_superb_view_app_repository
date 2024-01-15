@@ -163,14 +163,10 @@ test("checkbox押下でhandleChangeCheckBox関数内でdispatchが実行され�
 test("checkbox押下でhandleChangeCheckBox関数が実行されること", async () => {
   spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
 
-  const spyOnUseHandleChangeCheckBox = jest.spyOn(
-    jest.requireActual("features/worldView/hooks/useHandleChangeCheckBox"),
+  const spyOnHandleChangeCheckBox = jest.spyOn(
+    jest.requireActual("utils/handleChangeCheckBox"),
     "default"
   );
-  const mockHandleChangeCheckBox = jest.fn();
-  spyOnUseHandleChangeCheckBox.mockImplementation(() => ({
-    handleChangeCheckBox: mockHandleChangeCheckBox,
-  }));
 
   const user = userEvent.setup();
   render(<SeasonCheckBox />);
@@ -178,7 +174,7 @@ test("checkbox押下でhandleChangeCheckBox関数が実行されること", asyn
     await user.click(screen.getByRole("checkbox", { name: "3月" }));
   });
 
-  expect(mockHandleChangeCheckBox).toHaveBeenCalledWith(
+  expect(spyOnHandleChangeCheckBox).toHaveBeenCalledWith(
     expect.objectContaining({
       e: expect.objectContaining({ target: expect.objectContaining({ value: "3月" }) }),
       checkBoxItems: [
