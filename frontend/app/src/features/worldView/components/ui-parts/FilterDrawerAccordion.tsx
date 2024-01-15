@@ -15,15 +15,14 @@ import FilterSearchBox from "features/worldView/components/ui-elements/FilterSea
 import RiskLevelCheckBox from "features/worldView/components/ui-elements/RiskLevelCheckBox";
 import SeasonCheckBox from "features/worldView/components/ui-elements/SeasonCheckBox";
 import useClear from "features/worldView/hooks/clear/useClear";
-import { BmiCheckBoxItem } from "features/worldView/types/checkBoxItems/bmiCheckBoxItem";
-import { CharacteristicCheckBoxItem } from "features/worldView/types/checkBoxItems/characteristicCheckBoxItem";
+import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import CheckBox from "../ui-elements/CheckBox";
 
 const FilterDrawerAccordion = () => {
   const { state, dispatch } = useWorldViewListContext();
   const { handleClear } = useClear();
-  const characteristicCheckBoxItemsDispatch = (newCheckBoxItems: CharacteristicCheckBoxItem[]) => {
+  const characteristicCheckBoxItemsDispatch = (newCheckBoxItems: CheckBoxItem[]) => {
     dispatch({
       type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
       payload: newCheckBoxItems,
@@ -35,7 +34,7 @@ const FilterDrawerAccordion = () => {
       payload: newCheckedLabels,
     });
   };
-  const bmiCheckBoxItemsDispatch = (newCheckBoxItems: BmiCheckBoxItem[]) => {
+  const bmiCheckBoxItemsDispatch = (newCheckBoxItems: CheckBoxItem[]) => {
     dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: newCheckBoxItems });
   };
   const bmiCheckedLabelsDispatch = (newCheckedLabels: string[]) => {

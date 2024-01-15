@@ -2,7 +2,7 @@ import { Checkbox, Flex, Image, VStack } from "@chakra-ui/react";
 import starIcon from "assets/riskLevelStar.png";
 import zeroStarIcon from "assets/zoroRiskLevelStar.png";
 import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
-import { RiskLevelCheckBoxItem } from "features/worldView/types/checkBoxItems/riskLevelCheckBoxItem";
+import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent, FC, memo } from "react";
 
@@ -11,7 +11,7 @@ const RiskLevelCheckBox: FC = memo(() => {
   const { handleChangeCheckBox } = useHandleChangeCheckBox();
   const checkBoxItems = state.riskLevelCheckBoxItems;
 
-  const checkBoxItemsDispatch = (newCheckBoxItems: RiskLevelCheckBoxItem[]) => {
+  const checkBoxItemsDispatch = (newCheckBoxItems: CheckBoxItem[]) => {
     dispatch({ type: "SET_RISK_LEVEL_CHECKBOX_ITEMS", payload: newCheckBoxItems });
   };
 
@@ -25,7 +25,7 @@ const RiskLevelCheckBox: FC = memo(() => {
 
   return (
     <VStack align="left">
-      {state.riskLevelCheckBoxItems.map((riskLevelCheckBoxItem: RiskLevelCheckBoxItem) => {
+      {state.riskLevelCheckBoxItems.map((riskLevelCheckBoxItem: CheckBoxItem) => {
         if (riskLevelCheckBoxItem.label === "4") {
           return (
             <Checkbox

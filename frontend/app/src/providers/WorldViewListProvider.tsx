@@ -1,19 +1,17 @@
 import { WorldView } from "features/worldView/types/api/worldView";
-import { BmiCheckBoxItem } from "features/worldView/types/checkBoxItems/bmiCheckBoxItem";
 import { CategoryCheckBoxItem } from "features/worldView/types/checkBoxItems/categoryCheckBoxItem";
-import { CharacteristicCheckBoxItem } from "features/worldView/types/checkBoxItems/characteristicCheckBoxItem";
+import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
 import { CountryCheckBoxItem } from "features/worldView/types/checkBoxItems/CountryCheckBoxItem";
 import { MonthCheckBoxItem } from "features/worldView/types/checkBoxItems/monthCheckBoxItem";
-import { RiskLevelCheckBoxItem } from "features/worldView/types/checkBoxItems/riskLevelCheckBoxItem";
 import { createContext, Dispatch, FC, ReactNode, useContext, useMemo, useReducer } from "react";
 
 export type Action =
   | { type: "SET_CATEGORY_CHECKBOX_ITEMS"; payload: CategoryCheckBoxItem[] }
   | { type: "SET_COUNTRY_CHECKBOX_ITEMS"; payload: CountryCheckBoxItem[] }
-  | { type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: CharacteristicCheckBoxItem[] }
-  | { type: "SET_RISK_LEVEL_CHECKBOX_ITEMS"; payload: RiskLevelCheckBoxItem[] }
+  | { type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
+  | { type: "SET_RISK_LEVEL_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
   | { type: "SET_MONTH_CHECKBOX_ITEMS"; payload: MonthCheckBoxItem[] }
-  | { type: "SET_BMI_CHECKBOX_ITEMS"; payload: BmiCheckBoxItem[] }
+  | { type: "SET_BMI_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
   | { type: "SET_CHECKED_CATEGORY_LABELS"; payload: string[] }
   | { type: "SET_CHECKED_COUNTRY_LABELS"; payload: string[] }
   | { type: "SET_CHECKED_CHARACTERISTIC_LABELS"; payload: string[] }
@@ -38,10 +36,10 @@ type State = {
   categoryClassifications: string[];
   categoryCheckBoxItems: Array<CategoryCheckBoxItem>;
   countryCheckBoxItems: Array<CountryCheckBoxItem>;
-  characteristicCheckBoxItems: Array<CharacteristicCheckBoxItem>;
-  riskLevelCheckBoxItems: RiskLevelCheckBoxItem[];
+  characteristicCheckBoxItems: CheckBoxItem[];
+  riskLevelCheckBoxItems: CheckBoxItem[];
   monthCheckBoxItems: MonthCheckBoxItem[];
-  bmiCheckBoxItems: BmiCheckBoxItem[];
+  bmiCheckBoxItems: CheckBoxItem[];
   checkedCategoryLabels: string[];
   checkedCountryLabels: string[];
   checkedCharacteristicLabels: string[];
