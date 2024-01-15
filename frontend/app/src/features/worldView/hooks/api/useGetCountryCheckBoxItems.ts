@@ -14,7 +14,7 @@ const useGetCountryCheckBoxItems = () => {
       const countries = res.data;
       const countriesWithCheckBox = countries.map((country: Country) => ({
         label: country.name,
-        stateName: country.state.name,
+        parentLabel: country.state.name,
         checked: false,
       }));
       dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: countriesWithCheckBox });

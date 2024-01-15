@@ -12,14 +12,14 @@ const mockDispatch = jest.fn();
 const mockContextValueCheckedFalse = {
   dispatch: mockDispatch,
   state: {
-    monthCheckBoxItems: [{ label: "1月", season: "冬", checked: false }],
+    monthCheckBoxItems: [{ label: "1月", parentLabel: "冬", checked: false }],
   },
 };
 
 const mockContextValueCheckedTrue = {
   dispatch: mockDispatch,
   state: {
-    monthCheckBoxItems: [{ label: "1月", season: "冬", checked: true }],
+    monthCheckBoxItems: [{ label: "1月", parentLabel: "冬", checked: true }],
   },
 };
 
@@ -34,7 +34,7 @@ describe("handleChangeSeason関数の挙動のテスト", () => {
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_MONTH_CHECKBOX_ITEMS",
-        payload: [{ label: "1月", season: "冬", checked: true }],
+        payload: [{ label: "1月", parentLabel: "冬", checked: true }],
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_CHECKED_MONTH_LABELS",
@@ -51,7 +51,7 @@ describe("handleChangeSeason関数の挙動のテスト", () => {
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_MONTH_CHECKBOX_ITEMS",
-        payload: [{ label: "1月", season: "冬", checked: false }],
+        payload: [{ label: "1月", parentLabel: "冬", checked: false }],
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_CHECKED_MONTH_LABELS",
@@ -70,7 +70,7 @@ describe("handleChangeSeason関数の挙動のテスト", () => {
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_MONTH_CHECKBOX_ITEMS",
-        payload: [{ label: "1月", season: "冬", checked: false }],
+        payload: [{ label: "1月", parentLabel: "冬", checked: false }],
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_CHECKED_MONTH_LABELS",

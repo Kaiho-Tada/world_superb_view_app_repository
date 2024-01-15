@@ -15,7 +15,7 @@ const mockContextValueCheckedFalse = {
     categoryCheckBoxItems: [
       {
         label: "城",
-        classification: "人工",
+        parentLabel: "人工",
         checked: false,
       },
     ],
@@ -28,7 +28,7 @@ const mockContextValueCheckedTrue = {
     categoryCheckBoxItems: [
       {
         label: "城",
-        classification: "人工",
+        parentLabel: "人工",
         checked: true,
       },
     ],
@@ -49,7 +49,7 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
         payload: [
           {
             label: "城",
-            classification: "人工",
+            parentLabel: "人工",
             checked: true,
           },
         ],
@@ -71,7 +71,7 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
         payload: [
           {
             label: "城",
-            classification: "人工",
+            parentLabel: "人工",
             checked: false,
           },
         ],
@@ -95,7 +95,7 @@ describe("handleChangeClassification関数の挙動のテスト", () => {
         payload: [
           {
             label: "城",
-            classification: "人工",
+            parentLabel: "人工",
             checked: false,
           },
         ],

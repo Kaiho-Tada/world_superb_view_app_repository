@@ -14,7 +14,7 @@ const mockContextValueCheckedFalse = {
     countryCheckBoxItems: [
       {
         label: "ペルー",
-        stateName: "中南米",
+        parentLabel: "中南米",
         checked: false,
       },
     ],
@@ -27,7 +27,7 @@ const mockContextValueCheckedTrue = {
     countryCheckBoxItems: [
       {
         label: "ペルー",
-        stateName: "中南米",
+        parentLabel: "中南米",
         checked: true,
       },
     ],
@@ -48,7 +48,7 @@ describe("handleChangeState関数の挙動のテスト", () => {
         payload: [
           {
             label: "ペルー",
-            stateName: "中南米",
+            parentLabel: "中南米",
             checked: true,
           },
         ],
@@ -72,7 +72,7 @@ describe("handleChangeState関数の挙動のテスト", () => {
         payload: [
           {
             label: "ペルー",
-            stateName: "中南米",
+            parentLabel: "中南米",
             checked: false,
           },
         ],
@@ -97,7 +97,7 @@ describe("handleChangeState関数の挙動のテスト", () => {
         payload: [
           {
             label: "ペルー",
-            stateName: "中南米",
+            parentLabel: "中南米",
             checked: false,
           },
         ],

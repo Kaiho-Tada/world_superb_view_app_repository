@@ -49,12 +49,12 @@ test("categoryCheckBoxItems取得成功時のテスト", async () => {
     payload: [
       {
         label: "洞窟",
-        classification: "自然",
+        parentLabel: "自然",
         checked: false,
       },
       {
         label: "城",
-        classification: "人工",
+        parentLabel: "人工",
         checked: false,
       },
     ],

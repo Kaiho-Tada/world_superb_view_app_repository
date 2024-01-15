@@ -15,7 +15,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
         payload: [
           {
             label: "砂漠",
-            classification: "自然",
+            parentLabel: "自然",
             checked: false,
           },
         ],
@@ -25,7 +25,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
     expect(result.current.state.categoryCheckBoxItems).toEqual([
       {
         label: "砂漠",
-        classification: "自然",
+        parentLabel: "自然",
         checked: false,
       },
     ]);
@@ -43,7 +43,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
         payload: [
           {
             label: "アメリカ",
-            stateName: "北米",
+            parentLabel: "北米",
             checked: false,
           },
         ],
@@ -53,7 +53,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
     expect(result.current.state.countryCheckBoxItems).toEqual([
       {
         label: "アメリカ",
-        stateName: "北米",
+        parentLabel: "北米",
         checked: false,
       },
     ]);
@@ -124,53 +124,53 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
     expect(result.current.state.monthCheckBoxItems).toEqual([
-      { label: "1月", season: "冬", checked: false },
-      { label: "2月", season: "冬", checked: false },
-      { label: "3月", season: "春", checked: false },
-      { label: "4月", season: "春", checked: false },
-      { label: "5月", season: "春", checked: false },
-      { label: "6月", season: "夏", checked: false },
-      { label: "7月", season: "夏", checked: false },
-      { label: "8月", season: "夏", checked: false },
-      { label: "9月", season: "秋", checked: false },
-      { label: "10月", season: "秋", checked: false },
-      { label: "11月", season: "秋", checked: false },
-      { label: "12月", season: "冬", checked: false },
+      { label: "1月", parentLabel: "冬", checked: false },
+      { label: "2月", parentLabel: "冬", checked: false },
+      { label: "3月", parentLabel: "春", checked: false },
+      { label: "4月", parentLabel: "春", checked: false },
+      { label: "5月", parentLabel: "春", checked: false },
+      { label: "6月", parentLabel: "夏", checked: false },
+      { label: "7月", parentLabel: "夏", checked: false },
+      { label: "8月", parentLabel: "夏", checked: false },
+      { label: "9月", parentLabel: "秋", checked: false },
+      { label: "10月", parentLabel: "秋", checked: false },
+      { label: "11月", parentLabel: "秋", checked: false },
+      { label: "12月", parentLabel: "冬", checked: false },
     ]);
 
     act(() => {
       result.current.dispatch({
         type: "SET_MONTH_CHECKBOX_ITEMS",
         payload: [
-          { label: "1月", season: "冬", checked: true },
-          { label: "2月", season: "冬", checked: false },
-          { label: "3月", season: "春", checked: false },
-          { label: "4月", season: "春", checked: false },
-          { label: "5月", season: "春", checked: false },
-          { label: "6月", season: "夏", checked: false },
-          { label: "7月", season: "夏", checked: false },
-          { label: "8月", season: "夏", checked: false },
-          { label: "9月", season: "秋", checked: false },
-          { label: "10月", season: "秋", checked: false },
-          { label: "11月", season: "秋", checked: false },
-          { label: "12月", season: "冬", checked: true },
+          { label: "1月", parentLabel: "冬", checked: true },
+          { label: "2月", parentLabel: "冬", checked: false },
+          { label: "3月", parentLabel: "春", checked: false },
+          { label: "4月", parentLabel: "春", checked: false },
+          { label: "5月", parentLabel: "春", checked: false },
+          { label: "6月", parentLabel: "夏", checked: false },
+          { label: "7月", parentLabel: "夏", checked: false },
+          { label: "8月", parentLabel: "夏", checked: false },
+          { label: "9月", parentLabel: "秋", checked: false },
+          { label: "10月", parentLabel: "秋", checked: false },
+          { label: "11月", parentLabel: "秋", checked: false },
+          { label: "12月", parentLabel: "冬", checked: true },
         ],
       });
     });
 
     expect(result.current.state.monthCheckBoxItems).toEqual([
-      { label: "1月", season: "冬", checked: true },
-      { label: "2月", season: "冬", checked: false },
-      { label: "3月", season: "春", checked: false },
-      { label: "4月", season: "春", checked: false },
-      { label: "5月", season: "春", checked: false },
-      { label: "6月", season: "夏", checked: false },
-      { label: "7月", season: "夏", checked: false },
-      { label: "8月", season: "夏", checked: false },
-      { label: "9月", season: "秋", checked: false },
-      { label: "10月", season: "秋", checked: false },
-      { label: "11月", season: "秋", checked: false },
-      { label: "12月", season: "冬", checked: true },
+      { label: "1月", parentLabel: "冬", checked: true },
+      { label: "2月", parentLabel: "冬", checked: false },
+      { label: "3月", parentLabel: "春", checked: false },
+      { label: "4月", parentLabel: "春", checked: false },
+      { label: "5月", parentLabel: "春", checked: false },
+      { label: "6月", parentLabel: "夏", checked: false },
+      { label: "7月", parentLabel: "夏", checked: false },
+      { label: "8月", parentLabel: "夏", checked: false },
+      { label: "9月", parentLabel: "秋", checked: false },
+      { label: "10月", parentLabel: "秋", checked: false },
+      { label: "11月", parentLabel: "秋", checked: false },
+      { label: "12月", parentLabel: "冬", checked: true },
     ]);
   });
 

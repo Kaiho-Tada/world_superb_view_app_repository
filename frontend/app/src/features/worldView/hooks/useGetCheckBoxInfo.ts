@@ -1,24 +1,14 @@
-type CheckBoxItem = {
-  label: string;
-  checked: boolean;
-  classification?: string;
-  stateName?: string;
-  season?: string;
-};
+import { NestedCheckBoxItem } from "../types/checkBoxItems/nestedCheckBoxItem";
+
 const useGetCheckBoxInfo = () => {
   const handleGetCheckBoxInfo = ({
     parent,
     checkBoxItems,
   }: {
     parent: string;
-    checkBoxItems: CheckBoxItem[];
+    checkBoxItems: NestedCheckBoxItem[];
   }) => {
-    const filteredCheckedItems = checkBoxItems.filter(
-      (item) =>
-        (item.classification && item.classification === parent) ||
-        (item.stateName && item.stateName === parent) ||
-        (item.season && item.season === parent)
-    );
+    const filteredCheckedItems = checkBoxItems.filter((item) => item.parentLabel === parent);
 
     if (checkBoxItems.length && !filteredCheckedItems.length) {
       throw new Error(`${parent}プロパティは引数のcheckBoxItemsに存在しません`);

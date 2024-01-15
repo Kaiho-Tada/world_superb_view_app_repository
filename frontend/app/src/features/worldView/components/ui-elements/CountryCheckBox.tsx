@@ -2,7 +2,7 @@ import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
 import useCountryHandleChange from "features/worldView/hooks/filter/useCountryHandleChange";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
-import { CountryCheckBoxItem } from "features/worldView/types/checkBoxItems/CountryCheckBoxItem";
+import { NestedCheckBoxItem } from "features/worldView/types/checkBoxItems/nestedCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent, FC } from "react";
 
@@ -11,7 +11,7 @@ const CountryCheckBox: FC = () => {
   const { handleChangeCheckBox } = useHandleChangeCheckBox();
   const checkBoxItems = state.countryCheckBoxItems;
 
-  const checkBoxItemsDispatch = (newCheckBoxItems: CountryCheckBoxItem[]) => {
+  const checkBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
     dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
   };
 
@@ -20,7 +20,7 @@ const CountryCheckBox: FC = () => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeCheckBox<CountryCheckBoxItem[]>({
+    handleChangeCheckBox<NestedCheckBoxItem[]>({
       checkBoxItems,
       checkBoxItemsDispatch,
       e,
@@ -59,8 +59,8 @@ const CountryCheckBox: FC = () => {
             {information.label}
           </Checkbox>
           <Box pl={6} my={1}>
-            {state.countryCheckBoxItems.map((countryCheckBoxItem: CountryCheckBoxItem) =>
-              countryCheckBoxItem.stateName === information.label ? (
+            {state.countryCheckBoxItems.map((countryCheckBoxItem: NestedCheckBoxItem) =>
+              countryCheckBoxItem.parentLabel === information.label ? (
                 <Checkbox
                   aria-hidden="false"
                   key={countryCheckBoxItem.label}

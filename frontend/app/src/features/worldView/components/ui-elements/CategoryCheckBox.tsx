@@ -2,7 +2,7 @@ import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
 import useCategoryHandleChange from "features/worldView/hooks/filter/useCategoryHandleChange";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
-import { CategoryCheckBoxItem } from "features/worldView/types/checkBoxItems/categoryCheckBoxItem";
+import { NestedCheckBoxItem } from "features/worldView/types/checkBoxItems/nestedCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent, FC, memo } from "react";
 
@@ -10,7 +10,7 @@ const CategoryCheckBox: FC = memo(() => {
   const { state, dispatch } = useWorldViewListContext();
   const { handleChangeCheckBox } = useHandleChangeCheckBox();
 
-  const checkBoxItemsDispatch = (newCheckBoxItems: CategoryCheckBoxItem[]) => {
+  const checkBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
     dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
   };
 
@@ -19,7 +19,7 @@ const CategoryCheckBox: FC = memo(() => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeCheckBox<CategoryCheckBoxItem[]>({
+    handleChangeCheckBox<NestedCheckBoxItem[]>({
       e,
       checkBoxItems: state.categoryCheckBoxItems,
       checkBoxItemsDispatch,
@@ -59,8 +59,8 @@ const CategoryCheckBox: FC = memo(() => {
             {information.label}
           </Checkbox>
           <Box pl={6} my={1}>
-            {state.categoryCheckBoxItems.map((categoryCheckBoxItem: CategoryCheckBoxItem) =>
-              categoryCheckBoxItem.classification === information.label ? (
+            {state.categoryCheckBoxItems.map((categoryCheckBoxItem: NestedCheckBoxItem) =>
+              categoryCheckBoxItem.parentLabel === information.label ? (
                 <Checkbox
                   key={categoryCheckBoxItem.label}
                   size="md"

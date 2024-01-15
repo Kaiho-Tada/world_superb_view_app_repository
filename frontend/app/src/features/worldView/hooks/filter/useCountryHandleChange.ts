@@ -8,7 +8,7 @@ const useCountryHandleChange = () => {
     (e: ChangeEvent<HTMLInputElement>) => {
       const newCheckBoxItems = state.countryCheckBoxItems.map((originalCheckBoxItem) => {
         const checkBoxItem = { ...originalCheckBoxItem };
-        if (e.target.value === checkBoxItem.stateName) {
+        if (e.target.value === checkBoxItem.parentLabel) {
           checkBoxItem.checked = e.target.checked;
         }
         return checkBoxItem;

@@ -15,9 +15,9 @@ const mockContextValue = {
     loadingSearchWorldViews: false,
     loadingCategoryCheckBoxItems: false,
     categoryCheckBoxItems: [
-      { label: "滝", classification: "自然", checked: false },
-      { label: "塩湖", classification: "自然", checked: false },
-      { label: "廃墟", classification: "人工", checked: false },
+      { label: "滝", parentLabel: "自然", checked: false },
+      { label: "塩湖", parentLabel: "自然", checked: false },
+      { label: "廃墟", parentLabel: "人工", checked: false },
     ],
   },
 };
@@ -26,9 +26,9 @@ const mockContextValueChecked = {
   state: {
     ...mockContextValue.state,
     categoryCheckBoxItems: [
-      { label: "滝", classification: "自然", checked: true },
-      { label: "塩湖", classification: "自然", checked: true },
-      { label: "廃墟", classification: "人工", checked: true },
+      { label: "滝", parentLabel: "自然", checked: true },
+      { label: "塩湖", parentLabel: "自然", checked: true },
+      { label: "廃墟", parentLabel: "人工", checked: true },
     ],
   },
 };
@@ -169,9 +169,9 @@ test("カテゴリーのcheckbox押下でhandleChangeCheckBox関数が実行さ�
     expect.objectContaining({
       e: expect.objectContaining({ target: expect.objectContaining({ value: "滝" }) }),
       checkBoxItems: [
-        { label: "滝", classification: "自然", checked: false },
-        { label: "塩湖", classification: "自然", checked: false },
-        { label: "廃墟", classification: "人工", checked: false },
+        { label: "滝", parentLabel: "自然", checked: false },
+        { label: "塩湖", parentLabel: "自然", checked: false },
+        { label: "廃墟", parentLabel: "人工", checked: false },
       ],
       checkBoxItemsDispatch: expect.any(Function),
       checkedLabelsDispatch: expect.any(Function),

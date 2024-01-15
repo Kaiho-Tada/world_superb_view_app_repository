@@ -7,7 +7,7 @@ const useCategoryHandleChange = () => {
   const handleChangeClassification = (e: ChangeEvent<HTMLInputElement>) => {
     const newCheckBoxItems = state.categoryCheckBoxItems.map((originalCheckBoxItem) => {
       const checkBoxItem = { ...originalCheckBoxItem };
-      if (e.target.value === checkBoxItem.classification) {
+      if (e.target.value === checkBoxItem.parentLabel) {
         checkBoxItem.checked = e.target.checked;
       }
       return checkBoxItem;

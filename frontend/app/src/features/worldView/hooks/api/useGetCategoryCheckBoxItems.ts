@@ -14,7 +14,7 @@ const useGetCategoryCheckBoxItems = () => {
       const categories = res.data;
       const newCategoryCheckBoxItems = categories.map((category: Category) => ({
         label: category.name,
-        classification: category.classification,
+        parentLabel: category.classification,
         checked: false,
       }));
       dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCategoryCheckBoxItems });

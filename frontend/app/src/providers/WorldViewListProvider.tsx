@@ -1,16 +1,14 @@
 import { WorldView } from "features/worldView/types/api/worldView";
-import { CategoryCheckBoxItem } from "features/worldView/types/checkBoxItems/categoryCheckBoxItem";
 import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
-import { CountryCheckBoxItem } from "features/worldView/types/checkBoxItems/CountryCheckBoxItem";
-import { MonthCheckBoxItem } from "features/worldView/types/checkBoxItems/monthCheckBoxItem";
+import { NestedCheckBoxItem } from "features/worldView/types/checkBoxItems/nestedCheckBoxItem";
 import { createContext, Dispatch, FC, ReactNode, useContext, useMemo, useReducer } from "react";
 
 export type Action =
-  | { type: "SET_CATEGORY_CHECKBOX_ITEMS"; payload: CategoryCheckBoxItem[] }
-  | { type: "SET_COUNTRY_CHECKBOX_ITEMS"; payload: CountryCheckBoxItem[] }
+  | { type: "SET_CATEGORY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
+  | { type: "SET_COUNTRY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
   | { type: "SET_RISK_LEVEL_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
-  | { type: "SET_MONTH_CHECKBOX_ITEMS"; payload: MonthCheckBoxItem[] }
+  | { type: "SET_MONTH_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_BMI_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
   | { type: "SET_CHECKED_CATEGORY_LABELS"; payload: string[] }
   | { type: "SET_CHECKED_COUNTRY_LABELS"; payload: string[] }
@@ -34,11 +32,11 @@ export type Action =
 type State = {
   countryStates: string[];
   categoryClassifications: string[];
-  categoryCheckBoxItems: Array<CategoryCheckBoxItem>;
-  countryCheckBoxItems: Array<CountryCheckBoxItem>;
+  categoryCheckBoxItems: NestedCheckBoxItem[];
+  countryCheckBoxItems: NestedCheckBoxItem[];
   characteristicCheckBoxItems: CheckBoxItem[];
   riskLevelCheckBoxItems: CheckBoxItem[];
-  monthCheckBoxItems: MonthCheckBoxItem[];
+  monthCheckBoxItems: NestedCheckBoxItem[];
   bmiCheckBoxItems: CheckBoxItem[];
   checkedCategoryLabels: string[];
   checkedCountryLabels: string[];
@@ -72,18 +70,18 @@ const initialState: State = {
     { label: "0", checked: false },
   ],
   monthCheckBoxItems: [
-    { label: "1月", season: "冬", checked: false },
-    { label: "2月", season: "冬", checked: false },
-    { label: "3月", season: "春", checked: false },
-    { label: "4月", season: "春", checked: false },
-    { label: "5月", season: "春", checked: false },
-    { label: "6月", season: "夏", checked: false },
-    { label: "7月", season: "夏", checked: false },
-    { label: "8月", season: "夏", checked: false },
-    { label: "9月", season: "秋", checked: false },
-    { label: "10月", season: "秋", checked: false },
-    { label: "11月", season: "秋", checked: false },
-    { label: "12月", season: "冬", checked: false },
+    { label: "1月", parentLabel: "冬", checked: false },
+    { label: "2月", parentLabel: "冬", checked: false },
+    { label: "3月", parentLabel: "春", checked: false },
+    { label: "4月", parentLabel: "春", checked: false },
+    { label: "5月", parentLabel: "春", checked: false },
+    { label: "6月", parentLabel: "夏", checked: false },
+    { label: "7月", parentLabel: "夏", checked: false },
+    { label: "8月", parentLabel: "夏", checked: false },
+    { label: "9月", parentLabel: "秋", checked: false },
+    { label: "10月", parentLabel: "秋", checked: false },
+    { label: "11月", parentLabel: "秋", checked: false },
+    { label: "12月", parentLabel: "冬", checked: false },
   ],
   bmiCheckBoxItems: [
     { label: "30%〜", checked: false },

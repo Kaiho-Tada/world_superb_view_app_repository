@@ -56,12 +56,12 @@ test("countryCheckBoxItems取得成功時のテスト", async () => {
     payload: [
       {
         label: "アメリカ",
-        stateName: "北米",
+        parentLabel: "北米",
         checked: false,
       },
       {
         label: "中国",
-        stateName: "アジア",
+        parentLabel: "アジア",
         checked: false,
       },
     ],

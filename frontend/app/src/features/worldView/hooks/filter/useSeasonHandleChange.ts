@@ -7,7 +7,7 @@ const useSeasonHandleChange = () => {
   const handleChangeSeason = (e: ChangeEvent<HTMLInputElement>) => {
     const newCheckBoxItems = state.monthCheckBoxItems.map((originalCheckBoxItem) => {
       const checkBoxItem = { ...originalCheckBoxItem };
-      if (e.target.value === checkBoxItem.season) {
+      if (e.target.value === checkBoxItem.parentLabel) {
         checkBoxItem.checked = e.target.checked;
       }
       return checkBoxItem;

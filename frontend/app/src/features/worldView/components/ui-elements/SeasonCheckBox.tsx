@@ -2,7 +2,7 @@ import { Box, Checkbox } from "@chakra-ui/react";
 import useSeasonHandleChange from "features/worldView/hooks/filter/useSeasonHandleChange";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 import useHandleChangeCheckBox from "features/worldView/hooks/useHandleChangeCheckBox";
-import { MonthCheckBoxItem } from "features/worldView/types/checkBoxItems/monthCheckBoxItem";
+import { NestedCheckBoxItem } from "features/worldView/types/checkBoxItems/nestedCheckBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent } from "react";
 
@@ -12,7 +12,7 @@ const SeasonCheckBox = () => {
   const { handleChangeCheckBox } = useHandleChangeCheckBox();
   const checkBoxItems = state.monthCheckBoxItems;
 
-  const checkBoxItemsDispatch = (newCheckBoxItems: MonthCheckBoxItem[]) => {
+  const checkBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
     dispatch({ type: "SET_MONTH_CHECKBOX_ITEMS", payload: newCheckBoxItems });
   };
 
@@ -21,7 +21,7 @@ const SeasonCheckBox = () => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeCheckBox<MonthCheckBoxItem[]>({
+    handleChangeCheckBox<NestedCheckBoxItem[]>({
       checkBoxItems,
       checkBoxItemsDispatch,
       e,
@@ -52,7 +52,7 @@ const SeasonCheckBox = () => {
           </Checkbox>
           <Box pl={6} my={1}>
             {state.monthCheckBoxItems.map((checkBoxItem) =>
-              checkBoxItem.season === information.label ? (
+              checkBoxItem.parentLabel === information.label ? (
                 <Checkbox
                   key={checkBoxItem.label}
                   isChecked={checkBoxItem.checked}

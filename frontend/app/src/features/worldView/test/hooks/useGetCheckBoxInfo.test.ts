@@ -2,49 +2,49 @@ import { renderHook } from "@testing-library/react";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 
 const categoryCheckBoxItemsNotChecked = [
-  { label: "砂漠", classification: "自然", checked: false },
-  { label: "洞窟", classification: "自然", checked: false },
+  { label: "砂漠", parentLabel: "自然", checked: false },
+  { label: "洞窟", parentLabel: "自然", checked: false },
 ];
 const countryCheckBoxItemsNotChecked = [
-  { label: "アメリカ", stateName: "北米", checked: false },
-  { label: "カナダ", stateName: "北米", checked: false },
+  { label: "アメリカ", parentLabel: "北米", checked: false },
+  { label: "カナダ", parentLabel: "北米", checked: false },
 ];
 const monthCheckBoxItemsNotChecked = [
-  { label: "3月", season: "春", checked: false },
-  { label: "4月", season: "春", checked: false },
+  { label: "3月", parentLabel: "春", checked: false },
+  { label: "4月", parentLabel: "春", checked: false },
 ];
 const categoryCheckBoxItemsPartialChecked = [
-  { label: "砂漠", classification: "自然", checked: true },
-  { label: "洞窟", classification: "自然", checked: false },
+  { label: "砂漠", parentLabel: "自然", checked: true },
+  { label: "洞窟", parentLabel: "自然", checked: false },
 ];
 const countryCheckBoxItemsPartialChecked = [
-  { label: "アメリカ", stateName: "北米", checked: true },
-  { label: "カナダ", stateName: "北米", checked: false },
+  { label: "アメリカ", parentLabel: "北米", checked: true },
+  { label: "カナダ", parentLabel: "北米", checked: false },
 ];
 const monthCheckBoxItemsPartialChecked = [
-  { label: "3月", season: "春", checked: true },
-  { label: "4月", season: "春", checked: false },
+  { label: "3月", parentLabel: "春", checked: true },
+  { label: "4月", parentLabel: "春", checked: false },
 ];
 const categoryCheckBoxItemsAllChecked = [
-  { label: "砂漠", classification: "自然", checked: true },
-  { label: "洞窟", classification: "自然", checked: true },
+  { label: "砂漠", parentLabel: "自然", checked: true },
+  { label: "洞窟", parentLabel: "自然", checked: true },
 ];
 const countryCheckBoxItemsAllChecked = [
-  { label: "アメリカ", stateName: "北米", checked: true },
-  { label: "カナダ", stateName: "北米", checked: true },
+  { label: "アメリカ", parentLabel: "北米", checked: true },
+  { label: "カナダ", parentLabel: "北米", checked: true },
 ];
 const monthCheckBoxItemsAllChecked = [
-  { label: "3月", season: "春", checked: true },
-  { label: "4月", season: "春", checked: true },
+  { label: "3月", parentLabel: "春", checked: true },
+  { label: "4月", parentLabel: "春", checked: true },
 ];
 const countryCheckBoxItems = [
-  { label: "中国", stateName: "アジア", checked: false },
-  { label: "オーストラリア", stateName: "大洋州", checked: false },
-  { label: "アメリカ", stateName: "北米", checked: true },
-  { label: "メキシコ", stateName: "中南米", checked: false },
-  { label: "イギリス", stateName: "ヨーロッパ", checked: false },
-  { label: "トルコ", stateName: "中東", checked: false },
-  { label: "エジプト", stateName: "アフリカ", checked: false },
+  { label: "中国", parentLabel: "アジア", checked: false },
+  { label: "オーストラリア", parentLabel: "大洋州", checked: false },
+  { label: "アメリカ", parentLabel: "北米", checked: true },
+  { label: "メキシコ", parentLabel: "中南米", checked: false },
+  { label: "イギリス", parentLabel: "ヨーロッパ", checked: false },
+  { label: "トルコ", parentLabel: "中東", checked: false },
+  { label: "エジプト", parentLabel: "アフリカ", checked: false },
 ];
 
 describe("allCheckedのテスト", () => {
