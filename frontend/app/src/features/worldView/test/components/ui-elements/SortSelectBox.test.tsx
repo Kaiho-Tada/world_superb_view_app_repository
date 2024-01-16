@@ -4,7 +4,7 @@ import SortSelectBox from "features/worldView/components/ui-elements/SortSelectB
 import { act } from "react-dom/test-utils";
 
 const mockHandleSortChangeWorldView = jest.fn();
-jest.mock("features/worldView/hooks/sort/useSortWordView", () => ({
+jest.mock("features/worldView/hooks/useSortWordView", () => ({
   __esModule: true,
   default: () => ({
     handleSortChangeWorldView: mockHandleSortChangeWorldView,

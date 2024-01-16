@@ -1,6 +1,6 @@
 import { Flex, Image, Select } from "@chakra-ui/react";
 import sortIcon from "assets/sortIcon.png";
-import useSortWordView from "features/worldView/hooks/sort/useSortWordView";
+import useSortWordView from "features/worldView/hooks/useSortWordView";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 
 const SortSelectBox = () => {

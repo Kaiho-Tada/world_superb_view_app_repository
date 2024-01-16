@@ -73,7 +73,7 @@ const mockContextValueEmptyCheckedLabelsAndEmptyKeyword = {
 };
 
 const mockHandleClear = jest.fn();
-jest.mock("features/worldView/hooks/clear/useClear", () => ({
+jest.mock("features/worldView/hooks/useClear", () => ({
   __esModule: true,
   default: () => ({ handleClear: mockHandleClear }),
 }));

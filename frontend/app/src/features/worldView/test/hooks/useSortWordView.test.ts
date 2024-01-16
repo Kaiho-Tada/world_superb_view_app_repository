@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import useSortWordView from "features/worldView/hooks/sort/useSortWordView";
+import useSortWordView from "features/worldView/hooks/useSortWordView";
 import { ChangeEvent } from "react";
 
 const mockDispatch = jest.fn();
