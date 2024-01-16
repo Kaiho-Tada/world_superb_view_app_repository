@@ -16,7 +16,7 @@ const useGetCheckBoxInfo = () => {
     const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
     const allChecked = checkedItemBooleans.every(Boolean);
     const isIndeterminate = checkedItemBooleans.some(Boolean) && !allChecked;
-    return { allChecked, isIndeterminate, label: parentLabel };
+    return { allChecked, isIndeterminate, parentLabel };
   };
   return { handleGetCheckBoxInfo };
 };

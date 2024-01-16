@@ -180,9 +180,9 @@ describe("labelのテスト", () => {
       parentLabel: "春",
       checkBoxItems: monthCheckBoxItemsNotChecked,
     });
-    expect(categoryInfo.label).toBe("自然");
-    expect(countryInfo.label).toBe("北米");
-    expect(monthInfo.label).toBe("春");
+    expect(categoryInfo.parentLabel).toBe("自然");
+    expect(countryInfo.parentLabel).toBe("北米");
+    expect(monthInfo.parentLabel).toBe("春");
   });
 });
 

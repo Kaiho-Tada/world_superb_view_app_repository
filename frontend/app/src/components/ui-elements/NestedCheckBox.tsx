@@ -59,20 +59,20 @@ const NestedCheckBox: FC<Props> = memo((props) => {
   ) : (
     <Stack spacing={2}>
       {checkBoxInfo.map((information) => (
-        <Box key={information.label}>
+        <Box key={information.parentLabel}>
           <Checkbox
             isChecked={information.allChecked}
             isIndeterminate={information.isIndeterminate}
-            value={information.label}
+            value={information.parentLabel}
             disabled={loadingSearchWorldViews}
             onChange={handleChangeParent}
             colorScheme="teal"
           >
-            {information.label}
+            {information.parentLabel}
           </Checkbox>
           <Box pl={6} my={1}>
             {checkBoxItems.map((checkBoxItem) =>
-              checkBoxItem.parentLabel === information.label ? (
+              checkBoxItem.parentLabel === information.parentLabel ? (
                 <Checkbox
                   key={checkBoxItem.label}
                   size="md"
