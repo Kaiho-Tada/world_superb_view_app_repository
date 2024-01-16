@@ -8,7 +8,7 @@ import handleGetNestedCheckBoxInfo from "utils/handleGetNestedCheckBoxInfo";
 type Props = {
   checkBoxItems: NestedCheckBoxItem[];
   loadinCheckBoxItems: boolean;
-  loadingSearchWorldViews: boolean;
+  loadingSearchModel: boolean;
   checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
   checkedLabelsDispatch: (newCheckedLabels: string[]) => void;
 };
@@ -16,7 +16,7 @@ type Props = {
 const NestedCheckBox: FC<Props> = memo((props) => {
   const {
     checkBoxItems,
-    loadingSearchWorldViews,
+    loadingSearchModel,
     loadinCheckBoxItems,
     checkBoxItemsDispatch,
     checkedLabelsDispatch,
@@ -53,7 +53,7 @@ const NestedCheckBox: FC<Props> = memo((props) => {
             isChecked={information.allChecked}
             isIndeterminate={information.isIndeterminate}
             value={information.parentLabel}
-            disabled={loadingSearchWorldViews}
+            disabled={loadingSearchModel}
             onChange={handleChangeParent}
             colorScheme="teal"
           >
@@ -69,7 +69,7 @@ const NestedCheckBox: FC<Props> = memo((props) => {
                   isChecked={checkBoxItem.checked}
                   value={checkBoxItem.label}
                   onChange={handleChange}
-                  isDisabled={loadingSearchWorldViews}
+                  isDisabled={loadingSearchModel}
                 >
                   {checkBoxItem.label}
                 </Checkbox>

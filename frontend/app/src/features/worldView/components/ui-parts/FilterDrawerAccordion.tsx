@@ -111,7 +111,7 @@ const FilterDrawerAccordion = () => {
           <NestedCheckBox
             checkBoxItems={state.categoryCheckBoxItems}
             loadinCheckBoxItems={state.loadingCategoryCheckBoxItems}
-            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            loadingSearchModel={state.loadingSearchWorldViews}
             checkBoxItemsDispatch={categoryCheckBoxItemsDispatch}
             checkedLabelsDispatch={categoryCheckedLabelsDispatch}
           />
@@ -128,7 +128,7 @@ const FilterDrawerAccordion = () => {
           <NestedCheckBox
             checkBoxItems={state.countryCheckBoxItems}
             loadinCheckBoxItems={state.loadingCountryCheckBoxItems}
-            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            loadingSearchModel={state.loadingSearchWorldViews}
             checkBoxItemsDispatch={countryCheckBoxItemsDispatch}
             checkedLabelsDispatch={countryCheckedLabelsDispatch}
           />
@@ -174,7 +174,7 @@ const FilterDrawerAccordion = () => {
           <NestedCheckBox
             checkBoxItems={state.monthCheckBoxItems}
             loadinCheckBoxItems={false}
-            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            loadingSearchModel={state.loadingSearchWorldViews}
             checkBoxItemsDispatch={monthCheckBoxItemsDispatch}
             checkedLabelsDispatch={monthCheckedLabelsDispatch}
           />

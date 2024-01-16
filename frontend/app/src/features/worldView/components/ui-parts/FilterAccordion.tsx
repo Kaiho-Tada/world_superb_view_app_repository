@@ -119,7 +119,7 @@ const FilterAccordion: FC = memo(() => {
           <NestedCheckBox
             checkBoxItems={state.categoryCheckBoxItems}
             loadinCheckBoxItems={state.loadingCategoryCheckBoxItems}
-            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            loadingSearchModel={state.loadingSearchWorldViews}
             checkBoxItemsDispatch={categoryCheckBoxItemsDispatch}
             checkedLabelsDispatch={categoryCheckedLabelsDispatch}
           />
@@ -136,7 +136,7 @@ const FilterAccordion: FC = memo(() => {
           <NestedCheckBox
             checkBoxItems={state.countryCheckBoxItems}
             loadinCheckBoxItems={state.loadingCountryCheckBoxItems}
-            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            loadingSearchModel={state.loadingSearchWorldViews}
             checkBoxItemsDispatch={countryCheckBoxItemsDispatch}
             checkedLabelsDispatch={countryCheckedLabelsDispatch}
           />
@@ -182,7 +182,7 @@ const FilterAccordion: FC = memo(() => {
           <NestedCheckBox
             checkBoxItems={state.monthCheckBoxItems}
             loadinCheckBoxItems={false}
-            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            loadingSearchModel={state.loadingSearchWorldViews}
             checkBoxItemsDispatch={monthCheckBoxItemsDispatch}
             checkedLabelsDispatch={monthCheckedLabelsDispatch}
           />

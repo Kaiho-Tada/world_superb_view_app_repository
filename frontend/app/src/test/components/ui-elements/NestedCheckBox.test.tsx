@@ -15,7 +15,7 @@ test("CheckBoxがレンダリングされていること", () => {
         { label: "ラベル3", parentLabel: "親ラベルB", checked: true },
       ]}
       loadinCheckBoxItems={false}
-      loadingSearchWorldViews={false}
+      loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
       checkedLabelsDispatch={checkedLabelsDispatch}
     />
@@ -36,7 +36,7 @@ test("categoryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェック�
         { label: "ラベル3", parentLabel: "親ラベルB", checked: true },
       ]}
       loadinCheckBoxItems={false}
-      loadingSearchWorldViews={false}
+      loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
       checkedLabelsDispatch={checkedLabelsDispatch}
     />
@@ -55,7 +55,7 @@ test("子のCheckboxが全てチェックされている場合、親のCheckbox�
         { label: "ラベル3", parentLabel: "親ラベルB", checked: true },
       ]}
       loadinCheckBoxItems={false}
-      loadingSearchWorldViews={false}
+      loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
       checkedLabelsDispatch={checkedLabelsDispatch}
     />
@@ -69,7 +69,7 @@ test("loadingCategoryCheckBoxItemsがtrueの場合、スピナーが表示され
     <CategoryCheckBox
       checkBoxItems={[{ label: "ラベル1", parentLabel: "親ラベル", checked: true }]}
       loadinCheckBoxItems
-      loadingSearchWorldViews={false}
+      loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
       checkedLabelsDispatch={checkedLabelsDispatch}
     />
@@ -86,7 +86,7 @@ test("loadingSearchWorldViewsがfalseの場合、CheckBoxが有効になって�
         { label: "ラベル3", parentLabel: "親ラベルB", checked: true },
       ]}
       loadinCheckBoxItems={false}
-      loadingSearchWorldViews={false}
+      loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
       checkedLabelsDispatch={checkedLabelsDispatch}
     />
@@ -107,7 +107,7 @@ test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになって�
         { label: "ラベル3", parentLabel: "親ラベルB", checked: true },
       ]}
       loadinCheckBoxItems={false}
-      loadingSearchWorldViews
+      loadingSearchModel
       checkBoxItemsDispatch={checkBoxItemsDispatch}
       checkedLabelsDispatch={checkedLabelsDispatch}
     />
@@ -129,7 +129,7 @@ test("親のCheckBox押下でhandleChangeParentCheckBox関数が実行される�
     <CategoryCheckBox
       checkBoxItems={[{ label: "ラベル1", parentLabel: "親ラベル", checked: true }]}
       loadinCheckBoxItems={false}
-      loadingSearchWorldViews={false}
+      loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
       checkedLabelsDispatch={checkedLabelsDispatch}
     />
@@ -157,7 +157,7 @@ test("子のCheckBox押下でhandleChangeCheckBox関数が実行されること"
     <CategoryCheckBox
       checkBoxItems={[{ label: "ラベル1", parentLabel: "親ラベル", checked: true }]}
       loadinCheckBoxItems={false}
-      loadingSearchWorldViews={false}
+      loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
       checkedLabelsDispatch={checkedLabelsDispatch}
     />
