@@ -1,9 +1,9 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
-import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
 import { ChangeEvent, FC, memo } from "react";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
 import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
+import handleGetNestedCheckBoxInfo from "utils/handleGetNestedCheckBoxInfo";
 
 type Props = {
   checkBoxItems: NestedCheckBoxItem[];
@@ -39,19 +39,8 @@ const NestedCheckBox: FC<Props> = memo((props) => {
       checkedLabelsDispatch,
     });
   };
-  const { handleGetCheckBoxInfo } = useGetCheckBoxInfo();
 
-  const parentLabels = checkBoxItems.map((checkBoxItem) => checkBoxItem.parentLabel);
-  const uniqueParentLabels = [...new Set(parentLabels)];
-  const checkBoxInfo = uniqueParentLabels.map((parentLabel) =>
-    handleGetCheckBoxInfo({
-      parentLabel,
-      checkBoxItems: checkBoxItems.filter(
-        (checkBoxItem) => checkBoxItem.parentLabel === parentLabel
-      ),
-    })
-  );
-
+  const checkBoxInfo = handleGetNestedCheckBoxInfo({ checkBoxItems });
   return loadinCheckBoxItems ? (
     <Center h="10vh">
       <Spinner role="status" aria-label="読み込み中" />
