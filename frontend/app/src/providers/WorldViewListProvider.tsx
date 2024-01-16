@@ -1,6 +1,6 @@
 import { WorldView } from "features/worldView/types/api/worldView";
-import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
 import { createContext, Dispatch, FC, ReactNode, useContext, useMemo, useReducer } from "react";
+import { CheckBoxItem } from "types/checkBoxItem";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 export type Action =

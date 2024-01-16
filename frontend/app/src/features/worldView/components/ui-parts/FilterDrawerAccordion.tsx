@@ -14,8 +14,8 @@ import NestedCheckBox from "components/ui-elements/NestedCheckBox";
 import FilterSearchBox from "features/worldView/components/ui-elements/FilterSearchBox";
 import RiskLevelCheckBox from "features/worldView/components/ui-elements/RiskLevelCheckBox";
 import useClear from "features/worldView/hooks/useClear";
-import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
+import { CheckBoxItem } from "types/checkBoxItem";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 const FilterDrawerAccordion = () => {

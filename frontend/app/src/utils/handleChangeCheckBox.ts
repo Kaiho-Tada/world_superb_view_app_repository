@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { CheckBoxItem } from "../features/worldView/types/checkBoxItems/checkBoxItem";
+import { CheckBoxItem } from "../types/checkBoxItem";
 
 const handleChangeCheckBox = <T extends CheckBoxItem[]>({
   e,

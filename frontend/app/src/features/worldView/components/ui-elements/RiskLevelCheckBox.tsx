@@ -1,9 +1,9 @@
 import { Checkbox, Flex, Image, VStack } from "@chakra-ui/react";
 import starIcon from "assets/riskLevelStar.png";
 import zeroStarIcon from "assets/zoroRiskLevelStar.png";
-import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent, FC, memo } from "react";
+import { CheckBoxItem } from "types/checkBoxItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
 
 const RiskLevelCheckBox: FC = memo(() => {

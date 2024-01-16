@@ -1,6 +1,6 @@
 import { Box, Center, Checkbox, Spinner } from "@chakra-ui/react";
-import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
 import { ChangeEvent, CSSProperties, FC } from "react";
+import { CheckBoxItem } from "types/checkBoxItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
 
 type Props = {
