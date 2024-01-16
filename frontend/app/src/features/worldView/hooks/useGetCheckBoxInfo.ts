@@ -2,21 +2,21 @@ import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 const useGetCheckBoxInfo = () => {
   const handleGetCheckBoxInfo = ({
-    parent,
+    parentLabel,
     checkBoxItems,
   }: {
-    parent: string;
+    parentLabel: string;
     checkBoxItems: NestedCheckBoxItem[];
   }) => {
-    const filteredCheckedItems = checkBoxItems.filter((item) => item.parentLabel === parent);
+    const filteredCheckedItems = checkBoxItems.filter((item) => item.parentLabel === parentLabel);
 
     if (checkBoxItems.length && !filteredCheckedItems.length) {
-      throw new Error(`${parent}プロパティは引数のcheckBoxItemsに存在しません`);
+      throw new Error(`${parentLabel}プロパティは引数のcheckBoxItemsに存在しません`);
     }
     const checkedItemBooleans = filteredCheckedItems.map((checkedItem) => checkedItem.checked);
     const allChecked = checkedItemBooleans.every(Boolean);
     const isIndeterminate = checkedItemBooleans.some(Boolean) && !allChecked;
-    return { allChecked, isIndeterminate, label: parent };
+    return { allChecked, isIndeterminate, label: parentLabel };
   };
   return { handleGetCheckBoxInfo };
 };

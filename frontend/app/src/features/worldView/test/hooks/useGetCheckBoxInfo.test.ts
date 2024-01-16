@@ -51,15 +51,15 @@ describe("allCheckedのテスト", () => {
   test("引数のparentと同じ(classification or stateName or season)プロパティを持つ全てのcheckBoxItemsのcheckedがfalseである場合、allCheckedはfalseであること", () => {
     const { result } = renderHook(() => useGetCheckBoxInfo());
     const categoryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "自然",
+      parentLabel: "自然",
       checkBoxItems: categoryCheckBoxItemsNotChecked,
     });
     const countryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "北米",
+      parentLabel: "北米",
       checkBoxItems: countryCheckBoxItemsNotChecked,
     });
     const monthInfo = result.current.handleGetCheckBoxInfo({
-      parent: "春",
+      parentLabel: "春",
       checkBoxItems: monthCheckBoxItemsNotChecked,
     });
     expect(categoryInfo.allChecked).toBe(false);
@@ -70,15 +70,15 @@ describe("allCheckedのテスト", () => {
   test("引数のparentと同じ(classification or stateName or season)プロパティを持つcheckBoxItemsが一部でもチェックされている場合でも、allCheckedはfalseであること", () => {
     const { result } = renderHook(() => useGetCheckBoxInfo());
     const categoryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "自然",
+      parentLabel: "自然",
       checkBoxItems: categoryCheckBoxItemsPartialChecked,
     });
     const countryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "北米",
+      parentLabel: "北米",
       checkBoxItems: countryCheckBoxItemsPartialChecked,
     });
     const monthInfo = result.current.handleGetCheckBoxInfo({
-      parent: "春",
+      parentLabel: "春",
       checkBoxItems: monthCheckBoxItemsPartialChecked,
     });
     expect(categoryInfo.allChecked).toBe(false);
@@ -89,15 +89,15 @@ describe("allCheckedのテスト", () => {
   test("引数のparentと同じ(classification or stateName or season)プロパティを持つ全てのcategoryCheckBoxItemsのcheckedがtrueである場合、allCheckedはtrueであること", () => {
     const { result } = renderHook(() => useGetCheckBoxInfo());
     const categoryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "自然",
+      parentLabel: "自然",
       checkBoxItems: categoryCheckBoxItemsAllChecked,
     });
     const countryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "北米",
+      parentLabel: "北米",
       checkBoxItems: countryCheckBoxItemsAllChecked,
     });
     const monthInfo = result.current.handleGetCheckBoxInfo({
-      parent: "春",
+      parentLabel: "春",
       checkBoxItems: monthCheckBoxItemsAllChecked,
     });
     expect(categoryInfo.allChecked).toBe(true);
@@ -110,15 +110,15 @@ describe("isIndeterminateのテスト", () => {
   test("引数のparentと同じ(classification or stateName or season)プロパティを持つ全てのcheckBoxItemsのcheckedがfalseである場合、isIndeterminateはfalseであること", () => {
     const { result } = renderHook(() => useGetCheckBoxInfo());
     const categoryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "自然",
+      parentLabel: "自然",
       checkBoxItems: categoryCheckBoxItemsNotChecked,
     });
     const countryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "北米",
+      parentLabel: "北米",
       checkBoxItems: countryCheckBoxItemsNotChecked,
     });
     const monthInfo = result.current.handleGetCheckBoxInfo({
-      parent: "春",
+      parentLabel: "春",
       checkBoxItems: monthCheckBoxItemsNotChecked,
     });
     expect(categoryInfo.isIndeterminate).toBe(false);
@@ -129,15 +129,15 @@ describe("isIndeterminateのテスト", () => {
   test("引数のparentと同じ(classification or stateName or season)プロパティを持つcheckBoxItemsの一部のcheckedがtrueである場合、isIndeterminateはtrueであること", () => {
     const { result } = renderHook(() => useGetCheckBoxInfo());
     const categoryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "自然",
+      parentLabel: "自然",
       checkBoxItems: categoryCheckBoxItemsPartialChecked,
     });
     const countryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "北米",
+      parentLabel: "北米",
       checkBoxItems: countryCheckBoxItemsPartialChecked,
     });
     const monthInfo = result.current.handleGetCheckBoxInfo({
-      parent: "春",
+      parentLabel: "春",
       checkBoxItems: monthCheckBoxItemsPartialChecked,
     });
     expect(categoryInfo.isIndeterminate).toBe(true);
@@ -148,15 +148,15 @@ describe("isIndeterminateのテスト", () => {
   test("引数のparentと同じ(classification or stateName or season)プロパティを持つ全てのcategoryCheckBoxItemsのcheckedがtrueである場合、isIndeterminateはfalseであること", () => {
     const { result } = renderHook(() => useGetCheckBoxInfo());
     const categoryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "自然",
+      parentLabel: "自然",
       checkBoxItems: categoryCheckBoxItemsAllChecked,
     });
     const countryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "北米",
+      parentLabel: "北米",
       checkBoxItems: countryCheckBoxItemsAllChecked,
     });
     const monthInfo = result.current.handleGetCheckBoxInfo({
-      parent: "春",
+      parentLabel: "春",
       checkBoxItems: monthCheckBoxItemsAllChecked,
     });
     expect(categoryInfo.isIndeterminate).toBe(false);
@@ -169,15 +169,15 @@ describe("labelのテスト", () => {
   test("引数のparentと同じ値のlabelが返されること", () => {
     const { result } = renderHook(() => useGetCheckBoxInfo());
     const categoryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "自然",
+      parentLabel: "自然",
       checkBoxItems: categoryCheckBoxItemsNotChecked,
     });
     const countryInfo = result.current.handleGetCheckBoxInfo({
-      parent: "北米",
+      parentLabel: "北米",
       checkBoxItems: countryCheckBoxItemsNotChecked,
     });
     const monthInfo = result.current.handleGetCheckBoxInfo({
-      parent: "春",
+      parentLabel: "春",
       checkBoxItems: monthCheckBoxItemsNotChecked,
     });
     expect(categoryInfo.label).toBe("自然");
@@ -189,10 +189,10 @@ describe("labelのテスト", () => {
 describe("エラー時のテスト", () => {
   test("引数で受け取ったparentの値がcheckBoxItemsのプロパティに存在しなかった場合、エラーになること", () => {
     const { result } = renderHook(() => useGetCheckBoxInfo());
-    const parent = "南極";
+    const parentLabel = "南極";
     const checkBoxItems = countryCheckBoxItems;
-    expect(() => result.current.handleGetCheckBoxInfo({ parent, checkBoxItems })).toThrowError(
-      `${parent}プロパティは引数のcheckBoxItemsに存在しません`
+    expect(() => result.current.handleGetCheckBoxInfo({ parentLabel, checkBoxItems })).toThrowError(
+      `${parentLabel}プロパティは引数のcheckBoxItemsに存在しません`
     );
   });
 });

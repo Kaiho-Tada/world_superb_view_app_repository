@@ -8,15 +8,14 @@ import {
   Flex,
   Heading,
 } from "@chakra-ui/react";
-import CategoryCheckBox from "features/worldView/components/ui-elements/CategoryCheckBox";
-import CountryCheckBox from "features/worldView/components/ui-elements/CountryCheckBox";
+import NestedCheckBox from "components/ui-elements/NestedCheckBox";
 import FilterSearchBox from "features/worldView/components/ui-elements/FilterSearchBox";
 import RiskLevelCheckBox from "features/worldView/components/ui-elements/RiskLevelCheckBox";
-import SeasonCheckBox from "features/worldView/components/ui-elements/SeasonCheckBox";
 import useClear from "features/worldView/hooks/clear/useClear";
 import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxItem";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { FC, memo } from "react";
+import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 import CheckBox from "../ui-elements/CheckBox";
 
 const FilterAccordion: FC = memo(() => {
@@ -40,6 +39,24 @@ const FilterAccordion: FC = memo(() => {
   };
   const bmiCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
     dispatch({ type: "SET_CHECKED_BMI_LABELS", payload: newCheckedLabels });
+  };
+  const categoryCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
+    dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  };
+  const categoryCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
+    dispatch({ type: "SET_CHECKED_CATEGORY_LABELS", payload: newCheckedLabels });
+  };
+  const countryCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
+    dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  };
+  const countryCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
+    dispatch({ type: "SET_CHECKED_COUNTRY_LABELS", payload: newCheckedLabels });
+  };
+  const monthCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
+    dispatch({ type: "SET_MONTH_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  };
+  const monthCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
+    dispatch({ type: "SET_CHECKED_MONTH_LABELS", payload: newCheckedLabels });
   };
 
   return state.isOpenFilterAccordion ? (
@@ -99,7 +116,13 @@ const FilterAccordion: FC = memo(() => {
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel pb={4}>
-          <CategoryCheckBox />
+          <NestedCheckBox
+            checkBoxItems={state.categoryCheckBoxItems}
+            loadinCheckBoxItems={state.loadingCategoryCheckBoxItems}
+            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            checkBoxItemsDispatch={categoryCheckBoxItemsDispatch}
+            checkedLabelsDispatch={categoryCheckedLabelsDispatch}
+          />
         </AccordionPanel>
       </AccordionItem>
       <AccordionItem>
@@ -110,7 +133,13 @@ const FilterAccordion: FC = memo(() => {
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel pb={4}>
-          <CountryCheckBox />
+          <NestedCheckBox
+            checkBoxItems={state.countryCheckBoxItems}
+            loadinCheckBoxItems={state.loadingCountryCheckBoxItems}
+            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            checkBoxItemsDispatch={countryCheckBoxItemsDispatch}
+            checkedLabelsDispatch={countryCheckedLabelsDispatch}
+          />
         </AccordionPanel>
       </AccordionItem>
       <AccordionItem>
@@ -150,7 +179,13 @@ const FilterAccordion: FC = memo(() => {
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel pb={4}>
-          <SeasonCheckBox />
+          <NestedCheckBox
+            checkBoxItems={state.monthCheckBoxItems}
+            loadinCheckBoxItems={false}
+            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            checkBoxItemsDispatch={monthCheckBoxItemsDispatch}
+            checkedLabelsDispatch={monthCheckedLabelsDispatch}
+          />
         </AccordionPanel>
       </AccordionItem>
       <AccordionItem>

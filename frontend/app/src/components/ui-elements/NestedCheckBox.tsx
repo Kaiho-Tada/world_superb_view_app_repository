@@ -1,52 +1,58 @@
 import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
 import useGetCheckBoxInfo from "features/worldView/hooks/useGetCheckBoxInfo";
-import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent, FC, memo } from "react";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
 import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
 
-const CategoryCheckBox: FC = memo(() => {
-  const { state, dispatch } = useWorldViewListContext();
+type Props = {
+  checkBoxItems: NestedCheckBoxItem[];
+  loadinCheckBoxItems: boolean;
+  loadingSearchWorldViews: boolean;
+  checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
+  checkedLabelsDispatch: (newCheckedLabels: string[]) => void;
+};
 
-  const checkBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
-    dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-  };
-
-  const checkedLabelsDispatch = (newCheckedLabels: string[]) => {
-    dispatch({ type: "SET_CHECKED_CATEGORY_LABELS", payload: newCheckedLabels });
-  };
+const NestedCheckBox: FC<Props> = memo((props) => {
+  const {
+    checkBoxItems,
+    loadingSearchWorldViews,
+    loadinCheckBoxItems,
+    checkBoxItemsDispatch,
+    checkedLabelsDispatch,
+  } = props;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleChangeCheckBox<NestedCheckBoxItem[]>({
       e,
-      checkBoxItems: state.categoryCheckBoxItems,
+      checkBoxItems,
       checkBoxItemsDispatch,
       checkedLabelsDispatch,
     });
   };
 
-  const handleChaneParent = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeParent = (e: ChangeEvent<HTMLInputElement>) => {
     handleChangeParentCheckBox({
       e,
-      checkBoxItems: state.categoryCheckBoxItems,
+      checkBoxItems,
       checkBoxItemsDispatch,
       checkedLabelsDispatch,
     });
   };
   const { handleGetCheckBoxInfo } = useGetCheckBoxInfo();
-  const checkBoxInfo = [
-    handleGetCheckBoxInfo({
-      parent: "自然",
-      checkBoxItems: state.categoryCheckBoxItems,
-    }),
-    handleGetCheckBoxInfo({
-      parent: "人工",
-      checkBoxItems: state.categoryCheckBoxItems,
-    }),
-  ];
 
-  return state.loadingCategoryCheckBoxItems === true ? (
+  const parentLabels = checkBoxItems.map((checkBoxItem) => checkBoxItem.parentLabel);
+  const uniqueParentLabels = [...new Set(parentLabels)];
+  const checkBoxInfo = uniqueParentLabels.map((parentLabel) =>
+    handleGetCheckBoxInfo({
+      parentLabel,
+      checkBoxItems: checkBoxItems.filter(
+        (checkBoxItem) => checkBoxItem.parentLabel === parentLabel
+      ),
+    })
+  );
+
+  return loadinCheckBoxItems ? (
     <Center h="10vh">
       <Spinner role="status" aria-label="読み込み中" />
     </Center>
@@ -58,25 +64,25 @@ const CategoryCheckBox: FC = memo(() => {
             isChecked={information.allChecked}
             isIndeterminate={information.isIndeterminate}
             value={information.label}
-            disabled={state.loadingSearchWorldViews}
-            onChange={handleChaneParent}
+            disabled={loadingSearchWorldViews}
+            onChange={handleChangeParent}
             colorScheme="teal"
           >
             {information.label}
           </Checkbox>
           <Box pl={6} my={1}>
-            {state.categoryCheckBoxItems.map((categoryCheckBoxItem: NestedCheckBoxItem) =>
-              categoryCheckBoxItem.parentLabel === information.label ? (
+            {checkBoxItems.map((checkBoxItem) =>
+              checkBoxItem.parentLabel === information.label ? (
                 <Checkbox
-                  key={categoryCheckBoxItem.label}
+                  key={checkBoxItem.label}
                   size="md"
                   colorScheme="teal"
-                  isChecked={categoryCheckBoxItem.checked}
-                  value={categoryCheckBoxItem.label}
+                  isChecked={checkBoxItem.checked}
+                  value={checkBoxItem.label}
                   onChange={handleChange}
-                  isDisabled={state.loadingSearchWorldViews}
+                  isDisabled={loadingSearchWorldViews}
                 >
-                  {categoryCheckBoxItem.label}
+                  {checkBoxItem.label}
                 </Checkbox>
               ) : null
             )}
@@ -87,4 +93,4 @@ const CategoryCheckBox: FC = memo(() => {
   );
 });
 
-export default CategoryCheckBox;
+export default NestedCheckBox;
