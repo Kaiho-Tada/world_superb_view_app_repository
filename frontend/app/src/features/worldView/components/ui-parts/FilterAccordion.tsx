@@ -8,6 +8,7 @@ import {
   Flex,
   Heading,
 } from "@chakra-ui/react";
+import CheckBox from "components/ui-elements/CheckBox";
 import NestedCheckBox from "components/ui-elements/NestedCheckBox";
 import FilterSearchBox from "features/worldView/components/ui-elements/FilterSearchBox";
 import RiskLevelCheckBox from "features/worldView/components/ui-elements/RiskLevelCheckBox";
@@ -16,7 +17,6 @@ import { CheckBoxItem } from "features/worldView/types/checkBoxItems/checkBoxIte
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { FC, memo } from "react";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
-import CheckBox from "../ui-elements/CheckBox";
 
 const FilterAccordion: FC = memo(() => {
   const { state, dispatch } = useWorldViewListContext();
@@ -153,7 +153,7 @@ const FilterAccordion: FC = memo(() => {
           <CheckBox
             checkBoxItems={state.characteristicCheckBoxItems}
             loadingCheckBoxItems={state.loadingCharacteristicCheckBoxItems}
-            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            loadingSearchModel={state.loadingSearchWorldViews}
             vertical={false}
             checkBoxItemsDispatch={characteristicCheckBoxItemsDispatch}
             checkedLabelsDispatch={characteristicCheckedLabelsDispatch}
@@ -199,7 +199,7 @@ const FilterAccordion: FC = memo(() => {
           <CheckBox
             checkBoxItems={state.bmiCheckBoxItems}
             loadingCheckBoxItems={false}
-            loadingSearchWorldViews={state.loadingSearchWorldViews}
+            loadingSearchModel={state.loadingSearchWorldViews}
             vertical
             checkBoxItemsDispatch={bmiCheckBoxItemsDispatch}
             checkedLabelsDispatch={bmiCheckedLabelsDispatch}

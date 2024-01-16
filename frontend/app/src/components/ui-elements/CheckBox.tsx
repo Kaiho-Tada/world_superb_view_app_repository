@@ -6,7 +6,7 @@ import handleChangeCheckBox from "utils/handleChangeCheckBox";
 type Props = {
   checkBoxItems: CheckBoxItem[];
   loadingCheckBoxItems: boolean;
-  loadingSearchWorldViews: boolean;
+  loadingSearchModel: boolean;
   vertical: boolean;
   checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => void;
   checkedLabelsDispatch: (newCheckedLabels: string[]) => void;
@@ -16,7 +16,7 @@ const CheckBox: FC<Props> = (props) => {
   const {
     checkBoxItems,
     loadingCheckBoxItems,
-    loadingSearchWorldViews,
+    loadingSearchModel,
     vertical,
     checkBoxItemsDispatch,
     checkedLabelsDispatch,
@@ -44,7 +44,7 @@ const CheckBox: FC<Props> = (props) => {
           isChecked={checkBoxItem.checked}
           value={checkBoxItem.label}
           onChange={handleChange}
-          isDisabled={loadingSearchWorldViews}
+          isDisabled={loadingSearchModel}
         >
           {checkBoxItem.label}
         </Checkbox>

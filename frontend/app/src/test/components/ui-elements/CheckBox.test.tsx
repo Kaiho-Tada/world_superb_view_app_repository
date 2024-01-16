@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import CheckBox from "features/worldView/components/ui-elements/CheckBox";
+import CheckBox from "components/ui-elements/CheckBox";
 import { act } from "react-dom/test-utils";
 
 const mockCheckBoxItemsDispatch = jest.fn();
@@ -11,7 +11,7 @@ test("CheckBoxがレンダリングされていること", () => {
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: false }]}
       loadingCheckBoxItems={false}
-      loadingSearchWorldViews={false}
+      loadingSearchModel={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
       checkedLabelsDispatch={mockCheckedLabelsDispatch}
@@ -25,10 +25,10 @@ test("checkBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされて
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: true }]}
       loadingCheckBoxItems={false}
+      loadingSearchModel={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
       checkedLabelsDispatch={mockCheckedLabelsDispatch}
-      loadingSearchWorldViews={false}
     />
   );
   expect(screen.getByRole("checkbox", { name: "ラベル" })).toBeChecked();
@@ -39,10 +39,10 @@ test("loadingCheckBoxItemsがtrueの場合、スピナーが表示されてい�
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: false }]}
       loadingCheckBoxItems
+      loadingSearchModel={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
       checkedLabelsDispatch={mockCheckedLabelsDispatch}
-      loadingSearchWorldViews={false}
     />
   );
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
@@ -53,7 +53,7 @@ test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになって�
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: false }]}
       loadingCheckBoxItems={false}
-      loadingSearchWorldViews
+      loadingSearchModel
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
       checkedLabelsDispatch={mockCheckedLabelsDispatch}
@@ -67,7 +67,7 @@ test("verticalがtrueの場合、CheckBoxが縦並びに配置されているこ
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: false }]}
       loadingCheckBoxItems={false}
-      loadingSearchWorldViews
+      loadingSearchModel={false}
       vertical
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
       checkedLabelsDispatch={mockCheckedLabelsDispatch}
@@ -93,7 +93,7 @@ test("checkbox押下でhandleChangeCheckBox関数が実行されること", asyn
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
       checkedLabelsDispatch={mockCheckedLabelsDispatch}
-      loadingSearchWorldViews={false}
+      loadingSearchModel={false}
     />
   );
   await act(async () => {
