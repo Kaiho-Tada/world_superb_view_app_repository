@@ -1,10 +1,10 @@
-import WorldViewApi from "features/worldView/api/worldViewApi";
+import useWorldViewApi from "features/worldView/api/useWorldViewApi";
 import useMessage from "hooks/useMessage";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 
 const useSearchWorldView = () => {
   const { dispatch } = useWorldViewListContext();
-  const { searchWorldViewApi } = WorldViewApi();
+  const { searchWorldViewApi } = useWorldViewApi();
   const { showMessage } = useMessage();
   const handleSearchWorldView = async () => {
     dispatch({ type: "SET_LOADING_SEARCH_WORLDVIEWS", payload: true });

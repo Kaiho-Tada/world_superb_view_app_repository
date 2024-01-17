@@ -18,7 +18,7 @@ const mockContextValue = {
 };
 
 const mockSearchWorldViewApi = jest.fn();
-jest.mock("features/worldView/api/worldViewApi", () => ({
+jest.mock("features/worldView/api/useWorldViewApi", () => ({
   __esModule: true,
   default: () => ({
     searchWorldViewApi: mockSearchWorldViewApi,

@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
-import worldViewApi from "features/worldView/api/worldViewApi";
+import useWorldViewApi from "features/worldView/api/useWorldViewApi";
 import client from "lib/client";
 
 const mockAxios = new MockAdapter(client);
@@ -22,7 +22,7 @@ jest.mock("providers/WorldViewListProvider", () => ({
 }));
 
 test("worldViewApi関数が意図したURLにGETリクエストとparamsを送信し、意図したステイタスコードとデータが返されること", async () => {
-  const { result } = renderHook(() => worldViewApi());
+  const { result } = renderHook(() => useWorldViewApi());
   const response = await result.current.searchWorldViewApi();
   expect(response.status).toBe(200);
   expect(response.data).toEqual([{ id: 1, name: "万里の長城" }]);

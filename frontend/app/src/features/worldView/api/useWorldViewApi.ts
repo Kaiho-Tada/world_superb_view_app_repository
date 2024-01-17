@@ -1,7 +1,7 @@
 import client from "lib/client";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 
-const worldViewApi = () => {
+const useWorldViewApi = () => {
   const { state } = useWorldViewListContext();
   const searchWorldViewApi = () =>
     client.get("/world_views/search", {
@@ -18,4 +18,4 @@ const worldViewApi = () => {
     });
   return { searchWorldViewApi };
 };
-export default worldViewApi;
+export default useWorldViewApi;
