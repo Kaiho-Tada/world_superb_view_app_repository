@@ -7,15 +7,15 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 const mockSetFavoriteId = jest.fn();
-const mockCreateFavoriteApi = jest.fn();
-const mockDeleteFavoriteApi = jest.fn();
-jest.mock("features/worldView/api/worldViewFavoriteApi", () => ({
-  __esModule: true,
-  default: () => ({
-    createFavoriteApi: mockCreateFavoriteApi,
-    deleteFavoriteApi: mockDeleteFavoriteApi,
-  }),
-}));
+
+const spyOnCreateFavoriteApi = jest.spyOn(
+  jest.requireActual("features/worldView/api/worldViewFavoriteApi"),
+  "createFavoriteApi"
+);
+const spyOnDeleteFavoriteApi = jest.spyOn(
+  jest.requireActual("features/worldView/api/worldViewFavoriteApi"),
+  "deleteFavoriteApi"
+);
 
 describe("handleChangeFavorite関数のテスト", () => {
   describe("favoriteIdが存在する(お気に入り済み)場合", () => {
@@ -26,14 +26,14 @@ describe("handleChangeFavorite関数のテスト", () => {
         favoriteId: 1,
         setFavoriteId: mockSetFavoriteId,
       });
-      expect(mockDeleteFavoriteApi).toHaveBeenCalledWith(1);
-      expect(mockDeleteFavoriteApi).toHaveBeenCalledTimes(1);
+      expect(spyOnDeleteFavoriteApi).toHaveBeenCalledWith(1);
+      expect(spyOnDeleteFavoriteApi).toHaveBeenCalledTimes(1);
       expect(mockSetFavoriteId).toHaveBeenCalledWith(null);
       expect(mockSetFavoriteId).toHaveBeenCalledTimes(1);
     });
 
     test("deleteFavoriteApi関数が404番のステイタスコードを返した際に、適切なエラーメッセージが表示されること", async () => {
-      mockDeleteFavoriteApi.mockImplementation(async () => {
+      spyOnDeleteFavoriteApi.mockImplementation(async () => {
         const error = new Error();
         Object.assign(error, { isAxiosError: true, response: { status: 404 } });
         throw error;
@@ -55,7 +55,7 @@ describe("handleChangeFavorite関数のテスト", () => {
     });
 
     test("deleteFavoriteApi関数が500番のステイタスコードを返した際に、適切なエラーメッセージが表示されること", async () => {
-      mockDeleteFavoriteApi.mockImplementation(async () => {
+      spyOnDeleteFavoriteApi.mockImplementation(async () => {
         const error = new Error();
         Object.assign(error, { isAxiosError: true, response: { status: 500 } });
         throw error;
@@ -79,7 +79,7 @@ describe("handleChangeFavorite関数のテスト", () => {
 
   describe("favoriteIdがnull(お気に入り未登録)の場合", () => {
     test("createFavoriteApi関数が成功した場合、favoriteIdが新規作成したfavortieのidに更新されること", async () => {
-      mockCreateFavoriteApi.mockResolvedValue({ data: { id: 1 } });
+      spyOnCreateFavoriteApi.mockResolvedValue({ data: { id: 1 } });
 
       const { result } = renderHook(() => useHandleChangeFavorite());
       await result.current.handleChangeFavorite({
@@ -87,15 +87,15 @@ describe("handleChangeFavorite関数のテスト", () => {
         favoriteId: null,
         setFavoriteId: mockSetFavoriteId,
       });
-      expect(mockCreateFavoriteApi).toHaveBeenCalledWith(1);
-      expect(mockCreateFavoriteApi).toHaveBeenCalledTimes(1);
+      expect(spyOnCreateFavoriteApi).toHaveBeenCalledWith(1);
+      expect(spyOnCreateFavoriteApi).toHaveBeenCalledTimes(1);
 
       expect(mockSetFavoriteId).toHaveBeenCalledWith(1);
       expect(mockSetFavoriteId).toHaveBeenCalledTimes(1);
     });
 
     test("createFavoriteApi関数が422番のステイタスコードを返した際に、適切なエラーメッセージが表示されること", async () => {
-      mockCreateFavoriteApi.mockImplementation(async () => {
+      spyOnCreateFavoriteApi.mockImplementation(async () => {
         const error = new Error();
         Object.assign(error, { isAxiosError: true, response: { status: 422 } });
         throw error;
@@ -117,7 +117,7 @@ describe("handleChangeFavorite関数のテスト", () => {
     });
 
     test("createFavoriteApi関数が401番のステイタスコードを返した際に、適切なエラーメッセージが表示されること", async () => {
-      mockCreateFavoriteApi.mockImplementation(async () => {
+      spyOnCreateFavoriteApi.mockImplementation(async () => {
         const error = new Error();
         Object.assign(error, { isAxiosError: true, response: { status: 401 } });
         throw error;
@@ -139,7 +139,7 @@ describe("handleChangeFavorite関数のテスト", () => {
     });
 
     test("createFavoriteApi関数が500番のステイタスコードを返した際に、適切なエラーメッセージが表示されること", async () => {
-      mockCreateFavoriteApi.mockImplementation(async () => {
+      spyOnCreateFavoriteApi.mockImplementation(async () => {
         const error = new Error();
         Object.assign(error, { isAxiosError: true, response: { status: 500 } });
         throw error;

@@ -1,5 +1,5 @@
 import { isAxiosError } from "axios";
-import worldViewFavoriteApi from "features/worldView/api/worldViewFavoriteApi";
+import { createFavoriteApi, deleteFavoriteApi } from "features/worldView/api/worldViewFavoriteApi";
 import useMessage from "hooks/useMessage";
 
 type Props = {
@@ -9,7 +9,6 @@ type Props = {
 };
 const useHandleChangeFavorite = () => {
   const { showMessage } = useMessage();
-  const { createFavoriteApi, deleteFavoriteApi } = worldViewFavoriteApi();
   const handleChangeFavorite = async ({ selectedId, favoriteId, setFavoriteId }: Props) => {
     if (favoriteId) {
       try {
