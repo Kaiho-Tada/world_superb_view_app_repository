@@ -9,12 +9,12 @@ mockAxios.onGet("/world_views/search").reply(200, [{ id: 1, name: "万里の長�
 jest.mock("providers/WorldViewListProvider", () => ({
   useWorldViewListContext: () => ({
     state: {
-      checkedCategoryLabels: ["遺跡"],
-      checkedCountryLabels: ["中国"],
-      checkedCharacteristicLabels: ["歴史・文化的"],
-      checkedRiskLevelLabels: ["1"],
-      checkedMonthLabels: ["9月"],
-      checkedBmiLabels: ["4.0"],
+      categoryCheckBoxItems: [{ label: "遺跡", checked: true }],
+      countryCheckBoxItems: [{ label: "中国", checked: true }],
+      characteristicCheckBoxItems: [{ label: "歴史・文化的", checked: true }],
+      riskLevelCheckBoxItems: [{ label: "1", checked: true }],
+      monthCheckBoxItems: [{ label: "9月", checked: true }],
+      bmiCheckBoxItems: [{ label: "4.0", checked: true }],
       keyword: "万",
       sortCriteria: "latest",
     },
