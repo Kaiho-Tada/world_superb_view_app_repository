@@ -25,20 +25,22 @@ jest.mock("providers/useAuthProvider", () => ({
   }),
 }));
 
-const mockHandleChangeFavorite = jest.fn();
-
 const mockSetFavoriteId = jest.fn();
 jest.mock("react", () => ({
   ...jest.requireActual("react"),
   useState: (init: number | null) => [init, mockSetFavoriteId],
 }));
 
+const mockDeleteFavoriteApi = jest.fn();
+const mockCreateFavoriteApi = jest.fn();
+
 test("ハートアイコンがレンダリングされていること", () => {
   render(
     <Favorite
       selectedId={1}
       favorites={favoritesUserId1}
-      handleChangeFavorite={mockHandleChangeFavorite}
+      deleteFavoriteApi={mockDeleteFavoriteApi}
+      createFavoriteApi={mockCreateFavoriteApi}
     />
   );
   expect(screen.getByRole("img", { name: "ハートアイコン" })).toBeInTheDocument();
@@ -46,11 +48,21 @@ test("ハートアイコンがレンダリングされていること", () => {
 
 test("ハートアイコン押下でhandleChangeFavorite関数が実行されること", async () => {
   const user = userEvent.setup();
+  const spyOnUseHandleChangeFavorite = jest.spyOn(
+    jest.requireActual("hooks/api/useHandleChangeFavorite"),
+    "default"
+  );
+  const mockHandleChangeFavorite = jest.fn();
+  spyOnUseHandleChangeFavorite.mockReturnValue({
+    handleChangeFavorite: mockHandleChangeFavorite,
+  });
+
   render(
     <Favorite
       selectedId={1}
       favorites={favoritesUserId2}
-      handleChangeFavorite={mockHandleChangeFavorite}
+      deleteFavoriteApi={mockDeleteFavoriteApi}
+      createFavoriteApi={mockCreateFavoriteApi}
     />
   );
   await act(async () => {
@@ -60,7 +72,11 @@ test("ハートアイコン押下でhandleChangeFavorite関数が実行される
     selectedId: 1,
     favoriteId: null,
     setFavoriteId: mockSetFavoriteId,
+    deleteFavoriteApi: mockDeleteFavoriteApi,
+    createFavoriteApi: mockCreateFavoriteApi,
   });
+
+  spyOnUseHandleChangeFavorite.mockRestore();
 });
 
 test("favoritesの格favoriteでuserIdがcurrentUser.idと一致するfavoriteが存在する場合、favoriteIdがそのfavoriteのidに更新されること", () => {
@@ -68,7 +84,8 @@ test("favoritesの格favoriteでuserIdがcurrentUser.idと一致するfavorite�
     <Favorite
       selectedId={1}
       favorites={favoritesUserId2}
-      handleChangeFavorite={mockHandleChangeFavorite}
+      deleteFavoriteApi={mockDeleteFavoriteApi}
+      createFavoriteApi={mockCreateFavoriteApi}
     />
   );
   expect(mockSetFavoriteId).not.toHaveBeenCalledWith(10);
@@ -76,7 +93,8 @@ test("favoritesの格favoriteでuserIdがcurrentUser.idと一致するfavorite�
     <Favorite
       selectedId={1}
       favorites={favoritesUserId1}
-      handleChangeFavorite={mockHandleChangeFavorite}
+      deleteFavoriteApi={mockDeleteFavoriteApi}
+      createFavoriteApi={mockCreateFavoriteApi}
     />
   );
   expect(mockSetFavoriteId).toHaveBeenCalledWith(10);

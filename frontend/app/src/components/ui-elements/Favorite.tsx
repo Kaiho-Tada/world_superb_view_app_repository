@@ -1,24 +1,24 @@
 import { Image } from "@chakra-ui/react";
 import likedHeartIcon from "assets/likedHeartIcon.png";
 import unlikedHeartIcon from "assets/unlikedHeartIcon.png";
+import { AxiosResponse } from "axios";
 import { RefWorldViewFavorite } from "features/worldView/types/ref/refWorldViewFavorite";
+import useHandleChangeFavorite from "hooks/api/useHandleChangeFavorite";
 import { useAuth } from "providers/useAuthProvider";
 import { FC, useEffect, useState } from "react";
 
-type Props = {
-  selectedId: number;
-  favoriteId: number | null;
-  setFavoriteId: (value: React.SetStateAction<number | null>) => void;
-};
 type FavoriteProps = {
   selectedId: number;
   favorites: Array<RefWorldViewFavorite>;
-  handleChangeFavorite: ({ selectedId, favoriteId, setFavoriteId }: Props) => Promise<void>;
+  deleteFavoriteApi: (favoriteId: number) => Promise<AxiosResponse<any, any>>;
+  createFavoriteApi: (selectedId: number) => Promise<AxiosResponse<any, any>>;
 };
 
-const Favorite: FC<FavoriteProps> = ({ selectedId, favorites, handleChangeFavorite }) => {
+const Favorite: FC<FavoriteProps> = (props) => {
+  const { selectedId, favorites, deleteFavoriteApi, createFavoriteApi } = props;
   const { currentUser } = useAuth();
   const [favoriteId, setFavoriteId] = useState<number | null>(null);
+  const { handleChangeFavorite } = useHandleChangeFavorite();
 
   // コンポーネント初期化時に、currentUserがお気に入り登録しているかを確認し、している場合はfavoriteIdをそのFavoriteのidに更新。
   useEffect(() => {
@@ -44,6 +44,8 @@ const Favorite: FC<FavoriteProps> = ({ selectedId, favorites, handleChangeFavori
           selectedId,
           favoriteId,
           setFavoriteId,
+          deleteFavoriteApi,
+          createFavoriteApi,
         })
       }
       cursor="pointer"

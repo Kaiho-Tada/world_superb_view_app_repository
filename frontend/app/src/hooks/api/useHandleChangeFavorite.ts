@@ -1,15 +1,17 @@
-import { isAxiosError } from "axios";
-import { createFavoriteApi, deleteFavoriteApi } from "features/worldView/api/worldViewFavoriteApi";
+import { AxiosResponse, isAxiosError } from "axios";
 import useMessage from "hooks/useMessage";
 
 type Props = {
   selectedId: number;
   favoriteId: number | null;
   setFavoriteId: (value: React.SetStateAction<number | null>) => void;
+  deleteFavoriteApi: (favoriteId: number) => Promise<AxiosResponse<any, any>>;
+  createFavoriteApi: (selectedId: number) => Promise<AxiosResponse<any, any>>;
 };
 const useHandleChangeFavorite = () => {
   const { showMessage } = useMessage();
-  const handleChangeFavorite = async ({ selectedId, favoriteId, setFavoriteId }: Props) => {
+  const handleChangeFavorite = async (props: Props) => {
+    const { selectedId, favoriteId, setFavoriteId, deleteFavoriteApi, createFavoriteApi } = props;
     if (favoriteId) {
       try {
         await deleteFavoriteApi(favoriteId);

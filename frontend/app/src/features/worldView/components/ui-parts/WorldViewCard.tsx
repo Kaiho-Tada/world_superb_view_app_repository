@@ -1,8 +1,8 @@
 import { Box, Flex, Heading, Image, Text, useDisclosure, WrapItem } from "@chakra-ui/react";
 import Favorite from "components/ui-elements/Favorite";
+import { createFavoriteApi, deleteFavoriteApi } from "features/worldView/api/worldViewFavoriteApi";
 import RiskLevelStar from "features/worldView/components/ui-elements/RiskLevelStar";
 import WorldViewModal from "features/worldView/components/ui-elements/WorldViewModal";
-import useHandleChangeFavorite from "features/worldView/hooks/api/useHandleChangeFavorite";
 import { RefCategory } from "features/worldView/types/ref/refCategory";
 import { RefCharacteristic } from "features/worldView/types/ref/refCharacteristic";
 import { RefCountry } from "features/worldView/types/ref/refCountry";
@@ -51,7 +51,6 @@ const WorldViewCard: FC<Props> = memo((props) => {
   const countryBmi = countries.map((country) => country.bmi);
   const countryBmiResult = countryBmi.length > 1 ? countryBmi.join("% ") : countryBmi[0];
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { handleChangeFavorite } = useHandleChangeFavorite();
 
   return (
     <>
@@ -172,7 +171,8 @@ const WorldViewCard: FC<Props> = memo((props) => {
           <Favorite
             selectedId={id}
             favorites={favorites}
-            handleChangeFavorite={handleChangeFavorite}
+            deleteFavoriteApi={deleteFavoriteApi}
+            createFavoriteApi={createFavoriteApi}
           />
         </Box>
       </WrapItem>
