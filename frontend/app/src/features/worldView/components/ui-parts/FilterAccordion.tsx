@@ -13,6 +13,7 @@ import NestedCheckBox from "components/ui-elements/NestedCheckBox";
 import FilterSearchBox from "features/worldView/components/ui-elements/FilterSearchBox";
 import RiskLevelCheckBox from "features/worldView/components/ui-elements/RiskLevelCheckBox";
 import useClear from "features/worldView/hooks/useClear";
+import useGetCheckedLabels from "features/worldView/hooks/useGetCheckedLabels";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { FC, memo } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
@@ -28,36 +29,19 @@ const FilterAccordion: FC = memo(() => {
       payload: newCheckBoxItems,
     });
   };
-  const characteristicCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
-    dispatch({
-      type: "SET_CHECKED_CHARACTERISTIC_LABELS",
-      payload: newCheckedLabels,
-    });
-  };
   const bmiCheckBoxItemsDispatch = (newCheckBoxItems: CheckBoxItem[]) => {
     dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-  };
-  const bmiCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
-    dispatch({ type: "SET_CHECKED_BMI_LABELS", payload: newCheckedLabels });
   };
   const categoryCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
     dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
   };
-  const categoryCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
-    dispatch({ type: "SET_CHECKED_CATEGORY_LABELS", payload: newCheckedLabels });
-  };
   const countryCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
     dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-  };
-  const countryCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
-    dispatch({ type: "SET_CHECKED_COUNTRY_LABELS", payload: newCheckedLabels });
   };
   const monthCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
     dispatch({ type: "SET_MONTH_CHECKBOX_ITEMS", payload: newCheckBoxItems });
   };
-  const monthCheckedLabelsDispatch = (newCheckedLabels: string[]) => {
-    dispatch({ type: "SET_CHECKED_MONTH_LABELS", payload: newCheckedLabels });
-  };
+  const { checkedLabelObject } = useGetCheckedLabels();
 
   return state.isOpenFilterAccordion ? (
     <Accordion
@@ -83,12 +67,12 @@ const FilterAccordion: FC = memo(() => {
           textAlign="right"
           disabled={
             state.loadingSearchWorldViews ||
-            (!state.checkedCategoryLabels.length &&
-              !state.checkedCountryLabels.length &&
-              !state.checkedCharacteristicLabels.length &&
-              !state.checkedRiskLevelLabels.length &&
-              !state.checkedMonthLabels.length &&
-              !state.checkedBmiLabels.length &&
+            (!checkedLabelObject.categoryLabels.length &&
+              !checkedLabelObject.countryLabels.length &&
+              !checkedLabelObject.characteristicLabels.length &&
+              !checkedLabelObject.riskLevelLabels.length &&
+              !checkedLabelObject.monthLabels.length &&
+              !checkedLabelObject.bmiLabels.length &&
               state.keyword === "")
           }
         >
@@ -121,7 +105,6 @@ const FilterAccordion: FC = memo(() => {
             loadinCheckBoxItems={state.loadingCategoryCheckBoxItems}
             loadingSearchModel={state.loadingSearchWorldViews}
             checkBoxItemsDispatch={categoryCheckBoxItemsDispatch}
-            checkedLabelsDispatch={categoryCheckedLabelsDispatch}
           />
         </AccordionPanel>
       </AccordionItem>
@@ -138,7 +121,6 @@ const FilterAccordion: FC = memo(() => {
             loadinCheckBoxItems={state.loadingCountryCheckBoxItems}
             loadingSearchModel={state.loadingSearchWorldViews}
             checkBoxItemsDispatch={countryCheckBoxItemsDispatch}
-            checkedLabelsDispatch={countryCheckedLabelsDispatch}
           />
         </AccordionPanel>
       </AccordionItem>
@@ -156,7 +138,6 @@ const FilterAccordion: FC = memo(() => {
             loadingSearchModel={state.loadingSearchWorldViews}
             vertical={false}
             checkBoxItemsDispatch={characteristicCheckBoxItemsDispatch}
-            checkedLabelsDispatch={characteristicCheckedLabelsDispatch}
           />
         </AccordionPanel>
       </AccordionItem>
@@ -184,7 +165,6 @@ const FilterAccordion: FC = memo(() => {
             loadinCheckBoxItems={false}
             loadingSearchModel={state.loadingSearchWorldViews}
             checkBoxItemsDispatch={monthCheckBoxItemsDispatch}
-            checkedLabelsDispatch={monthCheckedLabelsDispatch}
           />
         </AccordionPanel>
       </AccordionItem>
@@ -202,7 +182,6 @@ const FilterAccordion: FC = memo(() => {
             loadingSearchModel={state.loadingSearchWorldViews}
             vertical
             checkBoxItemsDispatch={bmiCheckBoxItemsDispatch}
-            checkedLabelsDispatch={bmiCheckedLabelsDispatch}
           />
         </AccordionPanel>
       </AccordionItem>

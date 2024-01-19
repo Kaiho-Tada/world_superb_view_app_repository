@@ -68,15 +68,6 @@ const useClear = () => {
     });
     dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: clearedBmiCheckBoxItems });
 
-    dispatch({ type: "SET_CHECKED_CATEGORY_LABELS", payload: [] });
-    dispatch({ type: "SET_CHECKED_COUNTRY_LABELS", payload: [] });
-    dispatch({
-      type: "SET_CHECKED_CHARACTERISTIC_LABELS",
-      payload: [],
-    });
-    dispatch({ type: "SET_CHECKED_RISK_LEVEL_LABELS", payload: [] });
-    dispatch({ type: "SET_CHECKED_MONTH_LABELS", payload: [] });
-    dispatch({ type: "SET_CHECKED_BMI_LABELS", payload: [] });
     dispatch({ type: "SET_KEYWORD", payload: "" });
   }, [
     state.categoryCheckBoxItems,

@@ -3,7 +3,6 @@ import { act } from "react-dom/test-utils";
 import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
 
 const checkBoxItemsDispatch = jest.fn();
-const checkedLabelsDispatch = jest.fn();
 
 describe("handleChangeParentCheckBox関数の挙動のテスト", () => {
   describe("e.target.valueの値とcheckBoxItemsのparentNameプロパティの値が同じである場合", () => {
@@ -18,14 +17,12 @@ describe("handleChangeParentCheckBox関数の挙動のテスト", () => {
           e: mockEvent as ChangeEvent<HTMLInputElement>,
           checkBoxItems,
           checkBoxItemsDispatch,
-          checkedLabelsDispatch,
         });
       });
       expect(checkBoxItemsDispatch).toHaveBeenCalledWith([
         { label: "ラベル1", parentLabel: "親ラベル", checked: true },
         { label: "ラベル2", parentLabel: "親ラベル", checked: true },
       ]);
-      expect(checkedLabelsDispatch).toHaveBeenCalledWith(["ラベル1", "ラベル2"]);
     });
 
     test("e.target.checkedがfalseの場合、全てのcheckBoxItemsのcheckedがfalseに更新されること", () => {
@@ -39,14 +36,12 @@ describe("handleChangeParentCheckBox関数の挙動のテスト", () => {
           e: mockEvent as ChangeEvent<HTMLInputElement>,
           checkBoxItems,
           checkBoxItemsDispatch,
-          checkedLabelsDispatch,
         });
       });
       expect(checkBoxItemsDispatch).toHaveBeenCalledWith([
         { label: "ラベル1", parentLabel: "親ラベル", checked: false },
         { label: "ラベル2", parentLabel: "親ラベル", checked: false },
       ]);
-      expect(checkedLabelsDispatch).toHaveBeenCalledWith([]);
     });
   });
 
@@ -62,14 +57,12 @@ describe("handleChangeParentCheckBox関数の挙動のテスト", () => {
           e: mockEvent as ChangeEvent<HTMLInputElement>,
           checkBoxItems,
           checkBoxItemsDispatch,
-          checkedLabelsDispatch,
         });
       });
       expect(checkBoxItemsDispatch).toHaveBeenCalledWith([
         { label: "ラベル1", parentLabel: "親ラベル", checked: false },
         { label: "ラベル2", parentLabel: "親ラベル", checked: false },
       ]);
-      expect(checkedLabelsDispatch).toHaveBeenCalledWith([]);
     });
   });
 });

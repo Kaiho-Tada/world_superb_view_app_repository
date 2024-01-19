@@ -14,12 +14,8 @@ const RiskLevelCheckBox: FC = memo(() => {
     dispatch({ type: "SET_RISK_LEVEL_CHECKBOX_ITEMS", payload: newCheckBoxItems });
   };
 
-  const checkedLabelsDispatch = (newCheckedLabels: string[]) => {
-    dispatch({ type: "SET_CHECKED_RISK_LEVEL_LABELS", payload: newCheckedLabels });
-  };
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeCheckBox({ checkBoxItems, checkBoxItemsDispatch, e, checkedLabelsDispatch });
+    handleChangeCheckBox({ checkBoxItems, checkBoxItemsDispatch, e });
   };
 
   return (

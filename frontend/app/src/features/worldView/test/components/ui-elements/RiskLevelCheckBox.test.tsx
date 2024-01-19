@@ -76,11 +76,6 @@ test("checkbox押下でhandleChangeCheckBox関数内でdispatchが実行され�
     type: "SET_RISK_LEVEL_CHECKBOX_ITEMS",
     payload: expect.any(Array),
   });
-
-  expect(mockDispatch).toHaveBeenCalledWith({
-    type: "SET_CHECKED_RISK_LEVEL_LABELS",
-    payload: expect.any(Array),
-  });
 });
 
 test("checkbox押下でhandleChangeCheckBox関数が実行されること", async () => {
@@ -103,7 +98,6 @@ test("checkbox押下でhandleChangeCheckBox関数が実行されること", asyn
       e: expect.objectContaining({ target: expect.objectContaining({ value: "4" }) }),
       checkBoxItems: [{ label: "4", checked: false }],
       checkBoxItemsDispatch: expect.any(Function),
-      checkedLabelsDispatch: expect.any(Function),
     })
   );
 });

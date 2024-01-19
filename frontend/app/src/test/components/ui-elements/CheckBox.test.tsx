@@ -4,7 +4,6 @@ import CheckBox from "components/ui-elements/CheckBox";
 import { act } from "react-dom/test-utils";
 
 const mockCheckBoxItemsDispatch = jest.fn();
-const mockCheckedLabelsDispatch = jest.fn();
 
 test("CheckBoxがレンダリングされていること", () => {
   render(
@@ -14,7 +13,6 @@ test("CheckBoxがレンダリングされていること", () => {
       loadingSearchModel={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
-      checkedLabelsDispatch={mockCheckedLabelsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "ラベル" })).toBeInTheDocument();
@@ -28,7 +26,6 @@ test("checkBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされて
       loadingSearchModel={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
-      checkedLabelsDispatch={mockCheckedLabelsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "ラベル" })).toBeChecked();
@@ -42,7 +39,6 @@ test("loadingCheckBoxItemsがtrueの場合、スピナーが表示されてい�
       loadingSearchModel={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
-      checkedLabelsDispatch={mockCheckedLabelsDispatch}
     />
   );
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
@@ -56,7 +52,6 @@ test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになって�
       loadingSearchModel
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
-      checkedLabelsDispatch={mockCheckedLabelsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "ラベル" })).toBeDisabled();
@@ -70,7 +65,6 @@ test("verticalがtrueの場合、CheckBoxが縦並びに配置されているこ
       loadingSearchModel={false}
       vertical
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
-      checkedLabelsDispatch={mockCheckedLabelsDispatch}
     />
   );
   expect(screen.getByTestId("checkboxContainer")).toHaveStyle({
@@ -92,7 +86,6 @@ test("checkbox押下でhandleChangeCheckBox関数が実行されること", asyn
       loadingCheckBoxItems={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
-      checkedLabelsDispatch={mockCheckedLabelsDispatch}
       loadingSearchModel={false}
     />
   );
@@ -105,7 +98,6 @@ test("checkbox押下でhandleChangeCheckBox関数が実行されること", asyn
       e: expect.objectContaining({ target: expect.objectContaining({ value: "ラベル" }) }),
       checkBoxItems: [{ label: "ラベル", checked: false }],
       checkBoxItemsDispatch: expect.any(Function),
-      checkedLabelsDispatch: expect.any(Function),
     })
   );
 });

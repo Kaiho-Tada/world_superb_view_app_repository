@@ -5,12 +5,10 @@ const handleChangeCheckBox = <T extends CheckBoxItem[]>({
   e,
   checkBoxItems,
   checkBoxItemsDispatch,
-  checkedLabelsDispatch,
 }: {
   e: ChangeEvent<HTMLInputElement>;
   checkBoxItems: T;
   checkBoxItemsDispatch: (newCheckBoxItems: T) => void;
-  checkedLabelsDispatch: (newCheckedLabels: string[]) => void;
 }) => {
   const newCheckBoxItems = checkBoxItems.map((originalCheckBoxItem) => {
     const checkBoxItem = { ...originalCheckBoxItem };
@@ -20,13 +18,5 @@ const handleChangeCheckBox = <T extends CheckBoxItem[]>({
     return checkBoxItem;
   });
   checkBoxItemsDispatch(newCheckBoxItems as T);
-
-  const checkedCheckBoxItems = newCheckBoxItems.filter(
-    (newCheckBoxItem) => newCheckBoxItem.checked === true
-  );
-  const newCheckedLabels = checkedCheckBoxItems.map(
-    (checkedCheckBoxItem) => checkedCheckBoxItem.label
-  );
-  checkedLabelsDispatch(newCheckedLabels);
 };
 export default handleChangeCheckBox;

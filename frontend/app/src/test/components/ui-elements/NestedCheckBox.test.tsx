@@ -4,7 +4,6 @@ import CategoryCheckBox from "components/ui-elements/NestedCheckBox";
 import { act } from "react-dom/test-utils";
 
 const checkBoxItemsDispatch = jest.fn();
-const checkedLabelsDispatch = jest.fn();
 
 test("CheckBoxがレンダリングされていること", () => {
   render(
@@ -17,7 +16,6 @@ test("CheckBoxがレンダリングされていること", () => {
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
-      checkedLabelsDispatch={checkedLabelsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "親ラベルA" })).toBeInTheDocument();
@@ -38,7 +36,6 @@ test("categoryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェック�
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
-      checkedLabelsDispatch={checkedLabelsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "ラベル1" })).not.toBeChecked();
@@ -57,7 +54,6 @@ test("子のCheckboxが全てチェックされている場合、親のCheckbox�
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
-      checkedLabelsDispatch={checkedLabelsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "親ラベルA" })).toBeChecked();
@@ -71,7 +67,6 @@ test("loadingCategoryCheckBoxItemsがtrueの場合、スピナーが表示され
       loadinCheckBoxItems
       loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
-      checkedLabelsDispatch={checkedLabelsDispatch}
     />
   );
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
@@ -88,7 +83,6 @@ test("loadingSearchWorldViewsがfalseの場合、CheckBoxが有効になって�
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
-      checkedLabelsDispatch={checkedLabelsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "親ラベルA" })).not.toBeDisabled();
@@ -109,7 +103,6 @@ test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになって�
       loadinCheckBoxItems={false}
       loadingSearchModel
       checkBoxItemsDispatch={checkBoxItemsDispatch}
-      checkedLabelsDispatch={checkedLabelsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "親ラベルA" })).toBeDisabled();
@@ -131,7 +124,6 @@ test("親のCheckBox押下でhandleChangeParentCheckBox関数が実行される�
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
-      checkedLabelsDispatch={checkedLabelsDispatch}
     />
   );
   await act(async () => {
@@ -142,7 +134,6 @@ test("親のCheckBox押下でhandleChangeParentCheckBox関数が実行される�
       e: expect.objectContaining({ target: expect.objectContaining({ value: "親ラベル" }) }),
       checkBoxItems: [{ label: "ラベル1", parentLabel: "親ラベル", checked: true }],
       checkBoxItemsDispatch: expect.any(Function),
-      checkedLabelsDispatch: expect.any(Function),
     })
   );
 });
@@ -159,7 +150,6 @@ test("子のCheckBox押下でhandleChangeCheckBox関数が実行されること"
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={checkBoxItemsDispatch}
-      checkedLabelsDispatch={checkedLabelsDispatch}
     />
   );
   await act(async () => {
@@ -170,7 +160,6 @@ test("子のCheckBox押下でhandleChangeCheckBox関数が実行されること"
       e: expect.objectContaining({ target: expect.objectContaining({ value: "ラベル1" }) }),
       checkBoxItems: [{ label: "ラベル1", parentLabel: "親ラベル", checked: true }],
       checkBoxItemsDispatch: expect.any(Function),
-      checkedLabelsDispatch: expect.any(Function),
     })
   );
 });

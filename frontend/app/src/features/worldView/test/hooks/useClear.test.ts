@@ -115,35 +115,6 @@ test("bmiCheckBoxItemsのcheckedがtrueの場合、falseに切り替わること
   });
 });
 
-test("各setCheckedLablesに空の配列が渡されること", () => {
-  const { result } = renderHook(() => useClear());
-  result.current.handleClear();
-  expect(mockDispatch).toHaveBeenCalledWith({
-    type: "SET_CHECKED_CATEGORY_LABELS",
-    payload: [],
-  });
-  expect(mockDispatch).toHaveBeenCalledWith({
-    type: "SET_CHECKED_COUNTRY_LABELS",
-    payload: [],
-  });
-  expect(mockDispatch).toHaveBeenCalledWith({
-    type: "SET_CHECKED_CHARACTERISTIC_LABELS",
-    payload: [],
-  });
-  expect(mockDispatch).toHaveBeenCalledWith({
-    type: "SET_CHECKED_RISK_LEVEL_LABELS",
-    payload: [],
-  });
-  expect(mockDispatch).toHaveBeenCalledWith({
-    type: "SET_CHECKED_MONTH_LABELS",
-    payload: [],
-  });
-  expect(mockDispatch).toHaveBeenCalledWith({
-    type: "SET_CHECKED_BMI_LABELS",
-    payload: [],
-  });
-});
-
 test("keywordが空文字に更新されること", () => {
   const { result } = renderHook(() => useClear());
   result.current.handleClear();

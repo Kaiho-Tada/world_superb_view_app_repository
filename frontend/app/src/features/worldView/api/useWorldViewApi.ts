@@ -1,23 +1,10 @@
 import client from "lib/client";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
+import useGetCheckedLabels from "../hooks/useGetCheckedLabels";
 
 const useWorldViewApi = () => {
   const { state } = useWorldViewListContext();
-
-  const checkBoxItemArray = {
-    categoryLabels: state.categoryCheckBoxItems,
-    countryLabels: state.countryCheckBoxItems,
-    characteristicLabels: state.characteristicCheckBoxItems,
-    riskLevelLabels: state.riskLevelCheckBoxItems,
-    monthLabels: state.monthCheckBoxItems,
-    bmiLabels: state.bmiCheckBoxItems,
-  };
-  const checkedLabelObject = Object.fromEntries(
-    Object.entries(checkBoxItemArray).map(([key, checkBoxItems]) => [
-      key,
-      checkBoxItems.filter((item) => item.checked).map((item) => item.label),
-    ])
-  );
+  const { checkedLabelObject } = useGetCheckedLabels();
 
   const searchWorldViewApi = () =>
     client.get("/world_views/search", {

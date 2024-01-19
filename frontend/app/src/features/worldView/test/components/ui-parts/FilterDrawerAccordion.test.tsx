@@ -24,7 +24,7 @@ const mockContextValue = {
     countryCheckBoxItems: [
       { label: "中国", parentLabel: "アジア", checked: false },
       { label: "オーストラリア", parentLabel: "大洋州", checked: false },
-      { label: "アメリカ", parentLabel: "北米", checked: true },
+      { label: "アメリカ", parentLabel: "北米", checked: false },
       { label: "メキシコ", parentLabel: "中南米", checked: false },
       { label: "イギリス", parentLabel: "ヨーロッパ", checked: false },
       { label: "トルコ", parentLabel: "中東", checked: false },
@@ -48,7 +48,6 @@ const mockContextValue = {
     ],
     bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
     loadingSearchWorldViews: false,
-    checkedCategoryLabels: [""],
   },
 };
 
@@ -59,15 +58,9 @@ const mockContextValueLoadingSearchWorldViews = {
   },
 };
 
-const mockContextValueEmptyCheckedLabelsAndEmptyKeyword = {
+const mockContextValueEmptyKeyword = {
   state: {
     ...mockContextValue.state,
-    checkedCategoryLabels: [],
-    checkedCountryLabels: [],
-    checkedCharacteristicLabels: [],
-    checkedRiskLevelLabels: [],
-    checkedMonthLabels: [],
-    checkedBmiLabels: [],
     keyword: "",
   },
 };
@@ -200,12 +193,27 @@ test("loadingSearchWorldViewsがtrueの場合、クリアボタンが押下不�
   expect(screen.getByRole("button", { name: "クリア" })).toBeDisabled();
 });
 
-test("checkedLabelsが空配列でかつkeywordが空文字の場合、クリアボタンが押下不可になっていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(
-    () => mockContextValueEmptyCheckedLabelsAndEmptyKeyword
+test("useGetCheckedLabelsで返されるlabelsの配列が空でかつkeywordが空文字の場合、クリアボタンが押下不可になっていること", () => {
+  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueEmptyKeyword);
+  const spyOnUseGetCheckedLabels = jest.spyOn(
+    jest.requireActual("features/worldView/hooks/useGetCheckedLabels"),
+    "default"
   );
+  spyOnUseGetCheckedLabels.mockReturnValue({
+    checkedLabelObject: {
+      categoryLabels: [],
+      countryLabels: [],
+      characteristicLabels: [],
+      riskLevelLabels: [],
+      monthLabels: [],
+      bmiLabels: [],
+    },
+  });
+
   render(<FilterDrawerAccordion />);
   expect(screen.getByRole("button", { name: "クリア" })).toBeDisabled();
+
+  spyOnUseGetCheckedLabels.mockRestore();
 });
 
 test("クリアボタン押下でhandleClear関数が実行されること", async () => {

@@ -11,11 +11,6 @@ export type Action =
   | { type: "SET_MONTH_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_BMI_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
   | { type: "SET_CHECKED_CATEGORY_LABELS"; payload: string[] }
-  | { type: "SET_CHECKED_COUNTRY_LABELS"; payload: string[] }
-  | { type: "SET_CHECKED_CHARACTERISTIC_LABELS"; payload: string[] }
-  | { type: "SET_CHECKED_RISK_LEVEL_LABELS"; payload: string[] }
-  | { type: "SET_CHECKED_MONTH_LABELS"; payload: string[] }
-  | { type: "SET_CHECKED_BMI_LABELS"; payload: string[] }
   | { type: "SET_KEYWORD"; payload: string }
   | { type: "SET_LOADING_SEARCH_WORLDVIEWS"; payload: boolean }
   | { type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS"; payload: boolean }
@@ -38,12 +33,6 @@ type State = {
   riskLevelCheckBoxItems: CheckBoxItem[];
   monthCheckBoxItems: NestedCheckBoxItem[];
   bmiCheckBoxItems: CheckBoxItem[];
-  checkedCategoryLabels: string[];
-  checkedCountryLabels: string[];
-  checkedCharacteristicLabels: string[];
-  checkedRiskLevelLabels: string[];
-  checkedMonthLabels: string[];
-  checkedBmiLabels: string[];
   keyword: string;
   loadingSearchWorldViews: boolean;
   loadingCategoryCheckBoxItems: boolean;
@@ -94,12 +83,6 @@ const initialState: State = {
     { label: "-40%〜-30%", checked: false },
     { label: "〜-40%", checked: false },
   ],
-  checkedCategoryLabels: [],
-  checkedCountryLabels: [],
-  checkedCharacteristicLabels: [],
-  checkedRiskLevelLabels: [],
-  checkedMonthLabels: [],
-  checkedBmiLabels: [],
   keyword: "",
   loadingSearchWorldViews: false,
   loadingCategoryCheckBoxItems: false,
@@ -131,24 +114,6 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_BMI_CHECKBOX_ITEMS":
       return { ...state, bmiCheckBoxItems: action.payload };
-
-    case "SET_CHECKED_CATEGORY_LABELS":
-      return { ...state, checkedCategoryLabels: action.payload };
-
-    case "SET_CHECKED_COUNTRY_LABELS":
-      return { ...state, checkedCountryLabels: action.payload };
-
-    case "SET_CHECKED_CHARACTERISTIC_LABELS":
-      return { ...state, checkedCharacteristicLabels: action.payload };
-
-    case "SET_CHECKED_RISK_LEVEL_LABELS":
-      return { ...state, checkedRiskLevelLabels: action.payload };
-
-    case "SET_CHECKED_MONTH_LABELS":
-      return { ...state, checkedMonthLabels: action.payload };
-
-    case "SET_CHECKED_BMI_LABELS":
-      return { ...state, checkedBmiLabels: action.payload };
 
     case "SET_KEYWORD":
       return { ...state, keyword: action.payload };

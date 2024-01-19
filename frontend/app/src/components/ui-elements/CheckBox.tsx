@@ -9,7 +9,6 @@ type Props = {
   loadingSearchModel: boolean;
   vertical: boolean;
   checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => void;
-  checkedLabelsDispatch: (newCheckedLabels: string[]) => void;
 };
 
 const CheckBox: FC<Props> = (props) => {
@@ -19,11 +18,10 @@ const CheckBox: FC<Props> = (props) => {
     loadingSearchModel,
     vertical,
     checkBoxItemsDispatch,
-    checkedLabelsDispatch,
   } = props;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeCheckBox({ checkBoxItems, checkBoxItemsDispatch, e, checkedLabelsDispatch });
+    handleChangeCheckBox({ checkBoxItems, checkBoxItemsDispatch, e });
   };
 
   const checkboxStyle: CSSProperties | undefined = vertical

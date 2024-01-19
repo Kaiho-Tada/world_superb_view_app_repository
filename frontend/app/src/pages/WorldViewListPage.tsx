@@ -29,12 +29,12 @@ const WorldViewListPage = memo(() => {
       handleSearchWorldView();
     }
   }, [
-    state.checkedCategoryLabels,
-    state.checkedCountryLabels,
-    state.checkedCharacteristicLabels,
-    state.checkedRiskLevelLabels,
-    state.checkedMonthLabels,
-    state.checkedBmiLabels,
+    state.categoryCheckBoxItems,
+    state.countryCheckBoxItems,
+    state.characteristicCheckBoxItems,
+    state.riskLevelCheckBoxItems,
+    state.monthCheckBoxItems,
+    state.bmiCheckBoxItems,
     state.keyword,
     state.sortCriteria,
   ]);
@@ -53,7 +53,6 @@ const WorldViewListPage = memo(() => {
   const itemsPerPage = 10;
   const endOffset = itemsOffset + itemsPerPage;
   const currentViews = state.worldViews.slice(itemsOffset, endOffset);
-  // debugger;
   const pageCount = Math.ceil(state.worldViews.length / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {

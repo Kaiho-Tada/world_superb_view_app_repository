@@ -10,34 +10,17 @@ type Props = {
   loadinCheckBoxItems: boolean;
   loadingSearchModel: boolean;
   checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
-  checkedLabelsDispatch: (newCheckedLabels: string[]) => void;
 };
 
 const NestedCheckBox: FC<Props> = memo((props) => {
-  const {
-    checkBoxItems,
-    loadingSearchModel,
-    loadinCheckBoxItems,
-    checkBoxItemsDispatch,
-    checkedLabelsDispatch,
-  } = props;
+  const { checkBoxItems, loadingSearchModel, loadinCheckBoxItems, checkBoxItemsDispatch } = props;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeCheckBox<NestedCheckBoxItem[]>({
-      e,
-      checkBoxItems,
-      checkBoxItemsDispatch,
-      checkedLabelsDispatch,
-    });
+    handleChangeCheckBox<NestedCheckBoxItem[]>({ e, checkBoxItems, checkBoxItemsDispatch });
   };
 
   const handleChangeParent = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeParentCheckBox({
-      e,
-      checkBoxItems,
-      checkBoxItemsDispatch,
-      checkedLabelsDispatch,
-    });
+    handleChangeParentCheckBox({ e, checkBoxItems, checkBoxItemsDispatch });
   };
 
   const checkBoxInfo = handleGetNestedCheckBoxInfo({ checkBoxItems });
