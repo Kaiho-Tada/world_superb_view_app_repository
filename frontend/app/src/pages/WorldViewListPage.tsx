@@ -62,11 +62,7 @@ const WorldViewListPage = memo(() => {
   ]);
   useEffect(() => {
     getCategoryCheckBoxItems();
-  }, []);
-  useEffect(() => {
     getCountryCheckBoxItems();
-  }, []);
-  useEffect(() => {
     getCharacteristicCheckBoxItems();
   }, []);
 

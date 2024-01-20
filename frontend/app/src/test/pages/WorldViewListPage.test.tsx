@@ -4,10 +4,6 @@ import WorldViewList from "pages/WorldViewListPage";
 import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
-const mockGetCategoryCheckBoxItems = jest.fn();
-const mockGetCountryCheckBoxItems = jest.fn();
-const mockGetCharacteristicCheckBoxItems = jest.fn();
-
 // useClickFilterButton関数内のuseBreakpointValue関数の戻り値がundefinedになりエラーが発生するのを回避
 jest.mock("features/worldView/hooks/useClickFilterButton", () => ({
   __esModule: true,
@@ -26,27 +22,6 @@ const mockWorldViews = Array.from({ length: 30 }, (_, index) => ({
   characteristics: [],
   worldViewFavorites: [],
 }));
-
-jest.mock("features/worldView/hooks/api/useGetCategoryCheckBoxItems", () => ({
-  __esModule: true,
-  default: () => ({
-    getCategoryCheckBoxItems: mockGetCategoryCheckBoxItems,
-  }),
-}));
-
-jest.mock("features/worldView/hooks/api/useGetCountryCheckBoxItems", () => ({
-  __esModule: true,
-  default: () => ({
-    getCountryCheckBoxItems: mockGetCountryCheckBoxItems,
-  }),
-}));
-
-jest.mock("features/worldView/hooks/api/useGetCharacteristicCheckBoxItems", () => ({
-  __esModule: true,
-  default: () => ({
-    getCharacteristicCheckBoxItems: mockGetCharacteristicCheckBoxItems,
-  }),
-}));
 const mockDispatch = jest.fn();
 jest.mock("providers/WorldViewListProvider", () => ({
   ...jest.requireActual("providers/WorldViewListProvider"),
@@ -63,6 +38,30 @@ const mockHandleSearchModel = jest.fn();
 jest.mock("hooks/api/useSearchModel", () => ({
   __esModule: true,
   default: () => ({ handleSearchModel: mockHandleSearchModel }),
+}));
+
+const mockGetCategoryCheckBoxItems = jest.fn();
+jest.mock("features/worldView/hooks/api/useGetCategoryCheckBoxItems", () => ({
+  __esModule: true,
+  default: () => ({
+    getCategoryCheckBoxItems: mockGetCategoryCheckBoxItems,
+  }),
+}));
+
+const mockGetCountryCheckBoxItems = jest.fn();
+jest.mock("features/worldView/hooks/api/useGetCountryCheckBoxItems", () => ({
+  __esModule: true,
+  default: () => ({
+    getCountryCheckBoxItems: mockGetCountryCheckBoxItems,
+  }),
+}));
+
+const mockGetCharacteristicCheckBoxItems = jest.fn();
+jest.mock("features/worldView/hooks/api/useGetCharacteristicCheckBoxItems", () => ({
+  __esModule: true,
+  default: () => ({
+    getCharacteristicCheckBoxItems: mockGetCharacteristicCheckBoxItems,
+  }),
 }));
 
 describe("handleSearchModel関数のテスト", () => {
