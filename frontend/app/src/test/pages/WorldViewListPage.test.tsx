@@ -59,19 +59,34 @@ jest.mock("providers/WorldViewListProvider", () => ({
   }),
 }));
 
-const mockHandleSearchWorldView = jest.fn();
-jest.mock("features/worldView/hooks/api/useSearchWorldView", () => ({
+const mockHandleSearchModel = jest.fn();
+jest.mock("hooks/api/useSearchModel", () => ({
   __esModule: true,
-  default: () => ({ handleSearchWorldView: mockHandleSearchWorldView }),
+  default: () => ({ handleSearchModel: mockHandleSearchModel }),
 }));
 
-test("初回レンダリング時にhandleSearchWorldView関数が実行されること", () => {
-  render(
-    <WorldViewListProvider>
-      <WorldViewList />
-    </WorldViewListProvider>
-  );
-  expect(mockHandleSearchWorldView).toHaveBeenCalledTimes(1);
+describe("handleSearchModel関数のテスト", () => {
+  test("初回レンダリング時にhandleSearchModel関数が実行されること", () => {
+    const spyOnUseWorldViewApi = jest.spyOn(
+      jest.requireActual("features/worldView/api/useWorldViewApi"),
+      "default"
+    );
+    const mockSearchWorldViewApi = jest.fn();
+    spyOnUseWorldViewApi.mockReturnValue({ searchWorldViewApi: mockSearchWorldViewApi });
+
+    render(
+      <WorldViewListProvider>
+        <WorldViewList />
+      </WorldViewListProvider>
+    );
+    expect(mockHandleSearchModel).toHaveBeenCalledWith({
+      loadingSearchModelDispatch: expect.any(Function),
+      modelDispatch: expect.any(Function),
+      searchModelApi: mockSearchWorldViewApi,
+    });
+
+    spyOnUseWorldViewApi.mockRestore();
+  });
 });
 
 test("初回レンダリング時にgetAllCategoriesWithCheckBoxData関数が実行されること", () => {

@@ -317,5 +317,16 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
         end
       end
     end
+
+    it "searchアクション内で発生したエラーが適切に処理されること" do
+      allow_any_instance_of(Api::V1::WorldViewsController).to receive(:world_view_filter).and_raise(StandardError, "Filtering error")
+      expect(Rails.logger).to receive(:error).with(StandardError)
+      expect(Rails.logger).to receive(:error).with("Filtering error")
+      expect(Rails.logger).to receive(:error).with(instance_of(String))
+      get api_v1_world_views_search_path
+      json = JSON.parse(response.body)
+      expect(response).to have_http_status(500)
+      expect(json["error"]).to eq("絶景モデルのフィルタリング処理に失敗しました。")
+    end
   end
 end
