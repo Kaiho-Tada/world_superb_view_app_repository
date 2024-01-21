@@ -13,7 +13,7 @@ describe("useDebounce関数のテスト", () => {
 
     // 一回目の実行
     act(() => {
-      result.current.debounce(mockFunction);
+      result.current.handleDebounce(mockFunction);
     });
 
     // mockFunctionが実行されていないことを確認
@@ -32,7 +32,7 @@ describe("useDebounce関数のテスト", () => {
 
     // 二回目の実行
     act(() => {
-      result.current.debounce(mockFunction);
+      result.current.handleDebounce(mockFunction);
     });
 
     // mockClearTimeoutが実行される

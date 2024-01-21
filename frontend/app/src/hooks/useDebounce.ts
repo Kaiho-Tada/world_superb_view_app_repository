@@ -12,7 +12,7 @@ type DebounceProps<T> = {
 };
 const useDebounce = (timeout: number) => {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const debounce = useCallback(
+  const handleDebounce = useCallback(
     (fn: () => void) => {
       if (timer.current) {
         clearTimeout(timer.current);
@@ -35,6 +35,6 @@ const useDebounce = (timeout: number) => {
     },
     [timeout]
   );
-  return { debounce, handleDebounceWithArg };
+  return { handleDebounce, handleDebounceWithArg };
 };
 export default useDebounce;
