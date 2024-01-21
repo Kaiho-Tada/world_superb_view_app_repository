@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import client from "lib/client";
 
@@ -18,5 +19,5 @@ export const createFavoriteApi = (selectedId: number) =>
     }
   );
 
-export const deleteFavoriteApi = (favoriteId: number): Promise<void> =>
+export const deleteFavoriteApi = (favoriteId: number): Promise<AxiosResponse<void>> =>
   client.delete(`/world_view_favorites/${favoriteId}`);

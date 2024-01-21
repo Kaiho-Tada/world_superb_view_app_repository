@@ -10,7 +10,7 @@ import { Favorite } from "types/favorite";
 type FavoriteProps = {
   selectedId: number;
   favorites: Array<Favorite>;
-  deleteFavoriteApi: (favoriteId: number) => Promise<void>;
+  deleteFavoriteApi: (favoriteId: number) => Promise<AxiosResponse<void>>;
   createFavoriteApi: (selectedId: number) => Promise<AxiosResponse<Favorite>>;
 };
 

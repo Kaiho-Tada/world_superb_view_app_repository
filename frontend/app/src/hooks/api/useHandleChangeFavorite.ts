@@ -6,7 +6,7 @@ type Props = {
   selectedId: number;
   favoriteId: number | null;
   setFavoriteId: (value: React.SetStateAction<number | null>) => void;
-  deleteFavoriteApi: (favoriteId: number) => Promise<void>;
+  deleteFavoriteApi: (favoriteId: number) => Promise<AxiosResponse<void>>;
   createFavoriteApi: (selectedId: number) => Promise<AxiosResponse<Favorite>>;
 };
 const useHandleChangeFavorite = () => {
