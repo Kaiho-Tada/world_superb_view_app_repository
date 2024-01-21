@@ -18,5 +18,5 @@ export const createFavoriteApi = (selectedId: number) =>
     }
   );
 
-export const deleteFavoriteApi = (favoriteId: number) =>
+export const deleteFavoriteApi = (favoriteId: number): Promise<void> =>
   client.delete(`/world_view_favorites/${favoriteId}`);

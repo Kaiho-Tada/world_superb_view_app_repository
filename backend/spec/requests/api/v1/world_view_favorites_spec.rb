@@ -14,7 +14,6 @@ RSpec.describe "Api::V1::WorldViewFavorites", type: :request do
         }, headers: auth_tokens
         expect(response).to have_http_status(200)
         @json = JSON.parse(response.body)
-        expect(@json["world_view_id"]).to eq world_view.id
         expect(@json["user_id"]).to eq user.id
       end
 

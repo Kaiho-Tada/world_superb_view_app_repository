@@ -4,7 +4,7 @@ class Api::V1::WorldViewFavoritesController < ApplicationController
       head :unauthorized
     else
       world_view_favorite = current_api_v1_user.world_view_favorites.create!(world_view_favorite_params)
-      render json: world_view_favorite
+      render json: world_view_favorite, only: [:id, :user_id]
     end
   end
 

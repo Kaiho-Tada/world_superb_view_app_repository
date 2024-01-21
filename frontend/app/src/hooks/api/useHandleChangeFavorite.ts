@@ -1,12 +1,13 @@
 import { AxiosResponse, isAxiosError } from "axios";
 import useMessage from "hooks/useMessage";
+import { Favorite } from "types/favorite";
 
 type Props = {
   selectedId: number;
   favoriteId: number | null;
   setFavoriteId: (value: React.SetStateAction<number | null>) => void;
-  deleteFavoriteApi: (favoriteId: number) => Promise<AxiosResponse<any, any>>;
-  createFavoriteApi: (selectedId: number) => Promise<AxiosResponse<any, any>>;
+  deleteFavoriteApi: (favoriteId: number) => Promise<void>;
+  createFavoriteApi: (selectedId: number) => Promise<AxiosResponse<Favorite>>;
 };
 const useHandleChangeFavorite = () => {
   const { showMessage } = useMessage();
