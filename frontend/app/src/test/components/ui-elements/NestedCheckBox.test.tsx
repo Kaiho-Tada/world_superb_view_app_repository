@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import CategoryCheckBox from "components/ui-elements/NestedCheckBox";
 import { act } from "react-dom/test-utils";
 
-const checkBoxItemsDispatch = jest.fn();
+const mockCheckBoxItemsDispatch = jest.fn();
 
 test("CheckBoxがレンダリングされていること", () => {
   render(
@@ -15,7 +15,7 @@ test("CheckBoxがレンダリングされていること", () => {
       ]}
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={checkBoxItemsDispatch}
+      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "親ラベルA" })).toBeInTheDocument();
@@ -35,7 +35,7 @@ test("categoryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェック�
       ]}
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={checkBoxItemsDispatch}
+      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "ラベル1" })).not.toBeChecked();
@@ -53,7 +53,7 @@ test("子のCheckboxが全てチェックされている場合、親のCheckbox�
       ]}
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={checkBoxItemsDispatch}
+      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "親ラベルA" })).toBeChecked();
@@ -66,7 +66,7 @@ test("loadingCategoryCheckBoxItemsがtrueの場合、スピナーが表示され
       checkBoxItems={[{ label: "ラベル1", parentLabel: "親ラベル", checked: true }]}
       loadinCheckBoxItems
       loadingSearchModel={false}
-      checkBoxItemsDispatch={checkBoxItemsDispatch}
+      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
   );
   expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
@@ -82,7 +82,7 @@ test("loadingSearchWorldViewsがfalseの場合、CheckBoxが有効になって�
       ]}
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={checkBoxItemsDispatch}
+      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "親ラベルA" })).not.toBeDisabled();
@@ -102,7 +102,7 @@ test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになって�
       ]}
       loadinCheckBoxItems={false}
       loadingSearchModel
-      checkBoxItemsDispatch={checkBoxItemsDispatch}
+      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "親ラベルA" })).toBeDisabled();
@@ -123,19 +123,17 @@ test("親のCheckBox押下でhandleChangeParentCheckBox関数が実行される�
       checkBoxItems={[{ label: "ラベル1", parentLabel: "親ラベル", checked: true }]}
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={checkBoxItemsDispatch}
+      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
   );
   await act(async () => {
     await user.click(screen.getByRole("checkbox", { name: "親ラベル" }));
   });
-  expect(spyOnHandleChangeParentCheckBox).toHaveBeenCalledWith(
-    expect.objectContaining({
-      e: expect.objectContaining({ target: expect.objectContaining({ value: "親ラベル" }) }),
-      checkBoxItems: [{ label: "ラベル1", parentLabel: "親ラベル", checked: true }],
-      checkBoxItemsDispatch: expect.any(Function),
-    })
-  );
+  expect(spyOnHandleChangeParentCheckBox).toHaveBeenCalledWith({
+    e: expect.objectContaining({ target: expect.objectContaining({ value: "親ラベル" }) }),
+    checkBoxItems: [{ label: "ラベル1", parentLabel: "親ラベル", checked: true }],
+    checkBoxItemsDispatch: mockCheckBoxItemsDispatch,
+  });
 });
 
 test("子のCheckBox押下でhandleChangeCheckBox関数が実行されること", async () => {
@@ -149,17 +147,15 @@ test("子のCheckBox押下でhandleChangeCheckBox関数が実行されること"
       checkBoxItems={[{ label: "ラベル1", parentLabel: "親ラベル", checked: true }]}
       loadinCheckBoxItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={checkBoxItemsDispatch}
+      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
   );
   await act(async () => {
     await user.click(screen.getByRole("checkbox", { name: "ラベル1" }));
   });
-  expect(spyOnHandleChangeCheckBox).toHaveBeenCalledWith(
-    expect.objectContaining({
-      e: expect.objectContaining({ target: expect.objectContaining({ value: "ラベル1" }) }),
-      checkBoxItems: [{ label: "ラベル1", parentLabel: "親ラベル", checked: true }],
-      checkBoxItemsDispatch: expect.any(Function),
-    })
-  );
+  expect(spyOnHandleChangeCheckBox).toHaveBeenCalledWith({
+    e: expect.objectContaining({ target: expect.objectContaining({ value: "ラベル1" }) }),
+    checkBoxItems: [{ label: "ラベル1", parentLabel: "親ラベル", checked: true }],
+    checkBoxItemsDispatch: mockCheckBoxItemsDispatch,
+  });
 });

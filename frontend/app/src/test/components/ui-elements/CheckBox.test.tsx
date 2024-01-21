@@ -93,11 +93,9 @@ test("checkbox押下でhandleChangeCheckBox関数が実行されること", asyn
     await user.click(screen.getByRole("checkbox", { name: "ラベル" }));
   });
 
-  expect(spyOnHandleChangeCheckBox).toHaveBeenCalledWith(
-    expect.objectContaining({
-      e: expect.objectContaining({ target: expect.objectContaining({ value: "ラベル" }) }),
-      checkBoxItems: [{ label: "ラベル", checked: false }],
-      checkBoxItemsDispatch: expect.any(Function),
-    })
-  );
+  expect(spyOnHandleChangeCheckBox).toHaveBeenCalledWith({
+    e: expect.objectContaining({ target: expect.objectContaining({ value: "ラベル" }) }),
+    checkBoxItems: [{ label: "ラベル", checked: false }],
+    checkBoxItemsDispatch: mockCheckBoxItemsDispatch,
+  });
 });
