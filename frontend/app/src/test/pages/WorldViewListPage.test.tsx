@@ -4,6 +4,7 @@ import WorldViewList from "pages/WorldViewListPage";
 import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
+window.scrollTo = jest.fn();
 // useClickFilterButton関数内のuseBreakpointValue関数の戻り値がundefinedになりエラーが発生するのを回避
 jest.mock("features/worldView/hooks/useClickFilterButton", () => ({
   __esModule: true,
@@ -30,6 +31,7 @@ jest.mock("providers/WorldViewListProvider", () => ({
     state: {
       ...jest.requireActual("providers/WorldViewListProvider").useWorldViewListContext().state,
       worldViews: mockWorldViews,
+      categoryCheckBoxItems: [{ label: "洞窟", parentLabel: "自然", checked: false }],
     },
   }),
 }));
@@ -78,6 +80,93 @@ describe("handleSearchModel関数のテスト", () => {
         <WorldViewList />
       </WorldViewListProvider>
     );
+    expect(mockHandleSearchModel).toHaveBeenCalledWith({
+      loadingSearchModelDispatch: expect.any(Function),
+      modelDispatch: expect.any(Function),
+      searchModelApi: mockSearchWorldViewApi,
+    });
+
+    spyOnUseWorldViewApi.mockRestore();
+  });
+
+  test("絞り込みのcheckbox押下でhandleSearchModel関数が実行されること", async () => {
+    const spyOnUseWorldViewApi = jest.spyOn(
+      jest.requireActual("features/worldView/api/useWorldViewApi"),
+      "default"
+    );
+    const mockSearchWorldViewApi = jest.fn();
+    spyOnUseWorldViewApi.mockReturnValue({ searchWorldViewApi: mockSearchWorldViewApi });
+
+    const user = userEvent.setup();
+    render(
+      <WorldViewListProvider>
+        <WorldViewList />
+      </WorldViewListProvider>
+    );
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "カテゴリー" }));
+    });
+    await act(async () => {
+      await user.click(screen.getByRole("checkbox", { name: "洞窟" }));
+    });
+
+    expect(mockHandleSearchModel).toHaveBeenCalledWith({
+      loadingSearchModelDispatch: expect.any(Function),
+      modelDispatch: expect.any(Function),
+      searchModelApi: mockSearchWorldViewApi,
+    });
+    spyOnUseWorldViewApi.mockRestore();
+  });
+
+  test("並び替えのselectbox押下でhandleSearchModel関数が実行されること", async () => {
+    const spyOnUseWorldViewApi = jest.spyOn(
+      jest.requireActual("features/worldView/api/useWorldViewApi"),
+      "default"
+    );
+    const mockSearchWorldViewApi = jest.fn();
+    spyOnUseWorldViewApi.mockReturnValue({ searchWorldViewApi: mockSearchWorldViewApi });
+
+    const user = userEvent.setup();
+    render(
+      <WorldViewListProvider>
+        <WorldViewList />
+      </WorldViewListProvider>
+    );
+    const selectBox = screen.getByRole("combobox", { name: "並び替えオプションの選択" });
+    await act(async () => {
+      await user.selectOptions(selectBox, "新しい順");
+    });
+
+    expect(mockHandleSearchModel).toHaveBeenCalledWith({
+      loadingSearchModelDispatch: expect.any(Function),
+      modelDispatch: expect.any(Function),
+      searchModelApi: mockSearchWorldViewApi,
+    });
+
+    spyOnUseWorldViewApi.mockRestore();
+  });
+
+  test("検索のテキストボックスの入力をトリガーにhandleSearchModel関数が実行されること", async () => {
+    const spyOnUseWorldViewApi = jest.spyOn(
+      jest.requireActual("features/worldView/api/useWorldViewApi"),
+      "default"
+    );
+    const mockSearchWorldViewApi = jest.fn();
+    spyOnUseWorldViewApi.mockReturnValue({ searchWorldViewApi: mockSearchWorldViewApi });
+
+    const user = userEvent.setup();
+    render(
+      <WorldViewListProvider>
+        <WorldViewList />
+      </WorldViewListProvider>
+    );
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "キーワード" }));
+    });
+    await act(async () => {
+      await user.type(screen.getByRole("textbox", { name: "テキストボックス" }), "キーワード");
+    });
+
     expect(mockHandleSearchModel).toHaveBeenCalledWith({
       loadingSearchModelDispatch: expect.any(Function),
       modelDispatch: expect.any(Function),
