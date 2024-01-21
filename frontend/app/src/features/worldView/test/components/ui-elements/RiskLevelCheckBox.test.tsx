@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import RiskLevelCheckBox from "features/worldView/components/ui-elements/RiskLevelCheckBox";
+import { useWorldViewListContext as mockUseWorldViewListContext } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
-const spyOnUseWorldViewListContext = jest.spyOn(
-  jest.requireActual("providers/WorldViewListProvider"),
-  "useWorldViewListContext"
-);
+jest.mock("providers/WorldViewListProvider", () => ({
+  useWorldViewListContext: jest.fn(),
+}));
 
 const mockDispatch = jest.fn();
 const mockContextValue = {
@@ -42,7 +42,7 @@ const mockContextValueLoadingSearchWorldViews = {
 };
 
 test("checkboxがレンダリングされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
   render(<RiskLevelCheckBox />);
   expect(screen.getByRole("checkbox", { name: "リスクレベル4" })).toBeInTheDocument();
   const riskLevelImg = screen.getAllByRole("img", { name: "リスクレベル" });
@@ -52,19 +52,21 @@ test("checkboxがレンダリングされていること", () => {
 });
 
 test("riskLevelCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueChecked);
+  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueChecked);
   render(<RiskLevelCheckBox />);
   expect(screen.getByRole("checkbox", { name: "リスクレベル4" })).toBeChecked();
 });
 
 test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValueLoadingSearchWorldViews);
+  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(
+    mockContextValueLoadingSearchWorldViews
+  );
   render(<RiskLevelCheckBox />);
   expect(screen.getByRole("checkbox", { name: "リスクレベル4" })).toBeDisabled();
 });
 
 test("checkbox押下でhandleChangeCheckBox関数内でdispatchが実行されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
+  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
   const user = userEvent.setup();
   render(<RiskLevelCheckBox />);
   const checkbox = screen.getByRole("checkbox", { name: "リスクレベル4" });
@@ -79,8 +81,7 @@ test("checkbox押下でhandleChangeCheckBox関数内でdispatchが実行され�
 });
 
 test("checkbox押下でhandleChangeCheckBox関数が実行されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
-
+  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
   const spyOnHandleChangeCheckBox = jest.spyOn(
     jest.requireActual("utils/handleChangeCheckBox"),
     "default"

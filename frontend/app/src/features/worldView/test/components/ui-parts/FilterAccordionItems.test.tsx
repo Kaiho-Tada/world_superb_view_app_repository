@@ -4,10 +4,6 @@ import FilterDrawerAccordion from "features/worldView/components/ui-parts/Filter
 import { act } from "react-dom/test-utils";
 
 window.scrollTo = jest.fn();
-const spyOnUseWorldViewListContext = jest.spyOn(
-  jest.requireActual("providers/WorldViewListProvider"),
-  "useWorldViewListContext"
-);
 
 const mockDispatch = jest.fn();
 const mockContextValue = {
@@ -22,14 +18,16 @@ const mockContextValue = {
   },
 };
 
+jest.mock("providers/WorldViewListProvider", () => ({
+  useWorldViewListContext: () => mockContextValue,
+}));
+
 test("キーワードのアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterDrawerAccordion />);
   expect(screen.getByRole("button", { name: "キーワード" })).toBeInTheDocument();
 });
 
 test("キーワードのアコーディオンボタン押下でFilterSearchBoxが表示されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -39,13 +37,11 @@ test("キーワードのアコーディオンボタン押下でFilterSearchBox�
 });
 
 test("カテゴリーのアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterDrawerAccordion />);
   expect(screen.getByRole("button", { name: "カテゴリー" })).toBeInTheDocument();
 });
 
 test("カテゴリーのアコーディオンボタン押下でcategoryのcheckboxが表示されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -56,7 +52,6 @@ test("カテゴリーのアコーディオンボタン押下でcategoryのcheckb
 });
 
 test("categoryのチェックボックス押下でcategoryを更新するdispatch関数が実行されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -72,13 +67,11 @@ test("categoryのチェックボックス押下でcategoryを更新するdispatc
 });
 
 test("地域のアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterDrawerAccordion />);
   expect(screen.getByRole("button", { name: "地域" })).toBeInTheDocument();
 });
 
 test("地域のアコーディオンボタン押下でcountryのcheckboxが表示されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -89,7 +82,6 @@ test("地域のアコーディオンボタン押下でcountryのcheckboxが表�
 });
 
 test("countryのチェックボックス押下でcountryを更新するdispatch関数が実行されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -105,13 +97,11 @@ test("countryのチェックボックス押下でcountryを更新するdispatch�
 });
 
 test("属性のアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterDrawerAccordion />);
   expect(screen.getByRole("button", { name: "属性" })).toBeInTheDocument();
 });
 
 test("属性のアコーディオンボタン押下でcharacteristicのcheckboxが表示されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -121,7 +111,6 @@ test("属性のアコーディオンボタン押下でcharacteristicのcheckbox�
 });
 
 test("characteristicのcheckbox押下でcharacteristicを更新するdispatch関数が実行されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -137,13 +126,11 @@ test("characteristicのcheckbox押下でcharacteristicを更新するdispatch関
 });
 
 test("危険度のアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterDrawerAccordion />);
   expect(screen.getByRole("button", { name: "危険度" })).toBeInTheDocument();
 });
 
 test("危険度のアコーディオンボタン押下でriskLevelのcheckboxが表示されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -155,13 +142,11 @@ test("危険度のアコーディオンボタン押下でriskLevelのcheckboxが
 });
 
 test("ベストシーズンのアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterDrawerAccordion />);
   expect(screen.getByRole("button", { name: "ベストシーズン" })).toBeInTheDocument();
 });
 
 test("ベストシーズンのアコーディオンボタン押下でmonthのCheckBoxが表示されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -172,7 +157,6 @@ test("ベストシーズンのアコーディオンボタン押下でmonthのChe
 });
 
 test("monthのCheckBox押下でmonthを更新するdispatch関数が実行されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -188,13 +172,11 @@ test("monthのCheckBox押下でmonthを更新するdispatch関数が実行され
 });
 
 test("BMIのアコーディオンボタンがレンダリングされていること", () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   render(<FilterDrawerAccordion />);
   expect(screen.getByRole("button", { name: "BMI" })).toBeInTheDocument();
 });
 
 test("BMIのアコーディオンボタン押下でbmiのCheckBoxが表示されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
@@ -204,7 +186,6 @@ test("BMIのアコーディオンボタン押下でbmiのCheckBoxが表示され
 });
 
 test("bmiのCheckBox押下でbmiを更新するdispatch関数が実行されること", async () => {
-  spyOnUseWorldViewListContext.mockImplementation(() => mockContextValue);
   const user = userEvent.setup();
   render(<FilterDrawerAccordion />);
   await act(async () => {
