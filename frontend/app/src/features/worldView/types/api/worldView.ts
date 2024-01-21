@@ -1,7 +1,7 @@
 import { RefCategory } from "features/worldView/types/ref/refCategory";
 import { RefCharacteristic } from "features/worldView/types/ref/refCharacteristic";
 import { RefCountry } from "features/worldView/types/ref/refCountry";
-import { RefWorldViewFavorite } from "../ref/refWorldViewFavorite";
+import { Favorite } from "types/favorite";
 
 export type WorldView = {
   id: number;
@@ -11,7 +11,7 @@ export type WorldView = {
   countries: Array<RefCountry>;
   categories: Array<RefCategory>;
   characteristics: Array<RefCharacteristic>;
-  worldViewFavorites: Array<RefWorldViewFavorite>;
+  worldViewFavorites: Array<Favorite>;
   gifUrl: string | null;
   gifSite: string | null;
 };

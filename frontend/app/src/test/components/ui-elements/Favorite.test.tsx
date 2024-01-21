@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Favorite from "components/ui-elements/Favorite";
+import FavoriteIcon from "components/ui-elements/FavoriteIcon";
 import { act } from "react-dom/test-utils";
 
 const favoritesUserId1 = [
@@ -30,7 +30,7 @@ const mockCreateFavoriteApi = jest.fn();
 
 test("ハートアイコンがレンダリングされていること", () => {
   render(
-    <Favorite
+    <FavoriteIcon
       selectedId={1}
       favorites={favoritesUserId1}
       deleteFavoriteApi={mockDeleteFavoriteApi}
@@ -52,7 +52,7 @@ test("ハートアイコン押下でhandleChangeFavorite関数が実行される
   });
   await act(async () => {
     render(
-      <Favorite
+      <FavoriteIcon
         selectedId={1}
         favorites={favoritesUserId1}
         deleteFavoriteApi={mockDeleteFavoriteApi}
@@ -79,7 +79,7 @@ test("favoritesの格favoriteでuserIdがcurrentUser.idと一致するfavorite�
   const spyOnUseState = jest.spyOn(jest.requireActual("react"), "useState");
   spyOnUseState.mockImplementation((init) => [init, mockSetFavoriteId]);
   render(
-    <Favorite
+    <FavoriteIcon
       selectedId={1}
       favorites={favoritesUserId2}
       deleteFavoriteApi={mockDeleteFavoriteApi}
@@ -88,7 +88,7 @@ test("favoritesの格favoriteでuserIdがcurrentUser.idと一致するfavorite�
   );
   expect(mockSetFavoriteId).not.toHaveBeenCalledWith(10);
   render(
-    <Favorite
+    <FavoriteIcon
       selectedId={1}
       favorites={favoritesUserId1}
       deleteFavoriteApi={mockDeleteFavoriteApi}

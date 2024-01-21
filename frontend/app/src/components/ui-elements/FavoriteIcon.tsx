@@ -2,19 +2,19 @@ import { Image } from "@chakra-ui/react";
 import likedHeartIcon from "assets/likedHeartIcon.png";
 import unlikedHeartIcon from "assets/unlikedHeartIcon.png";
 import { AxiosResponse } from "axios";
-import { RefWorldViewFavorite } from "features/worldView/types/ref/refWorldViewFavorite";
 import useHandleChangeFavorite from "hooks/api/useHandleChangeFavorite";
 import { useAuth } from "providers/useAuthProvider";
 import { FC, useEffect, useState } from "react";
+import { Favorite } from "types/favorite";
 
 type FavoriteProps = {
   selectedId: number;
-  favorites: Array<RefWorldViewFavorite>;
+  favorites: Array<Favorite>;
   deleteFavoriteApi: (favoriteId: number) => Promise<AxiosResponse<any, any>>;
   createFavoriteApi: (selectedId: number) => Promise<AxiosResponse<any, any>>;
 };
 
-const Favorite: FC<FavoriteProps> = (props) => {
+const FavoriteIcon: FC<FavoriteProps> = (props) => {
   const { selectedId, favorites, deleteFavoriteApi, createFavoriteApi } = props;
   const { currentUser } = useAuth();
   const [favoriteId, setFavoriteId] = useState<number | null>(null);
@@ -53,4 +53,4 @@ const Favorite: FC<FavoriteProps> = (props) => {
   );
 };
 
-export default Favorite;
+export default FavoriteIcon;

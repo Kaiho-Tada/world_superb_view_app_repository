@@ -1,13 +1,13 @@
 import { Box, Flex, Heading, Image, Text, useDisclosure, WrapItem } from "@chakra-ui/react";
-import Favorite from "components/ui-elements/Favorite";
+import FavoriteIcon from "components/ui-elements/FavoriteIcon";
 import { createFavoriteApi, deleteFavoriteApi } from "features/worldView/api/worldViewFavoriteApi";
 import RiskLevelStar from "features/worldView/components/ui-elements/RiskLevelStar";
 import WorldViewModal from "features/worldView/components/ui-elements/WorldViewModal";
 import { RefCategory } from "features/worldView/types/ref/refCategory";
 import { RefCharacteristic } from "features/worldView/types/ref/refCharacteristic";
 import { RefCountry } from "features/worldView/types/ref/refCountry";
-import { RefWorldViewFavorite } from "features/worldView/types/ref/refWorldViewFavorite";
 import { FC, memo } from "react";
+import { Favorite } from "types/favorite";
 
 type Props = {
   id: number;
@@ -17,7 +17,7 @@ type Props = {
   countries: Array<RefCountry>;
   categories: Array<RefCategory>;
   characteristics: Array<RefCharacteristic>;
-  favorites: Array<RefWorldViewFavorite>;
+  favorites: Array<Favorite>;
   gifUrl: string;
   gifSite: string | null;
 };
@@ -168,7 +168,7 @@ const WorldViewCard: FC<Props> = memo((props) => {
               </Box>
             </Box>
           </Flex>
-          <Favorite
+          <FavoriteIcon
             selectedId={id}
             favorites={favorites}
             deleteFavoriteApi={deleteFavoriteApi}
