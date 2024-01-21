@@ -1,72 +1,57 @@
+import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { useCallback } from "react";
-import { useWorldViewListContext } from "../../../providers/WorldViewListProvider";
+import { CheckBoxItem } from "types/checkBoxItem";
+import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import handleClearCheckBox from "utils/handleClearCheckBox";
 
 const useClear = () => {
   const { state, dispatch } = useWorldViewListContext();
 
   const handleClear = useCallback(() => {
-    const clearedCategoryCheckBoxItems = state.categoryCheckBoxItems.map(
-      (originalCategoryCheckBoxItem) => {
-        const categoryCheckBoxItem = { ...originalCategoryCheckBoxItem };
-        if (categoryCheckBoxItem.checked === true) {
-          categoryCheckBoxItem.checked = !categoryCheckBoxItem.checked;
-        }
-        return categoryCheckBoxItem;
-      }
-    );
-    dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: clearedCategoryCheckBoxItems });
-
-    const clearedCharacteristicCheckBoxItems = state.characteristicCheckBoxItems.map(
-      (originalCharacteristicCheckBoxItem) => {
-        const characteristicCheckBoxItem = { ...originalCharacteristicCheckBoxItem };
-        if (characteristicCheckBoxItem.checked === true) {
-          characteristicCheckBoxItem.checked = !characteristicCheckBoxItem.checked;
-        }
-        return characteristicCheckBoxItem;
-      }
-    );
-    dispatch({
-      type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
-      payload: clearedCharacteristicCheckBoxItems,
+    handleClearCheckBox({
+      checkBoxItems: state.characteristicCheckBoxItems,
+      checkBoxItemsDispatch: (clearedCheckBoxItems: CheckBoxItem[]) => {
+        dispatch({
+          type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+          payload: clearedCheckBoxItems,
+        });
+      },
     });
 
-    const clearedCountryCheckBoxItems = state.countryCheckBoxItems.map(
-      (originalCountryCheckBoxItem) => {
-        const countryCheckBoxItem = { ...originalCountryCheckBoxItem };
-        if (countryCheckBoxItem.checked === true) {
-          countryCheckBoxItem.checked = !countryCheckBoxItem.checked;
-        }
-        return countryCheckBoxItem;
-      }
-    );
-    dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: clearedCountryCheckBoxItems });
-
-    const clearedRiskLevels = state.riskLevelCheckBoxItems.map((originalRiskLevelCheckBoxItem) => {
-      const riskLevel = { ...originalRiskLevelCheckBoxItem };
-      if (riskLevel.checked === true) {
-        riskLevel.checked = !riskLevel.checked;
-      }
-      return riskLevel;
+    handleClearCheckBox({
+      checkBoxItems: state.riskLevelCheckBoxItems,
+      checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => {
+        dispatch({ type: "SET_RISK_LEVEL_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+      },
     });
-    dispatch({ type: "SET_RISK_LEVEL_CHECKBOX_ITEMS", payload: clearedRiskLevels });
 
-    const clearedMonthCheckBoxItems = state.monthCheckBoxItems.map((originalMonthCheckBoxItem) => {
-      const monthCheckBoxItem = { ...originalMonthCheckBoxItem };
-      if (monthCheckBoxItem.checked === true) {
-        monthCheckBoxItem.checked = !monthCheckBoxItem.checked;
-      }
-      return monthCheckBoxItem;
+    handleClearCheckBox({
+      checkBoxItems: state.bmiCheckBoxItems,
+      checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => {
+        dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+      },
     });
-    dispatch({ type: "SET_MONTH_CHECKBOX_ITEMS", payload: clearedMonthCheckBoxItems });
 
-    const clearedBmiCheckBoxItems = state.bmiCheckBoxItems.map((originalCheckBoxitems) => {
-      const checkBoxItems = { ...originalCheckBoxitems };
-      if (checkBoxItems.checked === true) {
-        checkBoxItems.checked = !checkBoxItems.checked;
-      }
-      return checkBoxItems;
+    handleClearCheckBox<NestedCheckBoxItem>({
+      checkBoxItems: state.categoryCheckBoxItems,
+      checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => {
+        dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+      },
     });
-    dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: clearedBmiCheckBoxItems });
+
+    handleClearCheckBox<NestedCheckBoxItem>({
+      checkBoxItems: state.countryCheckBoxItems,
+      checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => {
+        dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+      },
+    });
+
+    handleClearCheckBox<NestedCheckBoxItem>({
+      checkBoxItems: state.monthCheckBoxItems,
+      checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => {
+        dispatch({ type: "SET_MONTH_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+      },
+    });
 
     dispatch({ type: "SET_KEYWORD", payload: "" });
   }, [
@@ -74,6 +59,8 @@ const useClear = () => {
     state.countryCheckBoxItems,
     state.characteristicCheckBoxItems,
     state.riskLevelCheckBoxItems,
+    state.bmiCheckBoxItems,
+    state.monthCheckBoxItems,
   ]);
   return { handleClear };
 };
