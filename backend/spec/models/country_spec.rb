@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Country, type: :model do
   describe "バリデーションのテスト" do
-    it "name, code, 画像データが存在し、stateモデルが関連付けされている場合、有効な状態であること" do
+    it "name, code, 画像データが存在している場合、有効な状態であること" do
       expect(build(:country)).to be_valid
     end
 
@@ -47,14 +47,6 @@ RSpec.describe Country, type: :model do
         country = build(:country, portrait: nil)
         country.valid?
         expect(country.errors.full_messages).to eq ["画像データが存在しません"]
-      end
-    end
-
-    context "stateモデル" do
-      it "stateモデルが関連付けされていない場合、無効な状態であること" do
-        country = build(:country, state: nil)
-        country.valid?
-        expect(country.errors.full_messages).to eq ["州を入力してください"]
       end
     end
   end

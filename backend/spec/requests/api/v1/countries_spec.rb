@@ -7,7 +7,7 @@ RSpec.describe "Api::V1::Countries", type: :request do
       get api_v1_countries_path
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
-      expected_json = countries.as_json(only: %i[id name state_id], include: { state: { except: %i[created_at updated_at code] } })
+      expected_json = countries.as_json(only: %i[id name])
       expect(json).to eq expected_json
       expect(json.length).to eq 5
     end

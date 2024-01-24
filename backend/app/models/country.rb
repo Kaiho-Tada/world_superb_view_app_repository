@@ -1,6 +1,5 @@
 class Country < ApplicationRecord
   include Rails.application.routes.url_helpers
-  belongs_to :state
   has_one_attached :portrait
   has_many :world_view_countries, dependent: :destroy
   has_many :world_views, through: :world_view_countries

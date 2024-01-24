@@ -5,6 +5,5 @@ FactoryBot.define do
     risk_level      { 1 }
     portrait        { Rack::Test::UploadedFile.new("spec/fixtures/images/test_image.jpeg", "image/jpeg") }
     bmi             { 10.0 }
-    association :state
   end
 end
