@@ -42,19 +42,11 @@ jest.mock("hooks/api/useSearchModel", () => ({
   default: () => ({ handleSearchModel: mockHandleSearchModel }),
 }));
 
-const mockGetCategoryCheckBoxItems = jest.fn();
-jest.mock("features/worldView/hooks/api/useGetCategoryCheckBoxItems", () => ({
+const mockHandleGetNestedCheckBoxItems = jest.fn();
+jest.mock("hooks/api/useGetNestedCheckBoxItems", () => ({
   __esModule: true,
   default: () => ({
-    getCategoryCheckBoxItems: mockGetCategoryCheckBoxItems,
-  }),
-}));
-
-const mockGetCountryCheckBoxItems = jest.fn();
-jest.mock("features/worldView/hooks/api/useGetCountryCheckBoxItems", () => ({
-  __esModule: true,
-  default: () => ({
-    getCountryCheckBoxItems: mockGetCountryCheckBoxItems,
+    handleGetNestedCheckBoxItems: mockHandleGetNestedCheckBoxItems,
   }),
 }));
 
@@ -177,22 +169,33 @@ describe("handleSearchModel関数のテスト", () => {
   });
 });
 
-test("初回レンダリング時にgetAllCategoriesWithCheckBoxData関数が実行されること", () => {
-  render(
-    <WorldViewListProvider>
-      <WorldViewList />
-    </WorldViewListProvider>
-  );
-  expect(mockGetCategoryCheckBoxItems).toHaveBeenCalledTimes(1);
-});
-
-test("初回レンダリング時にgetAllCountriesWithCheckBoxData関数が実行されること", () => {
-  render(
-    <WorldViewListProvider>
-      <WorldViewList />
-    </WorldViewListProvider>
-  );
-  expect(mockGetCountryCheckBoxItems).toHaveBeenCalledTimes(1);
+describe("handleGetNestedCheckBoxItems関数のテスト", () => {
+  test("初回レンダリング時にhandleGetNestedCheckBoxItems関数が2回実行されること", () => {
+    const spyOnGetAllCategoriesApi = jest.spyOn(
+      jest.requireActual("features/worldView/api/categoryApi"),
+      "default"
+    );
+    const spyOnCountryApi = jest.spyOn(
+      jest.requireActual("features/worldView/api/countryApi"),
+      "default"
+    );
+    render(
+      <WorldViewListProvider>
+        <WorldViewList />
+      </WorldViewListProvider>
+    );
+    expect(mockHandleGetNestedCheckBoxItems).toHaveBeenCalledWith({
+      loadingCheckBoxItemsDispatch: expect.any(Function),
+      checkBoxItemsDispatch: expect.any(Function),
+      getAllModelApi: spyOnGetAllCategoriesApi,
+    });
+    expect(mockHandleGetNestedCheckBoxItems).toHaveBeenCalledWith({
+      loadingCheckBoxItemsDispatch: expect.any(Function),
+      checkBoxItemsDispatch: expect.any(Function),
+      getAllModelApi: spyOnCountryApi,
+    });
+    expect(mockHandleGetNestedCheckBoxItems).toHaveBeenCalledTimes(2);
+  });
 });
 
 test("初回レンダリング時にgetAllCharacteristicsWithCheckBoxData関数が実行されること", () => {

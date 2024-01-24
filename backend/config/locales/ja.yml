@@ -13,16 +13,12 @@ ja:
         panorama_url: "パノラマURL"
         best_season: "ベストシーズン"
         portrait: "画像データ"
-      state:
-        name: "州名"
-        code: "コード"
-        portrait: "画像データ"
       country:
         name: "国名"
         code: "コード"
         risk_level: "リスクレベル"
         portrait: "画像データ"
-        state: "州"
+        region: "地域"
       category:
         name: "カテゴリー名"
         classification: "分類名"

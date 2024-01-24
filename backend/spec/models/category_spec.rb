@@ -35,6 +35,13 @@ RSpec.describe Category, type: :model do
     end
   end
 
+  describe "エイリアスのテスト" do
+    it "parentはclassificationのエイリアスであること" do
+      category = Category.new(classification: "Nature")
+      expect(category.parent).to eq("Nature")
+    end
+  end
+
   describe "スコープテスト" do
     it "filter_by_nameスコープのテスト" do
       category1 = create(:category, name: "滝")

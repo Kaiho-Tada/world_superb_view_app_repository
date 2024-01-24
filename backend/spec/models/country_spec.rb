@@ -42,12 +42,27 @@ RSpec.describe Country, type: :model do
       end
     end
 
+    context "regionカラム" do
+      it "regionがない場合、無効な状態であること" do
+        country = build(:country, region: nil)
+        country.valid?
+        expect(country.errors.full_messages).to eq ["地域を入力してください"]
+      end
+    end
+
     context "portraitカラム" do
       it "画像データがない場合、無効な状態であること" do
         country = build(:country, portrait: nil)
         country.valid?
         expect(country.errors.full_messages).to eq ["画像データが存在しません"]
       end
+    end
+  end
+
+  describe "エイリアスのテスト" do
+    it "parentはregionのエイリアスであること" do
+      country = Country.new(region: "Africa")
+      expect(country.parent).to eq("Africa")
     end
   end
 

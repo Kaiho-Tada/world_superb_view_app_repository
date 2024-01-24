@@ -92,21 +92,6 @@ world_view_info.each do |info|
   end
 end
 
-state_info = {
-  "アジア": "10",
-  "大洋州": "20",
-  "北米": "30",
-  "中南米": "33",
-  "ヨーロッパ": "42",
-  "中東": "50",
-  "アフリカ": "60"
-}
-state_info.each do |key, value|
-  state = State.new(name: key, code: value)
-  state.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
-  state.save!
-end
-
 country_names = {"ナミビア"=>-1, "ザンビア"=>18, "エジプト"=>-15, "エチオピア"=>27, "モロッコ"=>32, "モーリシャス"=>-22, "セネガル"=>8,
                  "ジンバブエ"=>-9, "イタリア"=>-35, "アイスランド"=>-24, "ノルウェー"=>-23, "フランス"=>-49, "イギリス"=>0, "ロシア"=>-41, "ウクライナ"=>28,
                  "ボスニアヘルツェゴビナ"=>25, "ギリシャ"=>-1, "ドイツ"=>-36, "スロベニア"=>27, "スイス"=>-25, "クロアチア"=>35, "アラブ首長国連邦"=>-19,
@@ -126,38 +111,31 @@ xlsx = Roo::Excelx.new("./country.xlsx")
 
     case area_code
     when 10
-      state = State.find_by(name: "アジア")
-      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
+      country = Country.new(name: country_name, code: country_code, bmi: value, region: "アジア")
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 20
-      state = State.find_by(name: "大洋州")
-      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
+      country = Country.new(name: country_name, code: country_code, bmi: value, region: "大洋州")
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 30
-      state = State.find_by(name: "北米")
-      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
+      country = Country.new(name: country_name, code: country_code, bmi: value, region: "北米")
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 33
-      state = State.find_by(name: "中南米")
-      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
+      country = Country.new(name: country_name, code: country_code, bmi: value, region: "中南米")
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 42
-      state = State.find_by(name: "ヨーロッパ")
-      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
+      country = Country.new(name: country_name, code: country_code, bmi: value, region: "ヨーロッパ")
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 50
-      state = State.find_by(name: "中東")
-      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
+      country = Country.new(name: country_name, code: country_code, bmi: value, region: "中東")
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     when 60
-      state = State.find_by(name: "アフリカ")
-      country = Country.new(name: country_name, code: country_code, state:, bmi: value)
+      country = Country.new(name: country_name, code: country_code, bmi: value, region: "アフリカ")
       country.portrait.attach(io: File.open("public/images/sample.jpeg"), filename: "sample.jpeg")
       country.save!
     end
@@ -351,7 +329,7 @@ giphy_info = [
   {:name=>:マチュピチュ, :gif_id=>"9X51ywIgdzSuI"},
   {:name=>:レンソイス国立公園, :gif_id=>"uvTO7fQREeltrkqX2w"},
   {:name=>:バイカル湖, :gif_id=>"HQdAzWTWdGawo"},
-  {:name=>:サルベーションマウンテン, :gif_id=>"3oEduH2TwlxOoCq0a4"}
+  {:name=>:サルベーションマウンテン, :gif_id=>"3oEduH2TwlxOoCq0a4"},
   {:name=>:リーセフィヨルド, :gif_id=>"jtECvT0NC5YQofL8T1"},
   {:name=>:スタリモスト橋, :gif_id=>"nTR2HYf7gXH9u"},
   {:name=>:プライスキャニオン国立公園, :gif_id=>"l41YfHHI5vKoyiFIA"},
@@ -387,8 +365,8 @@ tenor_info = [
   {:name=>:イグアスの滝, :gif_id=>"20458917"},
   {:name=>:ゲイシール, :gif_id=>"15364892"},
   {:name=>:エンジェルフォール, :gif_id=>"14292869"},
-{:name=>:レイク・ルイーズ, :gif_id=>"15607102"},
-{:name=>:バラデロ, :gif_id=>"7969087"}
+  {:name=>:レイク・ルイーズ, :gif_id=>"15607102"},
+  {:name=>:バラデロ, :gif_id=>"7969087"}
 ]
 
 tenor_info.each do |info|
