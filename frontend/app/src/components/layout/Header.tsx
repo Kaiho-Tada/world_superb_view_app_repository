@@ -34,5 +34,5 @@ const Header: FC = memo(() => {
     </Flex>
   );
 });
-Header.displayName = "Header";
+
 export default Header;

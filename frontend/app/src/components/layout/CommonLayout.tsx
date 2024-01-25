@@ -14,5 +14,4 @@ const CommonLayout: FC<Props> = memo((props) => {
   );
 });
 
-CommonLayout.displayName = "CommonLayout";
 export default CommonLayout;

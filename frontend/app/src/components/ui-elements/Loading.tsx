@@ -6,5 +6,5 @@ const Loading: FC = memo(() => (
     <Spinner />
   </Center>
 ));
-Loading.displayName = "Loading";
+
 export default Loading;
