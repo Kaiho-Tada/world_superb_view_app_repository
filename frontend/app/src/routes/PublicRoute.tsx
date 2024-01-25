@@ -1,10 +1,10 @@
 import Loading from "components/ui-elements/Loading";
 import { getCurrentUser } from "features/auth/api/auth";
 import useMessage from "hooks/useMessage";
-import { FC, memo, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
-const PublicRoute: FC = memo(() => {
+const PublicRoute: FC = () => {
   const { showMessage } = useMessage();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -29,6 +29,6 @@ const PublicRoute: FC = memo(() => {
     return <Loading />;
   }
   return <Outlet />;
-});
+};
 
 export default PublicRoute;

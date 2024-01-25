@@ -1,10 +1,10 @@
 import Loading from "components/ui-elements/Loading";
 import { getCurrentUser } from "features/auth/api/auth";
 import useMessage from "hooks/useMessage";
-import { FC, memo, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
-const GuestRestrictedRoute: FC = memo(() => {
+const GuestRestrictedRoute: FC = () => {
   const { showMessage } = useMessage();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -38,6 +38,6 @@ const GuestRestrictedRoute: FC = memo(() => {
     return <Loading />;
   }
   return <Outlet />;
-});
+};
 
 export default GuestRestrictedRoute;

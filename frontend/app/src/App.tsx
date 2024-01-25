@@ -1,12 +1,12 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import useGetCurrentUser from "features/auth/hooks/useGetCurrentUser";
 import { useAuth } from "providers/useAuthProvider";
-import { FC, memo, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import Router from "routes/Router";
 import theme from "theme/theme";
 
-const App: FC = memo(() => {
+const App: FC = () => {
   const { setCurrentUser } = useAuth();
   const { handelGetCurrentUser } = useGetCurrentUser();
   useEffect(() => {
@@ -20,5 +20,5 @@ const App: FC = memo(() => {
       </BrowserRouter>
     </ChakraProvider>
   );
-});
+};
 export default App;

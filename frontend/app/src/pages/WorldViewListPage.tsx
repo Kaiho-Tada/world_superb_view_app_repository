@@ -16,11 +16,11 @@ import useGetNestedCheckBoxItems from "hooks/api/useGetNestedCheckBoxItems";
 import useSearchModel from "hooks/api/useSearchModel";
 import useDebounce from "hooks/useDebounce";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { memo, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
-const WorldViewListPage = memo(() => {
+const WorldViewListPage = () => {
   const { state, dispatch } = useWorldViewListContext();
   const { handleGetNestedCheckBoxItems } = useGetNestedCheckBoxItems();
   const { handleGetCheckBoxItems } = useGetCheckBoxItems();
@@ -143,6 +143,6 @@ const WorldViewListPage = memo(() => {
       </Flex>
     </Box>
   );
-});
+};
 
 export default WorldViewListPage;

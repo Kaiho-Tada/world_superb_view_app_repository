@@ -5,13 +5,13 @@ import Profile from "pages/Profile";
 import SignUp from "pages/SignUp";
 import WorldViewListPage from "pages/WorldViewListPage";
 import { WorldViewListProvider } from "providers/WorldViewListProvider";
-import { FC, memo } from "react";
+import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import GuestRestrictedRoute from "routes/GuestRestrictedRoute";
 import PrivateRoute from "routes/PrivateRoute";
 import PublicRoute from "routes/PublicRoute";
 
-const Router: FC = memo(() => (
+const Router: FC = () => (
   <Routes>
     <Route path="/" element={<PrivateRoute />}>
       <Route
@@ -62,7 +62,7 @@ const Router: FC = memo(() => (
       />
     </Route>
   </Routes>
-));
+);
 
 Router.displayName = "Router";
 export default Router;
