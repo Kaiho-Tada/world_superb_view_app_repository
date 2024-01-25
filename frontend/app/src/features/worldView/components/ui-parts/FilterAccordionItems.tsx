@@ -8,6 +8,7 @@ import {
 import CheckBox from "components/ui-elements/CheckBox";
 import NestedCheckBox from "components/ui-elements/NestedCheckBox";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
+import { useCallback } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 import FilterSearchBox from "../ui-elements/FilterSearchBox";
@@ -16,24 +17,25 @@ import RiskLevelCheckBox from "../ui-elements/RiskLevelCheckBox";
 const FilterAccordionItems = () => {
   const { state, dispatch } = useWorldViewListContext();
 
-  const characteristicCheckBoxItemsDispatch = (newCheckBoxItems: CheckBoxItem[]) => {
+  const characteristicCheckBoxItemsDispatch = useCallback((newCheckBoxItems: CheckBoxItem[]) => {
     dispatch({
       type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
       payload: newCheckBoxItems,
     });
-  };
-  const bmiCheckBoxItemsDispatch = (newCheckBoxItems: CheckBoxItem[]) => {
+  }, []);
+  const bmiCheckBoxItemsDispatch = useCallback((newCheckBoxItems: CheckBoxItem[]) => {
     dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-  };
-  const categoryCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
+  }, []);
+  const categoryCheckBoxItemsDispatch = useCallback((newCheckBoxItems: NestedCheckBoxItem[]) => {
     dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-  };
-  const countryCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
+  }, []);
+  const countryCheckBoxItemsDispatch = useCallback((newCheckBoxItems: NestedCheckBoxItem[]) => {
     dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-  };
-  const monthCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
+  }, []);
+  const monthCheckBoxItemsDispatch = useCallback((newCheckBoxItems: NestedCheckBoxItem[]) => {
     dispatch({ type: "SET_MONTH_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-  };
+  }, []);
+
   return (
     <>
       <AccordionItem mt="2">

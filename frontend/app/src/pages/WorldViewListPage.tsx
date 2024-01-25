@@ -16,7 +16,7 @@ import useGetNestedCheckBoxItems from "hooks/api/useGetNestedCheckBoxItems";
 import useSearchModel from "hooks/api/useSearchModel";
 import useDebounce from "hooks/useDebounce";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
@@ -103,12 +103,14 @@ const WorldViewListPage = memo(() => {
   const endOffset = itemsOffset + itemsPerPage;
   const currentViews = state.worldViews.slice(itemsOffset, endOffset);
   const pageCount = Math.ceil(state.worldViews.length / itemsPerPage);
-
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-    const newOffset = (newPage - 1) * itemsPerPage;
-    setItemsOffset(newOffset);
-  };
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      setCurrentPage(newPage);
+      const newOffset = (newPage - 1) * itemsPerPage;
+      setItemsOffset(newOffset);
+    },
+    [itemsPerPage]
+  );
 
   useEffect(() => {
     setItemsOffset(0);

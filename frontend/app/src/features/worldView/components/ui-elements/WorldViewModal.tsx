@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import gipfyLogo from "assets/gipfyLogo.gif";
 import tenorLogo from "assets/tenor.png";
-import { FC } from "react";
+import { FC, memo } from "react";
 
 type Props = {
   name: string;
@@ -21,9 +21,8 @@ type Props = {
   onClose: () => void;
 };
 
-const WorldViewModal: FC<Props> = (props) => {
+const WorldViewModal: FC<Props> = memo((props) => {
   const { name, categoryNameResult, gifUrl, gifSite, isOpen, onClose } = props;
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg">
       <ModalOverlay />
@@ -63,6 +62,6 @@ const WorldViewModal: FC<Props> = (props) => {
       </ModalContent>
     </Modal>
   );
-};
+});
 
 export default WorldViewModal;

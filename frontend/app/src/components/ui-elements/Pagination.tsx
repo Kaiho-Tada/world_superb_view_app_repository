@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Box, Button, ButtonGroup } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, memo } from "react";
 
 type PaginationProps = {
   pageCount: number;
@@ -8,7 +8,7 @@ type PaginationProps = {
   handlePageChange: (newPage: number) => void;
 };
 
-const Pagination: FC<PaginationProps> = (props) => {
+const Pagination: FC<PaginationProps> = memo((props) => {
   const { pageCount, currentPage, handlePageChange } = props;
 
   return (
@@ -101,6 +101,6 @@ const Pagination: FC<PaginationProps> = (props) => {
       )}
     </div>
   );
-};
+});
 
 export default Pagination;

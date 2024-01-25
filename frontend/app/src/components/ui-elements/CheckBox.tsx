@@ -1,5 +1,5 @@
 import { Box, Center, Checkbox, Spinner } from "@chakra-ui/react";
-import { ChangeEvent, CSSProperties, FC } from "react";
+import { ChangeEvent, CSSProperties, FC, memo } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
 
@@ -11,7 +11,7 @@ type Props = {
   checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => void;
 };
 
-const CheckBox: FC<Props> = (props) => {
+const CheckBox: FC<Props> = memo((props) => {
   const {
     checkBoxItems,
     loadingCheckBoxItems,
@@ -49,6 +49,6 @@ const CheckBox: FC<Props> = (props) => {
       ))}
     </Box>
   );
-};
+});
 
 export default CheckBox;
