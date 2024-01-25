@@ -1,5 +1,4 @@
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { useCallback } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 import handleClearCheckBox from "utils/handleClearCheckBox";
@@ -7,7 +6,7 @@ import handleClearCheckBox from "utils/handleClearCheckBox";
 const useClear = () => {
   const { state, dispatch } = useWorldViewListContext();
 
-  const handleClear = useCallback(() => {
+  const handleClear = () => {
     handleClearCheckBox({
       checkBoxItems: state.characteristicCheckBoxItems,
       checkBoxItemsDispatch: (clearedCheckBoxItems: CheckBoxItem[]) => {
@@ -54,14 +53,7 @@ const useClear = () => {
     });
 
     dispatch({ type: "SET_KEYWORD", payload: "" });
-  }, [
-    state.categoryCheckBoxItems,
-    state.countryCheckBoxItems,
-    state.characteristicCheckBoxItems,
-    state.riskLevelCheckBoxItems,
-    state.bmiCheckBoxItems,
-    state.monthCheckBoxItems,
-  ]);
+  };
   return { handleClear };
 };
 export default useClear;

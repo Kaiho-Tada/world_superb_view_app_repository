@@ -12,17 +12,14 @@ type DebounceProps<T> = {
 };
 const useDebounce = (timeout: number) => {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const handleDebounce = useCallback(
-    (fn: () => void) => {
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
-      timer.current = setTimeout(() => {
-        fn();
-      }, timeout);
-    },
-    [timeout]
-  );
+  const handleDebounce = (fn: () => void) => {
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      fn();
+    }, timeout);
+  };
 
   const handleDebounceWithArg = useCallback(
     <T>({ fn, arg }: DebounceProps<T>) => {

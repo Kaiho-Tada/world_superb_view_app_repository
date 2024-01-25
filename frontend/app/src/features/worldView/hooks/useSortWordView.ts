@@ -1,9 +1,9 @@
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { ChangeEvent, useCallback } from "react";
+import { ChangeEvent } from "react";
 
 const useSortWordView = () => {
   const { dispatch } = useWorldViewListContext();
-  const handleSortChangeWorldView = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
+  const handleSortChangeWorldView = (e: ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     switch (value) {
       case "BMI値が低い順":
@@ -20,7 +20,7 @@ const useSortWordView = () => {
         break;
       default:
     }
-  }, []);
+  };
   return { handleSortChangeWorldView };
 };
 
