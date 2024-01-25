@@ -1,4 +1,4 @@
-export type Characteristic = {
+export type CheckBoxItemData = {
   id: number;
   name: string;
 };

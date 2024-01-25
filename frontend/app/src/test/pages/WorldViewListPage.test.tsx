@@ -50,11 +50,11 @@ jest.mock("hooks/api/useGetNestedCheckBoxItems", () => ({
   }),
 }));
 
-const mockGetCharacteristicCheckBoxItems = jest.fn();
-jest.mock("features/worldView/hooks/api/useGetCharacteristicCheckBoxItems", () => ({
+const mockHandleGetCheckBoxItems = jest.fn();
+jest.mock("hooks/api/useGetCheckBoxItems", () => ({
   __esModule: true,
   default: () => ({
-    getCharacteristicCheckBoxItems: mockGetCharacteristicCheckBoxItems,
+    handleGetCheckBoxItems: mockHandleGetCheckBoxItems,
   }),
 }));
 
@@ -198,13 +198,23 @@ describe("handleGetNestedCheckBoxItems関数のテスト", () => {
   });
 });
 
-test("初回レンダリング時にgetAllCharacteristicsWithCheckBoxData関数が実行されること", () => {
-  render(
-    <WorldViewListProvider>
-      <WorldViewList />
-    </WorldViewListProvider>
-  );
-  expect(mockGetCharacteristicCheckBoxItems).toHaveBeenCalledTimes(1);
+describe("handleGetCheckBoxItems関数のテスト", () => {
+  test("初回レンダリング時にhandleGetCheckBoxItems関数が実行されること", () => {
+    const spyOnGetAllCharacteristicsApi = jest.spyOn(
+      jest.requireActual("features/worldView/api/characteristicApi"),
+      "default"
+    );
+    render(
+      <WorldViewListProvider>
+        <WorldViewList />
+      </WorldViewListProvider>
+    );
+    expect(mockHandleGetCheckBoxItems).toHaveBeenCalledWith({
+      loadingCheckBoxItemsDispatch: expect.any(Function),
+      checkBoxItemsDispatch: expect.any(Function),
+      getAllModelApi: spyOnGetAllCharacteristicsApi,
+    });
+  });
 });
 
 test("並べ替えのSelectBoxがレンダリングされていること", () => {
