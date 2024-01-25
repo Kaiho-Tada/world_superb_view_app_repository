@@ -1,10 +1,10 @@
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import AuthLink from "features/auth/components/ui-elements/AuthLink";
 import { useAuth } from "providers/useAuthProvider";
-import { FC, memo, useCallback } from "react";
+import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Header: FC = memo(() => {
+const Header: FC = () => {
   const navigate = useNavigate();
   const onClickHome = useCallback(() => navigate("/home"), [navigate]);
   const onClickSuperbViews = useCallback(() => navigate("/world_views"), [navigate]);
@@ -33,6 +33,6 @@ const Header: FC = memo(() => {
       <AuthLink isSignedIn={isSignedIn} />
     </Flex>
   );
-});
+};
 
 export default Header;

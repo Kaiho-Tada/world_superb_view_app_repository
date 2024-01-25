@@ -2,11 +2,11 @@ import { Checkbox, Flex, Image, VStack } from "@chakra-ui/react";
 import starIcon from "assets/riskLevelStar.png";
 import zeroStarIcon from "assets/zoroRiskLevelStar.png";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { ChangeEvent, FC, memo } from "react";
+import { ChangeEvent, FC } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
 
-const RiskLevelCheckBox: FC = memo(() => {
+const RiskLevelCheckBox: FC = () => {
   const { state, dispatch } = useWorldViewListContext();
   const checkBoxItems = state.riskLevelCheckBoxItems;
 
@@ -121,6 +121,6 @@ const RiskLevelCheckBox: FC = memo(() => {
       })}
     </VStack>
   );
-});
+};
 
 export default RiskLevelCheckBox;

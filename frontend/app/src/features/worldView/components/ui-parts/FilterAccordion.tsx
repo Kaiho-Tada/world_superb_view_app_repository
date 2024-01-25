@@ -2,10 +2,10 @@ import { Accordion, Box, Flex, Heading } from "@chakra-ui/react";
 import useClear from "features/worldView/hooks/useClear";
 import useGetCheckedLabels from "features/worldView/hooks/useGetCheckedLabels";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { FC, memo } from "react";
+import { FC } from "react";
 import FilterAccordionItems from "./FilterAccordionItems";
 
-const FilterAccordion: FC = memo(() => {
+const FilterAccordion: FC = () => {
   const { state } = useWorldViewListContext();
   const { handleClear } = useClear();
   const { checkedLabelObject } = useGetCheckedLabels();
@@ -51,5 +51,5 @@ const FilterAccordion: FC = memo(() => {
       <FilterAccordionItems />
     </Accordion>
   ) : null;
-});
+};
 export default FilterAccordion;

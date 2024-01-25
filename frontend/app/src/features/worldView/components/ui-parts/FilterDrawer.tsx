@@ -1,9 +1,9 @@
 import { Drawer, DrawerBody, DrawerContent, DrawerOverlay } from "@chakra-ui/react";
 import FilterDrawerAccordion from "features/worldView/components/ui-parts/FilterDrawerAccordion";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { FC, memo } from "react";
+import { FC } from "react";
 
-const FilterDrawer: FC = memo(() => {
+const FilterDrawer: FC = () => {
   const { state, dispatch } = useWorldViewListContext();
 
   return (
@@ -21,5 +21,5 @@ const FilterDrawer: FC = memo(() => {
       </DrawerOverlay>
     </Drawer>
   );
-});
+};
 export default FilterDrawer;
