@@ -49,7 +49,7 @@ RSpec.describe WorldView, type: :model do
     describe "filter_by_category_nameスコープのテスト" do
       let!(:category_city) { create(:category, name: "都市") }
       let!(:category_cave) { create(:category, name: "洞窟") }
-      it "引数で受け取ったcategoy_namesに一致するカテゴリーを持つWorldViewを返すこと" do
+      it "引数のcategoy_namesの配列に含まれる名前を持つCategoryモデルと関連づけられたレコードを返すこと" do
         matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
         civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
         machu_picchu = create(:world_view, name: "マチュピチュ")
@@ -61,7 +61,7 @@ RSpec.describe WorldView, type: :model do
         expect(WorldView.filter_by_category_name([category_cave.name, category_city.name])).to include(matera_cave_dwellings, civita_di_bagnoregio, machu_picchu)
       end
 
-      it "返されるWorldViewが重複しないこと" do
+      it "返されるレコードが重複しないこと" do
         duplicated_world_view = create(:world_view)
         create(:world_view_category, world_view: duplicated_world_view, category: category_cave)
         create(:world_view_category, world_view: duplicated_world_view, category: category_city)
@@ -71,7 +71,7 @@ RSpec.describe WorldView, type: :model do
     end
 
     describe "filter_by_country_nameスコープのテスト" do
-      it "引数で受け取ったcountry_namesに一致する国を持つWorldViewを返すこと" do
+      it "引数のcountry_namesの配列に含まれる名前を持つCountryモデルと関連づけられたレコードを返すこと" do
         matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
         civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
         machu_picchu = create(:world_view, name: "マチュピチュ")
@@ -85,7 +85,7 @@ RSpec.describe WorldView, type: :model do
         expect(WorldView.filter_by_country_name([country_italy.name, country_peru.name])).to include(matera_cave_dwellings, civita_di_bagnoregio, machu_picchu)
       end
 
-      it "返されるWorldViewが重複しないこと" do
+      it "返されるレコードが重複しないこと" do
         duplicate_world_view = create(:world_view)
         create(:world_view_country, world_view: duplicate_world_view, country: create(:country, name: "イタリア"))
         create(:world_view_country, world_view: duplicate_world_view, country: create(:country, name: "スイス"))
@@ -97,7 +97,7 @@ RSpec.describe WorldView, type: :model do
     describe "filter_by_characteristic_nameスコープのテスト" do
       let!(:characteristic_historic) { create(:characteristic, name: "歴史・文化的") }
       let!(:characteristic_fantasy) { create(:characteristic, name: "幻想・神秘的") }
-      it "引数で受け取ったcharacteristic_namesに一致する属性を持つWorldViewを返すこと" do
+      it "引数のcharacteristic_namesの配列に含まれる名前を持つCharacteristicモデルと関連づけられたレコードを返すこと" do
         matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
         civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
         machu_picchu = create(:world_view, name: "マチュピチュ")
@@ -109,7 +109,7 @@ RSpec.describe WorldView, type: :model do
         expect(WorldView.filter_by_characteristic_name([characteristic_historic.name, characteristic_fantasy.name])).to include(matera_cave_dwellings, machu_picchu, civita_di_bagnoregio)
       end
 
-      it "返されるWorldViewが重複しないこと" do
+      it "返されるレコードが重複しないこと" do
         duplicate_world_view = create(:world_view)
         create(:world_view_characteristic, world_view: duplicate_world_view, characteristic: characteristic_historic)
         create(:world_view_characteristic, world_view: duplicate_world_view, characteristic: characteristic_fantasy)
@@ -119,7 +119,7 @@ RSpec.describe WorldView, type: :model do
     end
 
     describe "filter_by_country_risk_levelスコープのテスト" do
-      it "引数で受け取ったrisk_levelに一致する国を持つWorldViewを返すこと" do
+      it "引数のrisk_levelsの配列に含まれるリスクレベルを持つCountryモデルと関連づけられたレコードを返すこと" do
         matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
         civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
         machu_picchu = create(:world_view, name: "マチュピチュ")
@@ -133,7 +133,7 @@ RSpec.describe WorldView, type: :model do
         expect(WorldView.filter_by_country_risk_level(["0", "3"])).to include(matera_cave_dwellings, civita_di_bagnoregio, machu_picchu)
       end
 
-      it "返されるWorldViewが重複しないこと" do
+      it "返されるレコードが重複しないこと" do
         duplicate_world_view = create(:world_view)
         create(:world_view_country, world_view: duplicate_world_view, country: create(:country, risk_level: 1))
         create(:world_view_country, world_view: duplicate_world_view, country: create(:country, risk_level: 2))
@@ -143,7 +143,7 @@ RSpec.describe WorldView, type: :model do
     end
 
     describe "filter_by_keywordスコープのテスト" do
-      it "引数で受け取ったkeywordに部分一致する名前と国名を持つWorldViewを返すこと" do
+      it "引数のkeywordに部分一致する名前と国名を持つレコードを返すこと" do
         matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
         civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
         machu_picchu = create(:world_view, name: "マチュピチュ")
@@ -156,7 +156,7 @@ RSpec.describe WorldView, type: :model do
         expect(WorldView.filter_by_keyword("イタリア")).to eq [matera_cave_dwellings, civita_di_bagnoregio]
       end
 
-      it "返されるWorldViewが重複しないこと" do
+      it "返されるレコードが重複しないこと" do
         duplicate_world_view = create(:world_view, name: "重複する絶景")
         create(:world_view_country, world_view: duplicate_world_view, country: create(:country))
         create(:world_view_country, world_view: duplicate_world_view, country: create(:country))
@@ -166,7 +166,7 @@ RSpec.describe WorldView, type: :model do
     end
 
     describe "filter_by_monthのスコープのテスト" do
-      it "引数で受け取ったmonthsの月をbest_seasonに持つWorldViewを返すこと" do
+      it "引数のmonthsの月をbest_seasonに持つレコードを返すこと" do
         world_view1 = create(:world_view, best_season: "12月〜2月")
         world_view2 = create(:world_view, best_season: "3月〜5月 or 9月〜11月")
         world_view3 = create(:world_view, best_season: "6月〜8月")
@@ -178,7 +178,7 @@ RSpec.describe WorldView, type: :model do
     end
 
     describe "filter_by_country_bmi" do
-      it "引数で受け取ったbmi_rangesの範囲に含まれる値のbmiカラムを持つCountryモデルと関連付けしているWorldViewを返すこと" do
+      it "引数のbmi_rangesの範囲に含まれる値のbmiカラムを持つCountryモデルと関連付けられたレコードを返すこと" do
         world_view1 = create(:world_view)
         world_view2 = create(:world_view)
         world_view3 = create(:world_view)
@@ -192,7 +192,7 @@ RSpec.describe WorldView, type: :model do
         expect(WorldView.filter_by_country_bmi(["〜-40%"])).to include world_view3
       end
 
-      it "返されるWorldViewが重複しないこと" do
+      it "返されるレコードが重複しないこと" do
         duplicate_world_view = create(:world_view)
         create(:world_view_country, world_view: duplicate_world_view, country: create(:country, bmi: 35.9))
         create(:world_view_country, world_view: duplicate_world_view, country: create(:country, bmi: -40.2))
