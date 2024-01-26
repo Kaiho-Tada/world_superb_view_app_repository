@@ -1,0 +1,38 @@
+import { AxiosResponse, isAxiosError } from "axios";
+import useMessage from "hooks/useMessage";
+import { CheckBoxItemData } from "types/api/checkBoxItemData";
+import { CheckBoxItem } from "types/checkBoxItem";
+
+type Props = {
+  loadingCheckBoxItemsDispatch: (payload: boolean) => void;
+  checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => void;
+  getAllModelApi: () => Promise<AxiosResponse<CheckBoxItemData[]>>;
+};
+const useGetCheckBoxItems = () => {
+  const { showMessage } = useMessage();
+
+  const handleGetCheckBoxItems = async (props: Props) => {
+    const { loadingCheckBoxItemsDispatch, checkBoxItemsDispatch, getAllModelApi } = props;
+    loadingCheckBoxItemsDispatch(true);
+    try {
+      const res = await getAllModelApi();
+      const models = res.data;
+      const newCheckBoxItems = models.map((model: CheckBoxItemData) => ({
+        label: model.name,
+        checked: false,
+      }));
+      checkBoxItemsDispatch(newCheckBoxItems);
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 500) {
+        showMessage({
+          title: error.response.data.error,
+          status: "error",
+        });
+      }
+    } finally {
+      loadingCheckBoxItemsDispatch(false);
+    }
+  };
+  return { handleGetCheckBoxItems };
+};
+export default useGetCheckBoxItems;

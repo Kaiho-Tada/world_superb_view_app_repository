@@ -1,6 +1,34 @@
 ---
 ja:
   activerecord:
+    models:
+      world_view: "絶景"
+      state: "州"
+      country: "国"
+      category: "カテゴリー"
+      characteristic: "属性"
+    attributes:
+      world_view:
+        name: "絶景名"
+        panorama_url: "パノラマURL"
+        best_season: "ベストシーズン"
+        portrait: "画像データ"
+      country:
+        name: "国名"
+        code: "コード"
+        risk_level: "リスクレベル"
+        portrait: "画像データ"
+        region: "地域"
+      category:
+        name: "カテゴリー名"
+        classification: "分類名"
+      characteristic:
+        name: "属性名"
+      world_view_favorite:
+        world_view: "絶景"
+        world_view_id: "絶景id"
+        user: "ユーザー"
+
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"

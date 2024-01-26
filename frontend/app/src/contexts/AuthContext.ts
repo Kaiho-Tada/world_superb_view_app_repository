@@ -1,5 +1,5 @@
+import { User } from "features/auth/types/user";
 import { createContext } from "react";
-import { User } from "types/api/user";
 
 const AuthContext = createContext(
   {} as {

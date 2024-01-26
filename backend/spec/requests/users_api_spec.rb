@@ -117,6 +117,20 @@ RSpec.describe "Users Api", type: :request do
     end
   end
 
+  describe "DELETE /api/v1/auth/sign_out" do
+    it "ゲストユーザーのログアウト時にお気に入りを削除すること" do
+      auth_tokens = guest_login
+      guest_user = User.find_by(email: "guest@example.com")
+      create(:world_view_favorite, user: guest_user)
+      expect(guest_user.world_view_favorites.size).to eq 1
+      expect do
+        delete destroy_api_v1_user_session_path, headers: auth_tokens
+      end.to change {
+        guest_user.reload.world_view_favorites.size
+      }.from(1).to(0)
+    end
+  end
+
   describe "Get /api/v1/auth/sesstions" do
     let!(:user) { create(:user, confirmed_at: Time.zone.today) }
     it "認証が成功した場合、200番ステータスとcurrent_userが返されること" do
