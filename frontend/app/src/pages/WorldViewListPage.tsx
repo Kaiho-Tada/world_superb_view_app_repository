@@ -118,7 +118,7 @@ const WorldViewListPage = () => {
   }, [state.worldViews]);
 
   return (
-    <Box my="10" mx={{ base: "0", sm: "6", lg: "10" }}>
+    <Box my="10" mx={{ base: "1", sm: "4", lg: "6" }}>
       <Flex mb="6">
         <FilterButton />
         <SortSelectBox />
