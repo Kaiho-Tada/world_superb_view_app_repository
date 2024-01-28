@@ -11,7 +11,8 @@ AllCops:
   Exclude:
     - "Gemfile"
     - "vendor/**/*"
-    - "db/**/*"
+    - "db/schema.rb"
+    - "db/migrate/*"
     - "lib/tasks/**/*"
     - "bin/*"
     - "config/initializers/**/*"
