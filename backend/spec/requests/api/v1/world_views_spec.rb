@@ -16,7 +16,7 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           json_response = JSON.parse(response.body)
           expect(response).to have_http_status(200)
           expect(json_response.length).to eq(2)
-          expect(json_response.map { |view| view["id"] }).to include(world_view1.id, world_view2.id)
+          expect(json_response.pluck("id")).to include(world_view1.id, world_view2.id)
         end
 
         it "返されるレコードが重複しないこと" do
@@ -47,7 +47,7 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           json_response = JSON.parse(response.body)
           expect(response).to have_http_status(200)
           expect(json_response.length).to eq(2)
-          expect(json_response.map { |view| view["id"] }).to include(world_view1.id, world_view2.id)
+          expect(json_response.pluck("id")).to include(world_view1.id, world_view2.id)
         end
 
         it "返されるレコードが重複しないこと" do
@@ -78,7 +78,7 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           json_response = JSON.parse(response.body)
           expect(response).to have_http_status(200)
           expect(json_response.length).to eq(2)
-          expect(json_response.map { |view| view["id"] }).to include(world_view1.id, world_view2.id)
+          expect(json_response.pluck("id")).to include(world_view1.id, world_view2.id)
         end
 
         it "返されるレコードが重複しないこと" do
@@ -109,7 +109,7 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           json_response = JSON.parse(response.body)
           expect(response).to have_http_status(200)
           expect(json_response.length).to eq(2)
-          expect(json_response.map { |view| view["id"] }).to include(world_view1.id, world_view2.id)
+          expect(json_response.pluck("id")).to include(world_view1.id, world_view2.id)
         end
 
         it "返されるレコードが重複しないこと" do
@@ -146,7 +146,7 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           json_response = JSON.parse(response.body)
           expect(response).to have_http_status(200)
           expect(json_response.length).to eq(2)
-          expect(json_response.map { |view| view["id"] }).to include(matera_cave_dwellings.id, machu_picchu.id)
+          expect(json_response.pluck("id")).to include(matera_cave_dwellings.id, machu_picchu.id)
         end
 
         it "paramsのkeywordに部分一致するCountryモデルと関連づけられたレコードを返すこと" do
@@ -156,7 +156,7 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           json_response = JSON.parse(response.body)
           expect(response).to have_http_status(200)
           expect(json_response.length).to eq(2)
-          expect(json_response.map { |view| view["id"] }).to include(matera_cave_dwellings.id, civita_di_bagnoregio.id)
+          expect(json_response.pluck("id")).to include(matera_cave_dwellings.id, civita_di_bagnoregio.id)
         end
 
         it "返されるレコードが重複しないこと" do
@@ -183,7 +183,7 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           json_response = JSON.parse(response.body)
           expect(response).to have_http_status(200)
           expect(json_response.length).to eq(3)
-          expect(json_response.map { |view| view["id"] }).to include(world_view1.id, world_view2.id, world_view3.id)
+          expect(json_response.pluck("id")).to include(world_view1.id, world_view2.id, world_view3.id)
         end
       end
 
@@ -201,7 +201,7 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           json_response = JSON.parse(response.body)
           expect(response).to have_http_status(200)
           expect(json_response.length).to eq(2)
-          expect(json_response.map { |view| view["id"] }).to include(world_view1.id, world_view3.id)
+          expect(json_response.pluck("id")).to include(world_view1.id, world_view3.id)
         end
 
         it "返されるレコードが重複しないこと" do
