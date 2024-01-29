@@ -26,7 +26,15 @@ const Header: FC = () => {
             App
           </Heading>
         </Flex>
-        <Text as="a" role="link" onClick={onClickSuperbViews} _hover={{ cursor: "pointer" }}>
+        <Text
+          as="a"
+          role="link"
+          fontSize={{ base: "sm", md: "md" }}
+          fontWeight="bold"
+          textShadow="1px 1px 1px #000000"
+          _hover={{ cursor: "pointer" }}
+          onClick={onClickSuperbViews}
+        >
           絶景一覧
         </Text>
       </Flex>

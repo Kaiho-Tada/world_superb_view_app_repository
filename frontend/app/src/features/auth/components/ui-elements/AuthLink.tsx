@@ -83,13 +83,36 @@ const AuthLink: FC<AuthLinkProps> = memo((props) => {
           display={{ base: "block", md: "none" }}
         />
         <Flex display={{ base: "none", md: "flex" }}>
-          <Text role="link" pr={4} onClick={onClickLogin} _hover={{ cursor: "pointer" }}>
+          <Text
+            role="link"
+            pr={4}
+            fontSize={{ base: "sm", md: "md" }}
+            fontWeight="bold"
+            textShadow="1px 1px 1px #000000"
+            _hover={{ cursor: "pointer" }}
+            onClick={onClickLogin}
+          >
             ログイン
           </Text>
-          <Text role="link" pr={4} onClick={onClickSignup} _hover={{ cursor: "pointer" }}>
+          <Text
+            role="link"
+            pr={4}
+            fontSize={{ base: "sm", md: "md" }}
+            fontWeight="bold"
+            textShadow="1px 1px 1px #000000"
+            _hover={{ cursor: "pointer" }}
+            onClick={onClickSignup}
+          >
             新規登録
           </Text>
-          <Text role="link" onClick={handleGuestLogin} _hover={{ cursor: "pointer" }}>
+          <Text
+            role="link"
+            fontSize={{ base: "sm", md: "md" }}
+            fontWeight="bold"
+            textShadow="1px 1px 1px #000000"
+            _hover={{ cursor: "pointer" }}
+            onClick={handleGuestLogin}
+          >
             ゲストログイン
           </Text>
         </Flex>
