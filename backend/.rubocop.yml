@@ -35,6 +35,7 @@ Style/ClassAndModuleChildren:
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*"
+    - "db/seeds.rb"
 
 Layout/LineLength:
   Exclude:
