@@ -3,7 +3,6 @@ import { signout } from "features/auth/api/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
-import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useSignout = () => {
@@ -11,7 +10,7 @@ const useSignout = () => {
   const { showMessage } = useMessage();
   const navigate = useNavigate();
 
-  const handleSignout = useCallback(async () => {
+  const handleSignout = async () => {
     setLoading(true);
     try {
       await signout();
@@ -32,7 +31,7 @@ const useSignout = () => {
       }
     }
     setLoading(false);
-  }, []);
+  };
   return { handleSignout };
 };
 export default useSignout;

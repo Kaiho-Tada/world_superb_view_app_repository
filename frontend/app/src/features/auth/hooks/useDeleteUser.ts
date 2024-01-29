@@ -3,7 +3,6 @@ import { deleteUser } from "features/auth/api/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
-import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useDeleteUser = () => {
@@ -11,7 +10,7 @@ const useDeleteUser = () => {
   const navigate = useNavigate();
   const { showMessage } = useMessage();
 
-  const handleDeleteUser = useCallback(async () => {
+  const handleDeleteUser = async () => {
     setLoading(true);
     try {
       const res = await deleteUser();
@@ -37,7 +36,7 @@ const useDeleteUser = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
   return { handleDeleteUser };
 };
 export default useDeleteUser;

@@ -4,7 +4,7 @@ import { LoginData } from "features/auth/types/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useLogin = () => {
@@ -14,40 +14,37 @@ const useLogin = () => {
   const { showMessage } = useMessage();
   const navigate = useNavigate();
 
-  const handleLogin = useCallback(
-    async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.preventDefault();
-      setLoading(true);
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    setLoading(true);
 
-      const data: LoginData = {
-        email,
-        password,
-      };
-      try {
-        const res = await login(data);
-        showMessage({ title: "ログインしました", status: "success" });
+    const data: LoginData = {
+      email,
+      password,
+    };
+    try {
+      const res = await login(data);
+      showMessage({ title: "ログインしました", status: "success" });
 
-        Cookies.set("_access_token", res.headers["access-token"]);
-        Cookies.set("_client", res.headers.client);
-        Cookies.set("_uid", res.headers.uid);
+      Cookies.set("_access_token", res.headers["access-token"]);
+      Cookies.set("_client", res.headers.client);
+      Cookies.set("_uid", res.headers.uid);
 
-        setIsSignedIn(true);
-        setCurrentUser(res.data.data);
+      setIsSignedIn(true);
+      setCurrentUser(res.data.data);
 
-        navigate("/home");
-      } catch (error) {
-        if (isAxiosError(error) && error.response && error.response.status === 401) {
-          error.response.data.errors.map((errorMessage: string) =>
-            showMessage({ title: errorMessage, status: "error" })
-          );
-        } else {
-          showMessage({ title: "エラーが発生しました。", status: "error" });
-        }
+      navigate("/home");
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 401) {
+        error.response.data.errors.map((errorMessage: string) =>
+          showMessage({ title: errorMessage, status: "error" })
+        );
+      } else {
+        showMessage({ title: "エラーが発生しました。", status: "error" });
       }
-      setLoading(false);
-    },
-    [email, password]
-  );
+    }
+    setLoading(false);
+  };
   return { handleLogin, email, setEmail, password, setPassword };
 };
 export default useLogin;
