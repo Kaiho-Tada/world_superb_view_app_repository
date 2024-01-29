@@ -12,8 +12,7 @@ describe("AuthButtonのテスト", () => {
         テストボタン
       </AuthButton>
     );
-    const Button = screen.getByRole("button", { name: "テストボタン" });
-    expect(Button).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "テストボタン" })).toBeInTheDocument();
   });
 
   test("propsで受け取ったisDisabledの値がtrueの場合、ボタンクリックが無効になっていること", () => {
@@ -22,8 +21,7 @@ describe("AuthButtonのテスト", () => {
         テストボタン
       </AuthButton>
     );
-    const Button = screen.getByRole("button", { name: "テストボタン" });
-    expect(Button).toBeDisabled();
+    expect(screen.getByRole("button", { name: "テストボタン" })).toBeDisabled();
   });
 
   test("propsで受け取ったloadingの値がtrueの場合、ボタンクリックが無効になっていること", () => {
@@ -36,15 +34,14 @@ describe("AuthButtonのテスト", () => {
     expect(Button).toBeDisabled();
   });
 
-  test("PrimaryButton押下でpropsで渡した関数が呼び出されること", async () => {
+  test("AuthButton押下でpropsで渡した関数が呼び出されること", async () => {
     const user = userEvent.setup();
     render(
       <AuthButton isDisabled={false} loading={false} onClick={onClick}>
         テストボタン
       </AuthButton>
     );
-    const Button = screen.getByRole("button", { name: "テストボタン" });
-    await user.click(Button);
+    await user.click(screen.getByRole("button", { name: "テストボタン" }));
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 });
