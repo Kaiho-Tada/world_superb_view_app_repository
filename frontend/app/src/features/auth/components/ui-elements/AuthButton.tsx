@@ -14,12 +14,7 @@ const AuthButton: FC<Props> = memo((props) => {
     <Button
       variant="primaryA"
       size="sm"
-      py="3"
-      px="14"
-      shadow="2xl"
       onClick={onClick}
-      _hover={{ opacity: 0.6 }}
-      textShadow="1px 1px 1px #000000"
       isLoading={loading}
       isDisabled={isDisabled || loading}
     >

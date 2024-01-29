@@ -151,30 +151,12 @@ const Profile = memo(() => {
           </Box>
           <Divider mt="6" mb="6" />
           <Box mb="5">
-            <Button
-              variant="secoundary"
-              size="sm"
-              py="3"
-              px="14"
-              shadow="2xl"
-              _hover={{ opacity: 0.6 }}
-              textShadow="1px 1px 1px #000000"
-              onClick={onClickHome}
-            >
+            <Button variant="secoundary" size="sm" onClick={onClickHome}>
               ホームに戻る
             </Button>
           </Box>
           <Box>
-            <Button
-              variant="danger"
-              size="sm"
-              py="3"
-              px="14"
-              shadow="2xl"
-              _hover={{ opacity: 0.6 }}
-              textShadow="1px 1px 1px #000000"
-              onClick={handleDeleteUser}
-            >
+            <Button variant="danger" size="sm" onClick={handleDeleteUser}>
               アカウント削除
             </Button>
           </Box>

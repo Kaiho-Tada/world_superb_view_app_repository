@@ -73,16 +73,7 @@ const Login: FC = memo(() => {
           </Box>
           <Divider mt="6" mb="6" />
           <Box textAlign="center">
-            <Button
-              variant="primaryC"
-              size="sm"
-              py="3"
-              px="14"
-              shadow="2xl"
-              _hover={{ opacity: 0.6 }}
-              textShadow="1px 1px #000000"
-              onClick={handleGuestLogin}
-            >
+            <Button variant="primaryC" size="sm" onClick={handleGuestLogin}>
               ゲストログイン
             </Button>
           </Box>
@@ -91,16 +82,7 @@ const Login: FC = memo(() => {
             アカウントをお持ちでない方
           </Text>
           <Box textAlign="center" my="3">
-            <Button
-              variant="primaryB"
-              size="sm"
-              py="3"
-              px="14"
-              shadow="2xl"
-              _hover={{ opacity: 0.6 }}
-              textShadow="1px 1px #000000"
-              onClick={onClickSignup}
-            >
+            <Button variant="primaryB" size="sm" onClick={onClickSignup}>
               登録する
             </Button>
           </Box>
