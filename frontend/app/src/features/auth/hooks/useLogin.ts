@@ -1,11 +1,11 @@
 import { isAxiosError } from "axios";
-import { login } from "features/auth/api/auth";
 import { LoginData } from "features/auth/types/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import login from "../api/loginApi";
 
 const useLogin = () => {
   const { setIsSignedIn, setCurrentUser, setLoading } = useAuth();
