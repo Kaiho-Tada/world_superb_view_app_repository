@@ -1,13 +1,6 @@
-import {
-  LoginData,
-  SignUpData,
-  UpdatePasswordData,
-  UpdateUserData,
-} from "features/auth/types/auth";
+import { LoginData, UpdatePasswordData, UpdateUserData } from "features/auth/types/auth";
 import Cookies from "js-cookie";
 import client from "lib/client";
-
-export const signUp = (data: SignUpData) => client.post("auth", data);
 
 export const login = (data: LoginData) => client.post("auth/sign_in", data);
 
