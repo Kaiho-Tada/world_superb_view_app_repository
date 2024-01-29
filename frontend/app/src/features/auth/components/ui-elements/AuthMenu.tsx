@@ -22,7 +22,7 @@ type AuthLinkProps = {
   isSignedIn: boolean;
 };
 
-const AuthLink: FC<AuthLinkProps> = memo((props) => {
+const AuthMenu: FC<AuthLinkProps> = memo((props) => {
   const { isSignedIn } = props;
   const navigate = useNavigate();
   const onClickLogin = useCallback(() => navigate("/login"), [navigate]);
@@ -116,4 +116,4 @@ const AuthLink: FC<AuthLinkProps> = memo((props) => {
   );
   return !loading ? AuthMenuContent : null;
 });
-export default AuthLink;
+export default AuthMenu;

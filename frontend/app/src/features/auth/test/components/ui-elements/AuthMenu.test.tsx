@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import MockAdapter from "axios-mock-adapter";
-import AuthLink from "features/auth/components/ui-elements/AuthLink";
+import AuthMenu from "features/auth/components/ui-elements/AuthMenu";
 import Cookies from "js-cookie";
 import client from "lib/client";
 import { act } from "react-dom/test-utils";
@@ -49,14 +49,14 @@ describe("ログイン済みの挙動のテスト", () => {
   mockAxios.onDelete("auth/sign_out").reply(200);
 
   test("アバターアイコンが表示されていること", () => {
-    render(<AuthLink isSignedIn />);
+    render(<AuthMenu isSignedIn />);
     const avatarIcon = screen.getByRole("img", { name: "avatar" });
     expect(avatarIcon).toBeInTheDocument();
   });
 
   describe("サインアウトボタンのテスト", () => {
     test("サインアウトボタンが表示されていること", () => {
-      render(<AuthLink isSignedIn />);
+      render(<AuthMenu isSignedIn />);
       const accountIcon = screen.getByAltText("account_icon");
       const signoutText = screen.getByText("サインアウト");
       expect(accountIcon).toBeInTheDocument();
@@ -65,7 +65,7 @@ describe("ログイン済みの挙動のテスト", () => {
 
     test("サインアウトボタン押下でサインアウトできること", async () => {
       const user = userEvent.setup();
-      render(<AuthLink isSignedIn />);
+      render(<AuthMenu isSignedIn />);
       const signoutText = screen.getByText("サインアウト");
       await user.click(signoutText);
       expect(mockSetLoading).toHaveBeenCalledWith(true);
@@ -99,7 +99,7 @@ describe("ログイン済みの挙動のテスト", () => {
 
   describe("プロフィールリンクのテスト", () => {
     test("プロフィールリンクが表示されていること", () => {
-      render(<AuthLink isSignedIn />);
+      render(<AuthMenu isSignedIn />);
       const profileIcon = screen.getByAltText("profile_icon");
       const profileText = screen.getByText("プロフィール");
       expect(profileIcon).toBeInTheDocument();
@@ -108,7 +108,7 @@ describe("ログイン済みの挙動のテスト", () => {
 
     test("プロフィールリンク押下でプロフィールページに遷移すること", async () => {
       const user = userEvent.setup();
-      render(<AuthLink isSignedIn />);
+      render(<AuthMenu isSignedIn />);
       const profileText = screen.getByText("プロフィール");
       await user.click(profileText);
       expect(mockUseNavigate).toHaveBeenCalledWith("/profile");
@@ -120,14 +120,14 @@ describe("ログイン済みの挙動のテスト", () => {
 describe("未ログインの挙動のテスト", () => {
   describe("アバターーアイコンのテスト", () => {
     test("アバターアイコンが表示されていること", () => {
-      render(<AuthLink isSignedIn={false} />);
+      render(<AuthMenu isSignedIn={false} />);
       const avatarIcon = screen.getByRole("img", { name: "avatar" });
       expect(avatarIcon).toBeInTheDocument();
     });
 
     test("アバターアイコン押下でログインページに遷移すること", async () => {
       const user = userEvent.setup();
-      render(<AuthLink isSignedIn={false} />);
+      render(<AuthMenu isSignedIn={false} />);
       const avatarIcon = screen.getByRole("img", { name: "avatar" });
       await act(async () => {
         await user.click(avatarIcon);
@@ -139,14 +139,14 @@ describe("未ログインの挙動のテスト", () => {
 
   describe("ログインリンクのテスト", () => {
     test("ログインリンクが表示されていること", () => {
-      render(<AuthLink isSignedIn={false} />);
+      render(<AuthMenu isSignedIn={false} />);
       const loginLink = screen.getByRole("link", { name: "ログイン" });
       expect(loginLink).toBeInTheDocument();
     });
 
     test("ログインリンク押下でログインページに遷移すること", async () => {
       const user = userEvent.setup();
-      render(<AuthLink isSignedIn={false} />);
+      render(<AuthMenu isSignedIn={false} />);
       const loginLink = screen.getByRole("link", { name: "ログイン" });
       await user.click(loginLink);
       expect(mockUseNavigate).toHaveBeenCalledWith("/login");
@@ -156,14 +156,14 @@ describe("未ログインの挙動のテスト", () => {
 
   describe("サインアップリンクのテスト", () => {
     test("サインアップリンクが表示されていること", () => {
-      render(<AuthLink isSignedIn={false} />);
+      render(<AuthMenu isSignedIn={false} />);
       const signUpLink = screen.getByRole("link", { name: "新規登録" });
       expect(signUpLink).toBeInTheDocument();
     });
 
     test("サインアップリンク押下でサインアップページに遷移すること", async () => {
       const user = userEvent.setup();
-      render(<AuthLink isSignedIn={false} />);
+      render(<AuthMenu isSignedIn={false} />);
       const signUpLink = screen.getByRole("link", { name: "新規登録" });
       await user.click(signUpLink);
       expect(mockUseNavigate).toHaveBeenCalledWith("/signup");
