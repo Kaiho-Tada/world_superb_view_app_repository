@@ -17,12 +17,11 @@ import { useAuth } from "providers/useAuthProvider";
 import { FC, memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-type AuthLinkProps = {
+type AuthMenuProps = {
   isSignedIn: boolean;
 };
 
-const AuthMenu: FC<AuthLinkProps> = memo((props) => {
-  const { isSignedIn } = props;
+const AuthMenu: FC<AuthMenuProps> = memo(({ isSignedIn }) => {
   const navigate = useNavigate();
   const onClickLogin = useCallback(() => navigate("/login"), [navigate]);
   const onClickProfile = useCallback(() => navigate("/profile"), [navigate]);
