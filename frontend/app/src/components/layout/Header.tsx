@@ -1,5 +1,5 @@
 import { Flex, Heading, Text } from "@chakra-ui/react";
-import AuthLink from "features/auth/components/ui-elements/AuthMenu";
+import AuthMenu from "features/auth/components/ui-elements/AuthMenu";
 import { useAuth } from "providers/useAuthProvider";
 import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +38,7 @@ const Header: FC = () => {
           絶景一覧
         </Text>
       </Flex>
-      <AuthLink isSignedIn={isSignedIn} />
+      <AuthMenu isSignedIn={isSignedIn} />
     </Flex>
   );
 };

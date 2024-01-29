@@ -6,7 +6,6 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverContent,
-  PopoverHeader,
   PopoverTrigger,
   Text,
 } from "@chakra-ui/react";
@@ -40,20 +39,7 @@ const AuthMenu: FC<AuthLinkProps> = memo((props) => {
       </PopoverTrigger>
       <PopoverContent width="220px" color="black" bg="gray.100">
         <PopoverArrow />
-        <PopoverHeader p="0">
-          <Flex
-            _hover={{ cursor: "pointer", bg: "blackAlpha.100" }}
-            p="2.5"
-            justify="center"
-            onClick={handleSignout}
-          >
-            <Flex align="center">
-              <Image alt="account_icon" boxSize="20px" src={personIcon} mr="3" />
-              <Text textShadow="0.5px 0.5px #000000">サインアウト</Text>
-            </Flex>
-          </Flex>
-        </PopoverHeader>
-        <PopoverBody p="0">
+        <PopoverBody p="0" role="menu" aria-label="Popoverのプロフィールメニュー">
           {!isGuestUser ? (
             <Flex
               onClick={onClickProfile}
@@ -66,6 +52,17 @@ const AuthMenu: FC<AuthLinkProps> = memo((props) => {
               <Text textShadow="0.5px 0.5px #000000">プロフィール</Text>
             </Flex>
           ) : null}
+          <Flex
+            _hover={{ cursor: "pointer", bg: "blackAlpha.100" }}
+            p="2.5"
+            justify="center"
+            onClick={handleSignout}
+          >
+            <Flex align="center">
+              <Image alt="account_icon" boxSize="20px" src={personIcon} mr="3" />
+              <Text textShadow="0.5px 0.5px #000000">サインアウト</Text>
+            </Flex>
+          </Flex>
         </PopoverBody>
       </PopoverContent>
     </Popover>
@@ -78,7 +75,7 @@ const AuthMenu: FC<AuthLinkProps> = memo((props) => {
         _hover={{ cursor: "pointer" }}
         display={{ base: "block", md: "none" }}
       />
-      <Flex display={{ base: "none", md: "flex" }}>
+      <Flex display={{ base: "none", md: "flex" }} role="menu" aria-label="プロフィールメニュー">
         <Text
           role="link"
           pr={4}
