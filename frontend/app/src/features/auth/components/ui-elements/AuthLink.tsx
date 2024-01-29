@@ -33,92 +33,87 @@ const AuthLink: FC<AuthLinkProps> = memo((props) => {
   const { handleGuestLogin } = useGuestLogin();
   const isGuestUser = currentUser?.email === "guest@example.com";
 
-  if (!loading) {
-    if (isSignedIn) {
-      return (
-        <Popover size="xs" variant="responsive">
-          <PopoverTrigger>
-            <Avatar size="sm" _hover={{ cursor: "pointer" }} />
-          </PopoverTrigger>
-          <PopoverContent width="220px" color="black" bg="gray.100">
-            <PopoverArrow />
-            <PopoverHeader p="0">
-              <Flex
-                _hover={{ cursor: "pointer", bg: "blackAlpha.100" }}
-                p="2.5"
-                justify="center"
-                onClick={handleSignout}
-              >
-                <Flex align="center">
-                  <Image alt="account_icon" boxSize="20px" src={personIcon} mr="3" />
-                  <Text textShadow="0.5px 0.5px #000000">サインアウト</Text>
-                </Flex>
-              </Flex>
-            </PopoverHeader>
-            <PopoverBody p="0">
-              {!isGuestUser ? (
-                <Flex
-                  onClick={onClickProfile}
-                  as="a"
-                  _hover={{ cursor: "pointer", bg: "blackAlpha.100" }}
-                  p="2.5"
-                  justify="center"
-                >
-                  <Image alt="profile_icon" boxSize="20px" src={profileIcon} mr="3" />
-                  <Text textShadow="0.5px 0.5px #000000">プロフィール</Text>
-                </Flex>
-              ) : null}
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
-      );
-    }
-    return (
-      <>
-        <Avatar
-          size="sm"
-          as="a"
-          onClick={onClickLogin}
+  const AuthMenuContent = isSignedIn ? (
+    <Popover size="xs" variant="responsive">
+      <PopoverTrigger>
+        <Avatar size="sm" _hover={{ cursor: "pointer" }} />
+      </PopoverTrigger>
+      <PopoverContent width="220px" color="black" bg="gray.100">
+        <PopoverArrow />
+        <PopoverHeader p="0">
+          <Flex
+            _hover={{ cursor: "pointer", bg: "blackAlpha.100" }}
+            p="2.5"
+            justify="center"
+            onClick={handleSignout}
+          >
+            <Flex align="center">
+              <Image alt="account_icon" boxSize="20px" src={personIcon} mr="3" />
+              <Text textShadow="0.5px 0.5px #000000">サインアウト</Text>
+            </Flex>
+          </Flex>
+        </PopoverHeader>
+        <PopoverBody p="0">
+          {!isGuestUser ? (
+            <Flex
+              onClick={onClickProfile}
+              as="a"
+              _hover={{ cursor: "pointer", bg: "blackAlpha.100" }}
+              p="2.5"
+              justify="center"
+            >
+              <Image alt="profile_icon" boxSize="20px" src={profileIcon} mr="3" />
+              <Text textShadow="0.5px 0.5px #000000">プロフィール</Text>
+            </Flex>
+          ) : null}
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  ) : (
+    <>
+      <Avatar
+        size="sm"
+        as="a"
+        onClick={onClickLogin}
+        _hover={{ cursor: "pointer" }}
+        display={{ base: "block", md: "none" }}
+      />
+      <Flex display={{ base: "none", md: "flex" }}>
+        <Text
+          role="link"
+          pr={4}
+          fontSize={{ base: "sm", md: "md" }}
+          fontWeight="bold"
+          textShadow="1px 1px 1px #000000"
           _hover={{ cursor: "pointer" }}
-          display={{ base: "block", md: "none" }}
-        />
-        <Flex display={{ base: "none", md: "flex" }}>
-          <Text
-            role="link"
-            pr={4}
-            fontSize={{ base: "sm", md: "md" }}
-            fontWeight="bold"
-            textShadow="1px 1px 1px #000000"
-            _hover={{ cursor: "pointer" }}
-            onClick={onClickLogin}
-          >
-            ログイン
-          </Text>
-          <Text
-            role="link"
-            pr={4}
-            fontSize={{ base: "sm", md: "md" }}
-            fontWeight="bold"
-            textShadow="1px 1px 1px #000000"
-            _hover={{ cursor: "pointer" }}
-            onClick={onClickSignup}
-          >
-            新規登録
-          </Text>
-          <Text
-            role="link"
-            fontSize={{ base: "sm", md: "md" }}
-            fontWeight="bold"
-            textShadow="1px 1px 1px #000000"
-            _hover={{ cursor: "pointer" }}
-            onClick={handleGuestLogin}
-          >
-            ゲストログイン
-          </Text>
-        </Flex>
-      </>
-    );
-  }
-  return null;
+          onClick={onClickLogin}
+        >
+          ログイン
+        </Text>
+        <Text
+          role="link"
+          pr={4}
+          fontSize={{ base: "sm", md: "md" }}
+          fontWeight="bold"
+          textShadow="1px 1px 1px #000000"
+          _hover={{ cursor: "pointer" }}
+          onClick={onClickSignup}
+        >
+          新規登録
+        </Text>
+        <Text
+          role="link"
+          fontSize={{ base: "sm", md: "md" }}
+          fontWeight="bold"
+          textShadow="1px 1px 1px #000000"
+          _hover={{ cursor: "pointer" }}
+          onClick={handleGuestLogin}
+        >
+          ゲストログイン
+        </Text>
+      </Flex>
+    </>
+  );
+  return !loading ? AuthMenuContent : null;
 });
 export default AuthLink;
