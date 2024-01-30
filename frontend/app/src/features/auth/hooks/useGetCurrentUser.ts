@@ -1,5 +1,5 @@
-import { getCurrentUser } from "features/auth/api/auth";
 import { useAuth } from "providers/useAuthProvider";
+import getCurrentUser from "../api/currentUserApi";
 
 const useGetCurrentUser = () => {
   const { setIsSignedIn, setCurrentUser, setLoading } = useAuth();

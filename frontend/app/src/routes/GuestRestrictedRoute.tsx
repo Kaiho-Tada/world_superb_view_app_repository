@@ -1,5 +1,5 @@
 import Loading from "components/ui-elements/Loading";
-import { getCurrentUser } from "features/auth/api/auth";
+import getCurrentUser from "features/auth/api/currentUserApi";
 import useMessage from "hooks/useMessage";
 import { FC, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
