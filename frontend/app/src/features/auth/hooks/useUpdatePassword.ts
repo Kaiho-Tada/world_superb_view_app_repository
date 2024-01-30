@@ -1,9 +1,9 @@
 import { isAxiosError } from "axios";
-import { updatePassword } from "features/auth/api/auth";
 import { UpdatePasswordData } from "features/auth/types/auth";
 import useMessage from "hooks/useMessage";
 import { useAuth } from "providers/useAuthProvider";
 import React, { useState } from "react";
+import updatePasswordApi from "../api/updatePasswordApi";
 
 const useUpdatePassword = () => {
   const { setLoading } = useAuth();
@@ -22,7 +22,7 @@ const useUpdatePassword = () => {
     };
 
     try {
-      const res = await updatePassword(data);
+      const res = await updatePasswordApi(data);
       if (res.data.status === 403) {
         showMessage({ title: res.data.message, status: "error" });
       } else {
