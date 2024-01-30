@@ -31,7 +31,7 @@ const useDeleteUser = () => {
           showMessage({ title: errorMessage, status: "error" })
         );
       } else {
-        showMessage({ title: "エラーが発生しました。", status: "error" });
+        showMessage({ title: "サーバーでエラーが発生しました。", status: "error" });
       }
     } finally {
       setLoading(false);
