@@ -1,10 +1,10 @@
 import { isAxiosError } from "axios";
-import { updateUser } from "features/auth/api/auth";
 import { UpdateUserData } from "features/auth/types/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
 import React, { useState } from "react";
+import updateUserApi from "../api/updateUserApi";
 
 const useUpdateUser = () => {
   const { setCurrentUser, setLoading } = useAuth();
@@ -25,7 +25,7 @@ const useUpdateUser = () => {
     };
 
     try {
-      const res = await updateUser(data);
+      const res = await updateUserApi(data);
       if (res.data.status === 403) {
         showMessage({ title: res.data.message, status: "error" });
       } else {
