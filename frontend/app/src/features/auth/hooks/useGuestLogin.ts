@@ -20,8 +20,8 @@ const useGuestLogin = () => {
       setCurrentUser(res.data.data);
       showMessage({ title: "ゲストログインしました。", status: "success" });
       navigate("/home");
-    } catch (err) {
-      showMessage({ title: "エラーが発生しました。", status: "error" });
+    } catch {
+      showMessage({ title: "ゲストログイン時にエラーが発生しました。", status: "error" });
     } finally {
       setLoading(false);
     }
