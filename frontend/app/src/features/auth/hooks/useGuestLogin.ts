@@ -2,7 +2,7 @@ import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
 import { useNavigate } from "react-router-dom";
-import guestLoginApi from "../api/auth";
+import guestLoginApi from "../api/guestLoginApi";
 
 const useGuestLogin = () => {
   const { setIsSignedIn, setCurrentUser, setLoading } = useAuth();
