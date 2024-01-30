@@ -212,10 +212,10 @@ RSpec.describe "Users Api", type: :request do
         nickname: "new_nickname",
         email: "new_guest@example.com"
       }, headers: auth_tokens
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(403)
       @json = JSON.parse(response.body)
       expect(@json["status"]).to eq 403
-      expect(@json["message"]).to eq "ゲストユーザーは許可されていません。"
+      expect(@json["error"]).to eq "ゲストユーザーは許可されていません。"
     end
   end
 
@@ -285,10 +285,10 @@ RSpec.describe "Users Api", type: :request do
         password: "new_password",
         password_confirmation: "new_password"
       }, headers: auth_tokens
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(403)
       @json = JSON.parse(response.body)
       expect(@json["status"]).to eq 403
-      expect(@json["message"]).to eq "ゲストユーザーは許可されていません。"
+      expect(@json["error"]).to eq "ゲストユーザーは許可されていません。"
     end
   end
 
@@ -314,10 +314,10 @@ RSpec.describe "Users Api", type: :request do
     it "ゲストユーザーはアカウントを削除できないこと" do
       auth_tokens = guest_login
       delete api_v1_user_registration_path, headers: auth_tokens
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(403)
       @json = JSON.parse(response.body)
       expect(@json["status"]).to eq 403
-      expect(@json["message"]).to eq "ゲストユーザーは許可されていません。"
+      expect(@json["error"]).to eq "ゲストユーザーは許可されていません。"
     end
   end
 

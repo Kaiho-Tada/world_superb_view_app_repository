@@ -92,38 +92,35 @@ test("アカウント削除エラー時の処理のテスト", async () => {
   expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
 
-test("ゲストユーザーによるアカウント削除時の処理のテスト", async () => {
-  (mockDeleteUserApi as jest.Mock).mockReturnValue({
-    data: { status: 403, message: "ゲストユーザーは許可されていません。" },
-  });
-
-  const { result } = renderHook(() => useDeleteUser());
-  const { handleDeleteUser } = result.current;
-
-  await handleDeleteUser();
-
-  expect(mockSetLoading).toHaveBeenCalledWith(true);
-
-  expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
-  expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
-
-  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
-  expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
-
-  expect(mockUseToast).toHaveBeenCalledWith({
-    title: "ゲストユーザーは許可されていません。",
-    status: "error",
-    position: "top",
-    duration: 5000,
-    isClosable: true,
-  });
-  expect(mockUseToast).toHaveBeenCalledTimes(1);
-
-  expect(mockSetLoading).toHaveBeenCalledWith(false);
-  expect(mockSetLoading).toHaveBeenCalledTimes(2);
-});
-
 describe("アカウント削除失敗時の処理のテスト", () => {
+  test("deleteUserApi関数が403番のステイタスコードを返した際に、適切なエラーメッセージが表示されること", async () => {
+    (mockDeleteUserApi as jest.Mock).mockImplementation(() => {
+      const error = new Error();
+      Object.assign(error, {
+        isAxiosError: true,
+        response: { status: 403, data: { error: "ゲストユーザーは許可されていません。" } },
+      });
+      throw error;
+    });
+
+    const { result } = renderHook(() => useDeleteUser());
+    await result.current.handleDeleteUser();
+
+    expect(mockSetLoading).toHaveBeenCalledWith(true);
+    expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
+    expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
+    expect(mockUseToast).toHaveBeenCalledWith({
+      title: "ゲストユーザーは許可されていません。",
+      status: "error",
+      position: "top",
+      duration: 5000,
+      isClosable: true,
+    });
+    expect(mockUseToast).toHaveBeenCalledTimes(1);
+    expect(mockSetLoading).toHaveBeenCalledWith(false);
+    expect(mockSetLoading).toHaveBeenCalledTimes(2);
+  });
+
   test("deleteUserApi関数が404番のステイタスコードを返した際に、適切なエラーメッセージが表示されること", async () => {
     (mockDeleteUserApi as jest.Mock).mockImplementation(() => {
       const error = new Error();

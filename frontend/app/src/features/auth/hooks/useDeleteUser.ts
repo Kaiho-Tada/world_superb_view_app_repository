@@ -14,19 +14,17 @@ const useDeleteUser = () => {
     setLoading(true);
     try {
       const res = await deleteUserApi();
-      if (res.data.status === 403) {
-        showMessage({ title: res.data.message, status: "error" });
-      } else {
-        Cookies.remove("_access_token");
-        Cookies.remove("_client");
-        Cookies.remove("_uid");
-        setIsSignedIn(false);
-        setCurrentUser(undefined);
-        showMessage({ title: res.data.message, status: "success" });
-        navigate("/login");
-      }
+      Cookies.remove("_access_token");
+      Cookies.remove("_client");
+      Cookies.remove("_uid");
+      setIsSignedIn(false);
+      setCurrentUser(undefined);
+      showMessage({ title: res.data.message, status: "success" });
+      navigate("/login");
     } catch (error) {
-      if (isAxiosError(error) && error.response && error.response.status === 404) {
+      if (isAxiosError(error) && error.response && error.response.status === 403) {
+        showMessage({ title: error.response.data.error, status: "error" });
+      } else if (isAxiosError(error) && error.response && error.response.status === 404) {
         error.response.data.errors.map((errorMessage: string) =>
           showMessage({ title: errorMessage, status: "error" })
         );

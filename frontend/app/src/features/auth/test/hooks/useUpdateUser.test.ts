@@ -227,9 +227,9 @@ test("プロフィール更新エラー時の処理のテスト", async () => {
 });
 
 test("ゲストユーザーによるプロフィール更新時の処理のテスト", async () => {
-  mockAxios.onPut("auth").reply(200, {
+  mockAxios.onPut("auth").reply(403, {
     status: 403,
-    message: "ゲストユーザーは許可されていません。",
+    error: "ゲストユーザーは許可されていません。",
   });
 
   const { result } = renderHook(() => useUpdateUser());

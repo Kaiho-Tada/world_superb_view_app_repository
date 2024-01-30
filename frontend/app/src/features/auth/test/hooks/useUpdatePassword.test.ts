@@ -191,9 +191,9 @@ test("パスワード更新エラー時のテスト", async () => {
 });
 
 test("ゲストユーザーによるパスワード更新時の処理のテスト", async () => {
-  mockAxios.onPut("auth/password").reply(200, {
+  mockAxios.onPut("auth/password").reply(403, {
     status: 403,
-    message: "ゲストユーザーは許可されていません。",
+    error: "ゲストユーザーは許可されていません。",
   });
   const { result } = renderHook(() => useUpdatePassword());
   const { setPassword, setpasswordConfirmation } = result.current;

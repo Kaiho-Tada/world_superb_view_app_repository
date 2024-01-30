@@ -26,15 +26,13 @@ const useUpdateUser = () => {
 
     try {
       const res = await updateUserApi(data);
-      if (res.data.status === 403) {
-        showMessage({ title: res.data.message, status: "error" });
-      } else {
-        Cookies.set("_uid", res.headers.uid);
-        showMessage({ title: "プロフィールを更新しました。", status: "success" });
-        setCurrentUser(res.data.data);
-      }
+      Cookies.set("_uid", res.headers.uid);
+      showMessage({ title: "プロフィールを更新しました。", status: "success" });
+      setCurrentUser(res.data.data);
     } catch (error) {
-      if (isAxiosError(error) && error.response && error.response.status === 422) {
+      if (isAxiosError(error) && error.response && error.response.status === 403) {
+        showMessage({ title: error.response.data.error, status: "error" });
+      } else if (isAxiosError(error) && error.response && error.response.status === 422) {
         error.response.data.errors.fullMessages.map((message: string) =>
           showMessage({ title: message, status: "error" })
         );
