@@ -1,9 +1,9 @@
 import { isAxiosError } from "axios";
-import { signout } from "features/auth/api/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
 import { useNavigate } from "react-router-dom";
+import signout from "../api/signOutApi";
 
 const useSignout = () => {
   const { setLoading, setIsSignedIn, setCurrentUser } = useAuth();
