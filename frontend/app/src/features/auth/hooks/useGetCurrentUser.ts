@@ -1,8 +1,10 @@
+import useMessage from "hooks/useMessage";
 import { useAuth } from "providers/useAuthProvider";
 import getCurrentUserApi from "../api/currentUserApi";
 
 const useGetCurrentUser = () => {
   const { setIsSignedIn, setCurrentUser, setLoading } = useAuth();
+  const { showMessage } = useMessage();
 
   const handelGetCurrentUser = async () => {
     setLoading(true);
@@ -12,8 +14,9 @@ const useGetCurrentUser = () => {
         setIsSignedIn(true);
         setCurrentUser(res.data.currentUser);
       }
-      setLoading(false);
-    } catch (err) {
+    } catch {
+      showMessage({ title: "current_user取得時にエラーが発生しました。", status: "error" });
+    } finally {
       setLoading(false);
     }
   };
