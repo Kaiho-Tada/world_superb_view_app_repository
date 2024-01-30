@@ -1,9 +1,9 @@
 import { isAxiosError } from "axios";
-import { deleteUser } from "features/auth/api/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
 import { useNavigate } from "react-router-dom";
+import deleteUserApi from "../api/deleteUserApi";
 
 const useDeleteUser = () => {
   const { setCurrentUser, setLoading, setIsSignedIn } = useAuth();
@@ -13,7 +13,7 @@ const useDeleteUser = () => {
   const handleDeleteUser = async () => {
     setLoading(true);
     try {
-      const res = await deleteUser();
+      const res = await deleteUserApi();
       if (res.data.status === 403) {
         showMessage({ title: res.data.message, status: "error" });
       } else {

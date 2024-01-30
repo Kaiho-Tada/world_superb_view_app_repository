@@ -1,8 +1,8 @@
-import { guestLogin } from "features/auth/api/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
 import { useNavigate } from "react-router-dom";
+import guestLoginApi from "../api/auth";
 
 const useGuestLogin = () => {
   const { setIsSignedIn, setCurrentUser, setLoading } = useAuth();
@@ -12,7 +12,7 @@ const useGuestLogin = () => {
     setLoading(true);
 
     try {
-      const res = await guestLogin();
+      const res = await guestLoginApi();
       Cookies.set("_access_token", res.headers["access-token"]);
       Cookies.set("_client", res.headers.client);
       Cookies.set("_uid", res.headers.uid);
