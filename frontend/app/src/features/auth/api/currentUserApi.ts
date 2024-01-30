@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import client from "lib/client";
 
-const getCurrentUser = () =>
+const getCurrentUserApi = () =>
   client.get("auth/sessions", {
     headers: {
       "access-token": Cookies.get("_access_token"),
@@ -9,4 +9,4 @@ const getCurrentUser = () =>
       uid: Cookies.get("_uid"),
     },
   });
-export default getCurrentUser;
+export default getCurrentUserApi;

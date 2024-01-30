@@ -3,7 +3,7 @@ import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
 import { useNavigate } from "react-router-dom";
-import signout from "../api/signOutApi";
+import signoutApi from "../api/signOutApi";
 
 const useSignout = () => {
   const { setLoading, setIsSignedIn, setCurrentUser } = useAuth();
@@ -13,7 +13,7 @@ const useSignout = () => {
   const handleSignout = async () => {
     setLoading(true);
     try {
-      await signout();
+      await signoutApi();
       Cookies.remove("_access_token");
       Cookies.remove("_client");
       Cookies.remove("_uid");

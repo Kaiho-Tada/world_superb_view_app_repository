@@ -1,5 +1,5 @@
 import MockAdapter from "axios-mock-adapter";
-import signout from "features/auth/api/signOutApi";
+import signoutApi from "features/auth/api/signOutApi";
 import Cookies from "js-cookie";
 import client from "lib/client";
 
@@ -10,8 +10,8 @@ jest.mock("js-cookie", () => ({
 const mockAxios = new MockAdapter(client);
 mockAxios.onDelete("auth/sign_out").reply(200);
 
-test("signout関数が意図したURLにDELETEリクエストを送信し、意図したステイタスコードが返されること", async () => {
-  const response = await signout();
+test("signoutApi関数が意図したURLにDELETEリクエストを送信し、意図したステイタスコードが返されること", async () => {
+  const response = await signoutApi();
   expect(Cookies.get).toHaveBeenCalledWith("_access_token");
   expect(Cookies.get).toHaveBeenCalledWith("_client");
   expect(Cookies.get).toHaveBeenCalledWith("_uid");

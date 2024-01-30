@@ -4,7 +4,7 @@ import useMessage from "hooks/useMessage";
 import { useAuth } from "providers/useAuthProvider";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import signUp from "../api/signUpApi";
+import signUpApi from "../api/signUpApi";
 
 const useSignUp = () => {
   const { setLoading } = useAuth();
@@ -25,7 +25,7 @@ const useSignUp = () => {
     };
 
     try {
-      await signUp(data);
+      await signUpApi(data);
       showMessage({
         title:
           "登録メールアドレスにユーザー認証メールを送信しました。認証が完了しましたら、ログインしてください。",

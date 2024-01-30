@@ -1,5 +1,5 @@
 import MockAdapter from "axios-mock-adapter";
-import login from "features/auth/api/loginApi";
+import loginApi from "features/auth/api/loginApi";
 import client from "lib/client";
 
 const mockAxios = new MockAdapter(client);
@@ -9,8 +9,8 @@ mockAxios.onPost("/auth/sign_in").reply((config) => {
   return [200, data];
 });
 
-test("login関数が意図したURLにPOSTリクエストを送信し、意図したステイタスコードとデータが返されること", async () => {
-  const response = await login({
+test("loginApi関数が意図したURLにPOSTリクエストを送信し、意図したステイタスコードとデータが返されること", async () => {
+  const response = await loginApi({
     email: "test@example.com",
     password: "password",
   });

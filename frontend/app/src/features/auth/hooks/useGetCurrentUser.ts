@@ -1,5 +1,5 @@
 import { useAuth } from "providers/useAuthProvider";
-import getCurrentUser from "../api/currentUserApi";
+import getCurrentUserApi from "../api/currentUserApi";
 
 const useGetCurrentUser = () => {
   const { setIsSignedIn, setCurrentUser, setLoading } = useAuth();
@@ -7,7 +7,7 @@ const useGetCurrentUser = () => {
   const handelGetCurrentUser = async () => {
     setLoading(true);
     try {
-      const res = await getCurrentUser();
+      const res = await getCurrentUserApi();
       if (res.data.status === 200) {
         setIsSignedIn(true);
         setCurrentUser(res.data.currentUser);

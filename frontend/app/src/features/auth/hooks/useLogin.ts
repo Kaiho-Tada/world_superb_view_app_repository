@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import login from "../api/loginApi";
+import loginApi from "../api/loginApi";
 
 const useLogin = () => {
   const { setIsSignedIn, setCurrentUser, setLoading } = useAuth();
@@ -23,7 +23,7 @@ const useLogin = () => {
       password,
     };
     try {
-      const res = await login(data);
+      const res = await loginApi(data);
       showMessage({ title: "ログインしました", status: "success" });
 
       Cookies.set("_access_token", res.headers["access-token"]);

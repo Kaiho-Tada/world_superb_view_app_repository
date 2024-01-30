@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import client from "lib/client";
 
-const signout = () =>
+const signoutApi = () =>
   client.delete("auth/sign_out", {
     headers: {
       "access-token": Cookies.get("_access_token"),
@@ -9,4 +9,4 @@ const signout = () =>
       uid: Cookies.get("_uid"),
     },
   });
-export default signout;
+export default signoutApi;

@@ -1,5 +1,5 @@
 import MockAdapter from "axios-mock-adapter";
-import getCurrentUser from "features/auth/api/currentUserApi";
+import getCurrentUserApi from "features/auth/api/currentUserApi";
 import Cookies from "js-cookie";
 import client from "lib/client";
 
@@ -18,8 +18,8 @@ mockAxios.onGet("auth/sessions").reply(200, {
   },
 });
 
-test("getCurrentUser関数が意図したURLにGETリクエストを送信し、意図したステイタスコードとデータが返されること", async () => {
-  const response = await getCurrentUser();
+test("getCurrentUserApi関数が意図したURLにGETリクエストを送信し、意図したステイタスコードとデータが返されること", async () => {
+  const response = await getCurrentUserApi();
   expect(Cookies.get).toHaveBeenCalledWith("_access_token");
   expect(Cookies.get).toHaveBeenCalledWith("_client");
   expect(Cookies.get).toHaveBeenCalledWith("_uid");
