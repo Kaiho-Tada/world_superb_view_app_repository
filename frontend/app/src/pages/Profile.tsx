@@ -74,7 +74,7 @@ const Profile = memo(() => {
                 value={name}
                 onChange={onChangeName}
                 shadow="2xl"
-                aria-label="name"
+                aria-label="名前の記入欄"
               />
             </FormControl>
             <FormControl>
@@ -86,7 +86,7 @@ const Profile = memo(() => {
                 value={nickname}
                 onChange={onChangeNickname}
                 shadow="2xl"
-                aria-label="nickName"
+                aria-label="ニックネームの記入欄"
               />
             </FormControl>
             <FormControl>
@@ -98,7 +98,7 @@ const Profile = memo(() => {
                 value={email}
                 onChange={onChangeEmail}
                 shadow="2xl"
-                aria-label="email"
+                aria-label="Eメールの記入欄"
               />
             </FormControl>
             <Box textAlign="center" mt="6">
@@ -122,7 +122,7 @@ const Profile = memo(() => {
                 type="password"
                 value={password}
                 onChange={onChangePassword}
-                aria-label="password"
+                aria-label="パスワードの記入欄"
               />
             </FormControl>
             <FormControl>
@@ -136,7 +136,7 @@ const Profile = memo(() => {
                 type="password"
                 value={passwordConfirmation}
                 onChange={onChangepasswordConfirmation}
-                aria-label="passwordConfirmation"
+                aria-label="パスワード(確認)の記入欄"
               />
             </FormControl>
           </Stack>
