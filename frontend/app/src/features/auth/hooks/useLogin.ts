@@ -24,15 +24,12 @@ const useLogin = () => {
     };
     try {
       const res = await loginApi(data);
-      showMessage({ title: "ログインしました", status: "success" });
-
       Cookies.set("_access_token", res.headers["access-token"]);
       Cookies.set("_client", res.headers.client);
       Cookies.set("_uid", res.headers.uid);
-
       setIsSignedIn(true);
       setCurrentUser(res.data.data);
-
+      showMessage({ title: "ログインしました。", status: "success" });
       navigate("/home");
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 401) {
@@ -40,7 +37,7 @@ const useLogin = () => {
           showMessage({ title: errorMessage, status: "error" })
         );
       } else {
-        showMessage({ title: "エラーが発生しました。", status: "error" });
+        showMessage({ title: "ログイン中にエラーが発生しました。", status: "error" });
       }
     }
     setLoading(false);
