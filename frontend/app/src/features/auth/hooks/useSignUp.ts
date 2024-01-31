@@ -8,7 +8,6 @@ import signUpApi from "../api/signUpApi";
 
 const useSignUp = () => {
   const { setLoading } = useAuth();
-
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { showMessage } = useMessage();
@@ -38,7 +37,7 @@ const useSignUp = () => {
           showMessage({ title: message, status: "error" })
         );
       } else {
-        showMessage({ title: "エラーが発生しました。", status: "error" });
+        showMessage({ title: "サインアップ時にエラーが発生しました。", status: "error" });
       }
     }
     setLoading(false);
