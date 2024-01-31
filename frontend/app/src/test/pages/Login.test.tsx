@@ -93,7 +93,7 @@ test("AuthContextのloadingの値がtrueの場合はログインボタンがload
   );
   spyOnUseAuthProvider.mockReturnValue({ loading: true });
   render(<Login />);
-  expect(screen.getByTestId("loginButton")).toBeDisabled();
+  expect(screen.getByTestId("auth-button")).toBeDisabled();
 });
 
 test("ログインボタン押下でhandleLogin関数が実行されること", async () => {

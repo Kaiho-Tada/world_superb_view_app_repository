@@ -113,7 +113,7 @@ test("AuthContextのloadingの値がtrueの場合は新規登録ボタンがload
   spyOnUseAuthProvider.mockReturnValue({ loading: true });
 
   render(<SignUp />);
-  expect(screen.getByTestId("loginButton")).toBeDisabled();
+  expect(screen.getByTestId("auth-button")).toBeDisabled();
 });
 
 test("新規登録ボタン押下でhandleSignUp関数が呼び出されること", async () => {

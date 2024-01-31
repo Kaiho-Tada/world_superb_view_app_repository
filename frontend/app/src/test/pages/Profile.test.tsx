@@ -307,7 +307,7 @@ test("AuthContextのloadingの値がtrueの場合はAuthButtonがloading中で�
   spyOnUseAuthProvider.mockReturnValue({ loading: true });
 
   render(<Profile />);
-  const authButtons = screen.getAllByTestId("loginButton");
+  const authButtons = screen.getAllByTestId("auth-button");
   authButtons.forEach((button) => {
     expect(button).toBeDisabled();
   });

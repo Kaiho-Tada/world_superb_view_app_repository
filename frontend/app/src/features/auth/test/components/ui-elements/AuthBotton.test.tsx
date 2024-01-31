@@ -30,8 +30,7 @@ describe("AuthButtonのテスト", () => {
         テストボタン
       </AuthButton>
     );
-    const Button = screen.getByRole("button");
-    expect(Button).toBeDisabled();
+    expect(screen.getByTestId("auth-button")).toBeDisabled();
   });
 
   test("AuthButton押下でpropsで渡した関数が呼び出されること", async () => {
