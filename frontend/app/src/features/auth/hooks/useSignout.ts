@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import signoutApi from "../api/signOutApi";
 
 const useSignout = () => {
-  const { setLoading, setIsSignedIn, setCurrentUser } = useAuth();
+  const { setIsSignedIn, setCurrentUser, setLoading } = useAuth();
   const { showMessage } = useMessage();
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const useSignout = () => {
           showMessage({ title: errorMessage, status: "error" })
         );
       } else {
-        showMessage({ title: "エラーが発生しました。", status: "error" });
+        showMessage({ title: "サインアウト時にエラーが発生しました。", status: "error" });
       }
     }
     setLoading(false);
