@@ -86,7 +86,28 @@ test("ログインボタンが表示されていること", () => {
   expect(screen.getByRole("button", { name: "ログイン" })).toBeInTheDocument();
 });
 
+test("emailとpasswordが未入力である場合、ログインボタンが非アクティブであること", () => {
+  render(<Login />);
+  expect(screen.getByRole("button", { name: "ログイン" })).toBeDisabled();
+});
+
+test("emailとpassword入力で、ログインボタンがアクティブになること", async () => {
+  const user = userEvent.setup();
+  render(<Login />);
+  await act(async () => {
+    await user.type(screen.getByRole("textbox", { name: "email" }), "Eメール");
+    await user.type(screen.getByLabelText("password"), "パスワード");
+  });
+  expect(screen.getByRole("button", { name: "ログイン" })).not.toBeDisabled();
+});
+
 test("AuthContextのloadingの値がtrueの場合はログインボタンがloading中であること", () => {
+  const spyOnUseLogin = jest.spyOn(jest.requireActual("features/auth/hooks/useLogin"), "default");
+  spyOnUseLogin.mockReturnValue({
+    email: "",
+    password: "",
+  });
+
   const spyOnUseAuthProvider = jest.spyOn(
     jest.requireActual("providers/useAuthProvider"),
     "useAuth"
