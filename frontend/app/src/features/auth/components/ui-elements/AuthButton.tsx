@@ -17,6 +17,7 @@ const AuthButton: FC<Props> = memo((props) => {
       onClick={onClick}
       isLoading={loading}
       isDisabled={isDisabled || loading}
+      data-testid="loginButton"
     >
       {children}
     </Button>
