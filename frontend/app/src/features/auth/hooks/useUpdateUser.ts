@@ -8,7 +8,6 @@ import updateUserApi from "../api/updateUserApi";
 
 const useUpdateUser = () => {
   const { setCurrentUser, setLoading } = useAuth();
-
   const [name, setName] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -27,8 +26,8 @@ const useUpdateUser = () => {
     try {
       const res = await updateUserApi(data);
       Cookies.set("_uid", res.headers.uid);
-      showMessage({ title: "プロフィールを更新しました。", status: "success" });
       setCurrentUser(res.data.data);
+      showMessage({ title: "プロフィールを更新しました。", status: "success" });
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 403) {
         showMessage({ title: error.response.data.error, status: "error" });
@@ -37,7 +36,7 @@ const useUpdateUser = () => {
           showMessage({ title: message, status: "error" })
         );
       } else {
-        showMessage({ title: "エラーが発生しました。", status: "error" });
+        showMessage({ title: "プロフィール更新時にエラーが発生しました。", status: "error" });
       }
     } finally {
       setLoading(false);
