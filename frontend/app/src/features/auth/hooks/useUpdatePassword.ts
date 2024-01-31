@@ -32,7 +32,7 @@ const useUpdatePassword = () => {
           showMessage({ title: message, status: "error" })
         );
       } else {
-        showMessage({ title: "エラーが発生しました。", status: "error" });
+        showMessage({ title: "パスワード更新時にエラーが発生しました。", status: "error" });
       }
     } finally {
       setLoading(false);
