@@ -1,5 +1,4 @@
 import { act, renderHook } from "@testing-library/react";
-import mockSignUpApi from "features/auth/api/signUpApi";
 import useSignUp from "features/auth/hooks/useSignUp";
 
 const mockSetLoading = jest.fn();
@@ -22,18 +21,19 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockUseNavigate,
 }));
 
-jest.mock("features/auth/api/signUpApi", () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
+const spyOnSignUpApi = jest.spyOn(jest.requireActual("features/auth/api/signUpApi"), "default");
+afterEach(() => {
+  spyOnSignUpApi.mockClear();
+});
 
 test("サインアップ成功時の処理のテスト", async () => {
   const { result } = renderHook(() => useSignUp());
-  const { setEmail, setPassword, handleSignUp } = result.current;
+  const { setEmail, setPassword } = result.current;
   await act(async () => {
     setEmail("test@example.com");
     setPassword("password");
   });
+  const { handleSignUp } = result.current;
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
   };
@@ -42,6 +42,11 @@ test("サインアップ成功時の処理のテスト", async () => {
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(spyOnSignUpApi).toHaveBeenCalledWith({
+    email: "test@example.com",
+    password: "password",
+    confirm_success_url: "http://localhost:3000/login",
+  });
   expect(mockUseToast).toHaveBeenCalledWith({
     title:
       "登録メールアドレスにユーザー認証メールを送信しました。認証が完了しましたら、ログインしてください。",
@@ -58,7 +63,7 @@ test("サインアップ成功時の処理のテスト", async () => {
 });
 
 test("signUpApi関数が422番のステイタスコードを返した際に、適切なエラーメッセージが表示されること", async () => {
-  (mockSignUpApi as jest.Mock).mockImplementation(() => {
+  spyOnSignUpApi.mockImplementation(() => {
     const error = new Error();
     Object.assign(error, {
       isAxiosError: true,
@@ -76,13 +81,13 @@ test("signUpApi関数が422番のステイタスコードを返した際に、�
     });
     throw error;
   });
-
   const { result } = renderHook(() => useSignUp());
-  const { setEmail, setPassword, handleSignUp } = result.current;
+  const { setEmail, setPassword } = result.current;
   await act(async () => {
-    setEmail("test.example.com");
+    setEmail("test@example.com");
     setPassword("password");
   });
+  const { handleSignUp } = result.current;
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
   };
@@ -91,6 +96,11 @@ test("signUpApi関数が422番のステイタスコードを返した際に、�
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(spyOnSignUpApi).toHaveBeenCalledWith({
+    email: "test@example.com",
+    password: "password",
+    confirm_success_url: "http://localhost:3000/login",
+  });
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "Eメールは有効ではありません",
     status: "error",
@@ -112,20 +122,25 @@ test("signUpApi関数が422番のステイタスコードを返した際に、�
 });
 
 test("サインアップエラー時の処理のテスト", async () => {
-  (mockSignUpApi as jest.Mock).mockRejectedValue(new Error());
-
+  spyOnSignUpApi.mockRejectedValue(new Error());
   const { result } = renderHook(() => useSignUp());
-  const { setEmail, setPassword, handleSignUp } = result.current;
+  const { setEmail, setPassword } = result.current;
   await act(async () => {
     setEmail("test@example.com");
     setPassword("password");
   });
+  const { handleSignUp } = result.current;
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
   };
   await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(spyOnSignUpApi).toHaveBeenCalledWith({
+    email: "test@example.com",
+    password: "password",
+    confirm_success_url: "http://localhost:3000/login",
+  });
   expect(mockUseNavigate).toHaveBeenCalledTimes(0);
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "サインアップ時にエラーが発生しました。",

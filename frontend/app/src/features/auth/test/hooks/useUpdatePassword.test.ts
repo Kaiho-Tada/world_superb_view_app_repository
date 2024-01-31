@@ -1,5 +1,4 @@
 import { renderHook } from "@testing-library/react";
-import mockUpdatePasswordApi from "features/auth/api/updatePasswordApi";
 import useUpdatePassword from "features/auth/hooks/useUpdatePassword";
 import { act } from "react-dom/test-utils";
 
@@ -17,22 +16,26 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-jest.mock("features/auth/api/updatePasswordApi", () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
+const spyOnUpdatePasswordApi = jest.spyOn(
+  jest.requireActual("features/auth/api/updatePasswordApi"),
+  "default"
+);
+afterEach(() => {
+  spyOnUpdatePasswordApi.mockClear();
+});
 
 test("パスワード更新成功時の処理のテスト", async () => {
-  (mockUpdatePasswordApi as jest.Mock).mockReturnValue({
+  spyOnUpdatePasswordApi.mockReturnValue({
     data: { message: "パスワードの更新に成功しました。" },
   });
 
   const { result } = renderHook(() => useUpdatePassword());
-  const { setPassword, setpasswordConfirmation, handleUpdatePassword } = result.current;
+  const { setPassword, setpasswordConfirmation } = result.current;
   await act(async () => {
-    setPassword("new_password");
-    setpasswordConfirmation("new_password");
+    setPassword("password");
+    setpasswordConfirmation("password");
   });
+  const { handleUpdatePassword } = result.current;
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
   };
@@ -41,6 +44,10 @@ test("パスワード更新成功時の処理のテスト", async () => {
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(spyOnUpdatePasswordApi).toHaveBeenCalledWith({
+    password: "password",
+    passwordConfirmation: "password",
+  });
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "パスワードの更新に成功しました。",
     status: "success",
@@ -54,20 +61,24 @@ test("パスワード更新成功時の処理のテスト", async () => {
 });
 
 test("パスワード更新エラー時のテスト", async () => {
-  (mockUpdatePasswordApi as jest.Mock).mockRejectedValue(new Error());
-
+  spyOnUpdatePasswordApi.mockRejectedValue(new Error());
   const { result } = renderHook(() => useUpdatePassword());
-  const { setPassword, setpasswordConfirmation, handleUpdatePassword } = result.current;
+  const { setPassword, setpasswordConfirmation } = result.current;
   await act(async () => {
-    setPassword("new_passward");
-    setpasswordConfirmation("new_password");
+    setPassword("password");
+    setpasswordConfirmation("password");
   });
+  const { handleUpdatePassword } = result.current;
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
   };
   await handleUpdatePassword(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(spyOnUpdatePasswordApi).toHaveBeenCalledWith({
+    password: "password",
+    passwordConfirmation: "password",
+  });
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "パスワード更新時にエラーが発生しました。",
     status: "error",
@@ -82,7 +93,7 @@ test("パスワード更新エラー時のテスト", async () => {
 
 describe("パスワード更新失敗時の処理のテスト", () => {
   test("updatePasswordApi関数が403番のステイタスコードを返した際に、適切なエラーメッセージが表示されること", async () => {
-    (mockUpdatePasswordApi as jest.Mock).mockImplementation(() => {
+    spyOnUpdatePasswordApi.mockImplementation(() => {
       const error = new Error();
       Object.assign(error, {
         isAxiosError: true,
@@ -92,17 +103,22 @@ describe("パスワード更新失敗時の処理のテスト", () => {
     });
 
     const { result } = renderHook(() => useUpdatePassword());
-    const { setPassword, setpasswordConfirmation, handleUpdatePassword } = result.current;
+    const { setPassword, setpasswordConfirmation } = result.current;
     await act(async () => {
-      setPassword("new_passward");
-      setpasswordConfirmation("new_password");
+      setPassword("password");
+      setpasswordConfirmation("password");
     });
+    const { handleUpdatePassword } = result.current;
     const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
       preventDefault: jest.fn(),
     };
     await handleUpdatePassword(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
 
     expect(mockSetLoading).toHaveBeenCalledWith(true);
+    expect(spyOnUpdatePasswordApi).toHaveBeenCalledWith({
+      password: "password",
+      passwordConfirmation: "password",
+    });
     expect(mockUseToast).toHaveBeenCalledWith({
       title: "ゲストユーザーは許可されていません。",
       status: "error",
@@ -116,7 +132,7 @@ describe("パスワード更新失敗時の処理のテスト", () => {
   });
 
   test("updatePasswordApi関数が422番のステイタスコードを返した際に、適切なエラーメッセージが表示されること", async () => {
-    (mockUpdatePasswordApi as jest.Mock).mockImplementation(() => {
+    spyOnUpdatePasswordApi.mockImplementation(() => {
       const error = new Error();
       Object.assign(error, {
         isAxiosError: true,
@@ -136,11 +152,12 @@ describe("パスワード更新失敗時の処理のテスト", () => {
     });
 
     const { result } = renderHook(() => useUpdatePassword());
-    const { setPassword, setpasswordConfirmation, handleUpdatePassword } = result.current;
+    const { setPassword, setpasswordConfirmation } = result.current;
     await act(async () => {
-      setPassword("new_password");
-      setpasswordConfirmation("new_password");
+      setPassword("password");
+      setpasswordConfirmation("password");
     });
+    const { handleUpdatePassword } = result.current;
     const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
       preventDefault: jest.fn(),
     };
@@ -149,6 +166,10 @@ describe("パスワード更新失敗時の処理のテスト", () => {
     });
 
     expect(mockSetLoading).toHaveBeenCalledWith(true);
+    expect(spyOnUpdatePasswordApi).toHaveBeenCalledWith({
+      password: "password",
+      passwordConfirmation: "password",
+    });
     expect(mockUseToast).toHaveBeenCalledWith({
       title: "パスワードは6文字以上で入力してください",
       status: "error",

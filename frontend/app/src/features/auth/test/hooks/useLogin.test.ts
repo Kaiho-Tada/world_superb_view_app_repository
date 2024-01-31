@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import { act, renderHook } from "@testing-library/react";
-import mockLoginApi from "features/auth/api/loginApi";
 import useLogin from "features/auth/hooks/useLogin";
 import Cookies from "js-cookie";
 
@@ -33,24 +32,24 @@ jest.mock("js-cookie", () => ({
   set: jest.fn(),
 }));
 
-jest.mock("features/auth/api/loginApi", () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
+const spyOnLoginApi = jest.spyOn(jest.requireActual("features/auth/api/loginApi"), "default");
+afterEach(() => {
+  spyOnLoginApi.mockClear();
+});
 
 test("ログイン成功時のテスト", async () => {
-  (mockLoginApi as jest.Mock).mockReturnValue({
+  spyOnLoginApi.mockReturnValue({
     data: { data: { id: 1, email: "test@example.com" } },
     headers: { "access-token": "access-token", client: "client", uid: "uid" },
   });
 
   const { result } = renderHook(() => useLogin());
-  const { setEmail, setPassword, handleLogin } = result.current;
+  const { setEmail, setPassword } = result.current;
   await act(async () => {
     setEmail("test@example.com");
     setPassword("password");
   });
-
+  const { handleLogin } = result.current;
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
   };
@@ -59,6 +58,7 @@ test("ログイン成功時のテスト", async () => {
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(spyOnLoginApi).toHaveBeenCalledWith({ email: "test@example.com", password: "password" });
   expect(Cookies.set).toHaveBeenCalledWith("_access_token", "access-token");
   expect(Cookies.set).toHaveBeenCalledWith("_client", "client");
   expect(Cookies.set).toHaveBeenCalledWith("_uid", "uid");
@@ -81,7 +81,7 @@ test("ログイン成功時のテスト", async () => {
 });
 
 test("ログイン失敗時のテスト", async () => {
-  (mockLoginApi as jest.Mock).mockImplementation(() => {
+  spyOnLoginApi.mockImplementation(() => {
     const error = new Error();
     Object.assign(error, {
       isAxiosError: true,
@@ -94,12 +94,12 @@ test("ログイン失敗時のテスト", async () => {
   });
 
   const { result } = renderHook(() => useLogin());
-  const { handleLogin, setEmail, setPassword } = result.current;
+  const { setEmail, setPassword } = result.current;
   await act(async () => {
     setEmail("test@example.com");
-    setPassword("incorrect-password");
+    setPassword("password");
   });
-
+  const { handleLogin } = result.current;
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
   };
@@ -108,6 +108,7 @@ test("ログイン失敗時のテスト", async () => {
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(spyOnLoginApi).toHaveBeenCalledWith({ email: "test@example.com", password: "password" });
   expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
   expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
   expect(mockUseNavigate).toHaveBeenCalledTimes(0);
@@ -124,15 +125,15 @@ test("ログイン失敗時のテスト", async () => {
 });
 
 test("ログインエラー時のテスト", async () => {
-  (mockLoginApi as jest.Mock).mockRejectedValue(new Error());
+  spyOnLoginApi.mockRejectedValue(new Error());
 
   const { result } = renderHook(() => useLogin());
-  const { handleLogin, setEmail, setPassword } = result.current;
+  const { setEmail, setPassword } = result.current;
   await act(async () => {
     setEmail("test@example.com");
-    setPassword("incorrect-password");
+    setPassword("password");
   });
-
+  const { handleLogin } = result.current;
   const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
     preventDefault: jest.fn(),
   };
@@ -141,6 +142,7 @@ test("ログインエラー時のテスト", async () => {
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(spyOnLoginApi).toHaveBeenCalledWith({ email: "test@example.com", password: "password" });
   expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
   expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
   expect(mockUseNavigate).toHaveBeenCalledTimes(0);
