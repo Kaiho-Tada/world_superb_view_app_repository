@@ -115,15 +115,17 @@ describe("プロフィール更新フォームのテスト", () => {
   });
 
   test("emailが未入力の場合はプロフィール更新ボタンが非アクティブであること", () => {
-    const spyOnUseUpdateUser = jest.spyOn(
-      jest.requireActual("features/auth/hooks/useUpdateUser"),
-      "default"
-    );
-    spyOnUseUpdateUser.mockReturnValue({
-      email: "",
-    });
     render(<Profile />);
     expect(screen.getByRole("button", { name: "プロフィール更新" })).toBeDisabled();
+  });
+
+  test("emailの入力でプロフィール更新ボタンがアクティブになること", async () => {
+    const user = userEvent.setup();
+    render(<Profile />);
+    await act(async () => {
+      await user.type(screen.getByRole("textbox", { name: "Eメールの記入欄" }), "Eメール");
+    });
+    expect(screen.getByRole("button", { name: "プロフィール更新" })).toBeEnabled();
   });
 
   test("プロフィール更新ボタン押下でhandleUpdateUser関数が呼び出されること", async () => {
@@ -206,30 +208,20 @@ describe("パスワード更新フォームのテスト", () => {
     expect(screen.getByRole("button", { name: "パスワード更新" })).toBeInTheDocument();
   });
 
-  test("passwordが未入力の場合はパスワード更新ボタンが非アクティブであること", () => {
-    const spyOnUseUpdatePassword = jest.spyOn(
-      jest.requireActual("features/auth/hooks/useUpdatePassword"),
-      "default"
-    );
-    spyOnUseUpdatePassword.mockReturnValue({
-      password: "",
-    });
-
+  test("passwordとpasswordConfirmationが未入力の場合はパスワード更新ボタンが非アクティブであること", () => {
     render(<Profile />);
     expect(screen.getByRole("button", { name: "パスワード更新" })).toBeDisabled();
   });
 
-  test("passwordConfirmationが未入力の場合はパスワード更新ボタンが非アクティブであること", () => {
-    const spyOnUseUpdatePassword = jest.spyOn(
-      jest.requireActual("features/auth/hooks/useUpdatePassword"),
-      "default"
-    );
-    spyOnUseUpdatePassword.mockReturnValue({
-      passwordConfirmation: "",
-    });
+  test("passwordとpasswordConfirmation入力でパスワード更新ボタンがアクティブになること", async () => {
+    const user = userEvent.setup();
 
     render(<Profile />);
-    expect(screen.getByRole("button", { name: "パスワード更新" })).toBeDisabled();
+    await act(async () => {
+      await user.type(screen.getByLabelText("パスワードの記入欄"), "Eメール");
+      await user.type(screen.getByLabelText("パスワード(確認)の記入欄"), "パスワード");
+    });
+    expect(screen.getByRole("button", { name: "パスワード更新" })).toBeEnabled();
   });
 
   test("パスワード更新ボタン押下でhandleUpdatePassword関数が呼び出されること", async () => {
