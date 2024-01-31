@@ -63,7 +63,7 @@ const Profile = memo(() => {
       >
         <Text fontSize="2xl">プロフィール</Text>
         <Divider mt="4" mb="4" />
-        <Box>
+        <form>
           <Stack>
             <FormControl>
               <Flex align="center">
@@ -107,48 +107,50 @@ const Profile = memo(() => {
               </AuthButton>
             </Box>
           </Stack>
-        </Box>
+        </form>
         <Divider mt="6" mb="4" />
         <Box>
-          <Stack>
-            <FormControl>
-              <Flex align="center">
-                <FormLabel as="h4">パスワード</FormLabel>
-              </Flex>
-              <Input
-                placeholder="6文字以上の半角英数字"
-                size="sm"
-                shadow="2xl"
-                type="password"
-                value={password}
-                onChange={onChangePassword}
-                aria-label="パスワードの記入欄"
-              />
-            </FormControl>
-            <FormControl>
-              <Flex align="center">
-                <FormLabel as="h4">パスワード(確認)</FormLabel>
-              </Flex>
-              <Input
-                placeholder="パスワードを確認してください"
-                size="sm"
-                shadow="2xl"
-                type="password"
-                value={passwordConfirmation}
-                onChange={onChangepasswordConfirmation}
-                aria-label="パスワード(確認)の記入欄"
-              />
-            </FormControl>
-          </Stack>
-          <Box textAlign="center" mt="6">
-            <AuthButton
-              loading={loading}
-              isDisabled={password === "" || passwordConfirmation === ""}
-              onClick={handleUpdatePassword}
-            >
-              パスワード更新
-            </AuthButton>
-          </Box>
+          <form>
+            <Stack>
+              <FormControl>
+                <Flex align="center">
+                  <FormLabel as="h4">パスワード</FormLabel>
+                </Flex>
+                <Input
+                  placeholder="6文字以上の半角英数字"
+                  size="sm"
+                  shadow="2xl"
+                  type="password"
+                  value={password}
+                  onChange={onChangePassword}
+                  aria-label="パスワードの記入欄"
+                />
+              </FormControl>
+              <FormControl>
+                <Flex align="center">
+                  <FormLabel as="h4">パスワード(確認)</FormLabel>
+                </Flex>
+                <Input
+                  placeholder="パスワードを確認してください"
+                  size="sm"
+                  shadow="2xl"
+                  type="password"
+                  value={passwordConfirmation}
+                  onChange={onChangepasswordConfirmation}
+                  aria-label="パスワード(確認)の記入欄"
+                />
+              </FormControl>
+            </Stack>
+            <Box textAlign="center" mt="6">
+              <AuthButton
+                loading={loading}
+                isDisabled={password === "" || passwordConfirmation === ""}
+                onClick={handleUpdatePassword}
+              >
+                パスワード更新
+              </AuthButton>
+            </Box>
+          </form>
           <Divider mt="6" mb="6" />
           <Box mb="5">
             <Button variant="secoundary" size="sm" onClick={onClickHome}>

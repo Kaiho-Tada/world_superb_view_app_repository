@@ -12,6 +12,7 @@ const AuthButton: FC<Props> = memo((props) => {
   const { children, isDisabled = false, loading = false, onClick } = props;
   return (
     <Button
+      type="submit"
       variant="primaryA"
       size="sm"
       onClick={onClick}

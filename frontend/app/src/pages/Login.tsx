@@ -32,51 +32,59 @@ const Login: FC = memo(() => {
           <Text as="h3" fontSize="xl" textAlign="center" mt={3}>
             ログイン
           </Text>
-          <Stack spacing={4} px={6} py={2}>
-            <FormControl>
-              <Flex align="center">
-                <EmailIcon role="img" aria-label="メールアイコン" mr="3" boxSize={5} pb="1.5" />
-                <FormLabel as="h4">Email</FormLabel>
-              </Flex>
-              <Input
-                size="sm"
-                value={email}
-                onChange={onChangeEmail}
-                shadow="2xl"
-                aria-label="email"
-              />
-            </FormControl>
-            <FormControl>
-              <Flex align="center">
-                <LockIcon role="img" aria-label="パスワードアイコン" mr="3" boxSize={5} pb="1.5" />
-                <FormLabel as="h4">パスワード</FormLabel>
-              </Flex>
-              <Input
-                size="sm"
-                placeholder="6文字以上の半角英数字"
-                type="password"
-                value={password}
-                onChange={onChangePassword}
-                shadow="2xl"
-                aria-label="password"
-              />
-            </FormControl>
-          </Stack>
-          <Box textAlign="center" mt="6">
-            <AuthButton
-              loading={loading}
-              isDisabled={email === "" || password === ""}
-              onClick={handleLogin}
-            >
-              ログイン
-            </AuthButton>
-          </Box>
-          <Divider mt="6" mb="6" />
-          <Box textAlign="center">
-            <Button variant="primaryC" size="sm" onClick={handleGuestLogin}>
-              ゲストログイン
-            </Button>
-          </Box>
+          <form>
+            <Stack spacing={4} px={6} py={2}>
+              <FormControl>
+                <Flex align="center">
+                  <EmailIcon role="img" aria-label="メールアイコン" mr="3" boxSize={5} pb="1.5" />
+                  <FormLabel as="h4">Email</FormLabel>
+                </Flex>
+                <Input
+                  size="sm"
+                  value={email}
+                  onChange={onChangeEmail}
+                  shadow="2xl"
+                  aria-label="email"
+                />
+              </FormControl>
+              <FormControl>
+                <Flex align="center">
+                  <LockIcon
+                    role="img"
+                    aria-label="パスワードアイコン"
+                    mr="3"
+                    boxSize={5}
+                    pb="1.5"
+                  />
+                  <FormLabel as="h4">パスワード</FormLabel>
+                </Flex>
+                <Input
+                  size="sm"
+                  placeholder="6文字以上の半角英数字"
+                  type="password"
+                  value={password}
+                  onChange={onChangePassword}
+                  shadow="2xl"
+                  aria-label="password"
+                />
+              </FormControl>
+            </Stack>
+            <Box textAlign="center" mt="6">
+              <AuthButton
+                loading={loading}
+                isDisabled={email === "" || password === ""}
+                onClick={handleLogin}
+              >
+                ログイン
+              </AuthButton>
+            </Box>
+            <Divider mt="6" mb="6" />
+            <Box textAlign="center">
+              <Button variant="primaryC" size="sm" onClick={handleGuestLogin}>
+                ゲストログイン
+              </Button>
+            </Box>
+          </form>
           <Divider mt="6" mb="4" />
           <Text textAlign="center" as="h4">
             アカウントをお持ちでない方
