@@ -35,7 +35,7 @@ const SignUp: FC = memo(() => {
           <Stack spacing={4} px={6} py={2}>
             <FormControl>
               <Flex align="center">
-                <EmailIcon mr="3" boxSize={5} pb="1.5" />
+                <EmailIcon role="img" aria-label="メールアイコン" mr="3" boxSize={5} pb="1.5" />
                 <FormLabel as="h4">Email</FormLabel>
               </Flex>
               <Input
@@ -48,7 +48,7 @@ const SignUp: FC = memo(() => {
             </FormControl>
             <FormControl>
               <Flex align="center">
-                <LockIcon mr="3" boxSize={5} pb="1.5" />
+                <LockIcon role="img" aria-label="パスワードアイコン" mr="3" boxSize={5} pb="1.5" />
                 <FormLabel as="h4">パスワード</FormLabel>
               </Flex>
               <Input
