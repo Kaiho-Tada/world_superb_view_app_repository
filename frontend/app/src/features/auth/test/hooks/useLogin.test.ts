@@ -109,6 +109,7 @@ test("ログイン失敗時のテスト", async () => {
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
   expect(spyOnLoginApi).toHaveBeenCalledWith({ email: "test@example.com", password: "password" });
+  expect(Cookies.set).toHaveBeenCalledTimes(0);
   expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
   expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
   expect(mockUseNavigate).toHaveBeenCalledTimes(0);
@@ -143,6 +144,7 @@ test("ログインエラー時のテスト", async () => {
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
   expect(spyOnLoginApi).toHaveBeenCalledWith({ email: "test@example.com", password: "password" });
+  expect(Cookies.set).toHaveBeenCalledTimes(0);
   expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
   expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
   expect(mockUseNavigate).toHaveBeenCalledTimes(0);

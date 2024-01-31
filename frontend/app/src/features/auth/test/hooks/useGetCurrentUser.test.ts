@@ -1,6 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import mockGetCurrentUserApi from "features/auth/api/currentUserApi";
 import useGetCurrentUser from "features/auth/hooks/useGetCurrentUser";
+import { act } from "react-dom/test-utils";
 
 const mockSetIsSignedIn = jest.fn();
 const mockSetCurrentUser = jest.fn();
@@ -40,7 +41,9 @@ test("currentUser取得成功時の処理のテスト", async () => {
 
   const { result } = renderHook(() => useGetCurrentUser());
   const { handelGetCurrentUser } = result.current;
-  await handelGetCurrentUser();
+  await act(async () => {
+    await handelGetCurrentUser();
+  });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
   expect(mockSetIsSignedIn).toHaveBeenCalledWith(true);
@@ -58,9 +61,12 @@ test("currentUser取得成功時の処理のテスト", async () => {
 
 test("currentUser取得エラー時の処理のテスト", async () => {
   (mockGetCurrentUserApi as jest.Mock).mockRejectedValue(new Error());
+
   const { result } = renderHook(() => useGetCurrentUser());
   const { handelGetCurrentUser } = result.current;
-  await handelGetCurrentUser();
+  await act(async () => {
+    await handelGetCurrentUser();
+  });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
   expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);

@@ -2,6 +2,7 @@ import { renderHook } from "@testing-library/react";
 import mockGuestLoginApi from "features/auth/api/guestLoginApi";
 import useGuestLogin from "features/auth/hooks/useGuestLogin";
 import Cookies from "js-cookie";
+import { act } from "react-dom/test-utils";
 
 const mockSetIsSignedIn = jest.fn();
 const mockSetCurrentUser = jest.fn();
@@ -47,9 +48,12 @@ test("ゲストログイン成功時のテスト", async () => {
     },
     headers: { "access-token": "access-token", client: "client", uid: "uid" },
   });
+
   const { result } = renderHook(() => useGuestLogin());
   const { handleGuestLogin } = result.current;
-  await handleGuestLogin();
+  await act(async () => {
+    await handleGuestLogin();
+  });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
   expect(Cookies.set).toHaveBeenCalledWith("_access_token", "access-token");
@@ -81,9 +85,12 @@ test("ゲストログインエラー時のテスト", async () => {
 
   const { result } = renderHook(() => useGuestLogin());
   const { handleGuestLogin } = result.current;
-  await handleGuestLogin();
+  await act(async () => {
+    await handleGuestLogin();
+  });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(Cookies.set).toHaveBeenCalledTimes(0);
   expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
   expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
   expect(mockUseToast).toHaveBeenCalledWith({

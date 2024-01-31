@@ -2,6 +2,7 @@ import { renderHook } from "@testing-library/react";
 import mockDeleteUserApi from "features/auth/api/deleteUserApi";
 import useDeleteUser from "features/auth/hooks/useDeleteUser";
 import Cookies from "js-cookie";
+import { act } from "react-dom/test-utils";
 
 const mockSetCurrentUser = jest.fn();
 const mockSetLoading = jest.fn();
@@ -42,7 +43,10 @@ test("アカウント削除成功時の処理のテスト", async () => {
     data: { message: "'test@example.com' のアカウントは削除されました。" },
   });
   const { result } = renderHook(() => useDeleteUser());
-  await result.current.handleDeleteUser();
+  const { handleDeleteUser } = result.current;
+  await act(async () => {
+    await handleDeleteUser();
+  });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
   expect(Cookies.remove).toHaveBeenCalledWith("_access_token");
@@ -74,10 +78,15 @@ test("アカウント削除エラー時の処理のテスト", async () => {
     });
     throw error;
   });
+
   const { result } = renderHook(() => useDeleteUser());
-  await result.current.handleDeleteUser();
+  const { handleDeleteUser } = result.current;
+  await act(async () => {
+    await handleDeleteUser();
+  });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
+  expect(Cookies.remove).toHaveBeenCalledTimes(0);
   expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
   expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
   expect(mockUseToast).toHaveBeenCalledWith({
@@ -104,9 +113,13 @@ describe("アカウント削除失敗時の処理のテスト", () => {
     });
 
     const { result } = renderHook(() => useDeleteUser());
-    await result.current.handleDeleteUser();
+    const { handleDeleteUser } = result.current;
+    await act(async () => {
+      await handleDeleteUser();
+    });
 
     expect(mockSetLoading).toHaveBeenCalledWith(true);
+    expect(Cookies.remove).toHaveBeenCalledTimes(0);
     expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
     expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
     expect(mockUseToast).toHaveBeenCalledWith({
@@ -132,9 +145,13 @@ describe("アカウント削除失敗時の処理のテスト", () => {
     });
 
     const { result } = renderHook(() => useDeleteUser());
-    await result.current.handleDeleteUser();
+    const { handleDeleteUser } = result.current;
+    await act(async () => {
+      await handleDeleteUser();
+    });
 
     expect(mockSetLoading).toHaveBeenCalledWith(true);
+    expect(Cookies.remove).toHaveBeenCalledTimes(0);
     expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
     expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
     expect(mockUseToast).toHaveBeenCalledWith({
