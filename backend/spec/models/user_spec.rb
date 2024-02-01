@@ -82,4 +82,28 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "メソッドのテスト" do
+    describe ".guest" do
+      context "既存のゲストユーザーが存在する場合" do
+        let!(:guest_user) { create(:user, email: "guest@example.com", role: "guest") }
+
+        it "既存のゲストユーザーが返されること" do
+          expect(User.guest).to eq(guest_user)
+        end
+      end
+
+      context "既存のゲストユーザーが存在しない場合" do
+        it "ゲストユーザーが作成されること" do
+          expect do
+            User.guest
+          end.to change(User, :count).by(1)
+
+          new_guest_user = User.last
+          expect(new_guest_user.email).to eq("guest@example.com")
+          expect(new_guest_user.role).to eq("guest")
+        end
+      end
+    end
+  end
 end
