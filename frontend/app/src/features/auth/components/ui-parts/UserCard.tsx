@@ -3,7 +3,7 @@ import useDeleteUserByAdmin from "features/auth/hooks/useDeleteUserByAdmin";
 import { User } from "features/auth/types/user";
 import { FC } from "react";
 
-const UserCard: FC<User> = (props) => {
+const UserCard: FC<Omit<User, "role">> = (props) => {
   const { id, name, nickname, email } = props;
   const { handleDeleteUserByAdmin } = useDeleteUserByAdmin();
 

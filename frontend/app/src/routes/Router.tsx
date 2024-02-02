@@ -11,17 +11,20 @@ import { Route, Routes } from "react-router-dom";
 import GuestRestrictedRoute from "routes/GuestRestrictedRoute";
 import PrivateRoute from "routes/PrivateRoute";
 import PublicRoute from "routes/PublicRoute";
+import AdminRoute from "./AdminRoute";
 
 const Router: FC = () => (
   <Routes>
-    <Route
-      path="/users"
-      element={
-        <CommonLayout>
-          <UserManagementPage />
-        </CommonLayout>
-      }
-    />
+    <Route path="/" element={<AdminRoute />}>
+      <Route
+        path="/users"
+        element={
+          <CommonLayout>
+            <UserManagementPage />
+          </CommonLayout>
+        }
+      />
+    </Route>
     <Route path="/" element={<PrivateRoute />}>
       <Route
         path="/world_views"
