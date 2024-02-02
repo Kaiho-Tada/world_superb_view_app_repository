@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import mockGetCurrentUserApi from "features/auth/api/currentUserApi";
-import useCheckGuestUser from "features/auth/hooks/useCheckGuestUser";
+import useCheckRegisteredUser from "features/auth/hooks/useCheckRegisteredUser";
 import { act } from "react-dom/test-utils";
 
 const mockNavigate = jest.fn();
@@ -23,10 +23,10 @@ jest.mock("features/auth/api/currentUserApi", () => ({
 test("未ログインのユーザーに対して、適切なエラーメッセージが表示され、ログイン画面にリダイレクトされること", async () => {
   (mockGetCurrentUserApi as jest.Mock).mockReturnValue({ data: { status: 500 } });
 
-  const { result } = renderHook(() => useCheckGuestUser());
-  const { handleCheckGuestUser } = result.current;
+  const { result } = renderHook(() => useCheckRegisteredUser());
+  const { handleCheckRegisteredUser } = result.current;
   await act(async () => {
-    await handleCheckGuestUser();
+    await handleCheckRegisteredUser();
   });
 
   expect(mockUseToast).toHaveBeenCalledWith({
@@ -46,10 +46,10 @@ test("ゲストユーザーに対して、適切なエラーメッセージが�
     data: { status: 200, currentUser: { role: "guest" } },
   });
 
-  const { result } = renderHook(() => useCheckGuestUser());
-  const { handleCheckGuestUser } = result.current;
+  const { result } = renderHook(() => useCheckRegisteredUser());
+  const { handleCheckRegisteredUser } = result.current;
   await act(async () => {
-    await handleCheckGuestUser();
+    await handleCheckRegisteredUser();
   });
 
   expect(mockUseToast).toHaveBeenCalledWith({
@@ -67,10 +67,10 @@ test("ゲストユーザーに対して、適切なエラーメッセージが�
 test("エラーが発生した場合は、適切なエラーメッセージが表示され、ログイン画面にリダイレクトされること", async () => {
   (mockGetCurrentUserApi as jest.Mock).mockRejectedValue(new Error());
 
-  const { result } = renderHook(() => useCheckGuestUser());
-  const { handleCheckGuestUser } = result.current;
+  const { result } = renderHook(() => useCheckRegisteredUser());
+  const { handleCheckRegisteredUser } = result.current;
   await act(async () => {
-    await handleCheckGuestUser();
+    await handleCheckRegisteredUser();
   });
 
   expect(mockUseToast).toHaveBeenCalledWith({

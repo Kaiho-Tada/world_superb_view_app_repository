@@ -1,20 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import GuestRestrictedRoute from "routes/GuestRestrictedRoute";
+import RegisteredRoute from "routes/RegisteredRoute";
 
-const mockHandleCheckGuestUser = jest.fn();
-jest.mock("features/auth/hooks/useCheckGuestUser", () => ({
+const mockHandleCheckRegisteredUser = jest.fn();
+jest.mock("features/auth/hooks/useCheckRegisteredUser", () => ({
   __esModule: true,
   default: () => ({
-    handleCheckGuestUser: mockHandleCheckGuestUser,
+    handleCheckRegisteredUser: mockHandleCheckRegisteredUser,
   }),
 }));
 
-test("GuestRestrictedRouteの入れ子のrouteのelementがレンダリングされること", async () => {
+test("RegisteredRouteの入れ子のrouteのelementがレンダリングされること", async () => {
   render(
     <MemoryRouter initialEntries={["/guest-restricted"]}>
       <Routes>
-        <Route path="/" element={<GuestRestrictedRoute />}>
+        <Route path="/" element={<RegisteredRoute />}>
           <Route path="/guest-restricted" element={<div>Content for Registered Users</div>} />
         </Route>
       </Routes>
@@ -27,11 +27,11 @@ test("初回レンダリング時にhandleCheckGuestUser関数が呼び出され
   render(
     <MemoryRouter initialEntries={["/guest-restricted"]}>
       <Routes>
-        <Route path="/" element={<GuestRestrictedRoute />}>
+        <Route path="/" element={<RegisteredRoute />}>
           <Route path="/guest-restricted" element={<div>Content for Registered Users</div>} />
         </Route>
       </Routes>
     </MemoryRouter>
   );
-  expect(mockHandleCheckGuestUser).toHaveBeenCalledTimes(1);
+  expect(mockHandleCheckRegisteredUser).toHaveBeenCalledTimes(1);
 });

@@ -8,9 +8,9 @@ import WorldViewListPage from "pages/WorldViewListPage";
 import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
-import GuestRestrictedRoute from "routes/GuestRestrictedRoute";
 import PrivateRoute from "routes/PrivateRoute";
 import PublicRoute from "routes/PublicRoute";
+import RegisteredRoute from "routes/RegisteredRoute";
 import AdminRoute from "./AdminRoute";
 
 const Router: FC = () => (
@@ -37,7 +37,7 @@ const Router: FC = () => (
         }
       />
     </Route>
-    <Route path="/" element={<GuestRestrictedRoute />}>
+    <Route path="/" element={<RegisteredRoute />}>
       <Route
         path="/profile"
         element={
