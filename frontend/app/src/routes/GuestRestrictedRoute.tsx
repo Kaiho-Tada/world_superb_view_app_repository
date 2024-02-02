@@ -14,7 +14,7 @@ const GuestRestrictedRoute: FC = () => {
         const res = await getCurrentUser();
         if (res.status === 200) {
           if (res.data.status === 200) {
-            if (res.data.currentUser.email === "guest@example.com") {
+            if (res.data.currentUser?.email === "guest@example.com") {
               showMessage({ title: "ゲストユーザーはアクセスできません。", status: "error" });
               navigate("/home");
             }
