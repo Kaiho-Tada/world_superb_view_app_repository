@@ -14,6 +14,10 @@ Rails.application.routes.draw do
         end
       end
 
+      namespace :auth do
+        resources :users, only: %i[index destroy]
+      end
+
       resources :world_views, only: [:index]
       get "/world_views/search", to: "world_views#search"
 

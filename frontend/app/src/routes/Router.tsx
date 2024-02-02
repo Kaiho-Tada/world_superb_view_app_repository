@@ -3,6 +3,7 @@ import Home from "pages/Home";
 import Login from "pages/Login";
 import Profile from "pages/Profile";
 import SignUp from "pages/SignUp";
+import UserManagementPage from "pages/UserManagementPage";
 import WorldViewListPage from "pages/WorldViewListPage";
 import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { FC } from "react";
@@ -13,6 +14,14 @@ import PublicRoute from "routes/PublicRoute";
 
 const Router: FC = () => (
   <Routes>
+    <Route
+      path="/users"
+      element={
+        <CommonLayout>
+          <UserManagementPage />
+        </CommonLayout>
+      }
+    />
     <Route path="/" element={<PrivateRoute />}>
       <Route
         path="/world_views"

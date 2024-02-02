@@ -1,4 +1,4 @@
-import { Flex, Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading, HStack, Text } from "@chakra-ui/react";
 import AuthMenu from "features/auth/components/ui-elements/AuthMenu";
 import { useAuth } from "providers/useAuthProvider";
 import { FC, useCallback } from "react";
@@ -8,6 +8,8 @@ const Header: FC = () => {
   const navigate = useNavigate();
   const onClickHome = useCallback(() => navigate("/home"), [navigate]);
   const onClickSuperbViews = useCallback(() => navigate("/world_views"), [navigate]);
+  const onClickUsers = useCallback(() => navigate("/users"), [navigate]);
+
   const { isSignedIn } = useAuth();
 
   return (
@@ -26,17 +28,30 @@ const Header: FC = () => {
             App
           </Heading>
         </Flex>
-        <Text
-          as="a"
-          role="link"
-          fontSize={{ base: "sm", md: "md" }}
-          fontWeight="bold"
-          textShadow="1px 1px 1px #000000"
-          _hover={{ cursor: "pointer" }}
-          onClick={onClickSuperbViews}
-        >
-          絶景一覧
-        </Text>
+        <HStack spacing="6">
+          <Text
+            as="a"
+            role="link"
+            fontSize={{ base: "sm", md: "md" }}
+            fontWeight="bold"
+            textShadow="1px 1px 1px #000000"
+            _hover={{ cursor: "pointer" }}
+            onClick={onClickSuperbViews}
+          >
+            絶景一覧
+          </Text>
+          <Text
+            as="a"
+            role="link"
+            fontSize={{ base: "sm", md: "md" }}
+            fontWeight="bold"
+            textShadow="1px 1px 1px #000000"
+            _hover={{ cursor: "pointer" }}
+            onClick={onClickUsers}
+          >
+            ユーザー
+          </Text>
+        </HStack>
       </Flex>
       <AuthMenu isSignedIn={isSignedIn} />
     </Flex>

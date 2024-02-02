@@ -56,6 +56,23 @@ describe("絶景一覧リンクのテスト", () => {
   });
 });
 
+describe("ユーザー一覧ページのリンクのテスト", () => {
+  test("ユーザー一覧ページのリンクが表示されていること", () => {
+    (mockUseAuth as jest.Mock).mockReturnValue(mockContextValueNotSignIn);
+    render(<Header />);
+    expect(screen.getByRole("link", { name: "ユーザー" })).toBeInTheDocument();
+  });
+
+  test("ユーザー一覧ページのリンク押下でユーザー一覧ページへ遷移すること", async () => {
+    (mockUseAuth as jest.Mock).mockReturnValue(mockContextValueNotSignIn);
+    const user = userEvent.setup();
+    render(<Header />);
+    await user.click(screen.getByRole("link", { name: "ユーザー" }));
+    expect(mockUseNavigate).toHaveBeenCalledWith("/users");
+    expect(mockUseNavigate).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("アバターアイコンのテスト", () => {
   test("アバターアイコンが表示されていること", () => {
     (mockUseAuth as jest.Mock).mockReturnValue(mockContextValueNotSignIn);
