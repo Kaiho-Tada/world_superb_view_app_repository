@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import AuthorizationRoute from "routes/AuthorizationRoute";
 
-const mockHandleCheckUser = jest.fn();
+const mockHandleAuthorizeUser = jest.fn();
 const loading = false;
 test("AuthorizationRouteの入れ子のrouteのelementがレンダリングされること", async () => {
   render(
@@ -10,7 +10,9 @@ test("AuthorizationRouteの入れ子のrouteのelementがレンダリングさ�
       <Routes>
         <Route
           path="/"
-          element={<AuthorizationRoute handleCheckUser={mockHandleCheckUser} loading={loading} />}
+          element={
+            <AuthorizationRoute handleAuthorizeUser={mockHandleAuthorizeUser} loading={loading} />
+          }
         >
           <Route path="/user-check" element={<div>Welcome, Authorized User!</div>} />
         </Route>
@@ -26,7 +28,7 @@ test("AuthorizationRouteのloadingプロパティがtrueの場合はloading中�
       <Routes>
         <Route
           path="/"
-          element={<AuthorizationRoute handleCheckUser={mockHandleCheckUser} loading />}
+          element={<AuthorizationRoute handleAuthorizeUser={mockHandleAuthorizeUser} loading />}
         >
           <Route path="/user-check" element={<div>Welcome, Authorized User!</div>} />
         </Route>
@@ -42,12 +44,14 @@ test("初回レンダリング時にhandleCheckUser関数が呼び出される�
       <Routes>
         <Route
           path="/"
-          element={<AuthorizationRoute handleCheckUser={mockHandleCheckUser} loading={loading} />}
+          element={
+            <AuthorizationRoute handleAuthorizeUser={mockHandleAuthorizeUser} loading={loading} />
+          }
         >
           <Route path="/user-check" element={<div>Welcome, Authorized User!</div>} />
         </Route>
       </Routes>
     </MemoryRouter>
   );
-  expect(mockHandleCheckUser).toHaveBeenCalledTimes(1);
+  expect(mockHandleAuthorizeUser).toHaveBeenCalledTimes(1);
 });

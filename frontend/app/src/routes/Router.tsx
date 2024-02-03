@@ -26,7 +26,7 @@ const Router: FC = () => {
         path="/"
         element={
           <AuthorizationRoute
-            handleCheckUser={handleAuthorizeAdminUser}
+            handleAuthorizeUser={handleAuthorizeAdminUser}
             loading={loadingAuthorizeAdminUser}
           />
         }
@@ -44,7 +44,7 @@ const Router: FC = () => {
         path="/"
         element={
           <AuthorizationRoute
-            handleCheckUser={handleAuthorizeLoggedInUser}
+            handleAuthorizeUser={handleAuthorizeLoggedInUser}
             loading={loadingAuthorizeLoggedInUser}
           />
         }
@@ -64,7 +64,7 @@ const Router: FC = () => {
         path="/"
         element={
           <AuthorizationRoute
-            handleCheckUser={handleAuthorizeRegisteredUser}
+            handleAuthorizeUser={handleAuthorizeRegisteredUser}
             loading={loadingAuthorizeRegisteredUser}
           />
         }

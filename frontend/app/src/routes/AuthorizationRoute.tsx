@@ -3,14 +3,14 @@ import { FC, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 type Props = {
-  handleCheckUser: () => Promise<void>;
+  handleAuthorizeUser: () => Promise<void>;
   loading: boolean;
 };
 
-const AuthorizationRoute: FC<Props> = ({ handleCheckUser, loading }) => {
+const AuthorizationRoute: FC<Props> = ({ handleAuthorizeUser, loading }) => {
   useEffect(() => {
-    handleCheckUser();
-  }, [handleCheckUser]);
+    handleAuthorizeUser();
+  }, [handleAuthorizeUser]);
 
   return loading ? <Loading /> : <Outlet />;
 };
