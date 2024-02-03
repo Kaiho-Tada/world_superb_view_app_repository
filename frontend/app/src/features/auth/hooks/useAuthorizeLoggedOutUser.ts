@@ -1,6 +1,6 @@
 import getCurrentUser from "features/auth/api/currentUserApi";
 import useMessage from "hooks/useMessage";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useAuthorizeLoggedOutUser = () => {
@@ -8,7 +8,7 @@ const useAuthorizeLoggedOutUser = () => {
   const [loadingAuthorizeLoggedOutUser, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleAuthorizeLoggedOutUser = async () => {
+  const handleAuthorizeLoggedOutUser = useCallback(async () => {
     try {
       const res = await getCurrentUser();
       if (res.data.status === 200 && res.data.currentUser) {
@@ -21,7 +21,7 @@ const useAuthorizeLoggedOutUser = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
   return { handleAuthorizeLoggedOutUser, loadingAuthorizeLoggedOutUser };
 };
 

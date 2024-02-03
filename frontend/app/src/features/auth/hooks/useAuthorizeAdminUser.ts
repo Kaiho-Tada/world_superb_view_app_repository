@@ -1,6 +1,6 @@
 import getCurrentUserApi from "features/auth/api/currentUserApi";
 import useMessage from "hooks/useMessage";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useAuthorizeAdminUser = () => {
@@ -8,7 +8,7 @@ const useAuthorizeAdminUser = () => {
   const [loadingAuthorizeAdminUser, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleAuthorizeAdminUser = async () => {
+  const handleAuthorizeAdminUser = useCallback(async () => {
     try {
       const res = await getCurrentUserApi();
       if (res.data.status === 500 && !res.data.currentUser) {
@@ -29,7 +29,7 @@ const useAuthorizeAdminUser = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
   return { handleAuthorizeAdminUser, loadingAuthorizeAdminUser };
 };
 
