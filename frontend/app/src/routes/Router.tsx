@@ -1,6 +1,7 @@
 import CommonLayout from "components/layout/CommonLayout";
 import useAuthorizeAdminUser from "features/auth/hooks/useAuthorizeAdminUser";
 import useAuthorizeLoggedInUser from "features/auth/hooks/useAuthorizeLoggedInUser";
+import useAuthorizeLoggedOutUser from "features/auth/hooks/useAuthorizeLoggedOutUser";
 import useAuthorizeRegisteredUser from "features/auth/hooks/useAuthorizeRegisteredUser";
 import Home from "pages/Home";
 import Login from "pages/Login";
@@ -11,7 +12,6 @@ import WorldViewListPage from "pages/WorldViewListPage";
 import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
-import PublicRoute from "routes/PublicRoute";
 import AuthorizationRoute from "./AuthorizationRoute";
 
 const Router: FC = () => {
@@ -19,6 +19,8 @@ const Router: FC = () => {
   const { handleAuthorizeLoggedInUser, loadingAuthorizeLoggedInUser } = useAuthorizeLoggedInUser();
   const { handleAuthorizeRegisteredUser, loadingAuthorizeRegisteredUser } =
     useAuthorizeRegisteredUser();
+  const { handleAuthorizeLoggedOutUser, loadingAuthorizeLoggedOutUser } =
+    useAuthorizeLoggedOutUser();
 
   return (
     <Routes>
@@ -86,7 +88,15 @@ const Router: FC = () => {
           </CommonLayout>
         }
       />
-      <Route path="/" element={<PublicRoute />}>
+      <Route
+        path="/"
+        element={
+          <AuthorizationRoute
+            handleAuthorizeUser={handleAuthorizeLoggedOutUser}
+            loading={loadingAuthorizeLoggedOutUser}
+          />
+        }
+      >
         <Route
           path="/login"
           element={
