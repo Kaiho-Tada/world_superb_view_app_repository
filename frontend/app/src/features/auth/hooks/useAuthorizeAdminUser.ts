@@ -11,11 +11,15 @@ const useAuthorizeAdminUser = () => {
   const handleAuthorizeAdminUser = async () => {
     try {
       const res = await getCurrentUserApi();
-      if (!res.data.currentUser) {
+      if (res.data.status === 500 && !res.data.currentUser) {
         showMessage({ title: "ログインしてください。", status: "error" });
         navigate("/login");
       }
-      if (res.data.currentUser && res.data.currentUser.role !== "admin") {
+      if (
+        res.data.status === 200 &&
+        res.data.currentUser &&
+        res.data.currentUser.role !== "admin"
+      ) {
         showMessage({ title: "一般ユーザーはアクセスできません。", status: "error" });
         navigate("/home");
       }

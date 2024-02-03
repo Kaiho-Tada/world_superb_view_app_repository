@@ -11,11 +11,15 @@ const useAuthorizeRegisteredUser = () => {
   const handleAuthorizeRegisteredUser = async () => {
     try {
       const res = await getCurrentUser();
-      if (!res.data.currentUser) {
+      if (res.data.status === 500 && !res.data.currentUser) {
         showMessage({ title: "ログインしてください。", status: "error" });
         navigate("/login");
       }
-      if (res.data.currentUser && res.data.currentUser.role === "guest") {
+      if (
+        res.data.status === 200 &&
+        res.data.currentUser &&
+        res.data.currentUser.role === "guest"
+      ) {
         showMessage({ title: "ゲストユーザーはアクセスできません。", status: "error" });
         navigate("/home");
       }

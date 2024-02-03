@@ -11,7 +11,7 @@ const useAuthorizeLoggedInUser = () => {
   const handleAuthorizeLoggedInUser = async () => {
     try {
       const res = await getCurrentUser();
-      if (!res.data.currentUser) {
+      if (res.data.status === 500 && !res.data.currentUser) {
         showMessage({ title: "ログインしてください。", status: "error" });
         navigate("/login");
       }
