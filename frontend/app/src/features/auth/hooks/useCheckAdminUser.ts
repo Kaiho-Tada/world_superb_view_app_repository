@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const useCheckAdminUser = () => {
   const { showMessage } = useMessage();
-  const [loading, setLoading] = useState(true);
+  const [loadingCheckAdminUser, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleCheckAdminUser = async () => {
@@ -26,7 +26,7 @@ const useCheckAdminUser = () => {
       setLoading(false);
     }
   };
-  return { handleCheckAdminUser, loading };
+  return { handleCheckAdminUser, loadingCheckAdminUser };
 };
 
 export default useCheckAdminUser;

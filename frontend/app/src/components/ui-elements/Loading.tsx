@@ -3,7 +3,7 @@ import { FC } from "react";
 
 const Loading: FC = () => (
   <Center h="90vh">
-    <Spinner />
+    <Spinner role="img" aria-label="loadingアイコン" />
   </Center>
 );
 

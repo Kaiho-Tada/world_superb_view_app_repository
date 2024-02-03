@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const useCheckRegisteredUser = () => {
   const { showMessage } = useMessage();
-  const [loading, setLoading] = useState(true);
+  const [loadingCheckRegisteredUser, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleCheckRegisteredUser = async () => {
@@ -26,7 +26,7 @@ const useCheckRegisteredUser = () => {
       setLoading(false);
     }
   };
-  return { handleCheckRegisteredUser, loading };
+  return { handleCheckRegisteredUser, loadingCheckRegisteredUser };
 };
 
 export default useCheckRegisteredUser;

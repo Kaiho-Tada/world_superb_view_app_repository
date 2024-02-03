@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 const useCheckLoggedInUser = () => {
   const { showMessage } = useMessage();
-  const [loading, setLoading] = useState(true);
+  const [loadingCheckLoggedInUser, setLoading] = useState(true);
   const navigate = useNavigate();
+
   const handleCheckLoggedInUser = async () => {
     try {
       const res = await getCurrentUser();
@@ -21,7 +22,7 @@ const useCheckLoggedInUser = () => {
       setLoading(false);
     }
   };
-  return { handleCheckLoggedInUser, loading };
+  return { handleCheckLoggedInUser, loadingCheckLoggedInUser };
 };
 
 export default useCheckLoggedInUser;
