@@ -45,14 +45,6 @@ jest.mock("features/auth/hooks/useSignout", () => ({
   }),
 }));
 
-const mockHandleGuestLogin = jest.fn();
-jest.mock("features/auth/hooks/useGuestLogin", () => ({
-  __esModule: true,
-  default: () => ({
-    handleGuestLogin: mockHandleGuestLogin,
-  }),
-}));
-
 describe("ログイン済みの挙動のテスト", () => {
   test("loading中はコンポーネントが非表示になっていること", () => {
     (mockUseAuth as jest.Mock).mockReturnValue(mockContextValueLoading);
@@ -173,22 +165,6 @@ describe("未ログインの挙動のテスト", () => {
       await user.click(signUpLink);
       expect(mockUseNavigate).toHaveBeenCalledWith("/signup");
       expect(mockUseNavigate).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe("ゲストログインリンクのテスト", () => {
-    test("ゲストログインリンクが表示されていること", () => {
-      (mockUseAuth as jest.Mock).mockReturnValue(mockContextValue);
-      render(<AuthMenu isSignedIn={false} />);
-      expect(screen.getByRole("link", { name: "ゲストログイン" })).toBeInTheDocument();
-    });
-
-    test("ゲストログインリンク押下でhandleGuestLogin関数が呼び出されること", async () => {
-      (mockUseAuth as jest.Mock).mockReturnValue(mockContextValue);
-      const user = userEvent.setup();
-      render(<AuthMenu isSignedIn={false} />);
-      await user.click(screen.getByRole("link", { name: "ゲストログイン" }));
-      expect(mockHandleGuestLogin).toHaveBeenCalledTimes(1);
     });
   });
 });

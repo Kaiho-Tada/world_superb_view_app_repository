@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import personIcon from "assets/person.png";
 import profileIcon from "assets/profile.png";
-import useGuestLogin from "features/auth/hooks/useGuestLogin";
 import useSignout from "features/auth/hooks/useSignout";
 import { useAuth } from "providers/useAuthProvider";
 import { FC, memo, useCallback } from "react";
@@ -28,7 +27,6 @@ const AuthMenu: FC<AuthMenuProps> = memo(({ isSignedIn }) => {
   const onClickSignup = useCallback(() => navigate("/signup"), [navigate]);
   const { loading, currentUser } = useAuth();
   const { handleSignout } = useSignout();
-  const { handleGuestLogin } = useGuestLogin();
   const isGuestUser = currentUser?.email === "guest@example.com";
 
   const AuthMenuContent = isSignedIn ? (
@@ -96,16 +94,6 @@ const AuthMenu: FC<AuthMenuProps> = memo(({ isSignedIn }) => {
           onClick={onClickSignup}
         >
           新規登録
-        </Text>
-        <Text
-          role="link"
-          fontSize={{ base: "sm", md: "md" }}
-          fontWeight="bold"
-          textShadow="1px 1px 1px #000000"
-          _hover={{ cursor: "pointer" }}
-          onClick={handleGuestLogin}
-        >
-          ゲストログイン
         </Text>
       </Flex>
     </>
