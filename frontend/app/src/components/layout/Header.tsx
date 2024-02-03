@@ -9,8 +9,8 @@ const Header: FC = () => {
   const onClickHome = useCallback(() => navigate("/home"), [navigate]);
   const onClickSuperbViews = useCallback(() => navigate("/world_views"), [navigate]);
   const onClickUsers = useCallback(() => navigate("/users"), [navigate]);
-
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, currentUser } = useAuth();
+  const isAdminUser = currentUser?.role === "admin";
 
   return (
     <Flex
@@ -40,17 +40,19 @@ const Header: FC = () => {
           >
             絶景一覧
           </Text>
-          <Text
-            as="a"
-            role="link"
-            fontSize={{ base: "sm", md: "md" }}
-            fontWeight="bold"
-            textShadow="1px 1px 1px #000000"
-            _hover={{ cursor: "pointer" }}
-            onClick={onClickUsers}
-          >
-            ユーザー
-          </Text>
+          {isAdminUser ? (
+            <Text
+              as="a"
+              role="link"
+              fontSize={{ base: "sm", md: "md" }}
+              fontWeight="bold"
+              textShadow="1px 1px 1px #000000"
+              _hover={{ cursor: "pointer" }}
+              onClick={onClickUsers}
+            >
+              ユーザー
+            </Text>
+          ) : null}
         </HStack>
       </Flex>
       <AuthMenu isSignedIn={isSignedIn} />

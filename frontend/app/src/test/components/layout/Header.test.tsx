@@ -57,14 +57,15 @@ describe("絶景一覧リンクのテスト", () => {
 });
 
 describe("ユーザー一覧ページのリンクのテスト", () => {
-  test("ユーザー一覧ページのリンクが表示されていること", () => {
-    (mockUseAuth as jest.Mock).mockReturnValue(mockContextValueNotSignIn);
+  const mockContextValueAdmin = { currentUser: { role: "admin" } };
+  test("管理者ユーザーでログインした場合はユーザー一覧ページのリンクが表示されていること", () => {
+    (mockUseAuth as jest.Mock).mockReturnValue(mockContextValueAdmin);
     render(<Header />);
     expect(screen.getByRole("link", { name: "ユーザー" })).toBeInTheDocument();
   });
 
   test("ユーザー一覧ページのリンク押下でユーザー一覧ページへ遷移すること", async () => {
-    (mockUseAuth as jest.Mock).mockReturnValue(mockContextValueNotSignIn);
+    (mockUseAuth as jest.Mock).mockReturnValue(mockContextValueAdmin);
     const user = userEvent.setup();
     render(<Header />);
     await user.click(screen.getByRole("link", { name: "ユーザー" }));
