@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import mockGetCurrentUserApi from "features/auth/api/currentUserApi";
-import useCheckLoggedInUser from "features/auth/hooks/useCheckLoggedInUser";
+import useAuthorizeLoggedInUser from "features/auth/hooks/useAuthorizeLoggedInUser";
 import { act } from "react-dom/test-utils";
 
 const mockNavigate = jest.fn();
@@ -23,10 +23,10 @@ jest.mock("features/auth/api/currentUserApi", () => ({
 test("未ログインのユーザーに対して、適切なエラーメッセージが表示され、ログイン画面にリダイレクトされること", async () => {
   (mockGetCurrentUserApi as jest.Mock).mockReturnValue({ data: { status: 500 } });
 
-  const { result } = renderHook(() => useCheckLoggedInUser());
-  const { handleCheckLoggedInUser } = result.current;
+  const { result } = renderHook(() => useAuthorizeLoggedInUser());
+  const { handleAuthorizeLoggedInUser } = result.current;
   await act(async () => {
-    await handleCheckLoggedInUser();
+    await handleAuthorizeLoggedInUser();
   });
 
   expect(mockUseToast).toHaveBeenCalledWith({
@@ -44,10 +44,10 @@ test("未ログインのユーザーに対して、適切なエラーメッセ�
 test("エラーが発生した場合は、適切なエラーメッセージが表示され、ログイン画面にリダイレクトされること", async () => {
   (mockGetCurrentUserApi as jest.Mock).mockRejectedValue(new Error());
 
-  const { result } = renderHook(() => useCheckLoggedInUser());
-  const { handleCheckLoggedInUser } = result.current;
+  const { result } = renderHook(() => useAuthorizeLoggedInUser());
+  const { handleAuthorizeLoggedInUser } = result.current;
   await act(async () => {
-    await handleCheckLoggedInUser();
+    await handleAuthorizeLoggedInUser();
   });
 
   expect(mockUseToast).toHaveBeenCalledWith({

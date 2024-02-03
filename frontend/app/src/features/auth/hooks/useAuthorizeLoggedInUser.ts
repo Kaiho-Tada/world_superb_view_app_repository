@@ -3,12 +3,12 @@ import useMessage from "hooks/useMessage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const useCheckLoggedInUser = () => {
+const useAuthorizeLoggedInUser = () => {
   const { showMessage } = useMessage();
-  const [loadingCheckLoggedInUser, setLoading] = useState(true);
+  const [loadingAuthorizeLoggedInUser, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleCheckLoggedInUser = async () => {
+  const handleAuthorizeLoggedInUser = async () => {
     try {
       const res = await getCurrentUser();
       if (!res.data.currentUser) {
@@ -22,7 +22,7 @@ const useCheckLoggedInUser = () => {
       setLoading(false);
     }
   };
-  return { handleCheckLoggedInUser, loadingCheckLoggedInUser };
+  return { handleAuthorizeLoggedInUser, loadingAuthorizeLoggedInUser };
 };
 
-export default useCheckLoggedInUser;
+export default useAuthorizeLoggedInUser;
