@@ -27,9 +27,6 @@ const spyOnUpdateUserApi = jest.spyOn(
   jest.requireActual("features/auth/api/updateUserApi"),
   "default"
 );
-afterEach(() => {
-  spyOnUpdateUserApi.mockClear();
-});
 
 test("プロフィール更新成功時のテスト", async () => {
   spyOnUpdateUserApi.mockReturnValue({

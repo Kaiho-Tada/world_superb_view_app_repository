@@ -20,9 +20,6 @@ const spyOnUpdatePasswordApi = jest.spyOn(
   jest.requireActual("features/auth/api/updatePasswordApi"),
   "default"
 );
-afterEach(() => {
-  spyOnUpdatePasswordApi.mockClear();
-});
 
 test("パスワード更新成功時の処理のテスト", async () => {
   spyOnUpdatePasswordApi.mockReturnValue({

@@ -33,9 +33,6 @@ jest.mock("js-cookie", () => ({
 }));
 
 const spyOnLoginApi = jest.spyOn(jest.requireActual("features/auth/api/loginApi"), "default");
-afterEach(() => {
-  spyOnLoginApi.mockClear();
-});
 
 test("ログイン成功時のテスト", async () => {
   spyOnLoginApi.mockReturnValue({

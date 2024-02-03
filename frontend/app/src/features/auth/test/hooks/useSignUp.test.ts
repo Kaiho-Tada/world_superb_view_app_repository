@@ -22,9 +22,6 @@ jest.mock("react-router-dom", () => ({
 }));
 
 const spyOnSignUpApi = jest.spyOn(jest.requireActual("features/auth/api/signUpApi"), "default");
-afterEach(() => {
-  spyOnSignUpApi.mockClear();
-});
 
 test("サインアップ成功時の処理のテスト", async () => {
   const { result } = renderHook(() => useSignUp());
