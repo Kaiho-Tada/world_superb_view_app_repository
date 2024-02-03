@@ -3,12 +3,12 @@ import useMessage from "hooks/useMessage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const useCheckRegisteredUser = () => {
+const useAuthorizeRegisteredUser = () => {
   const { showMessage } = useMessage();
-  const [loadingCheckRegisteredUser, setLoading] = useState(true);
+  const [loadingAuthorizeRegisteredUser, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleCheckRegisteredUser = async () => {
+  const handleAuthorizeRegisteredUser = async () => {
     try {
       const res = await getCurrentUser();
       if (!res.data.currentUser) {
@@ -26,7 +26,7 @@ const useCheckRegisteredUser = () => {
       setLoading(false);
     }
   };
-  return { handleCheckRegisteredUser, loadingCheckRegisteredUser };
+  return { handleAuthorizeRegisteredUser, loadingAuthorizeRegisteredUser };
 };
 
-export default useCheckRegisteredUser;
+export default useAuthorizeRegisteredUser;
