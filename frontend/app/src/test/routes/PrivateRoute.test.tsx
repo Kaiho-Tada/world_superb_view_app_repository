@@ -1,75 +1,37 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import MockAdapter from "axios-mock-adapter";
-import client from "lib/client";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import PrivateRoute from "routes/PrivateRoute";
 
-const mockUseNavigate = jest.fn();
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockUseNavigate,
+const mockHandleCheckLoggedInUser = jest.fn();
+jest.mock("features/auth/hooks/useCheckLoggedInUser", () => ({
+  __esModule: true,
+  default: () => ({
+    handleCheckLoggedInUser: mockHandleCheckLoggedInUser,
+  }),
 }));
 
-const mockUseToast = jest.fn();
-jest.mock("@chakra-ui/react", () => ({
-  ...jest.requireActual("@chakra-ui/react"),
-  useToast: () => mockUseToast,
-}));
-
-const mockAxios = new MockAdapter(client);
-
-afterEach(() => {
-  mockAxios.resetHistory();
-  jest.clearAllMocks();
+test("PrivateRouteの入れ子のrouteのelementがレンダリングされること", async () => {
+  render(
+    <MemoryRouter initialEntries={["/private"]}>
+      <Routes>
+        <Route path="/" element={<PrivateRoute />}>
+          <Route path="private" element={<div>Content For LoggedIn User</div>} />
+        </Route>
+      </Routes>
+    </MemoryRouter>
+  );
+  expect(await screen.findByText("Content For LoggedIn User")).toBeInTheDocument();
 });
 
-describe("PrivateRouteのテスト", () => {
-  test("未ログインのユーザーはログインページへ遷移されること", async () => {
-    mockAxios.onGet("auth/sessions").reply(200, {
-      status: 500,
-    });
-    render(
-      <MemoryRouter initialEntries={["/private"]}>
-        <Routes>
-          <Route path="/" element={<PrivateRoute />}>
-            <Route path="/private" element={<div>Private Content</div>} />
-          </Route>
-        </Routes>
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
-    await waitFor(() => {
-      expect(mockUseToast).toHaveBeenCalledWith({
-        title: "ログインしてください。",
-        status: "error",
-        position: "top",
-        duration: 5000,
-        isClosable: true,
-      });
-      expect(mockUseToast).toHaveBeenCalledTimes(1);
-      expect(mockUseNavigate).toHaveBeenCalledWith("/login");
-      expect(mockUseNavigate).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  test("ログイン済みのユーザーはプライベートページにアクセスできること", async () => {
-    mockAxios.onGet("auth/sessions").reply(200, {
-      status: 200,
-    });
-    render(
-      <MemoryRouter initialEntries={["/private"]}>
-        <Routes>
-          <Route path="/" element={<PrivateRoute />}>
-            <Route path="/private" element={<div>Private Content</div>} />
-          </Route>
-        </Routes>
-      </MemoryRouter>
-    );
-    expect(await screen.findByText("Private Content")).toBeInTheDocument();
-    await waitFor(() => {
-      expect(mockUseToast).not.toHaveBeenCalledWith();
-      expect(mockUseNavigate).not.toHaveBeenCalledWith();
-    });
-  });
+test("初回レンダリング時にhandleCheckAdminUser関数が呼び出されること", async () => {
+  render(
+    <MemoryRouter initialEntries={["/private"]}>
+      <Routes>
+        <Route path="/" element={<PrivateRoute />}>
+          <Route path="private" element={<div>Content For LoggedIn User</div>} />
+        </Route>
+      </Routes>
+    </MemoryRouter>
+  );
+  expect(mockHandleCheckLoggedInUser).toHaveBeenCalledTimes(1);
 });

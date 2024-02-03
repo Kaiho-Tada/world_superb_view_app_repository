@@ -1,35 +1,15 @@
 import Loading from "components/ui-elements/Loading";
-import getCurrentUser from "features/auth/api/currentUserApi";
-import useMessage from "hooks/useMessage";
-import { FC, useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import useCheckLoggedInUser from "features/auth/hooks/useCheckLoggedInUser";
+import { FC, useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
 const PrivateRoute: FC = () => {
-  const { showMessage } = useMessage();
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const { handleCheckLoggedInUser, loading } = useCheckLoggedInUser();
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const res = await getCurrentUser();
-        if (res.data.status === 200) {
-          return;
-        }
-        showMessage({ title: "ログインしてください。", status: "error" });
-        navigate("/login");
-      } catch (e) {
-        showMessage({ title: "エラーが発生しました。", status: "error" });
-        navigate("/login");
-      } finally {
-        setLoading(false);
-      }
-    };
-    checkUser();
+    handleCheckLoggedInUser();
   }, []);
-  if (loading) {
-    return <Loading />;
-  }
-  return <Outlet />;
+
+  return loading ? <Loading /> : <Outlet />;
 };
 
 export default PrivateRoute;
