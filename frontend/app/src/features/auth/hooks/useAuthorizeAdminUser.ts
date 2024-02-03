@@ -3,12 +3,12 @@ import useMessage from "hooks/useMessage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const useCheckAdminUser = () => {
+const useAuthorizeAdminUser = () => {
   const { showMessage } = useMessage();
-  const [loadingCheckAdminUser, setLoading] = useState(true);
+  const [loadingAuthorizeAdminUser, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleCheckAdminUser = async () => {
+  const handleAuthorizeAdminUser = async () => {
     try {
       const res = await getCurrentUserApi();
       if (!res.data.currentUser) {
@@ -26,7 +26,7 @@ const useCheckAdminUser = () => {
       setLoading(false);
     }
   };
-  return { handleCheckAdminUser, loadingCheckAdminUser };
+  return { handleAuthorizeAdminUser, loadingAuthorizeAdminUser };
 };
 
-export default useCheckAdminUser;
+export default useAuthorizeAdminUser;

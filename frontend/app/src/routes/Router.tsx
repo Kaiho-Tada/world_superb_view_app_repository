@@ -1,5 +1,5 @@
 import CommonLayout from "components/layout/CommonLayout";
-import useCheckAdminUser from "features/auth/hooks/useCheckAdminUser";
+import useAuthorizeAdminUser from "features/auth/hooks/useAuthorizeAdminUser";
 import useCheckLoggedInUser from "features/auth/hooks/useCheckLoggedInUser";
 import useCheckRegisteredUser from "features/auth/hooks/useCheckRegisteredUser";
 import Home from "pages/Home";
@@ -15,7 +15,7 @@ import PublicRoute from "routes/PublicRoute";
 import AuthorizationRoute from "./AuthorizationRoute";
 
 const Router: FC = () => {
-  const { handleCheckAdminUser, loadingCheckAdminUser } = useCheckAdminUser();
+  const { handleAuthorizeAdminUser, loadingAuthorizeAdminUser } = useAuthorizeAdminUser();
   const { handleCheckLoggedInUser, loadingCheckLoggedInUser } = useCheckLoggedInUser();
   const { handleCheckRegisteredUser, loadingCheckRegisteredUser } = useCheckRegisteredUser();
 
@@ -25,8 +25,8 @@ const Router: FC = () => {
         path="/"
         element={
           <AuthorizationRoute
-            handleCheckUser={handleCheckAdminUser}
-            loading={loadingCheckAdminUser}
+            handleCheckUser={handleAuthorizeAdminUser}
+            loading={loadingAuthorizeAdminUser}
           />
         }
       >

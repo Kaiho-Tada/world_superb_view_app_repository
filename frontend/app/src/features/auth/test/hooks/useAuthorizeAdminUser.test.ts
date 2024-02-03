@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import mockGetCurrentUserApi from "features/auth/api/currentUserApi";
-import useCheckAdminUser from "features/auth/hooks/useCheckAdminUser";
+import useAuthorizeAdminUser from "features/auth/hooks/useAuthorizeAdminUser";
 import { act } from "react-dom/test-utils";
 
 const mockNavigate = jest.fn();
@@ -23,10 +23,10 @@ jest.mock("features/auth/api/currentUserApi", () => ({
 test("未ログインのユーザーに対して、適切なエラーメッセージが表示され、ログイン画面にリダイレクトされること", async () => {
   (mockGetCurrentUserApi as jest.Mock).mockReturnValue({ data: { status: 500 } });
 
-  const { result } = renderHook(() => useCheckAdminUser());
-  const { handleCheckAdminUser } = result.current;
+  const { result } = renderHook(() => useAuthorizeAdminUser());
+  const { handleAuthorizeAdminUser } = result.current;
   await act(async () => {
-    await handleCheckAdminUser();
+    await handleAuthorizeAdminUser();
   });
 
   expect(mockUseToast).toHaveBeenCalledWith({
@@ -46,10 +46,10 @@ test("管理者以外のログインユーザーに対して、適切なエラ�
     data: { status: 200, currentUser: { role: "user" } },
   });
 
-  const { result } = renderHook(() => useCheckAdminUser());
-  const { handleCheckAdminUser } = result.current;
+  const { result } = renderHook(() => useAuthorizeAdminUser());
+  const { handleAuthorizeAdminUser } = result.current;
   await act(async () => {
-    await handleCheckAdminUser();
+    await handleAuthorizeAdminUser();
   });
 
   expect(mockUseToast).toHaveBeenCalledWith({
@@ -67,10 +67,10 @@ test("管理者以外のログインユーザーに対して、適切なエラ�
 test("エラーが発生した場合は、適切なエラーメッセージが表示され、ログイン画面にリダイレクトされること", async () => {
   (mockGetCurrentUserApi as jest.Mock).mockRejectedValue(new Error());
 
-  const { result } = renderHook(() => useCheckAdminUser());
-  const { handleCheckAdminUser } = result.current;
+  const { result } = renderHook(() => useAuthorizeAdminUser());
+  const { handleAuthorizeAdminUser } = result.current;
   await act(async () => {
-    await handleCheckAdminUser();
+    await handleAuthorizeAdminUser();
   });
 
   expect(mockUseToast).toHaveBeenCalledWith({
