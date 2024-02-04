@@ -2,7 +2,7 @@ import { isAxiosError } from "axios";
 import { SignUpData } from "features/auth/types/auth";
 import useMessage from "hooks/useMessage";
 import { useAuth } from "providers/useAuthProvider";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import signUpApi from "../api/signUpApi";
 

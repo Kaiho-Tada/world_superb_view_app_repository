@@ -3,7 +3,7 @@ import { UpdateUserData } from "features/auth/types/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
-import React, { useState } from "react";
+import { useState } from "react";
 import updateUserApi from "../api/updateUserApi";
 
 const useUpdateUser = () => {

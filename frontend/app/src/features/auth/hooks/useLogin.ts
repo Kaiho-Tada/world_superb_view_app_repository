@@ -3,7 +3,7 @@ import { LoginData } from "features/auth/types/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import loginApi from "../api/loginApi";
 
