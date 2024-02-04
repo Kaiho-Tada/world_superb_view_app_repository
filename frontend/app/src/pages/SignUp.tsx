@@ -32,7 +32,8 @@ const SignUp: FC = memo(() => {
           <Text as="h3" fontSize="xl" textAlign="center" mt={3}>
             新規登録
           </Text>
-          <form>
+          {/* eslint-disable jsx-a11y/no-redundant-roles */}
+          <form onSubmit={handleSignUp} role="form" aria-label="新規登録フォーム">
             <Stack spacing={4} px={6} py={2}>
               <FormControl>
                 <Flex align="center">
@@ -70,11 +71,7 @@ const SignUp: FC = memo(() => {
               </FormControl>
             </Stack>
             <Box textAlign="center" mt="6" mb="4">
-              <AuthButton
-                loading={loading}
-                isDisabled={email === "" || password === ""}
-                onClick={handleSignUp}
-              >
+              <AuthButton loading={loading} isDisabled={email === "" || password === ""}>
                 新規登録
               </AuthButton>
             </Box>

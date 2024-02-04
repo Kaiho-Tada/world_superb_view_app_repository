@@ -25,6 +25,7 @@ const Login: FC = memo(() => {
   const navigate = useNavigate();
   const onClickSignup = useCallback(() => navigate("/signup"), [navigate]);
   const { handleGuestLogin } = useGuestLogin();
+
   return (
     <Flex align="center" justify="center" height="90vh">
       <Box w="md" p={4} boxShadow="2xl" border="1px" borderColor="gray.200">
@@ -32,7 +33,8 @@ const Login: FC = memo(() => {
           <Text as="h3" fontSize="xl" textAlign="center" mt={3}>
             ログイン
           </Text>
-          <form>
+          {/* eslint-disable jsx-a11y/no-redundant-roles */}
+          <form onSubmit={handleLogin} role="form" aria-label="ログインフォーム">
             <Stack spacing={4} px={6} py={2}>
               <FormControl>
                 <Flex align="center">
@@ -70,21 +72,17 @@ const Login: FC = memo(() => {
               </FormControl>
             </Stack>
             <Box textAlign="center" mt="6">
-              <AuthButton
-                loading={loading}
-                isDisabled={email === "" || password === ""}
-                onClick={handleLogin}
-              >
+              <AuthButton loading={loading} isDisabled={email === "" || password === ""}>
                 ログイン
               </AuthButton>
             </Box>
-            <Divider mt="6" mb="6" />
-            <Box textAlign="center">
-              <Button variant="primaryC" size="sm" onClick={handleGuestLogin}>
-                ゲストログイン
-              </Button>
-            </Box>
           </form>
+          <Divider mt="6" mb="6" />
+          <Box textAlign="center">
+            <Button variant="primaryC" size="sm" onClick={handleGuestLogin}>
+              ゲストログイン
+            </Button>
+          </Box>
           <Divider mt="6" mb="4" />
           <Text textAlign="center" as="h4">
             アカウントをお持ちでない方

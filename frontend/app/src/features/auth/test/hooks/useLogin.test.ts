@@ -47,11 +47,11 @@ test("ログイン成功時のテスト", async () => {
     setPassword("password");
   });
   const { handleLogin } = result.current;
-  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+  const mockEvent: Partial<React.FormEvent<HTMLFormElement>> = {
     preventDefault: jest.fn(),
   };
   await act(async () => {
-    await handleLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+    await handleLogin(mockEvent as React.FormEvent<HTMLFormElement>);
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
@@ -97,11 +97,11 @@ test("ログイン失敗時のテスト", async () => {
     setPassword("password");
   });
   const { handleLogin } = result.current;
-  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+  const mockEvent: Partial<React.FormEvent<HTMLFormElement>> = {
     preventDefault: jest.fn(),
   };
   await act(async () => {
-    await handleLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+    await handleLogin(mockEvent as React.FormEvent<HTMLFormElement>);
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
@@ -132,11 +132,11 @@ test("ログインエラー時のテスト", async () => {
     setPassword("password");
   });
   const { handleLogin } = result.current;
-  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+  const mockEvent: Partial<React.FormEvent<HTMLFormElement>> = {
     preventDefault: jest.fn(),
   };
   await act(async () => {
-    await handleLogin(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+    await handleLogin(mockEvent as React.FormEvent<HTMLFormElement>);
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);

@@ -31,11 +31,11 @@ test("サインアップ成功時の処理のテスト", async () => {
     setPassword("password");
   });
   const { handleSignUp } = result.current;
-  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+  const mockEvent: Partial<React.FormEvent<HTMLFormElement>> = {
     preventDefault: jest.fn(),
   };
   await act(async () => {
-    await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+    await handleSignUp(mockEvent as React.FormEvent<HTMLFormElement>);
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
@@ -85,11 +85,11 @@ test("signUpApi関数が422番のステイタスコードを返した際に、�
     setPassword("password");
   });
   const { handleSignUp } = result.current;
-  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+  const mockEvent: Partial<React.FormEvent<HTMLFormElement>> = {
     preventDefault: jest.fn(),
   };
   await act(async () => {
-    await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+    await handleSignUp(mockEvent as React.FormEvent<HTMLFormElement>);
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
@@ -127,10 +127,10 @@ test("サインアップエラー時の処理のテスト", async () => {
     setPassword("password");
   });
   const { handleSignUp } = result.current;
-  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+  const mockEvent: Partial<React.FormEvent<HTMLFormElement>> = {
     preventDefault: jest.fn(),
   };
-  await handleSignUp(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+  await handleSignUp(mockEvent as React.FormEvent<HTMLFormElement>);
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
   expect(spyOnSignUpApi).toHaveBeenCalledWith({

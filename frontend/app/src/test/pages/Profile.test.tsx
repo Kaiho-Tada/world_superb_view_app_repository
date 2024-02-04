@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import Profile from "pages/Profile";
 import { act } from "react-dom/test-utils";
@@ -19,6 +19,28 @@ test("プロフィールページのフォームの見出しが表示されて�
 });
 
 describe("プロフィール更新フォームのテスト", () => {
+  test("プロフィール更新フォームが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("form", { name: "プロフィール更新フォーム" })).toBeInTheDocument();
+  });
+
+  test("プロフィール更新フォームの送信をトリガーにhandleUpdateUser関数が呼び出されること", () => {
+    const spyOnUseUpdateUser = jest.spyOn(
+      jest.requireActual("features/auth/hooks/useUpdateUser"),
+      "default"
+    );
+    const mockHandleUpdateUser = jest.fn();
+    spyOnUseUpdateUser.mockReturnValue({
+      handleUpdateUser: mockHandleUpdateUser,
+    });
+
+    render(<Profile />);
+    fireEvent.submit(screen.getByRole("form", { name: "プロフィール更新フォーム" }));
+    expect(mockHandleUpdateUser).toHaveBeenCalledTimes(1);
+
+    spyOnUseUpdateUser.mockRestore();
+  });
+
   test("名前ラベルが表示されていること", () => {
     render(<Profile />);
     expect(screen.getByRole("heading", { name: "名前" })).toBeInTheDocument();
@@ -127,24 +149,31 @@ describe("プロフィール更新フォームのテスト", () => {
     });
     expect(screen.getByRole("button", { name: "プロフィール更新" })).toBeEnabled();
   });
-
-  test("プロフィール更新ボタン押下でhandleUpdateUser関数が呼び出されること", async () => {
-    const spyOnUseUpdateUser = jest.spyOn(
-      jest.requireActual("features/auth/hooks/useUpdateUser"),
-      "default"
-    );
-    const mockHandleUpdateUser = jest.fn();
-    spyOnUseUpdateUser.mockReturnValue({
-      handleUpdateUser: mockHandleUpdateUser,
-    });
-    const user = userEvent.setup();
-    render(<Profile />);
-    await user.click(screen.getByRole("button", { name: "プロフィール更新" }));
-    expect(mockHandleUpdateUser).toHaveBeenCalledTimes(1);
-  });
 });
 
 describe("パスワード更新フォームのテスト", () => {
+  test("パスワード更新フォームが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("form", { name: "パスワード更新フォーム" })).toBeInTheDocument();
+  });
+
+  test("パスワード更新フォームの送信をトリガーにhandleUpdatePassword関数が呼び出されること", () => {
+    const spyOnUseUpdatePassword = jest.spyOn(
+      jest.requireActual("features/auth/hooks/useUpdatePassword"),
+      "default"
+    );
+    const mockHandleUpdatePassword = jest.fn();
+    spyOnUseUpdatePassword.mockReturnValue({
+      handleUpdatePassword: mockHandleUpdatePassword,
+    });
+
+    render(<Profile />);
+    fireEvent.submit(screen.getByRole("form", { name: "パスワード更新フォーム" }));
+    expect(mockHandleUpdatePassword).toHaveBeenCalledTimes(1);
+
+    spyOnUseUpdatePassword.mockRestore();
+  });
+
   test("パスワードラベルが表示されていること", () => {
     render(<Profile />);
     expect(screen.getByRole("heading", { name: "パスワード" })).toBeInTheDocument();
@@ -222,24 +251,6 @@ describe("パスワード更新フォームのテスト", () => {
       await user.type(screen.getByLabelText("パスワード(確認)の記入欄"), "パスワード");
     });
     expect(screen.getByRole("button", { name: "パスワード更新" })).toBeEnabled();
-  });
-
-  test("パスワード更新ボタン押下でhandleUpdatePassword関数が呼び出されること", async () => {
-    const spyOnUseUpdatePassword = jest.spyOn(
-      jest.requireActual("features/auth/hooks/useUpdatePassword"),
-      "default"
-    );
-    const mockHandleUpdatePassword = jest.fn();
-    spyOnUseUpdatePassword.mockReturnValue({
-      handleUpdatePassword: mockHandleUpdatePassword,
-    });
-
-    const user = userEvent.setup();
-    render(<Profile />);
-    await act(async () => {
-      await user.click(screen.getByRole("button", { name: "パスワード更新" }));
-    });
-    expect(mockHandleUpdatePassword).toHaveBeenCalledTimes(1);
   });
 });
 

@@ -63,7 +63,8 @@ const Profile = memo(() => {
       >
         <Text fontSize="2xl">プロフィール</Text>
         <Divider mt="4" mb="4" />
-        <form>
+        {/* eslint-disable jsx-a11y/no-redundant-roles */}
+        <form onSubmit={handleUpdateUser} role="form" aria-label="プロフィール更新フォーム">
           <Stack>
             <FormControl>
               <Flex align="center">
@@ -102,7 +103,7 @@ const Profile = memo(() => {
               />
             </FormControl>
             <Box textAlign="center" mt="6">
-              <AuthButton loading={loading} isDisabled={email === ""} onClick={handleUpdateUser}>
+              <AuthButton loading={loading} isDisabled={email === ""}>
                 プロフィール更新
               </AuthButton>
             </Box>
@@ -110,7 +111,7 @@ const Profile = memo(() => {
         </form>
         <Divider mt="6" mb="4" />
         <Box>
-          <form>
+          <form onSubmit={handleUpdatePassword} role="form" aria-label="パスワード更新フォーム">
             <Stack>
               <FormControl>
                 <Flex align="center">
@@ -145,7 +146,6 @@ const Profile = memo(() => {
               <AuthButton
                 loading={loading}
                 isDisabled={password === "" || passwordConfirmation === ""}
-                onClick={handleUpdatePassword}
               >
                 パスワード更新
               </AuthButton>

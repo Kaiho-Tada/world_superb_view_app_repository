@@ -13,7 +13,7 @@ const useUpdateUser = () => {
   const [email, setEmail] = useState<string>("");
   const { showMessage } = useMessage();
 
-  const handleUpdateUser = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleUpdateUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 

@@ -14,7 +14,7 @@ const useLogin = () => {
   const { showMessage } = useMessage();
   const navigate = useNavigate();
 
-  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
@@ -22,6 +22,7 @@ const useLogin = () => {
       email,
       password,
     };
+
     try {
       const res = await loginApi(data);
       Cookies.set("_access_token", res.headers["access-token"]);

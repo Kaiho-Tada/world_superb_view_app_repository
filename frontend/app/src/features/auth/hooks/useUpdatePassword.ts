@@ -2,7 +2,7 @@ import { isAxiosError } from "axios";
 import { UpdatePasswordData } from "features/auth/types/auth";
 import useMessage from "hooks/useMessage";
 import { useAuth } from "providers/useAuthProvider";
-import React, { useState } from "react";
+import { useState } from "react";
 import updatePasswordApi from "../api/updatePasswordApi";
 
 const useUpdatePassword = () => {
@@ -12,7 +12,7 @@ const useUpdatePassword = () => {
   const [passwordConfirmation, setpasswordConfirmation] = useState("");
   const { showMessage } = useMessage();
 
-  const handleUpdatePassword = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 

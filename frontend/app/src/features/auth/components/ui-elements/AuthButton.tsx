@@ -5,17 +5,16 @@ type Props = {
   children: ReactNode;
   isDisabled?: boolean;
   loading?: boolean;
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 const AuthButton: FC<Props> = memo((props) => {
-  const { children, isDisabled = false, loading = false, onClick } = props;
+  const { children, isDisabled = false, loading = false } = props;
+
   return (
     <Button
       type="submit"
       variant="primaryA"
       size="sm"
-      onClick={onClick}
       isLoading={loading}
       isDisabled={isDisabled || loading}
       data-testid="auth-button"

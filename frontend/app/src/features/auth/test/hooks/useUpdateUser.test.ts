@@ -42,11 +42,11 @@ test("プロフィール更新成功時のテスト", async () => {
     setEmail("test@example.com");
   });
   const { handleUpdateUser } = result.current;
-  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+  const mockEvent: Partial<React.FormEvent<HTMLFormElement>> = {
     preventDefault: jest.fn(),
   };
   await act(async () => {
-    await handleUpdateUser(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+    await handleUpdateUser(mockEvent as React.FormEvent<HTMLFormElement>);
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
@@ -86,11 +86,11 @@ test("プロフィール更新エラー時の処理のテスト", async () => {
     setEmail("test@example.com");
   });
   const { handleUpdateUser } = result.current;
-  const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+  const mockEvent: Partial<React.FormEvent<HTMLFormElement>> = {
     preventDefault: jest.fn(),
   };
   await act(async () => {
-    await handleUpdateUser(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+    await handleUpdateUser(mockEvent as React.FormEvent<HTMLFormElement>);
   });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
@@ -133,11 +133,11 @@ describe("プロフィール更新失敗時の処理のテスト", () => {
       setEmail("guest@example.com");
     });
     const { handleUpdateUser } = result.current;
-    const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+    const mockEvent: Partial<React.FormEvent<HTMLFormElement>> = {
       preventDefault: jest.fn(),
     };
     await act(async () => {
-      await handleUpdateUser(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+      await handleUpdateUser(mockEvent as React.FormEvent<HTMLFormElement>);
     });
 
     expect(mockSetLoading).toHaveBeenCalledWith(true);
@@ -185,11 +185,11 @@ describe("プロフィール更新失敗時の処理のテスト", () => {
       setEmail("test@example.com");
     });
     const { handleUpdateUser } = result.current;
-    const mockEvent: Partial<React.MouseEvent<HTMLButtonElement, MouseEvent>> = {
+    const mockEvent: Partial<React.FormEvent<HTMLFormElement>> = {
       preventDefault: jest.fn(),
     };
     await act(async () => {
-      await handleUpdateUser(mockEvent as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+      await handleUpdateUser(mockEvent as React.FormEvent<HTMLFormElement>);
     });
 
     expect(mockSetLoading).toHaveBeenCalledWith(true);

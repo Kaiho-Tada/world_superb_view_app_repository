@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import SignUp from "pages/SignUp";
 import { act } from "react-dom/test-utils";
@@ -11,6 +11,27 @@ jest.mock("react-router-dom", () => ({
 
 afterEach(() => {
   jest.restoreAllMocks();
+});
+
+test("新規登録フォームが表示されていること", () => {
+  render(<SignUp />);
+  expect(screen.getByRole("form", { name: "新規登録フォーム" })).toBeInTheDocument();
+});
+
+test("新規登録フォームの送信をトリガーにhandleSignUp関数が呼び出されること", () => {
+  const spyOnUseSignUp = jest.spyOn(jest.requireActual("features/auth/hooks/useSignUp"), "default");
+  const mockHandleSignUp = jest.fn();
+  spyOnUseSignUp.mockReturnValue({
+    email: "email",
+    password: "password",
+    handleSignUp: mockHandleSignUp,
+  });
+
+  render(<SignUp />);
+  fireEvent.submit(screen.getByRole("form", { name: "新規登録フォーム" }));
+  expect(mockHandleSignUp).toHaveBeenCalledTimes(1);
+
+  spyOnUseSignUp.mockRestore();
 });
 
 test("新規登録フォームの見出しが表示されていること", () => {
@@ -114,23 +135,6 @@ test("AuthContextのloadingの値がtrueの場合は新規登録ボタンがload
 
   render(<SignUp />);
   expect(screen.getByTestId("auth-button")).toBeDisabled();
-});
-
-test("新規登録ボタン押下でhandleSignUp関数が呼び出されること", async () => {
-  const spyOnUseSignUp = jest.spyOn(jest.requireActual("features/auth/hooks/useSignUp"), "default");
-  const mockHandleSignUp = jest.fn();
-  spyOnUseSignUp.mockReturnValue({
-    email: "email",
-    password: "password",
-    handleSignUp: mockHandleSignUp,
-  });
-
-  const user = userEvent.setup();
-  render(<SignUp />);
-  await act(async () => {
-    await user.click(screen.getByRole("button", { name: "新規登録" }));
-  });
-  expect(mockHandleSignUp).toHaveBeenCalledTimes(1);
 });
 
 test("アカウント登録済みユーザー用のテキストが表示されていること", () => {

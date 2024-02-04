@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import Login from "pages/Login";
 import { act } from "react-dom/test-utils";
@@ -12,6 +12,25 @@ jest.mock("react-router-dom", () => ({
 
 afterEach(() => {
   jest.restoreAllMocks();
+});
+
+test("ログインフォームが表示されていること", () => {
+  render(<Login />);
+  expect(screen.getByRole("form", { name: "ログインフォーム" })).toBeInTheDocument();
+});
+
+test("ログインフォームの送信をトリガーにhandleLogin関数が呼び出されること", async () => {
+  const spyOnUseLogin = jest.spyOn(jest.requireActual("features/auth/hooks/useLogin"), "default");
+  const mockHandleLogin = jest.fn();
+  spyOnUseLogin.mockReturnValue({
+    handleLogin: mockHandleLogin,
+  });
+
+  render(<Login />);
+  fireEvent.submit(screen.getByRole("form", { name: "ログインフォーム" }));
+  expect(mockHandleLogin).toHaveBeenCalledTimes(1);
+
+  spyOnUseLogin.mockRestore();
 });
 
 test("ログインフォームの見出しが表示されていること", () => {
@@ -115,21 +134,6 @@ test("AuthContextのloadingの値がtrueの場合はログインボタンがload
   spyOnUseAuthProvider.mockReturnValue({ loading: true });
   render(<Login />);
   expect(screen.getByTestId("auth-button")).toBeDisabled();
-});
-
-test("ログインボタン押下でhandleLogin関数が実行されること", async () => {
-  const spyOnUseLogin = jest.spyOn(jest.requireActual("features/auth/hooks/useLogin"), "default");
-  const mockHandleLogin = jest.fn();
-  spyOnUseLogin.mockReturnValue({
-    handleLogin: mockHandleLogin,
-  });
-
-  const user = userEvent.setup();
-  render(<Login />);
-  await act(async () => {
-    await user.click(screen.getByRole("button", { name: "ログイン" }));
-  });
-  expect(mockHandleLogin).toHaveBeenCalledTimes(1);
 });
 
 test("ゲストログインボタンが表示されていること", () => {

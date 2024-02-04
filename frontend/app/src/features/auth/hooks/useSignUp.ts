@@ -13,7 +13,7 @@ const useSignUp = () => {
   const { showMessage } = useMessage();
   const navigate = useNavigate();
 
-  const handleSignUp = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
