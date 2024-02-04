@@ -1,9 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import MockAdapter from "axios-mock-adapter";
-import client from "lib/client";
 import Profile from "pages/Profile";
-import { AuthProvider } from "providers/useAuthProvider";
 import { act } from "react-dom/test-utils";
 
 const mockUseNavigate = jest.fn();
@@ -12,339 +9,309 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockUseNavigate,
 }));
 
-const mockUseToast = jest.fn();
-jest.mock("@chakra-ui/react", () => ({
-  ...jest.requireActual("@chakra-ui/react"),
-  useToast: () => mockUseToast,
-}));
-
-const loading = false;
-const mockcurrentUser = undefined;
-const mockSetLoading = jest.fn();
-const mockSetIsSignedIn = jest.fn();
-const mockSetCurrentUser = jest.fn();
-
-jest.mock("providers/useAuthProvider", () => ({
-  ...jest.requireActual("providers/useAuthProvider"),
-  useAuth: () => ({
-    loading,
-    currentUser: mockcurrentUser,
-    setCurrentUser: mockSetCurrentUser,
-    setLoading: mockSetLoading,
-    setIsSignedIn: mockSetIsSignedIn,
-  }),
-}));
-
-const mockAxios = new MockAdapter(client);
-
 afterEach(() => {
-  mockAxios.resetHistory();
-  jest.clearAllMocks();
+  jest.restoreAllMocks();
 });
 
-describe("プロフィールページのレンダリングテスト", () => {
-  test("プロフィールページの見出しが表示されていること", () => {
-    render(
-      <AuthProvider>
-        <Profile />
-      </AuthProvider>
+test("プロフィールページのフォームの見出しが表示されていること", () => {
+  render(<Profile />);
+  expect(screen.getByText("プロフィール")).toBeInTheDocument();
+});
+
+describe("プロフィール更新フォームのテスト", () => {
+  test("プロフィール更新フォームが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("form", { name: "プロフィール更新フォーム" })).toBeInTheDocument();
+  });
+
+  test("プロフィール更新フォームの送信をトリガーにhandleUpdateUser関数が呼び出されること", () => {
+    const spyOnUseUpdateUser = jest.spyOn(
+      jest.requireActual("features/auth/hooks/useUpdateUser"),
+      "default"
     );
-    const profileHeading = screen.getByText("プロフィール");
-    expect(profileHeading).toBeInTheDocument();
+    const mockHandleUpdateUser = jest.fn();
+    spyOnUseUpdateUser.mockReturnValue({
+      handleUpdateUser: mockHandleUpdateUser,
+    });
+
+    render(<Profile />);
+    fireEvent.submit(screen.getByRole("form", { name: "プロフィール更新フォーム" }));
+    expect(mockHandleUpdateUser).toHaveBeenCalledTimes(1);
+
+    spyOnUseUpdateUser.mockRestore();
   });
 
-  describe("プロフィール更新フォームのテスト", () => {
-    test("名前ラベルが表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const nameLabel = screen.getByRole("heading", { name: "名前" });
-      expect(nameLabel).toBeInTheDocument();
-    });
-
-    test("名前の記入欄が表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const nameInput = screen.getByRole("textbox", { name: "name" });
-      expect(nameInput).toBeInTheDocument();
-    });
-
-    test("ニックネームラベルが表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const nickNameLabel = screen.getByRole("heading", { name: "ニックネーム" });
-      expect(nickNameLabel).toBeInTheDocument();
-    });
-
-    test("ニックネームの記入欄が表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const nickNameInput = screen.getByRole("textbox", { name: "nickName" });
-      expect(nickNameInput).toBeInTheDocument();
-    });
-
-    test("emailラベルが表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const emailLabel = screen.getByRole("heading", { name: "Email" });
-      expect(emailLabel).toBeInTheDocument();
-    });
-
-    test("メールアドレスの記入欄が表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const emailInput = screen.getByRole("textbox", { name: "email" });
-      expect(emailInput).toBeInTheDocument();
-    });
-
-    test("プロフィール更新ボタンが表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const updateProfileButton = screen.getByRole("button", { name: "プロフィール更新" });
-      expect(updateProfileButton).toBeInTheDocument();
-    });
+  test("名前ラベルが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("heading", { name: "名前" })).toBeInTheDocument();
   });
 
-  describe("パスワード更新フォームのテスト", () => {
-    test("パスワードラベルが表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const passwordLabel = screen.getByRole("heading", { name: "パスワード" });
-      expect(passwordLabel).toBeInTheDocument();
-    });
-
-    test("パスワードの記入欄が表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const passwordInput = screen.getByLabelText("password");
-      expect(passwordInput).toBeInTheDocument();
-    });
-
-    test("パスワード確認ラベルが表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const passwordConfirmationLabel = screen.getByRole("heading", { name: "パスワード(確認)" });
-      expect(passwordConfirmationLabel).toBeInTheDocument();
-    });
-
-    test("パスワード(確認)の記入欄が表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const passwordConfirmationInput = screen.getByLabelText("passwordConfirmation");
-      expect(passwordConfirmationInput).toBeInTheDocument();
-    });
-
-    test("パスワード更新ボタンが存在すること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const updatePasswordButton = screen.getByRole("button", { name: "パスワード更新" });
-      expect(updatePasswordButton).toBeInTheDocument();
-    });
+  test("名前の記入欄が表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("textbox", { name: "名前の記入欄" })).toBeInTheDocument();
   });
 
-  describe("ホームに戻るボタンのテスト", () => {
-    test("ホームに戻るボタンが表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const returnToTopButton = screen.getByRole("button", { name: "ホームに戻る" });
-      expect(returnToTopButton).toBeInTheDocument();
+  test("名前の記入欄の入力をトリガーにnameが更新されること", async () => {
+    const spyOnUseUpdateUser = jest.spyOn(
+      jest.requireActual("features/auth/hooks/useUpdateUser"),
+      "default"
+    );
+    const mockSetName = jest.fn();
+    spyOnUseUpdateUser.mockReturnValue({
+      setName: mockSetName,
     });
 
-    test("ホームに戻るボタン押下でhomeページに遷移すること", async () => {
-      const user = userEvent.setup();
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const returnToTopButton = screen.getByRole("button", { name: "ホームに戻る" });
-      await act(async () => {
-        await user.click(returnToTopButton);
-      });
-      expect(mockUseNavigate).toHaveBeenCalledWith("/home");
+    const user = userEvent.setup();
+    render(<Profile />);
+    await act(async () => {
+      await user.type(screen.getByRole("textbox", { name: "名前の記入欄" }), "名前");
     });
+    expect(mockSetName).toHaveBeenCalledWith("名前");
+    expect(mockSetName).toHaveBeenCalledTimes(2);
   });
 
-  describe("アカウント削除ボタンのテスト", () => {
-    test("アカウント削除ボタンが表示されていること", () => {
-      render(
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      );
-      const deleteAccountButton = screen.getByRole("button", { name: "アカウント削除" });
-      expect(deleteAccountButton).toBeInTheDocument();
+  test("ニックネームラベルが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("heading", { name: "ニックネーム" })).toBeInTheDocument();
+  });
+
+  test("ニックネームの記入欄が表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("textbox", { name: "ニックネームの記入欄" })).toBeInTheDocument();
+  });
+
+  test("ニックネームの記入欄の入力をトリガーにnicknameが更新されること", async () => {
+    const spyOnUseUpdateUser = jest.spyOn(
+      jest.requireActual("features/auth/hooks/useUpdateUser"),
+      "default"
+    );
+    const mockSetNickname = jest.fn();
+    spyOnUseUpdateUser.mockReturnValue({
+      setNickname: mockSetNickname,
     });
+
+    const user = userEvent.setup();
+    render(<Profile />);
+    await act(async () => {
+      await user.type(
+        screen.getByRole("textbox", { name: "ニックネームの記入欄" }),
+        "ニックネーム"
+      );
+    });
+    expect(mockSetNickname).toHaveBeenCalledWith("ニックネーム");
+    expect(mockSetNickname).toHaveBeenCalledTimes(6);
+  });
+
+  test("Emailラベルが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("heading", { name: "Email" })).toBeInTheDocument();
+  });
+
+  test("メールアドレスの記入欄が表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("textbox", { name: "Eメールの記入欄" })).toBeInTheDocument();
+  });
+
+  test("Eメールの記入欄の入力をトリガーにemailが更新されること", async () => {
+    const spyOnUseUpdateUser = jest.spyOn(
+      jest.requireActual("features/auth/hooks/useUpdateUser"),
+      "default"
+    );
+    const mockSetEmail = jest.fn();
+    spyOnUseUpdateUser.mockReturnValue({
+      setEmail: mockSetEmail,
+    });
+
+    const user = userEvent.setup();
+    render(<Profile />);
+    await act(async () => {
+      await user.type(screen.getByRole("textbox", { name: "Eメールの記入欄" }), "Eメール");
+    });
+    expect(mockSetEmail).toHaveBeenCalledWith("Eメール");
+    expect(mockSetEmail).toHaveBeenCalledTimes(4);
+  });
+
+  test("プロフィール更新ボタンが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("button", { name: "プロフィール更新" })).toBeInTheDocument();
+  });
+
+  test("emailが未入力の場合はプロフィール更新ボタンが非アクティブであること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("button", { name: "プロフィール更新" })).toBeDisabled();
+  });
+
+  test("emailの入力でプロフィール更新ボタンがアクティブになること", async () => {
+    const user = userEvent.setup();
+    render(<Profile />);
+    await act(async () => {
+      await user.type(screen.getByRole("textbox", { name: "Eメールの記入欄" }), "Eメール");
+    });
+    expect(screen.getByRole("button", { name: "プロフィール更新" })).toBeEnabled();
   });
 });
 
-describe("プロフィールページの機能テスト", () => {
-  mockAxios.onPut("auth").reply((config) => {
-    const data = JSON.parse(config.data);
-    return [200, { data }];
+describe("パスワード更新フォームのテスト", () => {
+  test("パスワード更新フォームが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("form", { name: "パスワード更新フォーム" })).toBeInTheDocument();
   });
 
-  test("プロフィール更新ボタン押下でプロフィールを更新できること", async () => {
-    const user = userEvent.setup();
-    render(
-      <AuthProvider>
-        <Profile />
-      </AuthProvider>
+  test("パスワード更新フォームの送信をトリガーにhandleUpdatePassword関数が呼び出されること", () => {
+    const spyOnUseUpdatePassword = jest.spyOn(
+      jest.requireActual("features/auth/hooks/useUpdatePassword"),
+      "default"
     );
-    const nameInput = screen.getByRole("textbox", { name: "name" });
-    const nickNameInput = screen.getByRole("textbox", { name: "nickName" });
-    const emailInput = screen.getByRole("textbox", { name: "email" });
-    const updateProfileButton = screen.getByRole("button", { name: "プロフィール更新" });
-    await act(async () => {
-      await user.type(nameInput, "newName");
-      await user.type(nickNameInput, "newNickName");
-      await user.type(emailInput, "newTest@example.com");
-      await user.click(updateProfileButton);
+    const mockHandleUpdatePassword = jest.fn();
+    spyOnUseUpdatePassword.mockReturnValue({
+      handleUpdatePassword: mockHandleUpdatePassword,
     });
 
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
+    render(<Profile />);
+    fireEvent.submit(screen.getByRole("form", { name: "パスワード更新フォーム" }));
+    expect(mockHandleUpdatePassword).toHaveBeenCalledTimes(1);
 
-    expect(mockUseToast).toHaveBeenCalledWith({
-      title: "プロフィールを更新しました。",
-      status: "success",
-      position: "top",
-      duration: 5000,
-      isClosable: true,
-    });
-
-    expect(mockUseToast).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCurrentUser).toHaveBeenCalledWith({
-      name: "newName",
-      nickname: "newNickName",
-      email: "newTest@example.com",
-    });
-    expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
-
-    expect(mockSetLoading).toHaveBeenCalledWith(false);
-    expect(mockSetLoading).toHaveBeenCalledTimes(2);
+    spyOnUseUpdatePassword.mockRestore();
   });
 
-  mockAxios.onPut("auth/password").reply(200, {
-    message: "パスワードの更新に成功しました。",
+  test("パスワードラベルが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("heading", { name: "パスワード" })).toBeInTheDocument();
   });
 
-  test("パスワード更新ボタン押下でパスワード更新できること", async () => {
-    const user = userEvent.setup();
-    render(
-      <AuthProvider>
-        <Profile />
-      </AuthProvider>
+  test("パスワードの記入欄が表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByLabelText("パスワードの記入欄")).toBeInTheDocument();
+  });
+
+  test("パスワードの記入欄の入力をトリガーにpasswordが更新されること", async () => {
+    const spyOnUseUpdatePassword = jest.spyOn(
+      jest.requireActual("features/auth/hooks/useUpdatePassword"),
+      "default"
     );
-    const passwordInput = screen.getByPlaceholderText("6文字以上の半角英数字") as HTMLInputElement;
-    const passwordConfirmationInput = screen.getByPlaceholderText(
-      "パスワードを確認してください"
-    ) as HTMLInputElement;
-    const updatePasswordButton = screen.getByRole("button", { name: "パスワード更新" });
-
-    expect(passwordInput.value).toBe("");
-    expect(passwordConfirmationInput.value).toBe("");
-    expect(updatePasswordButton).toBeDisabled();
-
-    await act(async () => {
-      await user.type(passwordInput, "newName");
-      await user.type(passwordConfirmationInput, "newNickName");
+    const mockSetPassword = jest.fn();
+    spyOnUseUpdatePassword.mockReturnValue({
+      setPassword: mockSetPassword,
     });
 
-    expect(updatePasswordButton).not.toBeDisabled();
-
-    await act(async () => {
-      await user.click(updatePasswordButton);
-    });
-
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
-
-    expect(mockUseToast).toHaveBeenCalledWith({
-      title: "パスワードの更新に成功しました。",
-      status: "success",
-      position: "top",
-      duration: 5000,
-      isClosable: true,
-    });
-    expect(mockUseToast).toHaveBeenCalledTimes(1);
-
-    expect(mockSetLoading).toHaveBeenCalledWith(false);
-    expect(mockSetLoading).toHaveBeenCalledTimes(2);
-  });
-
-  mockAxios.onDelete("auth").reply(200, {
-    message: "'test@example.com' のアカウントは削除されました。",
-  });
-
-  test("アカウント削除ボタン押下でアカウント削除されること", async () => {
     const user = userEvent.setup();
-    render(
-      <AuthProvider>
-        <Profile />
-      </AuthProvider>
-    );
-    const deleteAccountButton = screen.getByRole("button", { name: "アカウント削除" });
-    await user.click(deleteAccountButton);
-
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
-
-    expect(mockSetIsSignedIn).toHaveBeenCalledWith(false);
-    expect(mockSetIsSignedIn).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCurrentUser).toHaveBeenCalledWith(undefined);
-    expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
-
-    expect(mockUseToast).toHaveBeenCalledWith({
-      title: "'test@example.com' のアカウントは削除されました。",
-      status: "success",
-      position: "top",
-      duration: 5000,
-      isClosable: true,
+    render(<Profile />);
+    await act(async () => {
+      await user.type(screen.getByLabelText("パスワードの記入欄"), "パスワード");
     });
-    expect(mockUseToast).toHaveBeenCalledTimes(1);
+    expect(mockSetPassword).toHaveBeenCalledWith("パスワード");
+    expect(mockSetPassword).toHaveBeenCalledTimes(5);
+  });
 
-    expect(mockUseNavigate).toHaveBeenCalledWith("/login");
-    expect(mockUseNavigate).toHaveBeenCalledTimes(1);
+  test("パスワード確認ラベルが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("heading", { name: "パスワード(確認)" })).toBeInTheDocument();
+  });
 
-    expect(mockSetLoading).toHaveBeenCalledWith(false);
-    expect(mockSetLoading).toHaveBeenCalledTimes(2);
+  test("パスワード(確認)の記入欄が表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByLabelText("パスワード(確認)の記入欄")).toBeInTheDocument();
+  });
+
+  test("パスワード(確認)の記入欄の入力をトリガーにpasswordが更新されること", async () => {
+    const spyOnUseUpdatePassword = jest.spyOn(
+      jest.requireActual("features/auth/hooks/useUpdatePassword"),
+      "default"
+    );
+    const mockSetpasswordConfirmation = jest.fn();
+    spyOnUseUpdatePassword.mockReturnValue({
+      setpasswordConfirmation: mockSetpasswordConfirmation,
+    });
+
+    const user = userEvent.setup();
+    render(<Profile />);
+    await act(async () => {
+      await user.type(screen.getByLabelText("パスワード(確認)の記入欄"), "パスワード");
+    });
+    expect(mockSetpasswordConfirmation).toHaveBeenCalledWith("パスワード");
+    expect(mockSetpasswordConfirmation).toHaveBeenCalledTimes(5);
+  });
+
+  test("パスワード更新ボタンが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("button", { name: "パスワード更新" })).toBeInTheDocument();
+  });
+
+  test("passwordとpasswordConfirmationが未入力の場合はパスワード更新ボタンが非アクティブであること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("button", { name: "パスワード更新" })).toBeDisabled();
+  });
+
+  test("passwordとpasswordConfirmation入力でパスワード更新ボタンがアクティブになること", async () => {
+    const user = userEvent.setup();
+
+    render(<Profile />);
+    await act(async () => {
+      await user.type(screen.getByLabelText("パスワードの記入欄"), "Eメール");
+      await user.type(screen.getByLabelText("パスワード(確認)の記入欄"), "パスワード");
+    });
+    expect(screen.getByRole("button", { name: "パスワード更新" })).toBeEnabled();
+  });
+});
+
+describe("ホームに戻るボタンのテスト", () => {
+  test("ホームに戻るボタンが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("button", { name: "ホームに戻る" })).toBeInTheDocument();
+  });
+
+  test("ホームに戻るボタン押下でhomeページに遷移すること", async () => {
+    const user = userEvent.setup();
+    render(<Profile />);
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "ホームに戻る" }));
+    });
+    expect(mockUseNavigate).toHaveBeenCalledWith("/home");
+  });
+});
+
+describe("アカウント削除ボタンのテスト", () => {
+  test("アカウント削除ボタンが表示されていること", () => {
+    render(<Profile />);
+    expect(screen.getByRole("button", { name: "アカウント削除" })).toBeInTheDocument();
+  });
+
+  test("アカウント削除ボタン押下でhandleDeleteUser関数が呼び出されること", async () => {
+    const spyOnUseDeleteUser = jest.spyOn(
+      jest.requireActual("features/auth/hooks/useDeleteUser"),
+      "default"
+    );
+    const mockHandleDeleteUser = jest.fn();
+    spyOnUseDeleteUser.mockReturnValue({
+      handleDeleteUser: mockHandleDeleteUser,
+    });
+
+    const user = userEvent.setup();
+    render(<Profile />);
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "アカウント削除" }));
+    });
+    expect(mockHandleDeleteUser).toHaveBeenCalledTimes(1);
+  });
+});
+
+test("AuthContextのloadingの値がtrueの場合はAuthButtonがloading中であること", () => {
+  const spyOnUseUpdatePassword = jest.spyOn(
+    jest.requireActual("features/auth/hooks/useUpdatePassword"),
+    "default"
+  );
+  spyOnUseUpdatePassword.mockReturnValue({
+    password: "",
+  });
+  const spyOnUseAuthProvider = jest.spyOn(
+    jest.requireActual("providers/useAuthProvider"),
+    "useAuth"
+  );
+  spyOnUseAuthProvider.mockReturnValue({ loading: true });
+
+  render(<Profile />);
+  const authButtons = screen.getAllByTestId("auth-button");
+  authButtons.forEach((button) => {
+    expect(button).toBeDisabled();
   });
 });

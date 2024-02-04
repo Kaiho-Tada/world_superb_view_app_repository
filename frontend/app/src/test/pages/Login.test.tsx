@@ -1,412 +1,182 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import MockAdapter from "axios-mock-adapter";
-import Cookies from "js-cookie";
-import client from "lib/client";
 import Login from "pages/Login";
-import { AuthProvider } from "providers/useAuthProvider";
 import { act } from "react-dom/test-utils";
 
-const mockUseNavigate = jest.fn();
+const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockUseNavigate,
+  useNavigate: () => mockNavigate,
 }));
-
-const mockUseToast = jest.fn();
-jest.mock("@chakra-ui/react", () => ({
-  ...jest.requireActual("@chakra-ui/react"),
-  useToast: () => mockUseToast,
-}));
-
-jest.mock("js-cookie", () => ({
-  ...jest.requireActual("js-cookie"),
-  set: jest.fn(),
-}));
-
-const mockSetLoading = jest.fn();
-const mockSetIsSignedIn = jest.fn();
-const mockSetCurrentUser = jest.fn();
-
-jest.mock("providers/useAuthProvider", () => ({
-  ...jest.requireActual("providers/useAuthProvider"),
-  useAuth: () => ({
-    setIsSignedIn: mockSetIsSignedIn,
-    setCurrentUser: mockSetCurrentUser,
-    setLoading: mockSetLoading,
-  }),
-}));
-
-client.interceptors.response.use((config) => {
-  const modifiedConfig = {
-    ...config,
-    headers: { ...config.headers, "access-token": "access-token", client: "client", uid: "uid" },
-  };
-  return modifiedConfig;
-});
-
-const mockAxios = new MockAdapter(client);
 
 afterEach(() => {
-  mockAxios.resetHistory();
-  jest.clearAllMocks();
+  jest.restoreAllMocks();
 });
 
-describe("ログインページのレンダリングテスト", () => {
-  test("ログインフォームの見出しが表示されていること", () => {
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const loginHeading = screen.getByRole("heading", { name: "ログイン" });
-    expect(loginHeading).toBeInTheDocument();
-  });
-
-  test("emailラベルが表示されていること", () => {
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const emailLabel = screen.getByRole("heading", { name: "Email" });
-    expect(emailLabel).toBeInTheDocument();
-  });
-
-  test("メールアドレスの記入欄が表示されていること", () => {
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const emailInput = screen.getByRole("textbox", { name: "email" });
-    expect(emailInput).toBeInTheDocument();
-  });
-
-  test("パスワードラベルが表示されていること", () => {
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const passwordLabel = screen.getByRole("heading", { name: "パスワード" });
-    expect(passwordLabel).toBeInTheDocument();
-  });
-
-  test("パスワードの記入欄が表示されていること", () => {
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const passwordInput = screen.getByLabelText("password");
-    expect(passwordInput).toBeInTheDocument();
-  });
-
-  test("ログインボタンが表示されていること", () => {
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const loginButton = screen.getByRole("button", { name: "ログイン" });
-    expect(loginButton).toBeInTheDocument();
-  });
-
-  test("アカウント未登録者用の見出しが表示されていること", () => {
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const headingForSignUp = screen.getByRole("heading", { name: "アカウントをお持ちでない方" });
-    expect(headingForSignUp).toBeInTheDocument();
-  });
-
-  test("サインアップページ遷移ボタンが表示されていること", () => {
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const navigateToSignUpPageButton = screen.getByRole("button", { name: "登録する" });
-    expect(navigateToSignUpPageButton).toBeInTheDocument();
-  });
-
-  test("サインアップページ遷移ボタン押下でサインアップページに遷移されること", async () => {
-    const user = userEvent.setup();
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const navigateToSignUpPageButton = screen.getByRole("button", { name: "登録する" });
-    await user.click(navigateToSignUpPageButton);
-    expect(mockUseNavigate).toHaveBeenCalledWith("/signup");
-    expect(mockUseNavigate).toHaveBeenCalledTimes(1);
-  });
-
-  test("ゲストログインボタンが表示されていること", () => {
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const GuestLoginButton = screen.getByRole("button", { name: "ゲストログイン" });
-    expect(GuestLoginButton).toBeInTheDocument();
-  });
+test("ログインフォームが表示されていること", () => {
+  render(<Login />);
+  expect(screen.getByRole("form", { name: "ログインフォーム" })).toBeInTheDocument();
 });
 
-describe("ログインページの機能テスト", () => {
-  test("ログイン成功時のテスト", async () => {
-    mockAxios.onPost("/auth/sign_in").reply((config) => {
-      const data = JSON.parse(config.data);
-      return [200, { data }];
-    });
-    const user = userEvent.setup();
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const emailInput = screen.getByRole("textbox", { name: "email" }) as HTMLInputElement;
-    const passwordInput = screen.getByLabelText("password") as HTMLInputElement;
-    const loginButton = screen.getByRole("button", { name: "ログイン" });
-
-    expect(emailInput.value).toBe("");
-    expect(passwordInput.value).toBe("");
-    expect(loginButton).toBeDisabled();
-
-    await act(async () => {
-      await user.type(emailInput, "test@example.com");
-      await user.type(passwordInput, "password");
-    });
-    expect(loginButton).not.toBeDisabled();
-    await act(async () => {
-      await user.click(loginButton);
-    });
-
-    expect(Cookies.set).toHaveBeenCalledWith("_access_token", "access-token");
-    expect(Cookies.set).toHaveBeenCalledWith("_client", "client");
-    expect(Cookies.set).toHaveBeenCalledWith("_uid", "uid");
-
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
-
-    expect(mockUseToast).toHaveBeenCalledWith({
-      title: "ログインしました",
-      status: "success",
-      position: "top",
-      duration: 5000,
-      isClosable: true,
-    });
-    expect(mockUseToast).toHaveBeenCalledTimes(1);
-
-    expect(mockSetIsSignedIn).toHaveBeenCalledWith(true);
-    expect(mockSetIsSignedIn).toHaveBeenCalledTimes(1);
-
-    expect(mockSetCurrentUser).toHaveBeenCalledWith({
-      email: "test@example.com",
-      password: "password",
-    });
-    expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
-
-    expect(mockUseNavigate).toHaveBeenCalledWith("/home");
-    expect(mockUseNavigate).toHaveBeenCalledTimes(1);
-
-    expect(mockSetLoading).toHaveBeenCalledWith(false);
-    expect(mockSetLoading).toHaveBeenCalledTimes(2);
+test("ログインフォームの送信をトリガーにhandleLogin関数が呼び出されること", async () => {
+  const spyOnUseLogin = jest.spyOn(jest.requireActual("features/auth/hooks/useLogin"), "default");
+  const mockHandleLogin = jest.fn();
+  spyOnUseLogin.mockReturnValue({
+    handleLogin: mockHandleLogin,
   });
 
-  test("ログイン失敗時のテスト", async () => {
-    mockAxios.onPost("/auth/sign_in").reply(401, {
-      errors: ["ログイン用の認証情報が正しくありません。再度お試しください。"],
-    });
+  render(<Login />);
+  fireEvent.submit(screen.getByRole("form", { name: "ログインフォーム" }));
+  expect(mockHandleLogin).toHaveBeenCalledTimes(1);
 
-    const user = userEvent.setup();
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const emailInput = screen.getByRole("textbox", { name: "email" }) as HTMLInputElement;
-    const passwordInput = screen.getByLabelText("password") as HTMLInputElement;
-    const loginButton = screen.getByRole("button", { name: "ログイン" });
+  spyOnUseLogin.mockRestore();
+});
 
-    expect(emailInput.value).toBe("");
-    expect(passwordInput.value).toBe("");
-    expect(loginButton).toBeDisabled();
+test("ログインフォームの見出しが表示されていること", () => {
+  render(<Login />);
+  expect(screen.getByRole("heading", { name: "ログイン" })).toBeInTheDocument();
+});
 
-    await act(async () => {
-      await user.type(emailInput, "test@example.com");
-      await user.type(passwordInput, "password");
-    });
-    expect(loginButton).not.toBeDisabled();
-    await act(async () => {
-      await user.click(loginButton);
-    });
+test("メールアイコンが表示されていること", () => {
+  render(<Login />);
+  expect(screen.getByRole("img", { name: "メールアイコン" })).toBeInTheDocument();
+});
 
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
+test("emailラベルが表示されていること", () => {
+  render(<Login />);
+  expect(screen.getByRole("heading", { name: "Email" })).toBeInTheDocument();
+});
 
-    expect(mockUseToast).toHaveBeenCalledWith({
-      title: "ログイン用の認証情報が正しくありません。再度お試しください。",
-      status: "error",
-      position: "top",
-      duration: 5000,
-      isClosable: true,
-    });
-    expect(mockUseToast).toHaveBeenCalledTimes(1);
+test("メールアドレスの記入欄が表示されていること", () => {
+  render(<Login />);
+  expect(screen.getByRole("textbox", { name: "email" })).toBeInTheDocument();
+});
 
-    expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
-    expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
-
-    expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
-    expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
-
-    expect(mockUseNavigate).not.toHaveBeenCalledWith();
-    expect(mockUseNavigate).toHaveBeenCalledTimes(0);
-
-    expect(mockSetLoading).toHaveBeenCalledWith(false);
-    expect(mockSetLoading).toHaveBeenCalledTimes(2);
+test("メールアドレスの記入欄の入力をトリガーにemailが更新されること", async () => {
+  const spyOnUseLogin = jest.spyOn(jest.requireActual("features/auth/hooks/useLogin"), "default");
+  const mockSetEmail = jest.fn();
+  spyOnUseLogin.mockReturnValue({
+    setEmail: mockSetEmail,
   });
 
-  test("ログインエラー時のテスト", async () => {
-    mockAxios.onPost("/auth/sign_in").reply(500);
+  const user = userEvent.setup();
+  render(<Login />);
+  await act(async () => {
+    await user.type(screen.getByRole("textbox", { name: "email" }), "Eメール");
+  });
+  expect(mockSetEmail).toHaveBeenCalledWith("Eメール");
+  expect(mockSetEmail).toHaveBeenCalledTimes(4);
+});
 
-    const user = userEvent.setup();
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>
-    );
-    const emailInput = screen.getByRole("textbox", { name: "email" }) as HTMLInputElement;
-    const passwordInput = screen.getByLabelText("password") as HTMLInputElement;
-    const loginButton = screen.getByRole("button", { name: "ログイン" });
+test("パスワードアイコンが表示されていること", () => {
+  render(<Login />);
+  expect(screen.getByRole("img", { name: "パスワードアイコン" })).toBeInTheDocument();
+});
 
-    expect(emailInput.value).toBe("");
-    expect(passwordInput.value).toBe("");
-    expect(loginButton).toBeDisabled();
+test("パスワードラベルが表示されていること", () => {
+  render(<Login />);
+  expect(screen.getByRole("heading", { name: "パスワード" })).toBeInTheDocument();
+});
 
-    await act(async () => {
-      await user.type(emailInput, "test@example.com");
-      await user.type(passwordInput, "password");
-    });
-    expect(loginButton).not.toBeDisabled();
-    await act(async () => {
-      await user.click(loginButton);
-    });
+test("パスワードの記入欄が表示されていること", () => {
+  render(<Login />);
+  expect(screen.getByLabelText("password")).toBeInTheDocument();
+});
 
-    expect(mockSetLoading).toHaveBeenCalledWith(true);
-
-    expect(mockUseToast).toHaveBeenCalledWith({
-      title: "エラーが発生しました。",
-      status: "error",
-      position: "top",
-      duration: 5000,
-      isClosable: true,
-    });
-    expect(mockUseToast).toHaveBeenCalledTimes(1);
-
-    expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
-    expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
-
-    expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
-    expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
-
-    expect(mockUseNavigate).not.toHaveBeenCalledWith();
-    expect(mockUseNavigate).toHaveBeenCalledTimes(0);
-
-    expect(mockSetLoading).toHaveBeenCalledWith(false);
-    expect(mockSetLoading).toHaveBeenCalledTimes(2);
+test("パスワードの記入欄の入力をトリガーにpasswordが更新されること", async () => {
+  const spyOnUseLogin = jest.spyOn(jest.requireActual("features/auth/hooks/useLogin"), "default");
+  const mockSetPassword = jest.fn();
+  spyOnUseLogin.mockReturnValue({
+    setPassword: mockSetPassword,
   });
 
-  describe("ゲストログインボタンのテスト", () => {
-    test("ゲストログイン成功時の処理のテスト", async () => {
-      mockAxios.onPost("/auth/sessions/guest_login").reply(200, {
-        status: 200,
-        data: {
-          id: 1,
-          email: "guest@example.com",
-        },
-      });
-      const user = userEvent.setup();
-      render(
-        <AuthProvider>
-          <Login />
-        </AuthProvider>
-      );
-      const GuestLoginButton = screen.getByRole("button", { name: "ゲストログイン" });
-
-      await act(async () => {
-        await user.click(GuestLoginButton);
-      });
-
-      expect(Cookies.set).toHaveBeenCalledWith("_access_token", "access-token");
-      expect(Cookies.set).toHaveBeenCalledWith("_client", "client");
-      expect(Cookies.set).toHaveBeenCalledWith("_uid", "uid");
-
-      expect(mockSetLoading).toHaveBeenCalledWith(true);
-
-      expect(mockSetIsSignedIn).toHaveBeenCalledWith(true);
-      expect(mockSetIsSignedIn).toHaveBeenCalledTimes(1);
-
-      expect(mockSetCurrentUser).toHaveBeenCalledWith({
-        id: 1,
-        email: "guest@example.com",
-      });
-      expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
-
-      expect(mockUseToast).toHaveBeenCalledWith({
-        title: "ゲストログインしました。",
-        status: "success",
-        position: "top",
-        duration: 5000,
-        isClosable: true,
-      });
-      expect(mockUseToast).toHaveBeenCalledTimes(1);
-
-      expect(mockUseNavigate).toHaveBeenCalledWith("/home");
-      expect(mockUseNavigate).toHaveBeenCalledTimes(1);
-
-      expect(mockSetLoading).toHaveBeenCalledWith(false);
-      expect(mockSetLoading).toHaveBeenCalledTimes(2);
-    });
-
-    test("ゲストログインエラー時の処理のテスト", async () => {
-      mockAxios.onPost("/auth/sessions/guest_login").reply(500);
-      const user = userEvent.setup();
-      render(
-        <AuthProvider>
-          <Login />
-        </AuthProvider>
-      );
-      const GuestLoginButton = screen.getByRole("button", { name: "ゲストログイン" });
-
-      await act(async () => {
-        await user.click(GuestLoginButton);
-      });
-      expect(mockSetLoading).toHaveBeenCalledWith(true);
-
-      expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
-      expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
-
-      expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
-      expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
-
-      expect(mockUseToast).toHaveBeenCalledWith({
-        title: "エラーが発生しました。",
-        status: "error",
-        position: "top",
-        duration: 5000,
-        isClosable: true,
-      });
-      expect(mockUseToast).toHaveBeenCalledTimes(1);
-
-      expect(mockUseNavigate).not.toHaveBeenCalledWith();
-      expect(mockUseNavigate).toHaveBeenCalledTimes(0);
-
-      expect(mockSetLoading).toHaveBeenCalledWith(false);
-      expect(mockSetLoading).toHaveBeenCalledTimes(2);
-    });
+  const user = userEvent.setup();
+  render(<Login />);
+  await act(async () => {
+    await user.type(screen.getByLabelText("password"), "パスワード");
   });
+  expect(mockSetPassword).toHaveBeenCalledWith("パスワード");
+  expect(mockSetPassword).toHaveBeenCalledTimes(5);
+});
+
+test("ログインボタンが表示されていること", () => {
+  render(<Login />);
+  expect(screen.getByRole("button", { name: "ログイン" })).toBeInTheDocument();
+});
+
+test("emailとpasswordが未入力である場合、ログインボタンが非アクティブであること", () => {
+  render(<Login />);
+  expect(screen.getByRole("button", { name: "ログイン" })).toBeDisabled();
+});
+
+test("emailとpassword入力で、ログインボタンがアクティブになること", async () => {
+  const user = userEvent.setup();
+  render(<Login />);
+  await act(async () => {
+    await user.type(screen.getByRole("textbox", { name: "email" }), "Eメール");
+    await user.type(screen.getByLabelText("password"), "パスワード");
+  });
+  expect(screen.getByRole("button", { name: "ログイン" })).not.toBeDisabled();
+});
+
+test("AuthContextのloadingの値がtrueの場合はログインボタンがloading中であること", () => {
+  const spyOnUseLogin = jest.spyOn(jest.requireActual("features/auth/hooks/useLogin"), "default");
+  spyOnUseLogin.mockReturnValue({
+    email: "",
+    password: "",
+  });
+
+  const spyOnUseAuthProvider = jest.spyOn(
+    jest.requireActual("providers/useAuthProvider"),
+    "useAuth"
+  );
+  spyOnUseAuthProvider.mockReturnValue({ loading: true });
+  render(<Login />);
+  expect(screen.getByTestId("auth-button")).toBeDisabled();
+});
+
+test("ゲストログインボタンが表示されていること", () => {
+  render(<Login />);
+  const GuestLoginButton = screen.getByRole("button", { name: "ゲストログイン" });
+  expect(GuestLoginButton).toBeInTheDocument();
+});
+
+test("ゲストログインボタン押下でhandleGuestLogin関数が呼び出されること", async () => {
+  const spyOnUseGuestLogin = jest.spyOn(
+    jest.requireActual("features/auth/hooks/useGuestLogin"),
+    "default"
+  );
+  const mockHandleGuestLogin = jest.fn();
+  spyOnUseGuestLogin.mockReturnValue({
+    handleGuestLogin: mockHandleGuestLogin,
+  });
+
+  const user = userEvent.setup();
+  render(<Login />);
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "ゲストログイン" }));
+  });
+  expect(mockHandleGuestLogin).toHaveBeenCalledTimes(1);
+});
+
+test("アカウント未登録者用の見出しが表示されていること", () => {
+  render(<Login />);
+  const headingForSignUp = screen.getByRole("heading", { name: "アカウントをお持ちでない方" });
+  expect(headingForSignUp).toBeInTheDocument();
+});
+
+test("サインアップページ遷移ボタンが表示されていること", () => {
+  render(<Login />);
+  const navigateToSignUpPageButton = screen.getByRole("button", { name: "登録する" });
+  expect(navigateToSignUpPageButton).toBeInTheDocument();
+});
+
+test("サインアップページ遷移ボタン押下でサインアップページに遷移されること", async () => {
+  const user = userEvent.setup();
+  render(<Login />);
+  const navigateToSignUpPageButton = screen.getByRole("button", { name: "登録する" });
+  await user.click(navigateToSignUpPageButton);
+  expect(mockNavigate).toHaveBeenCalledWith("/signup");
+  expect(mockNavigate).toHaveBeenCalledTimes(1);
 });

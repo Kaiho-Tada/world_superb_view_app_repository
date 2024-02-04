@@ -30,3 +30,6 @@
 
 # Ignore env files.
 /.env
+
+# Ignore seeds.rb
+/db/seeds.rb

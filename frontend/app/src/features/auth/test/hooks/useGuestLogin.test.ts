@@ -1,13 +1,19 @@
 import { renderHook } from "@testing-library/react";
-import MockAdapter from "axios-mock-adapter";
+import mockGuestLoginApi from "features/auth/api/guestLoginApi";
 import useGuestLogin from "features/auth/hooks/useGuestLogin";
 import Cookies from "js-cookie";
-import client from "lib/client";
+import { act } from "react-dom/test-utils";
 
-const mockUseNavigate = jest.fn();
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockUseNavigate,
+const mockSetIsSignedIn = jest.fn();
+const mockSetCurrentUser = jest.fn();
+const mockSetLoading = jest.fn();
+jest.mock("providers/useAuthProvider", () => ({
+  ...jest.requireActual("providers/useAuthProvider"),
+  useAuth: () => ({
+    setIsSignedIn: mockSetIsSignedIn,
+    setCurrentUser: mockSetCurrentUser,
+    setLoading: mockSetLoading,
+  }),
 }));
 
 const mockUseToast = jest.fn();
@@ -16,66 +22,50 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
+const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
+
 jest.mock("js-cookie", () => ({
   ...jest.requireActual("js-cookie"),
   set: jest.fn(),
 }));
 
-const mockSetLoading = jest.fn();
-const mockSetCurrentUser = jest.fn();
-const mockSetIsSignedIn = jest.fn();
-
-jest.mock("providers/useAuthProvider", () => ({
-  ...jest.requireActual("providers/useAuthProvider"),
-  useAuth: () => ({
-    setLoading: mockSetLoading,
-    setCurrentUser: mockSetCurrentUser,
-    setIsSignedIn: mockSetIsSignedIn,
-  }),
+jest.mock("features/auth/api/guestLoginApi", () => ({
+  __esModule: true,
+  default: jest.fn(),
 }));
 
-client.interceptors.response.use((config) => {
-  const modifiedConfig = {
-    ...config,
-    headers: { ...config.headers, "access-token": "access-token", client: "client", uid: "uid" },
-  };
-  return modifiedConfig;
-});
-
-const mockAxios = new MockAdapter(client);
-
-afterEach(() => {
-  mockAxios.resetHistory();
-  jest.clearAllMocks();
-});
-
 test("ゲストログイン成功時のテスト", async () => {
-  mockAxios.onPost("/auth/sessions/guest_login").reply(200, {
-    status: 200,
+  (mockGuestLoginApi as jest.Mock).mockReturnValue({
     data: {
-      id: 1,
-      email: "guest@example.com",
+      data: {
+        id: 1,
+        email: "guest@example.com",
+      },
     },
+    headers: { "access-token": "access-token", client: "client", uid: "uid" },
   });
+
   const { result } = renderHook(() => useGuestLogin());
   const { handleGuestLogin } = result.current;
-  await handleGuestLogin();
+  await act(async () => {
+    await handleGuestLogin();
+  });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
-
   expect(Cookies.set).toHaveBeenCalledWith("_access_token", "access-token");
   expect(Cookies.set).toHaveBeenCalledWith("_client", "client");
   expect(Cookies.set).toHaveBeenCalledWith("_uid", "uid");
-
   expect(mockSetIsSignedIn).toHaveBeenCalledWith(true);
   expect(mockSetIsSignedIn).toHaveBeenCalledTimes(1);
-
   expect(mockSetCurrentUser).toHaveBeenCalledWith({
     id: 1,
     email: "guest@example.com",
   });
   expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
-
   expect(mockUseToast).toHaveBeenCalledWith({
     title: "ゲストログインしました。",
     status: "success",
@@ -84,40 +74,34 @@ test("ゲストログイン成功時のテスト", async () => {
     isClosable: true,
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
-
-  expect(mockUseNavigate).toHaveBeenCalledWith("/home");
-  expect(mockUseNavigate).toHaveBeenCalledTimes(1);
-
+  expect(mockNavigate).toHaveBeenCalledWith("/home");
+  expect(mockNavigate).toHaveBeenCalledTimes(1);
   expect(mockSetLoading).toHaveBeenCalledWith(false);
   expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });
 
 test("ゲストログインエラー時のテスト", async () => {
-  mockAxios.onPost("/auth/sessions/guest_login").reply(500);
+  (mockGuestLoginApi as jest.Mock).mockRejectedValue(new Error());
+
   const { result } = renderHook(() => useGuestLogin());
   const { handleGuestLogin } = result.current;
-  await handleGuestLogin();
+  await act(async () => {
+    await handleGuestLogin();
+  });
 
   expect(mockSetLoading).toHaveBeenCalledWith(true);
-
-  expect(mockSetIsSignedIn).not.toHaveBeenCalledWith();
+  expect(Cookies.set).toHaveBeenCalledTimes(0);
   expect(mockSetIsSignedIn).toHaveBeenCalledTimes(0);
-
-  expect(mockSetCurrentUser).not.toHaveBeenCalledWith();
   expect(mockSetCurrentUser).toHaveBeenCalledTimes(0);
-
   expect(mockUseToast).toHaveBeenCalledWith({
-    title: "エラーが発生しました。",
+    title: "ゲストログイン時にエラーが発生しました。",
     status: "error",
     position: "top",
     duration: 5000,
     isClosable: true,
   });
   expect(mockUseToast).toHaveBeenCalledTimes(1);
-
-  expect(mockUseNavigate).not.toHaveBeenCalledWith();
-  expect(mockUseNavigate).toHaveBeenCalledTimes(0);
-
+  expect(mockNavigate).toHaveBeenCalledTimes(0);
   expect(mockSetLoading).toHaveBeenCalledWith(false);
   expect(mockSetLoading).toHaveBeenCalledTimes(2);
 });

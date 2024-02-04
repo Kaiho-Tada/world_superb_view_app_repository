@@ -7,6 +7,6 @@ class Api::V1::Auth::PasswordsController < DeviseTokenAuth::PasswordsController
     uid = request.headers["uid"]
     return unless uid == "guest@example.com"
 
-    render json: { status: 403, message: "ゲストユーザーは許可されていません。" }
+    render json: { status: 403, error: "ゲストユーザーは許可されていません。" }, status: :forbidden
   end
 end

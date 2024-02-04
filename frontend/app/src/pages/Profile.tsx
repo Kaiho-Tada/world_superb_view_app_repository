@@ -63,7 +63,8 @@ const Profile = memo(() => {
       >
         <Text fontSize="2xl">プロフィール</Text>
         <Divider mt="4" mb="4" />
-        <Box>
+        {/* eslint-disable jsx-a11y/no-redundant-roles */}
+        <form onSubmit={handleUpdateUser} role="form" aria-label="プロフィール更新フォーム">
           <Stack>
             <FormControl>
               <Flex align="center">
@@ -74,7 +75,7 @@ const Profile = memo(() => {
                 value={name}
                 onChange={onChangeName}
                 shadow="2xl"
-                aria-label="name"
+                aria-label="名前の記入欄"
               />
             </FormControl>
             <FormControl>
@@ -86,7 +87,7 @@ const Profile = memo(() => {
                 value={nickname}
                 onChange={onChangeNickname}
                 shadow="2xl"
-                aria-label="nickName"
+                aria-label="ニックネームの記入欄"
               />
             </FormControl>
             <FormControl>
@@ -98,83 +99,66 @@ const Profile = memo(() => {
                 value={email}
                 onChange={onChangeEmail}
                 shadow="2xl"
-                aria-label="email"
+                aria-label="Eメールの記入欄"
               />
             </FormControl>
             <Box textAlign="center" mt="6">
-              <AuthButton loading={loading} isDisabled={email === ""} onClick={handleUpdateUser}>
+              <AuthButton loading={loading} isDisabled={email === ""}>
                 プロフィール更新
               </AuthButton>
             </Box>
           </Stack>
-        </Box>
+        </form>
         <Divider mt="6" mb="4" />
         <Box>
-          <Stack>
-            <FormControl>
-              <Flex align="center">
-                <FormLabel as="h4">パスワード</FormLabel>
-              </Flex>
-              <Input
-                placeholder="6文字以上の半角英数字"
-                size="sm"
-                shadow="2xl"
-                type="password"
-                value={password}
-                onChange={onChangePassword}
-                aria-label="password"
-              />
-            </FormControl>
-            <FormControl>
-              <Flex align="center">
-                <FormLabel as="h4">パスワード(確認)</FormLabel>
-              </Flex>
-              <Input
-                placeholder="パスワードを確認してください"
-                size="sm"
-                shadow="2xl"
-                type="password"
-                value={passwordConfirmation}
-                onChange={onChangepasswordConfirmation}
-                aria-label="passwordConfirmation"
-              />
-            </FormControl>
-          </Stack>
-          <Box textAlign="center" mt="6">
-            <AuthButton
-              loading={loading}
-              isDisabled={password === "" || passwordConfirmation === ""}
-              onClick={handleUpdatePassword}
-            >
-              パスワード更新
-            </AuthButton>
-          </Box>
+          <form onSubmit={handleUpdatePassword} role="form" aria-label="パスワード更新フォーム">
+            <Stack>
+              <FormControl>
+                <Flex align="center">
+                  <FormLabel as="h4">パスワード</FormLabel>
+                </Flex>
+                <Input
+                  placeholder="6文字以上の半角英数字"
+                  size="sm"
+                  shadow="2xl"
+                  type="password"
+                  value={password}
+                  onChange={onChangePassword}
+                  aria-label="パスワードの記入欄"
+                />
+              </FormControl>
+              <FormControl>
+                <Flex align="center">
+                  <FormLabel as="h4">パスワード(確認)</FormLabel>
+                </Flex>
+                <Input
+                  placeholder="パスワードを確認してください"
+                  size="sm"
+                  shadow="2xl"
+                  type="password"
+                  value={passwordConfirmation}
+                  onChange={onChangepasswordConfirmation}
+                  aria-label="パスワード(確認)の記入欄"
+                />
+              </FormControl>
+            </Stack>
+            <Box textAlign="center" mt="6">
+              <AuthButton
+                loading={loading}
+                isDisabled={password === "" || passwordConfirmation === ""}
+              >
+                パスワード更新
+              </AuthButton>
+            </Box>
+          </form>
           <Divider mt="6" mb="6" />
           <Box mb="5">
-            <Button
-              variant="secoundary"
-              size="sm"
-              py="3"
-              px="14"
-              shadow="2xl"
-              _hover={{ opacity: 0.6 }}
-              textShadow="1px 1px 1px #000000"
-              onClick={onClickHome}
-            >
+            <Button variant="secoundary" size="sm" onClick={onClickHome}>
               ホームに戻る
             </Button>
           </Box>
           <Box>
-            <Button
-              variant="danger"
-              size="sm"
-              py="3"
-              px="14"
-              shadow="2xl"
-              _hover={{ opacity: 0.6 }}
-              textShadow="1px 1px 1px #000000"
-              onClick={handleDeleteUser}
-            >
+            <Button variant="danger" size="sm" onClick={handleDeleteUser}>
               アカウント削除
             </Button>
           </Box>

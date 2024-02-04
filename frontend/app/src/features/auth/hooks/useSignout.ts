@@ -1,20 +1,19 @@
 import { isAxiosError } from "axios";
-import { signout } from "features/auth/api/auth";
 import useMessage from "hooks/useMessage";
 import Cookies from "js-cookie";
 import { useAuth } from "providers/useAuthProvider";
-import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import signoutApi from "../api/signOutApi";
 
 const useSignout = () => {
-  const { setLoading, setIsSignedIn, setCurrentUser } = useAuth();
+  const { setIsSignedIn, setCurrentUser, setLoading } = useAuth();
   const { showMessage } = useMessage();
   const navigate = useNavigate();
 
-  const handleSignout = useCallback(async () => {
+  const handleSignout = async () => {
     setLoading(true);
     try {
-      await signout();
+      await signoutApi();
       Cookies.remove("_access_token");
       Cookies.remove("_client");
       Cookies.remove("_uid");
@@ -28,11 +27,11 @@ const useSignout = () => {
           showMessage({ title: errorMessage, status: "error" })
         );
       } else {
-        showMessage({ title: "エラーが発生しました。", status: "error" });
+        showMessage({ title: "サインアウト時にエラーが発生しました。", status: "error" });
       }
     }
     setLoading(false);
-  }, []);
+  };
   return { handleSignout };
 };
 export default useSignout;
