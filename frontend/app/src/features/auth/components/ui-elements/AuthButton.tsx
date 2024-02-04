@@ -25,5 +25,4 @@ const AuthButton: FC<Props> = memo((props) => {
   );
 });
 
-AuthButton.displayName = "AuthButton";
 export default AuthButton;
