@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_01_004600) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_04_224636) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -63,6 +63,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_004600) do
     t.decimal "bmi", precision: 5, scale: 2, default: "0.0", null: false
     t.string "region", null: false
     t.index ["name", "code"], name: "index_countries_on_name_and_code", unique: true
+  end
+
+  create_table "movies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "poster_path", null: false
+    t.integer "budget", null: false
+    t.bigint "revenue", null: false
+    t.float "popularity", null: false
+    t.float "vote_average", null: false
+    t.string "release_date", null: false
+    t.boolean "status", null: false
+    t.text "overview"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_movies_on_title", unique: true
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
