@@ -1,6 +1,11 @@
 require "rails_helper"
 
 RSpec.describe Movie, type: :model do
+  describe "associations" do
+    it { is_expected.to have_many(:world_view_movies).dependent(:destroy) }
+    it { is_expected.to have_many(:world_views).through(:world_view_movies) }
+  end
+
   describe "バリデーションのテスト" do
     it "必要な属性が正しく設定されている場合、有効な状態であること" do
       expect(build(:movie)).to be_valid

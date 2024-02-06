@@ -9,6 +9,8 @@ class WorldView < ApplicationRecord
   has_many :characteristics, through: :world_view_characteristics
   has_many :world_view_favorites, dependent: :destroy
   has_many :users, through: :world_view_favorites
+  has_many :world_view_movies, dependent: :destroy
+  has_many :movies, through: :world_view_movies
 
   validates :name, length: { maximum: 30 }, presence: true
   validates :best_season, length: { maximum: 30 }, presence: true

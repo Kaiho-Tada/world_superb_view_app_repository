@@ -38,6 +38,11 @@ ja:
         vote_average: "評価"
         release_date: "公開日"
         status: "ステイタス"
+      world_view_movie:
+        world_view: "絶景"
+        world_view_id: "絶景ID"
+        movie: "映画"
+        movie_id: "映画ID"
 
     errors:
       messages:

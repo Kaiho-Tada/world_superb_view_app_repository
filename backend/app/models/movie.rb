@@ -1,4 +1,7 @@
 class Movie < ApplicationRecord
+  has_many :world_view_movies, dependent: :destroy
+  has_many :world_views, through: :world_view_movies
+
   validates :title, presence: true
   validates :poster_path, presence: true
   validates :budget, presence: true

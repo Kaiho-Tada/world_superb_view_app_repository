@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_04_224636) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_05_050912) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -147,6 +147,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_04_224636) do
     t.index ["world_view_id"], name: "index_world_view_favorites_on_world_view_id"
   end
 
+  create_table "world_view_movies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "world_view_id", null: false
+    t.bigint "movie_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_world_view_movies_on_movie_id"
+    t.index ["world_view_id", "movie_id"], name: "index_world_view_movies_on_world_view_id_and_movie_id", unique: true
+    t.index ["world_view_id"], name: "index_world_view_movies_on_world_view_id"
+  end
+
   create_table "world_views", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "best_season", null: false
@@ -168,4 +178,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_04_224636) do
   add_foreign_key "world_view_countries", "world_views"
   add_foreign_key "world_view_favorites", "users"
   add_foreign_key "world_view_favorites", "world_views"
+  add_foreign_key "world_view_movies", "movies"
+  add_foreign_key "world_view_movies", "world_views"
 end
