@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       resources :characteristics, only: [:index]
       resources :world_view_favorites, only: [:create, :destroy]
 
-      get "/movies/search", to: "movies#search"
+      get "/videos/search", to: "videos#search"
     end
   end
 end

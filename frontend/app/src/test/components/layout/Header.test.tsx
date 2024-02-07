@@ -68,7 +68,7 @@ describe("映画一覧リンクのテスト", () => {
     const user = userEvent.setup();
     render(<Header />);
     await user.click(screen.getByRole("link", { name: "映画一覧" }));
-    expect(mockUseNavigate).toHaveBeenCalledWith("/movies");
+    expect(mockUseNavigate).toHaveBeenCalledWith("/videos");
     expect(mockUseNavigate).toHaveBeenCalledTimes(1);
   });
 });

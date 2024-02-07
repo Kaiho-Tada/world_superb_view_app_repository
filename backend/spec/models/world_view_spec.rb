@@ -2,8 +2,8 @@ require "rails_helper"
 
 RSpec.describe WorldView, type: :model do
   describe "associations" do
-    it { is_expected.to have_many(:world_view_movies).dependent(:destroy) }
-    it { is_expected.to have_many(:movies).through(:world_view_movies) }
+    it { is_expected.to have_many(:world_view_videos).dependent(:destroy) }
+    it { is_expected.to have_many(:videos).through(:world_view_videos) }
   end
 
   describe "バリデーションのテスト" do

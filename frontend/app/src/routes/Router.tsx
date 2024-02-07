@@ -5,12 +5,12 @@ import useAuthorizeLoggedOutUser from "features/auth/hooks/useAuthorizeLoggedOut
 import useAuthorizeRegisteredUser from "features/auth/hooks/useAuthorizeRegisteredUser";
 import Home from "pages/Home";
 import Login from "pages/Login";
-import MovieListPage from "pages/MovieListPage";
 import Profile from "pages/Profile";
 import SignUp from "pages/SignUp";
 import UserManagementPage from "pages/UserManagementPage";
+import VideoListPage from "pages/VideoListPage";
 import WorldViewListPage from "pages/WorldViewListPage";
-import { MovieListProvider } from "providers/MovieListProvider";
+import { VideoListProvider } from "providers/VideoListProvider";
 import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
@@ -64,12 +64,12 @@ const Router: FC = () => {
           }
         />
         <Route
-          path="/movies"
+          path="/videos"
           element={
             <CommonLayout>
-              <MovieListProvider>
-                <MovieListPage />
-              </MovieListProvider>
+              <VideoListProvider>
+                <VideoListPage />
+              </VideoListProvider>
             </CommonLayout>
           }
         />
