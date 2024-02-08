@@ -3,16 +3,19 @@ import { createContext, Dispatch, FC, ReactNode, useContext, useMemo, useReducer
 
 export type Action =
   | { type: "SET_VIDEOS"; payload: Video[] }
-  | { type: "SET_LOADING_SEARCH_VIDEOS"; payload: boolean };
+  | { type: "SET_LOADING_SEARCH_VIDEOS"; payload: boolean }
+  | { type: "SET_SORT_CRITERIA"; payload: string };
 
 type State = {
   videos: Video[];
   loadingSearchVideos: boolean;
+  sortCriteria: string;
 };
 
 const initialState: State = {
   videos: [],
   loadingSearchVideos: false,
+  sortCriteria: "",
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -22,6 +25,9 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_LOADING_SEARCH_VIDEOS":
       return { ...state, loadingSearchVideos: action.payload };
+
+    case "SET_SORT_CRITERIA":
+      return { ...state, sortCriteria: action.payload };
 
     default:
       return state;

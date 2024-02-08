@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import mockSearchVideoApi from "features/video/api/videoApi";
 import VideoListPage from "pages/VideoListPage";
 import { act } from "react-dom/test-utils";
 
@@ -27,9 +26,12 @@ jest.mock("providers/VideoListProvider", () => ({
   }),
 }));
 
+const mockSearchVideoApi = jest.fn();
 jest.mock("features/video/api/videoApi", () => ({
   __esModule: true,
-  default: jest.fn(),
+  default: () => ({
+    searchVideoApi: mockSearchVideoApi,
+  }),
 }));
 
 test("初回レンダリング時にhandleSearchModel関数が実行されること", async () => {
@@ -67,6 +69,11 @@ test("初回レンダリング時にhandleSearchModel関数内でSET_LOADING_SEA
   });
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_LOADING_SEARCH_VIDEOS", payload: true });
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_LOADING_SEARCH_VIDEOS", payload: false });
+});
+
+test("並び替えのアコーディオンが表示されていること", () => {
+  render(<VideoListPage />);
+  expect(screen.getByRole("region", { name: "並び替えのアコーディオン" })).toBeInTheDocument();
 });
 
 test("映画一覧が表示されていること", () => {

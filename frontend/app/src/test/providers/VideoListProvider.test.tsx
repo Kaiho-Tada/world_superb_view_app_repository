@@ -46,3 +46,14 @@ test("SET_LOADING_SEARCH_VIDEOSアクションがディスパッチされた際�
   });
   expect(result.current.state.loadingSearchVideos).toBe(true);
 });
+
+test("SET_SORT_CRITERIAアクションがディスパッチされた際、sortCriteriaが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.sortCriteria).toBe("");
+  act(() => {
+    result.current.dispatch({ type: "SET_SORT_CRITERIA", payload: "popularity" });
+  });
+  expect(result.current.state.sortCriteria).toBe("popularity");
+});

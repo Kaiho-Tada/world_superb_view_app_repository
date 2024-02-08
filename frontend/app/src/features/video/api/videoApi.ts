@@ -1,7 +1,20 @@
 import { AxiosResponse } from "axios";
 import client from "lib/client";
+import { useVideoListContext } from "providers/VideoListProvider";
 import Video from "../types/Video";
 
-const searchVideoApi = (): Promise<AxiosResponse<Video[]>> => client.get("/videos/search");
+const useVideoApi = () => {
+  const { state } = useVideoListContext();
+  const { sortCriteria } = state;
 
-export default searchVideoApi;
+  const searchVideoApi = (): Promise<AxiosResponse<Video[]>> =>
+    client.get("/videos/search", {
+      params: {
+        sortCriteria,
+      },
+    });
+
+  return { searchVideoApi };
+};
+
+export default useVideoApi;
