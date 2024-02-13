@@ -27,6 +27,8 @@ Rails.application.routes.draw do
       resources :world_view_favorites, only: [:create, :destroy]
 
       get "/videos/search", to: "videos#search"
+
+      resources :genres, only: [:index]
     end
   end
 end

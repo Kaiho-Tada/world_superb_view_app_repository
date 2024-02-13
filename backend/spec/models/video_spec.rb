@@ -45,4 +45,27 @@ RSpec.describe Video, type: :model do
       expect(Video.sort_by_release_date).to eq [video3, video2, video1]
     end
   end
+
+  describe ".filter_by_genre" do
+    let!(:video1) { create(:video) }
+    let!(:video2) { create(:video) }
+    let!(:genre_action) { create(:genre, name: "アクション") }
+
+    before do
+      create(:video_genre, video: video1, genre: genre_action)
+      create(:video_genre, video: video2, genre: genre_action)
+    end
+
+    it "引数の配列に含まれる名前を持つGenreモデルと関連付いたレコードが返されること" do
+      expect(Video.filter_by_genre([genre_action.name])).to include video1, video2
+    end
+
+    it "返されるレコードが重複しないこと" do
+      genre_horror = create(:genre, name: "ホラー")
+      create(:video_genre, video: video1, genre: genre_horror)
+      create(:video_genre, video: video2, genre: genre_horror)
+      result_video = Video.filter_by_genre([genre_action.name, genre_horror.name])
+      expect(result_video).to eq result_video.distinct
+    end
+  end
 end

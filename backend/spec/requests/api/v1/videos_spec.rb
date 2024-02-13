@@ -75,5 +75,36 @@ RSpec.describe "Api::V1::Videos", type: :request do
         end
       end
     end
+
+    describe ".video_filter" do
+      describe ".filter_by_genre" do
+        let!(:video1) { create(:video) }
+        let!(:video2) { create(:video) }
+        let!(:genre_action) { create(:genre, name: "アクション") }
+
+        before do
+          create(:video_genre, video: video1, genre: genre_action)
+          create(:video_genre, video: video2, genre: genre_action)
+        end
+
+        it "paramsのgenre_labelsの配列に含まれる名前を持つGenreモデルと関連付いたレコードが返されること" do
+          get api_v1_videos_search_path, params: { sort_criteria: "", genre_labels: [genre_action.name] }
+          json_response = JSON.parse(response.body)
+          expect(response).to have_http_status(200)
+          expect(json_response.length).to eq(2)
+          expect(json_response.pluck("id")).to include video1.id, video2.id
+        end
+
+        it "返されるレコードが重複しないこと" do
+          genre_horror = create(:genre, name: "ホラー")
+          create(:video_genre, video: video1, genre: genre_horror)
+          create(:video_genre, video: video2, genre: genre_horror)
+          get api_v1_videos_search_path, params: { sort_criteria: "", genre_labels: [genre_action.name, genre_horror.name] }
+          expect(response).to have_http_status(200)
+          json_response = JSON.parse(response.body)
+          expect(json_response).to eq json_response.uniq
+        end
+      end
+    end
   end
 end

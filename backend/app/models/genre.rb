@@ -4,4 +4,8 @@ class Genre < ApplicationRecord
 
   validates :name, presence: true
   validates :name, uniqueness: true
+
+  scope :filter_by_name, lambda { |names|
+    where(name: names)
+  }
 end

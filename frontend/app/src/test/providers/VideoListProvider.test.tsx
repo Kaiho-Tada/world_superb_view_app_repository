@@ -57,3 +57,23 @@ test("SET_SORT_CRITERIAアクションがディスパッチされた際、sortCr
   });
   expect(result.current.state.sortCriteria).toBe("popularity");
 });
+
+test("SET_GENRE_CHECK_ITEMSアクションがディスパッチされた際、genreCheckItemsが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.genreCheckItems).toEqual([]);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_GENRE_CHECK_ITEMS",
+      payload: [
+        { label: "ラベルA", checked: false },
+        { label: "ラベルB", checked: false },
+      ],
+    });
+  });
+  expect(result.current.state.genreCheckItems).toEqual([
+    { label: "ラベルA", checked: false },
+    { label: "ラベルB", checked: false },
+  ]);
+});

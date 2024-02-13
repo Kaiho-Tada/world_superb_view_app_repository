@@ -1,19 +1,24 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Stack } from "@chakra-ui/react";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
+import getAllGenresApi from "features/video/api/genreApi";
 import useVideoApi from "features/video/api/videoApi";
+import FilterAccordion from "features/video/components/ui-parts/FilterAccordion";
 import SortAccordion from "features/video/components/ui-parts/SortAccordion";
 import VideoList from "features/video/components/ui-parts/VideoList";
 import Movie from "features/video/types/Video";
+import useGetCheckItems from "hooks/api/useGetCheckItems";
 import useSearchModel from "hooks/api/useSearchModel";
 import { useVideoListContext } from "providers/VideoListProvider";
 import { FC, useCallback, useEffect, useState } from "react";
+import CheckItem from "types/checkItem";
 
 const VideoListPage: FC = () => {
   const { state, dispatch } = useVideoListContext();
-  const { videos, sortCriteria } = state;
+  const { videos, sortCriteria, genreCheckItems } = state;
   const { handleSearchModel } = useSearchModel();
   const { searchVideoApi } = useVideoApi();
+  const { handleGetCheckItems } = useGetCheckItems();
 
   const movieDispatch = (responseData: Movie[]) => {
     dispatch({ type: "SET_VIDEOS", payload: responseData });
@@ -28,7 +33,23 @@ const VideoListPage: FC = () => {
       loadingSearchModelDispatch: loadingSearchMovieDispatch,
       searchModelApi: searchVideoApi,
     });
-  }, [sortCriteria]);
+  }, [sortCriteria, genreCheckItems]);
+
+  const genreCheckItemsDispatch = (responseData: CheckItem[]) => {
+    dispatch({ type: "SET_GENRE_CHECK_ITEMS", payload: responseData });
+  };
+
+  const loadingGetGenresDispatch = (payload: boolean) => {
+    dispatch({ type: "SET_LOADING_GET_GENRES", payload });
+  };
+
+  useEffect(() => {
+    handleGetCheckItems({
+      checkItemsDispatch: genreCheckItemsDispatch,
+      loadingModelDispatch: loadingGetGenresDispatch,
+      fetchModelApi: getAllGenresApi,
+    });
+  }, []);
 
   const [itemsOffset, setItemsOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,9 +73,10 @@ const VideoListPage: FC = () => {
 
   return (
     <Flex mx="5" mt="12">
-      <Box w="250px" h="100%">
+      <Stack w="250px" h="100%" spacing="3">
         <SortAccordion />
-      </Box>
+        <FilterAccordion />
+      </Stack>
       <Box pl="6" w="100%">
         {state.loadingSearchVideos ? (
           <Loading />

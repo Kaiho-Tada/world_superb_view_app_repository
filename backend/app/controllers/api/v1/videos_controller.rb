@@ -1,13 +1,14 @@
 class Api::V1::VideosController < ApplicationController
   def search
     sorted_video = video_sort(Video)
-    render json: sorted_video.as_json(except: %i[created_at updated_at])
+    filtered_video = video_filter(sorted_video)
+    render json: filtered_video.as_json(except: %i[created_at updated_at])
   end
 
   private
 
   def video_params
-    params.permit(:sort_criteria)
+    params.permit(:sort_criteria, genre_labels: [])
   end
 
   def video_sort(video)
@@ -23,5 +24,9 @@ class Api::V1::VideosController < ApplicationController
     else
       raise ArgumentError, "Invalid sort criteria: #{video_params[:sort_criteria]}"
     end
+  end
+
+  def video_filter(video)
+    video.filter_by_genre(video_params[:genre_labels])
   end
 end

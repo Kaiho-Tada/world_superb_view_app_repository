@@ -21,4 +21,12 @@ class Video < ApplicationRecord
   scope :sort_by_release_date, lambda {
     order(release_date: :desc)
   }
+
+  scope :filter_by_genre, lambda { |genre_labels|
+    return self if genre_labels.blank?
+
+    genres = Genre.filter_by_name(genre_labels)
+    genre_ids = genres.map(&:id).join(",")
+    joins(:genres).where("genres.id IN (#{genre_ids})").distinct
+  }
 end
