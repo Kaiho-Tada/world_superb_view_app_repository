@@ -8,7 +8,7 @@ class Api::V1::VideosController < ApplicationController
   private
 
   def video_params
-    params.permit(:sort_criteria, genre_labels: [])
+    params.permit(:sort_criteria, :keyword, genre_labels: [])
   end
 
   def video_sort(video)
@@ -28,5 +28,6 @@ class Api::V1::VideosController < ApplicationController
 
   def video_filter(video)
     video.filter_by_genre(video_params[:genre_labels])
+         .filter_by_keyword(video_params[:keyword])
   end
 end

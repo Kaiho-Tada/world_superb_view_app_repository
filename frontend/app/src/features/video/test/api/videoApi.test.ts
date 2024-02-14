@@ -14,6 +14,7 @@ jest.mock("providers/VideoListProvider", () => ({
     state: {
       sortCriteria: "popularity",
       genreCheckItems: [{ label: "ジャンル", checked: true }],
+      keyword: "キーワード",
     },
   }),
 }));
@@ -30,6 +31,7 @@ test("searchMovieApi関数が意図したURLにGETリクエストとparamsを送
   expect(response.config.params).toEqual({
     sort_criteria: "popularity",
     genre_labels: ["ジャンル"],
+    keyword: "キーワード",
   });
   expect(response.config.method).toBe("get");
   expect(response.config.url).toBe("/videos/search");

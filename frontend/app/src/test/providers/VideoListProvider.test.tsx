@@ -77,3 +77,31 @@ test("SET_GENRE_CHECK_ITEMSアクションがディスパッチされた際、ge
     { label: "ラベルB", checked: false },
   ]);
 });
+
+test("SET_KEYWORDアクションがディスパッチされた際、keywordが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.keyword).toBe("");
+  act(() => {
+    result.current.dispatch({
+      type: "SET_KEYWORD",
+      payload: "キーワード",
+    });
+  });
+  expect(result.current.state.keyword).toBe("キーワード");
+});
+
+test("SET_SHOULD_DEBOUNCEアクションがディスパッチされた際、shouldDebounceが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.shouldDebounce).toBe(false);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_SHOULD_DEBOUNCE",
+      payload: true,
+    });
+  });
+  expect(result.current.state.shouldDebounce).toBe(true);
+});

@@ -68,4 +68,20 @@ RSpec.describe Video, type: :model do
       expect(result_video).to eq result_video.distinct
     end
   end
+
+  describe ".filter_by_keyword" do
+    let!(:video1) { create(:video, title: "ダークナイト") }
+    let!(:video2) { create(:video, title: "ミッドナイト・イン・パリ") }
+
+    it "引数のkeywordに部分一致するtitleを持つレコードが返されること" do
+      expect(Video.filter_by_keyword("ダーク")).to include video1
+      expect(Video.filter_by_keyword("パリ")).to include video2
+      expect(Video.filter_by_keyword("ナイト")).to include video1, video2
+    end
+
+    it "引数のkeywordが空文字の場合、全てのレコードが返されること" do
+      video3 = create(:video)
+      expect(Video.filter_by_keyword("")).to include video1, video2, video3
+    end
+  end
 end

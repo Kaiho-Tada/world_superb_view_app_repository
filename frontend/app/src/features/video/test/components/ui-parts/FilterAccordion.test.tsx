@@ -29,7 +29,16 @@ test("アコーディオンボタンがレンダリングされていること",
   expect(screen.getByRole("button", { name: "フィルター" })).toBeInTheDocument();
 });
 
-test("アコーディオンボタン押下でCheckItemBoxが表示されること", async () => {
+test("アコーディオンボタン押下でキーワードのテキストボックスが表示されること", async () => {
+  const user = userEvent.setup();
+  render(<FilterAccordion />);
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "フィルター" }));
+  });
+  expect(screen.getByRole("searchbox")).toBeInTheDocument();
+});
+
+test("アコーディオンボタン押下でジャンルのCheckItemBoxが表示されること", async () => {
   const user = userEvent.setup();
   render(<FilterAccordion />);
   await act(async () => {

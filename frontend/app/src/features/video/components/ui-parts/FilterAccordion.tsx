@@ -5,17 +5,26 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Divider,
+  Stack,
   Text,
 } from "@chakra-ui/react";
 import CheckItemBox from "components/ui-elements/CheckItemBox";
 import { useVideoListContext } from "providers/VideoListProvider";
 import CheckItem from "types/checkItem";
+import FilterSearchBox from "../ui-element/FilterSearchBox";
 
 const FilterAccordion = () => {
   const { state, dispatch } = useVideoListContext();
-  const { genreCheckItems, loadingGetGenres, loadingSearchVideos } = state;
+  const { genreCheckItems, loadingGetGenres, loadingSearchVideos, keyword } = state;
   const genreCheckItemsDispatch = (newCheckItems: CheckItem[]) => {
     dispatch({ type: "SET_GENRE_CHECK_ITEMS", payload: newCheckItems });
+  };
+  const keywordDispatch = (newKeyword: string) => {
+    dispatch({ type: "SET_KEYWORD", payload: newKeyword });
+  };
+  const shouldDebounceDispatch = (payload: boolean) => {
+    dispatch({ type: "SET_SHOULD_DEBOUNCE", payload });
   };
 
   return (
@@ -45,16 +54,32 @@ const FilterAccordion = () => {
           </Box>
           <AccordionIcon />
         </AccordionButton>
-        <AccordionPanel py={2}>
-          <Text textShadow="0.5px 0.5px #000000" mb="3">
-            ジャンル
-          </Text>
-          <CheckItemBox
-            loadingGetModels={loadingGetGenres}
-            checkItems={genreCheckItems}
-            checkItemsDispatch={genreCheckItemsDispatch}
-            loadingSearchModels={loadingSearchVideos}
-          />
+        <AccordionPanel py={2} p="0">
+          <Stack py="2">
+            <Box px="5" pb="2">
+              <Text textShadow="0.5px 0.5px #000000" pb="3">
+                キーワード
+              </Text>
+              <FilterSearchBox
+                keyword={keyword}
+                loadingSearchModels={loadingSearchVideos}
+                keywordDispatch={keywordDispatch}
+                shouldDebounceDispatch={shouldDebounceDispatch}
+              />
+            </Box>
+            <Divider borderColor="#C2C8D0" />
+            <Box px="5">
+              <Text textShadow="0.5px 0.5px #000000" pb="3">
+                ジャンル
+              </Text>
+              <CheckItemBox
+                loadingGetModels={loadingGetGenres}
+                checkItems={genreCheckItems}
+                checkItemsDispatch={genreCheckItemsDispatch}
+                loadingSearchModels={loadingSearchVideos}
+              />
+            </Box>
+          </Stack>
         </AccordionPanel>
       </AccordionItem>
     </Accordion>

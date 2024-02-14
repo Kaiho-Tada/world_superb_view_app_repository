@@ -105,6 +105,28 @@ RSpec.describe "Api::V1::Videos", type: :request do
           expect(json_response).to eq json_response.uniq
         end
       end
+
+      describe ".filter_by_keyword" do
+        let!(:video1) { create(:video, title: "ダークナイト") }
+        let!(:video2) { create(:video, title: "ミッドナイト・イン・パリ") }
+
+        it "paramsのkeywordに部分一致するtitleを持つレコードが返されること" do
+          get api_v1_videos_search_path, params: { sort_criteria: "", keyword: "ナイト" }
+          json_response = JSON.parse(response.body)
+          expect(response).to have_http_status(200)
+          expect(json_response.length).to eq(2)
+          expect(json_response.pluck("id")).to include video1.id, video2.id
+        end
+
+        it "paramsのkeywordが空文字の場合、全てのレコードが返されること" do
+          video3 = create(:video)
+          get api_v1_videos_search_path, params: { sort_criteria: "", genre_labels: "" }
+          json_response = JSON.parse(response.body)
+          expect(response).to have_http_status(200)
+          expect(json_response.length).to eq(3)
+          expect(json_response.pluck("id")).to include video1.id, video2.id, video3.id
+        end
+      end
     end
   end
 end

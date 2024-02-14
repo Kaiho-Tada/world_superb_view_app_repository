@@ -7,7 +7,9 @@ export type Action =
   | { type: "SET_LOADING_SEARCH_VIDEOS"; payload: boolean }
   | { type: "SET_SORT_CRITERIA"; payload: string }
   | { type: "SET_GENRE_CHECK_ITEMS"; payload: CheckItem[] }
-  | { type: "SET_LOADING_GET_GENRES"; payload: boolean };
+  | { type: "SET_LOADING_GET_GENRES"; payload: boolean }
+  | { type: "SET_KEYWORD"; payload: string }
+  | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean };
 
 type State = {
   videos: Video[];
@@ -15,6 +17,8 @@ type State = {
   sortCriteria: string;
   genreCheckItems: CheckItem[];
   loadingGetGenres: boolean;
+  keyword: string;
+  shouldDebounce: boolean;
 };
 
 const initialState: State = {
@@ -23,6 +27,8 @@ const initialState: State = {
   sortCriteria: "",
   genreCheckItems: [],
   loadingGetGenres: false,
+  keyword: "",
+  shouldDebounce: false,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -41,6 +47,12 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_LOADING_GET_GENRES":
       return { ...state, loadingGetGenres: action.payload };
+
+    case "SET_KEYWORD":
+      return { ...state, keyword: action.payload };
+
+    case "SET_SHOULD_DEBOUNCE":
+      return { ...state, shouldDebounce: action.payload };
 
     default:
       return state;

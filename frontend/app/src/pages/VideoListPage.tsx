@@ -9,16 +9,18 @@ import VideoList from "features/video/components/ui-parts/VideoList";
 import Movie from "features/video/types/Video";
 import useGetCheckItems from "hooks/api/useGetCheckItems";
 import useSearchModel from "hooks/api/useSearchModel";
+import useDebounce from "hooks/useDebounce";
 import { useVideoListContext } from "providers/VideoListProvider";
 import { FC, useCallback, useEffect, useState } from "react";
 import CheckItem from "types/checkItem";
 
 const VideoListPage: FC = () => {
   const { state, dispatch } = useVideoListContext();
-  const { videos, sortCriteria, genreCheckItems } = state;
+  const { videos, sortCriteria, genreCheckItems, keyword, shouldDebounce } = state;
   const { handleSearchModel } = useSearchModel();
   const { searchVideoApi } = useVideoApi();
   const { handleGetCheckItems } = useGetCheckItems();
+  const { handleDebounceWithArg } = useDebounce(2000);
 
   const movieDispatch = (responseData: Movie[]) => {
     dispatch({ type: "SET_VIDEOS", payload: responseData });
@@ -28,12 +30,24 @@ const VideoListPage: FC = () => {
   };
 
   useEffect(() => {
-    handleSearchModel<Movie>({
-      modelDispatch: movieDispatch,
-      loadingSearchModelDispatch: loadingSearchMovieDispatch,
-      searchModelApi: searchVideoApi,
-    });
-  }, [sortCriteria, genreCheckItems]);
+    if (shouldDebounce) {
+      handleDebounceWithArg<Movie>({
+        fn: handleSearchModel,
+        arg: {
+          modelDispatch: movieDispatch,
+          loadingSearchModelDispatch: loadingSearchMovieDispatch,
+          searchModelApi: searchVideoApi,
+        },
+      });
+      dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
+    } else {
+      handleSearchModel<Movie>({
+        modelDispatch: movieDispatch,
+        loadingSearchModelDispatch: loadingSearchMovieDispatch,
+        searchModelApi: searchVideoApi,
+      });
+    }
+  }, [sortCriteria, genreCheckItems, keyword]);
 
   const genreCheckItemsDispatch = (responseData: CheckItem[]) => {
     dispatch({ type: "SET_GENRE_CHECK_ITEMS", payload: responseData });

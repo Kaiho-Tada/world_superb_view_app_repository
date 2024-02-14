@@ -39,7 +39,8 @@ const CheckItemBox: FC<Props> = memo(
               border="1px solid #3d3333"
               borderRadius="20px"
               fontSize="sm"
-              m="0.5"
+              mr="1"
+              mb="1"
               _hover={{ cursor: "pointer" }}
               onClick={handleChange}
             >

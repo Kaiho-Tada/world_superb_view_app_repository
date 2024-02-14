@@ -29,4 +29,10 @@ class Video < ApplicationRecord
     genre_ids = genres.map(&:id).join(",")
     joins(:genres).where("genres.id IN (#{genre_ids})").distinct
   }
+
+  scope :filter_by_keyword, lambda { |keyword|
+    return self if keyword.blank?
+
+    where("title LIKE(?)", "%#{keyword}%").distinct
+  }
 end
