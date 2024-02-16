@@ -5,7 +5,7 @@ import Video from "../types/Video";
 
 const useVideoApi = () => {
   const { state } = useVideoListContext();
-  const { sortCriteria, genreCheckItems, keyword } = state;
+  const { sortCriteria, genreCheckItems, keyword, voteAverageRange } = state;
   const genreLabels = genreCheckItems
     .filter((checkItem) => checkItem.checked)
     .map((checkedItem) => checkedItem.label);
@@ -16,6 +16,7 @@ const useVideoApi = () => {
         sortCriteria,
         genreLabels,
         keyword,
+        voteAverageRange,
       },
     });
 

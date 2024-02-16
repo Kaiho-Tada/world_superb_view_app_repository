@@ -105,3 +105,31 @@ test("SET_SHOULD_DEBOUNCEアクションがディスパッチされた際、shou
   });
   expect(result.current.state.shouldDebounce).toBe(true);
 });
+
+test("SET_VOTE_AVERAGE_RENGEアクションがディスパッチされた際、voteAverageRangeが指定された配列に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.voteAverageRange).toEqual([0, 10]);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_VOTE_AVERAGE_RENGE",
+      payload: [3, 7],
+    });
+  });
+  expect(result.current.state.voteAverageRange).toEqual([3, 7]);
+});
+
+test("SET_IS_DISABLEDアクションがディスパッチされた際、isDisabledが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.isDisabled).toBe(true);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_IS_DISABLED",
+      payload: false,
+    });
+  });
+  expect(result.current.state.isDisabled).toBe(false);
+});

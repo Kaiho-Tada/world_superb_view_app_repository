@@ -35,4 +35,11 @@ class Video < ApplicationRecord
 
     where("title LIKE(?)", "%#{keyword}%").distinct
   }
+
+  scope :filter_by_vote_average, ->(vote_average_range) {
+    return self if vote_average_range.blank?
+
+    start_value, end_value = vote_average_range
+    where(vote_average: start_value..end_value)
+  }
 end

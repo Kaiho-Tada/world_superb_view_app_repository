@@ -9,7 +9,9 @@ export type Action =
   | { type: "SET_GENRE_CHECK_ITEMS"; payload: CheckItem[] }
   | { type: "SET_LOADING_GET_GENRES"; payload: boolean }
   | { type: "SET_KEYWORD"; payload: string }
-  | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean };
+  | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean }
+  | { type: "SET_VOTE_AVERAGE_RENGE"; payload: number[] }
+  | { type: "SET_IS_DISABLED"; payload: boolean };
 
 type State = {
   videos: Video[];
@@ -19,6 +21,8 @@ type State = {
   loadingGetGenres: boolean;
   keyword: string;
   shouldDebounce: boolean;
+  voteAverageRange: number[];
+  isDisabled: boolean;
 };
 
 const initialState: State = {
@@ -29,6 +33,8 @@ const initialState: State = {
   loadingGetGenres: false,
   keyword: "",
   shouldDebounce: false,
+  voteAverageRange: [0, 10],
+  isDisabled: true,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -53,6 +59,12 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_SHOULD_DEBOUNCE":
       return { ...state, shouldDebounce: action.payload };
+
+    case "SET_VOTE_AVERAGE_RENGE":
+      return { ...state, voteAverageRange: action.payload };
+
+    case "SET_IS_DISABLED":
+      return { ...state, isDisabled: action.payload };
 
     default:
       return state;

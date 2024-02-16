@@ -16,7 +16,8 @@ import CheckItem from "types/checkItem";
 
 const VideoListPage: FC = () => {
   const { state, dispatch } = useVideoListContext();
-  const { videos, sortCriteria, genreCheckItems, keyword, shouldDebounce } = state;
+  const { videos, sortCriteria, genreCheckItems, keyword, shouldDebounce, loadingSearchVideos } =
+    state;
   const { handleSearchModel } = useSearchModel();
   const { searchVideoApi } = useVideoApi();
   const { handleGetCheckItems } = useGetCheckItems();
@@ -87,12 +88,12 @@ const VideoListPage: FC = () => {
 
   return (
     <Flex mx="5" mt="12">
-      <Stack w="250px" h="100%" spacing="3">
+      <Stack w="250px" h="100%" spacing="2" mb="16">
         <SortAccordion />
         <FilterAccordion />
       </Stack>
       <Box pl="6" w="100%">
-        {state.loadingSearchVideos ? (
+        {loadingSearchVideos ? (
           <Loading />
         ) : (
           <>

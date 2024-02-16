@@ -127,6 +127,41 @@ RSpec.describe "Api::V1::Videos", type: :request do
           expect(json_response.pluck("id")).to include video1.id, video2.id, video3.id
         end
       end
+
+      describe ".filter_by_vote_average" do
+        let!(:video1) { create(:video, vote_average: 6.662) }
+        let!(:video2) { create(:video, vote_average: 8.712) }
+
+        context "vote_average_rangeが[6, 7]である場合" do
+          it "vote_averageが6〜7の範囲のレコードが返されること" do
+            get api_v1_videos_search_path, params: { sort_criteria: "", vote_average_range: [6, 7] }
+            json_response = JSON.parse(response.body)
+            expect(response).to have_http_status(200)
+            expect(json_response.length).to eq(1)
+            expect(json_response.pluck("id")).to include video1.id
+          end
+        end
+
+        context "vote_average_rangeが[8, 9]である場合" do
+          it "vote_averageが8〜9の範囲のレコードが返されること" do
+            get api_v1_videos_search_path, params: { sort_criteria: "", vote_average_range: [8, 9] }
+            json_response = JSON.parse(response.body)
+            expect(response).to have_http_status(200)
+            expect(json_response.length).to eq(1)
+            expect(json_response.pluck("id")).to include video2.id
+          end
+        end
+
+        context "vote_average_rangeが[6, 9]である場合" do
+          it "vote_averageが6〜9の範囲のレコードが返されること" do
+            get api_v1_videos_search_path, params: { sort_criteria: "", vote_average_range: [6, 9] }
+            json_response = JSON.parse(response.body)
+            expect(response).to have_http_status(200)
+            expect(json_response.length).to eq(2)
+            expect(json_response.pluck("id")).to include video1.id, video2.id
+          end
+        end
+      end
     end
   end
 end

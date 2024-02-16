@@ -84,4 +84,20 @@ RSpec.describe Video, type: :model do
       expect(Video.filter_by_keyword("")).to include video1, video2, video3
     end
   end
+
+  describe ".filter_by_vote_average" do
+    let!(:video1) { create(:video, vote_average: 6.662) }
+    let!(:video2) { create(:video, vote_average: 8.712) }
+
+    it "引数のvote_average_rangeの範囲のvote_averageカラムを持つレコードが返されること" do
+      expect(Video.filter_by_vote_average([6, 7])).to include video1
+      expect(Video.filter_by_vote_average([8, 9])).to include video2
+      expect(Video.filter_by_vote_average([6, 9])).to include video1, video2
+    end
+
+    it "引数のvote_average_rangeが空配列の場合、全てのレコードが返されること" do
+      video3 = create(:video)
+      expect(Video.filter_by_vote_average([])).to include video1, video2, video3
+    end
+  end
 end

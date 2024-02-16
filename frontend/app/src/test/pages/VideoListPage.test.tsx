@@ -5,6 +5,8 @@ import VideoListPage from "pages/VideoListPage";
 import { VideoListProvider } from "providers/VideoListProvider";
 import { act } from "react-dom/test-utils";
 
+global.ResizeObserver = require("resize-observer-polyfill");
+
 const mockVideos = Array.from({ length: 61 }, (_, index) => ({
   id: index + 1,
   title: `title${index + 1}`,
