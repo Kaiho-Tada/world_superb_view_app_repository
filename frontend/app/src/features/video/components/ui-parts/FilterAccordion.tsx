@@ -11,13 +11,13 @@ import {
 } from "@chakra-ui/react";
 import CheckItemBox from "components/ui-elements/CheckItemBox";
 import FilterRangeSlider from "components/ui-elements/FilterRangeSlider";
+import FilterSearchBox from "components/ui-elements/FilterSearchBox";
 import SearchButton from "components/ui-elements/SearchButton";
 import useVideoApi from "features/video/api/videoApi";
 import Video from "features/video/types/Video";
 import useSearchModel from "hooks/api/useSearchModel";
 import { useVideoListContext } from "providers/VideoListProvider";
 import CheckItem from "types/checkItem";
-import FilterSearchBox from "../ui-element/FilterSearchBox";
 
 const FilterAccordion = () => {
   const { state, dispatch } = useVideoListContext();

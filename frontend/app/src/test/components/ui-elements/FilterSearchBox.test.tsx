@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import FilterSearchBox from "features/video/components/ui-element/FilterSearchBox";
+import FilterSearchBox from "components/ui-elements/FilterSearchBox";
 import { act } from "react-dom/test-utils";
 
 const mockkeywordDispatch = jest.fn();
