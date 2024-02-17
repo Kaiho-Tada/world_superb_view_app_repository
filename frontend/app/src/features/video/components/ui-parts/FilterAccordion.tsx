@@ -10,6 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import CheckItemBox from "components/ui-elements/CheckItemBox";
+import ClearButton from "components/ui-elements/ClearButton";
 import FilterRangeSlider from "components/ui-elements/FilterRangeSlider";
 import FilterSearchBox from "components/ui-elements/FilterSearchBox";
 import SearchButton from "components/ui-elements/SearchButton";
@@ -67,6 +68,10 @@ const FilterAccordion = () => {
     });
   };
 
+  const genreLabels = genreCheckItems
+    .filter((checkItem) => checkItem.checked)
+    .map((checkedItem) => checkedItem.label);
+
   return (
     <Accordion
       allowMultiple
@@ -95,6 +100,14 @@ const FilterAccordion = () => {
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel p="0">
+          {genreLabels.length ||
+          state.keyword.length ||
+          !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
+            <>
+              <ClearButton loadingSearchModels={loadingSearchVideos} />
+              <Divider borderColor="#C2C8D0" />
+            </>
+          ) : null}
           <Stack py="2">
             <Box px="5" py="2">
               <Text textShadow="0.5px 0.5px #000000" pb="3">

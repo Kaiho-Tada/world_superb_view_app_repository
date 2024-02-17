@@ -20,6 +20,7 @@ const mockContextValue = {
       { label: "ラベルA", checked: false },
       { label: "ラベルB", checked: false },
     ],
+    keyword: "",
     voteAverageRange: [0, 10],
     isDisabled: false,
   },
@@ -139,5 +140,34 @@ describe("SearchButtonのテスト", () => {
     expect(mockHandleSearchModel).toHaveBeenCalledTimes(1);
     spyOnUseSearchModel.mockRestore();
     spyOnUseVideoApi.mockRestore();
+  });
+});
+
+describe("クリアボタンのテスト", () => {
+  test("クリアボタンがレンダリングされていること", async () => {
+    const mockContextValueChecked = {
+      ...mockContextValue,
+      state: {
+        ...mockContextValue.state,
+        genreCheckItems: [{ label: "ラベルA", checked: true }],
+      },
+    };
+    spyOnUseVideoListContext.mockReturnValue(mockContextValueChecked);
+    const user = userEvent.setup();
+    render(<FilterAccordion />);
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "フィルター" }));
+    });
+    expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
+  });
+
+  test("Videoモデルのフィルター属性の値が初期値の場合はクリアボタンが非表示であること", async () => {
+    spyOnUseVideoListContext.mockReturnValue(mockContextValue);
+    const user = userEvent.setup();
+    render(<FilterAccordion />);
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "フィルター" }));
+    });
+    expect(screen.queryByRole("button", { name: "クリア" })).not.toBeInTheDocument();
   });
 });

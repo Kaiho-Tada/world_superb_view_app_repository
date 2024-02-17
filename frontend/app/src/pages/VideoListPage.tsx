@@ -87,7 +87,7 @@ const VideoListPage: FC = () => {
   }, [videos]);
 
   return (
-    <Flex mx="5" mt="12">
+    <Flex mx="5" my="12">
       <Stack w="250px" h="100%" spacing="2" mb="16">
         <SortAccordion />
         <FilterAccordion />
