@@ -14,7 +14,6 @@ const FilterButton: FC<Props> = memo(({ onOpen }) => (
     justify="center"
     py="2.5"
     px={{ base: "3", sm: "4" }}
-    display={{ base: "flex", md: "none" }}
     onClick={onOpen}
   >
     <Image

@@ -7,6 +7,11 @@ import { act } from "react-dom/test-utils";
 
 global.ResizeObserver = require("resize-observer-polyfill");
 
+jest.mock("@chakra-ui/react", () => ({
+  ...jest.requireActual("@chakra-ui/react"),
+  useBreakpointValue: () => "sm",
+}));
+
 const mockVideos = Array.from({ length: 61 }, (_, index) => ({
   id: index + 1,
   title: `title${index + 1}`,
@@ -161,6 +166,15 @@ test("FilterButtonが表示されていること", () => {
     </VideoListProvider>
   );
   expect(screen.getByRole("button", { name: "フィルター" })).toBeInTheDocument();
+});
+
+test("SelectBoxWithIconが表示されていること", () => {
+  render(
+    <VideoListProvider>
+      <VideoListPage />
+    </VideoListProvider>
+  );
+  expect(screen.getByRole("combobox", { name: "並び替えのセレクトボックス" })).toBeInTheDocument();
 });
 
 test("並び替えのアコーディオンが表示されていること", () => {

@@ -1,10 +1,11 @@
-import { Box, Flex, HStack, Stack, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, HStack, Stack, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
 import getAllGenresApi from "features/video/api/genreApi";
 import useVideoApi from "features/video/api/videoApi";
+import SelectBoxWithIcon from "features/video/components/ui-element/SortSelectBoxWithIcon";
 import FilterAccordion from "features/video/components/ui-parts/FilterAccordion";
 import FilterAccordionPanel from "features/video/components/ui-parts/FilterAccordionPanel";
 import SortAccordion from "features/video/components/ui-parts/SortAccordion";
@@ -90,16 +91,25 @@ const VideoListPage: FC = () => {
   }, [videos]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const screenSize = useBreakpointValue({ sm: "sm" });
 
   return (
     <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
       <FilterDrawer isOpen={isOpen} onClose={onClose}>
         <FilterAccordionPanel />
       </FilterDrawer>
-      <Flex ml="6" mb="3">
-        <HStack spacing={3}>
-          <FilterButton onOpen={onOpen} />
-        </HStack>
+      <Flex ml="6" mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
+        {screenSize === "sm" ? (
+          <HStack spacing={2} display={{ base: "none", sm: "flex" }}>
+            <FilterButton onOpen={onOpen} />
+            <SelectBoxWithIcon />
+          </HStack>
+        ) : (
+          <Stack spacing={1} display={{ base: "flex", sm: "none" }}>
+            <FilterButton onOpen={onOpen} />
+            <SelectBoxWithIcon />
+          </Stack>
+        )}
       </Flex>
       <Flex>
         <Box display={{ base: "none", md: "block" }} h="100%">
