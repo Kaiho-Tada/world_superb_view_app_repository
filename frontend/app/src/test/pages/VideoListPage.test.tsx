@@ -154,6 +154,15 @@ test("初回レンダリング時にhandleGetCheckItems関数内でSET_LOADING_G
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_LOADING_GET_GENRES", payload: false });
 });
 
+test("FilterButtonが表示されていること", () => {
+  render(
+    <VideoListProvider>
+      <VideoListPage />
+    </VideoListProvider>
+  );
+  expect(screen.getByRole("button", { name: "フィルター" })).toBeInTheDocument();
+});
+
 test("並び替えのアコーディオンが表示されていること", () => {
   render(
     <VideoListProvider>

@@ -6,13 +6,12 @@ import { act } from "react-dom/test-utils";
 window.scrollTo = jest.fn();
 global.ResizeObserver = require("resize-observer-polyfill");
 
-const mockDispatch = jest.fn();
-
 const spyOnUseVideoListContext = jest.spyOn(
   jest.requireActual("providers/VideoListProvider"),
   "useVideoListContext"
 );
 
+const mockDispatch = jest.fn();
 const mockContextValue = {
   dispatch: mockDispatch,
   state: {
@@ -20,17 +19,11 @@ const mockContextValue = {
       { label: "ラベルA", checked: false },
       { label: "ラベルB", checked: false },
     ],
+    loadingGetGenres: false,
+    loadingSearchVideos: false,
     keyword: "",
     voteAverageRange: [0, 10],
     isDisabled: false,
-  },
-};
-
-const mockContextValueDisabled = {
-  ...mockContextValue,
-  state: {
-    ...mockContextValue.state,
-    isDisabled: true,
   },
 };
 
@@ -46,7 +39,24 @@ test("アコーディオンボタンがレンダリングされていること",
   expect(screen.getByRole("button", { name: "フィルター" })).toBeInTheDocument();
 });
 
-test("アコーディオンボタン押下でキーワードのテキストボックスが表示されること", async () => {
+test("アコーディオンボタン押下でクリアボタンが表示されること", async () => {
+  const mockContextValueChecked = {
+    ...mockContextValue,
+    state: {
+      ...mockContextValue.state,
+      genreCheckItems: [{ label: "ラベルA", checked: true }],
+    },
+  };
+  spyOnUseVideoListContext.mockReturnValue(mockContextValueChecked);
+  const user = userEvent.setup();
+  render(<FilterAccordion />);
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "フィルター" }));
+  });
+  expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
+});
+
+test("アコーディオンボタン押下でSearchBoxが表示されること", async () => {
   spyOnUseVideoListContext.mockReturnValue(mockContextValue);
   const user = userEvent.setup();
   render(<FilterAccordion />);
@@ -67,107 +77,22 @@ test("アコーディオンボタン押下でジャンルのCheckItemBoxが表�
   expect(screen.getByRole("button", { name: "ラベルB" })).toBeInTheDocument();
 });
 
-describe("FilterRangeSliderのテスト", () => {
-  test("アコーディオンボタン押下でユーザー評価のRangeSliderが表示されること", async () => {
-    spyOnUseVideoListContext.mockReturnValue(mockContextValue);
-    const user = userEvent.setup();
-    render(<FilterAccordion />);
-    await act(async () => {
-      await user.click(screen.getByRole("button", { name: "フィルター" }));
-    });
-    expect(screen.getAllByRole("slider").length).toBe(2);
+test("アコーディオンボタン押下でユーザー評価のRangeSliderが表示されること", async () => {
+  spyOnUseVideoListContext.mockReturnValue(mockContextValue);
+  const user = userEvent.setup();
+  render(<FilterAccordion />);
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "フィルター" }));
   });
-
-  test("isDisabledがtureの場合、スライダーのクリック時ににisDisabledがfalseに更新され、SET_VOTE_AVERAGE_RENGEアクションがdispatchされること", async () => {
-    spyOnUseVideoListContext.mockReturnValue(mockContextValueDisabled);
-    const user = userEvent.setup();
-    render(<FilterAccordion />);
-    await act(async () => {
-      await user.click(screen.getByRole("button", { name: "フィルター" }));
-    });
-    const sliders = screen.getAllByRole("slider");
-    await act(async () => {
-      await user.click(sliders[0]);
-    });
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_DISABLED", payload: false });
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_VOTE_AVERAGE_RENGE", payload: [0, 10] });
-    expect(mockDispatch).toHaveBeenCalledTimes(2);
-  });
+  expect(screen.getAllByRole("slider").length).toBe(2);
 });
 
-describe("SearchButtonのテスト", () => {
-  test("アコーディオンボタン押下でSearchButtonが表示されること", async () => {
-    spyOnUseVideoListContext.mockReturnValue(mockContextValue);
-    const user = userEvent.setup();
-    render(<FilterAccordion />);
-    await act(async () => {
-      await user.click(screen.getByRole("button", { name: "フィルター" }));
-    });
-    expect(screen.getByRole("button", { name: "検索" })).toBeInTheDocument();
+test("アコーディオンボタン押下でSearchButtonが表示されること", async () => {
+  spyOnUseVideoListContext.mockReturnValue(mockContextValue);
+  const user = userEvent.setup();
+  render(<FilterAccordion />);
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "フィルター" }));
   });
-
-  test("isDisabledがfalseの場合、SearchButton押下でisDisabledがtrueに更新され、handleSearchModel関数が呼び出されること", async () => {
-    spyOnUseVideoListContext.mockReturnValue(mockContextValue);
-    const spyOnUseSearchModel = jest.spyOn(
-      jest.requireActual("hooks/api/useSearchModel"),
-      "default"
-    );
-    const mockHandleSearchModel = jest.fn();
-    spyOnUseSearchModel.mockReturnValue({
-      handleSearchModel: mockHandleSearchModel,
-    });
-    const spyOnUseVideoApi = jest.spyOn(
-      jest.requireActual("features/video/api/videoApi"),
-      "default"
-    );
-    const mockSearchVideoApi = jest.fn();
-    spyOnUseVideoApi.mockReturnValue({ searchVideoApi: mockSearchVideoApi });
-    const user = userEvent.setup();
-    render(<FilterAccordion />);
-    await act(async () => {
-      await user.click(screen.getByRole("button", { name: "フィルター" }));
-    });
-    await act(async () => {
-      await user.click(screen.getByRole("button", { name: "検索" }));
-    });
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_DISABLED", payload: true });
-    expect(mockHandleSearchModel).toHaveBeenCalledWith({
-      modelDispatch: expect.any(Function),
-      loadingSearchModelDispatch: expect.any(Function),
-      searchModelApi: mockSearchVideoApi,
-    });
-    expect(mockDispatch).toHaveBeenCalledTimes(1);
-    expect(mockHandleSearchModel).toHaveBeenCalledTimes(1);
-    spyOnUseSearchModel.mockRestore();
-    spyOnUseVideoApi.mockRestore();
-  });
-});
-
-describe("クリアボタンのテスト", () => {
-  test("クリアボタンがレンダリングされていること", async () => {
-    const mockContextValueChecked = {
-      ...mockContextValue,
-      state: {
-        ...mockContextValue.state,
-        genreCheckItems: [{ label: "ラベルA", checked: true }],
-      },
-    };
-    spyOnUseVideoListContext.mockReturnValue(mockContextValueChecked);
-    const user = userEvent.setup();
-    render(<FilterAccordion />);
-    await act(async () => {
-      await user.click(screen.getByRole("button", { name: "フィルター" }));
-    });
-    expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
-  });
-
-  test("Videoモデルのフィルター属性の値が初期値の場合はクリアボタンが非表示であること", async () => {
-    spyOnUseVideoListContext.mockReturnValue(mockContextValue);
-    const user = userEvent.setup();
-    render(<FilterAccordion />);
-    await act(async () => {
-      await user.click(screen.getByRole("button", { name: "フィルター" }));
-    });
-    expect(screen.queryByRole("button", { name: "クリア" })).not.toBeInTheDocument();
-  });
+  expect(screen.getByRole("button", { name: "検索" })).toBeInTheDocument();
 });

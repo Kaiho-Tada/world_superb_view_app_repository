@@ -1,9 +1,12 @@
-import { Box, Flex, Stack } from "@chakra-ui/react";
+import { Box, Flex, HStack, Stack, useDisclosure } from "@chakra-ui/react";
+import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
+import FilterDrawer from "components/ui-parts/FilterDrawer";
 import getAllGenresApi from "features/video/api/genreApi";
 import useVideoApi from "features/video/api/videoApi";
 import FilterAccordion from "features/video/components/ui-parts/FilterAccordion";
+import FilterAccordionPanel from "features/video/components/ui-parts/FilterAccordionPanel";
 import SortAccordion from "features/video/components/ui-parts/SortAccordion";
 import VideoList from "features/video/components/ui-parts/VideoList";
 import Movie from "features/video/types/Video";
@@ -86,27 +89,41 @@ const VideoListPage: FC = () => {
     setCurrentPage(1);
   }, [videos]);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <Flex mx="5" my="12">
-      <Stack w="250px" h="100%" spacing="2" mb="16">
-        <SortAccordion />
-        <FilterAccordion />
-      </Stack>
-      <Box pl="6" w="100%">
-        {loadingSearchVideos ? (
-          <Loading />
-        ) : (
-          <>
-            <VideoList currentVideos={currentVideos} />
-            <Pagination
-              pageCount={pageCount}
-              currentPage={currentPage}
-              handlePageChange={handlePageChange}
-            />
-          </>
-        )}
-      </Box>
-    </Flex>
+    <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
+      <FilterDrawer isOpen={isOpen} onClose={onClose}>
+        <FilterAccordionPanel />
+      </FilterDrawer>
+      <Flex ml="6" mb="3">
+        <HStack spacing={3}>
+          <FilterButton onOpen={onOpen} />
+        </HStack>
+      </Flex>
+      <Flex>
+        <Box display={{ base: "none", md: "block" }} h="100%">
+          <Stack w="250px" h="100%" spacing="3" mb="16">
+            <SortAccordion />
+            <FilterAccordion />
+          </Stack>
+        </Box>
+        <Box pl="6" w="100%">
+          {loadingSearchVideos ? (
+            <Loading />
+          ) : (
+            <>
+              <VideoList currentVideos={currentVideos} />
+              <Pagination
+                pageCount={pageCount}
+                currentPage={currentPage}
+                handlePageChange={handlePageChange}
+              />
+            </>
+          )}
+        </Box>
+      </Flex>
+    </Box>
   );
 };
 
