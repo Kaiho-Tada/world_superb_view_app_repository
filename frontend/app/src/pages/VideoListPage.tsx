@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Stack, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
+import ClearButton from "components/ui-elements/ClearButton";
 import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
@@ -20,8 +21,15 @@ import CheckItem from "types/checkItem";
 
 const VideoListPage: FC = () => {
   const { state, dispatch } = useVideoListContext();
-  const { videos, sortCriteria, genreCheckItems, keyword, shouldDebounce, loadingSearchVideos } =
-    state;
+  const {
+    videos,
+    sortCriteria,
+    genreCheckItems,
+    keyword,
+    shouldDebounce,
+    loadingSearchVideos,
+    voteAverageRange,
+  } = state;
   const { handleSearchModel } = useSearchModel();
   const { searchVideoApi } = useVideoApi();
   const { handleGetCheckItems } = useGetCheckItems();
@@ -93,6 +101,10 @@ const VideoListPage: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const screenSize = useBreakpointValue({ sm: "sm" });
 
+  const genreLabels = genreCheckItems
+    .filter((checkItem) => checkItem.checked)
+    .map((checkedItem) => checkedItem.label);
+
   return (
     <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
       <FilterDrawer isOpen={isOpen} onClose={onClose}>
@@ -103,11 +115,23 @@ const VideoListPage: FC = () => {
           <HStack spacing={2} display={{ base: "none", sm: "flex" }}>
             <FilterButton onOpen={onOpen} />
             <SelectBoxWithIcon />
+            {genreLabels.length ||
+            state.keyword.length ||
+            !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
+              <Box>
+                <ClearButton loadingSearchModels={loadingSearchVideos} />
+              </Box>
+            ) : null}
           </HStack>
         ) : (
           <Stack spacing={1} display={{ base: "flex", sm: "none" }}>
             <FilterButton onOpen={onOpen} />
             <SelectBoxWithIcon />
+            {genreLabels.length ||
+            state.keyword.length ||
+            !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
+              <ClearButton loadingSearchModels={loadingSearchVideos} />
+            ) : null}
           </Stack>
         )}
       </Flex>

@@ -33,6 +33,7 @@ jest.mock("providers/VideoListProvider", () => ({
     state: {
       ...jest.requireActual("providers/VideoListProvider").useVideoListContext().state,
       videos: mockVideos,
+      genreCheckItems: [{ label: "ラベルA", checked: true }],
     },
   }),
 }));
@@ -175,6 +176,15 @@ test("SelectBoxWithIconが表示されていること", () => {
     </VideoListProvider>
   );
   expect(screen.getByRole("combobox", { name: "並び替えのセレクトボックス" })).toBeInTheDocument();
+});
+
+test("Videoモデルのフィルターの値が初期値でない場合はクリアボタンがレンダリングされていること", async () => {
+  render(
+    <VideoListProvider>
+      <VideoListPage />
+    </VideoListProvider>
+  );
+  expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
 });
 
 test("並び替えのアコーディオンが表示されていること", () => {
