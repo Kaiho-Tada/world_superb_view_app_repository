@@ -130,7 +130,6 @@ test("初回レンダリング時にhandleGetCheckItems関数内でSET_GENRE_CHE
       { id: 2, name: "ラベルB" },
     ],
   });
-  // (mockSearchVideoApi as jest.Mock).mockReturnValue({ data: { id: 1, title: "タイトル" } });
 
   await act(async () => {
     render(
