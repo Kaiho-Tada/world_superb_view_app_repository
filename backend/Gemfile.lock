@@ -245,6 +245,8 @@ GEM
       rubocop (>= 1.33.0, < 2.0)
     ruby-progressbar (1.13.0)
     rubyzip (2.3.2)
+    shoulda-matchers (6.1.0)
+      activesupport (>= 5.2.0)
     stringio (3.0.8)
     thor (1.3.0)
     timeout (0.4.0)
@@ -282,6 +284,7 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   rubocop-rails
+  shoulda-matchers
   tzinfo-data
   whenever
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_01_004600) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_07_034837) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -65,6 +65,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_004600) do
     t.index ["name", "code"], name: "index_countries_on_name_and_code", unique: true
   end
 
+  create_table "genres", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_genres_on_name", unique: true
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -90,6 +97,29 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_004600) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+  end
+
+  create_table "video_genres", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "video_id", null: false
+    t.bigint "genre_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["genre_id"], name: "index_video_genres_on_genre_id"
+    t.index ["video_id", "genre_id"], name: "index_video_genres_on_video_id_and_genre_id", unique: true
+    t.index ["video_id"], name: "index_video_genres_on_video_id"
+  end
+
+  create_table "videos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "poster_path", null: false
+    t.float "popularity", null: false
+    t.float "vote_average", null: false
+    t.string "release_date", null: false
+    t.boolean "is_movie", null: false
+    t.text "overview"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_videos_on_title", unique: true
   end
 
   create_table "world_view_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -132,6 +162,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_004600) do
     t.index ["world_view_id"], name: "index_world_view_favorites_on_world_view_id"
   end
 
+  create_table "world_view_videos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "world_view_id", null: false
+    t.bigint "video_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["video_id"], name: "index_world_view_videos_on_video_id"
+    t.index ["world_view_id", "video_id"], name: "index_world_view_videos_on_world_view_id_and_video_id", unique: true
+    t.index ["world_view_id"], name: "index_world_view_videos_on_world_view_id"
+  end
+
   create_table "world_views", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "best_season", null: false
@@ -145,6 +185,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_004600) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "video_genres", "genres"
+  add_foreign_key "video_genres", "videos"
   add_foreign_key "world_view_categories", "categories"
   add_foreign_key "world_view_categories", "world_views"
   add_foreign_key "world_view_characteristics", "characteristics"
@@ -153,4 +195,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_004600) do
   add_foreign_key "world_view_countries", "world_views"
   add_foreign_key "world_view_favorites", "users"
   add_foreign_key "world_view_favorites", "world_views"
+  add_foreign_key "world_view_videos", "videos"
+  add_foreign_key "world_view_videos", "world_views"
 end

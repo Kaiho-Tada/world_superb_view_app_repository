@@ -1,6 +1,11 @@
 require "rails_helper"
 
 RSpec.describe WorldView, type: :model do
+  describe "associations" do
+    it { is_expected.to have_many(:world_view_videos).dependent(:destroy) }
+    it { is_expected.to have_many(:videos).through(:world_view_videos) }
+  end
+
   describe "バリデーションのテスト" do
     it "name, panorama_url, best_season, 画像データが存在する場合、有効な状態であること" do
       expect(build(:world_view)).to be_valid

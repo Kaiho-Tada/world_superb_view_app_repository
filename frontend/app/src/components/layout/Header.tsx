@@ -8,6 +8,7 @@ const Header: FC = () => {
   const navigate = useNavigate();
   const onClickHome = useCallback(() => navigate("/home"), [navigate]);
   const onClickSuperbViews = useCallback(() => navigate("/world_views"), [navigate]);
+  const onClickVideos = useCallback(() => navigate("/videos"), [navigate]);
   const onClickUsers = useCallback(() => navigate("/users"), [navigate]);
   const { isSignedIn, currentUser } = useAuth();
   const isAdminUser = currentUser?.role === "admin";
@@ -39,6 +40,17 @@ const Header: FC = () => {
             onClick={onClickSuperbViews}
           >
             絶景一覧
+          </Text>
+          <Text
+            as="a"
+            role="link"
+            fontSize={{ base: "sm", md: "md" }}
+            fontWeight="bold"
+            textShadow="1px 1px 1px #000000"
+            _hover={{ cursor: "pointer" }}
+            onClick={onClickVideos}
+          >
+            映画一覧
           </Text>
           {isAdminUser ? (
             <Text

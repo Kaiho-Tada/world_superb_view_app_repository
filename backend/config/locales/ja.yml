@@ -7,6 +7,7 @@ ja:
       country: "国"
       category: "カテゴリー"
       characteristic: "属性"
+      movie: "映画"
     attributes:
       world_view:
         name: "絶景名"
@@ -28,6 +29,20 @@ ja:
         world_view: "絶景"
         world_view_id: "絶景id"
         user: "ユーザー"
+      movie:
+        title: "タイトル"
+        poster_path: "ポスターパス"
+        budget: "予算"
+        revenue: "収益"
+        popularity: "人気度"
+        vote_average: "評価"
+        release_date: "公開日"
+        status: "ステイタス"
+      world_view_movie:
+        world_view: "絶景"
+        world_view_id: "絶景ID"
+        movie: "映画"
+        movie_id: "映画ID"
 
     errors:
       messages:

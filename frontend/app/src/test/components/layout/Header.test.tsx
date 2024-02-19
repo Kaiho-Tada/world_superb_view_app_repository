@@ -56,6 +56,23 @@ describe("絶景一覧リンクのテスト", () => {
   });
 });
 
+describe("映画一覧リンクのテスト", () => {
+  test("映画一覧リンクが表示されていること", () => {
+    (mockUseAuth as jest.Mock).mockReturnValue(mockContextValueNotSignIn);
+    render(<Header />);
+    expect(screen.getByRole("link", { name: "映画一覧" })).toBeInTheDocument();
+  });
+
+  test("映画一覧リンク押下で映画一覧ページへ遷移すること", async () => {
+    (mockUseAuth as jest.Mock).mockReturnValue(mockContextValueNotSignIn);
+    const user = userEvent.setup();
+    render(<Header />);
+    await user.click(screen.getByRole("link", { name: "映画一覧" }));
+    expect(mockUseNavigate).toHaveBeenCalledWith("/videos");
+    expect(mockUseNavigate).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("ユーザー一覧ページのリンクのテスト", () => {
   const mockContextValueAdmin = { currentUser: { role: "admin" } };
   test("管理者ユーザーでログインした場合はユーザー一覧ページのリンクが表示されていること", () => {
