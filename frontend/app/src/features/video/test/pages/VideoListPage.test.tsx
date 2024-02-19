@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import mockGetAllGenresApi from "features/video/api/genreApi";
-import VideoListPage from "pages/VideoListPage";
+import VideoListPage from "features/video/pages/VideoListPage";
 import { VideoListProvider } from "providers/VideoListProvider";
 import { act } from "react-dom/test-utils";
 
