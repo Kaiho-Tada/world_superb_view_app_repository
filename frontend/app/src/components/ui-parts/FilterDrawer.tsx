@@ -7,14 +7,14 @@ import {
   DrawerOverlay,
   Flex,
 } from "@chakra-ui/react";
-import { FC, ReactNode } from "react";
+import { FC, memo, ReactNode } from "react";
 
 interface Props {
   onClose: () => void;
   isOpen: boolean;
   children: ReactNode;
 }
-const FilterDrawer: FC<Props> = ({ onClose, isOpen, children }) => (
+const FilterDrawer: FC<Props> = memo(({ onClose, isOpen, children }) => (
   <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
     <DrawerOverlay>
       <DrawerContent>
@@ -31,5 +31,5 @@ const FilterDrawer: FC<Props> = ({ onClose, isOpen, children }) => (
       </DrawerContent>
     </DrawerOverlay>
   </Drawer>
-);
+));
 export default FilterDrawer;

@@ -8,6 +8,7 @@ import useVideoApi from "features/video/api/videoApi";
 import Video from "features/video/types/Video";
 import useSearchModel from "hooks/api/useSearchModel";
 import { useVideoListContext } from "providers/VideoListProvider";
+import { useCallback } from "react";
 import CheckItem from "types/checkItem";
 
 const FilterAccordionPanel = () => {
@@ -34,12 +35,15 @@ const FilterAccordionPanel = () => {
     dispatch({ type: "SET_SHOULD_DEBOUNCE", payload });
   };
 
-  const handleChangeRangeSlider = (newValue: number[]) => {
-    if (isDisabled) {
-      dispatch({ type: "SET_IS_DISABLED", payload: false });
-    }
-    dispatch({ type: "SET_VOTE_AVERAGE_RENGE", payload: newValue });
-  };
+  const handleChangeRangeSlider = useCallback(
+    (newValue: number[]) => {
+      if (isDisabled) {
+        dispatch({ type: "SET_IS_DISABLED", payload: false });
+      }
+      dispatch({ type: "SET_VOTE_AVERAGE_RENGE", payload: newValue });
+    },
+    [isDisabled]
+  );
 
   const movieDispatch = (responseData: Video[]) => {
     dispatch({ type: "SET_VIDEOS", payload: responseData });
@@ -48,7 +52,7 @@ const FilterAccordionPanel = () => {
     dispatch({ type: "SET_LOADING_SEARCH_VIDEOS", payload });
   };
 
-  const handleClickSearchButton = () => {
+  const handleClickSearchButton = useCallback(() => {
     if (isDisabled === false) {
       dispatch({ type: "SET_IS_DISABLED", payload: true });
     }
@@ -57,7 +61,7 @@ const FilterAccordionPanel = () => {
       loadingSearchModelDispatch: loadingSearchMovieDispatch,
       searchModelApi: searchVideoApi,
     });
-  };
+  }, [isDisabled]);
 
   const genreLabels = genreCheckItems
     .filter((checkItem) => checkItem.checked)

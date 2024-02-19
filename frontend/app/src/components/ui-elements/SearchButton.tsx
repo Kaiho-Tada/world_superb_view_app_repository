@@ -1,11 +1,12 @@
 import { Box } from "@chakra-ui/react";
+import { memo } from "react";
 
 interface Props {
   handleClick: () => void;
   loadingSearchModels: boolean;
   disabled: boolean;
 }
-const SearchButton = ({ handleClick, loadingSearchModels, disabled }: Props) => (
+const SearchButton = memo(({ handleClick, loadingSearchModels, disabled }: Props) => (
   <Box textAlign="center">
     <Box
       role="button"
@@ -26,6 +27,6 @@ const SearchButton = ({ handleClick, loadingSearchModels, disabled }: Props) => 
       検索
     </Box>
   </Box>
-);
+));
 
 export default SearchButton;

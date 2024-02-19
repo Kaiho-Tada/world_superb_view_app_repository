@@ -6,7 +6,7 @@ import {
   RangeSliderTrack,
   Text,
 } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, memo } from "react";
 
 interface Props {
   value: number[];
@@ -15,7 +15,7 @@ interface Props {
   step: number;
   handleChange: (newValue: number[]) => void;
 }
-const FilterRangeSlider: FC<Props> = (props) => {
+const FilterRangeSlider: FC<Props> = memo((props) => {
   const { value, min, max, step, handleChange } = props;
   return (
     <RangeSlider
@@ -54,6 +54,6 @@ const FilterRangeSlider: FC<Props> = (props) => {
       </Flex>
     </RangeSlider>
   );
-};
+});
 
 export default FilterRangeSlider;
