@@ -2,6 +2,7 @@ import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
 import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
+import FilterAccordion from "components/ui-parts/FilterAccordion";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
 import SortAccordion from "components/ui-parts/SortAccordion";
 import getAllCategoriesApi from "features/worldView/api/categoryApi";
@@ -10,8 +11,6 @@ import getAllCountriesApi from "features/worldView/api/countryApi";
 import useWorldViewApi from "features/worldView/api/useWorldViewApi";
 import SortSelectBox from "features/worldView/components/ui-elements/SortSelectBox";
 import SortSelectBoxWithIcon from "features/worldView/components/ui-elements/SortSelectBoxWithIcon";
-// import SortSelectBoxWithIcon from "features/worldView/components/ui-elements/SortSelectBoxWithIcon";
-import FilterAccordion from "features/worldView/components/ui-parts/FilterAccordion";
 import FilterAccordionPanel from "features/worldView/components/ui-parts/FilterAccordionPanel";
 import WorldViewList from "features/worldView/components/ui-parts/WorldViewList";
 import { WorldView } from "features/worldView/types/api/worldView";
@@ -135,7 +134,9 @@ const WorldViewListPage = () => {
             <SortAccordion>
               <SortSelectBox />
             </SortAccordion>
-            <FilterAccordion />
+            <FilterAccordion>
+              <FilterAccordionPanel />
+            </FilterAccordion>
           </Stack>
         </Box>
         <Box>

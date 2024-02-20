@@ -3,12 +3,12 @@ import ClearButton from "components/ui-elements/ClearButton";
 import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
+import FilterAccordion from "components/ui-parts/FilterAccordion";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
 import SortAccordion from "components/ui-parts/SortAccordion";
 import getAllGenresApi from "features/video/api/genreApi";
 import useVideoApi from "features/video/api/videoApi";
 import SelectBoxWithIcon from "features/video/components/ui-element/SortSelectBoxWithIcon";
-import FilterAccordion from "features/video/components/ui-parts/FilterAccordion";
 import FilterAccordionPanel from "features/video/components/ui-parts/FilterAccordionPanel";
 import VideoList from "features/video/components/ui-parts/VideoList";
 import Movie from "features/video/types/Video";
@@ -145,7 +145,9 @@ const VideoListPage: FC = () => {
             <SortAccordion>
               <SortSelectBox />
             </SortAccordion>
-            <FilterAccordion />
+            <FilterAccordion>
+              <FilterAccordionPanel />
+            </FilterAccordion>
           </Stack>
         </Box>
         <Box pl="6" w="100%">

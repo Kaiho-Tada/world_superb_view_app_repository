@@ -6,9 +6,12 @@ import {
   AccordionPanel,
   Box,
 } from "@chakra-ui/react";
-import FilterAccordionPanel from "./FilterAccordionPanel";
+import { FC, ReactNode } from "react";
 
-const FilterAccordion = () => (
+interface Props {
+  children: ReactNode;
+}
+const FilterAccordion: FC<Props> = ({ children }) => (
   <Accordion
     allowMultiple
     role="region"
@@ -20,7 +23,7 @@ const FilterAccordion = () => (
     borderRadius="6px"
     borderColor="transparent"
   >
-    <AccordionItem color="black">
+    <AccordionItem color="gray.800">
       <AccordionButton borderBottom="1px solid #E2E8F0">
         <Box
           as="span"
@@ -36,10 +39,10 @@ const FilterAccordion = () => (
         <AccordionIcon />
       </AccordionButton>
       <AccordionPanel p="0">
-        <FilterAccordionPanel />
+        {/* <FilterAccordionPanel /> */}
+        {children}
       </AccordionPanel>
     </AccordionItem>
   </Accordion>
 );
-
 export default FilterAccordion;
