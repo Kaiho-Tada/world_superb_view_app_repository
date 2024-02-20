@@ -3,11 +3,14 @@ import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
+import SortAccordion from "components/ui-parts/SortAccordion";
 import getAllCategoriesApi from "features/worldView/api/categoryApi";
 import getAllCharacteristicsApi from "features/worldView/api/characteristicApi";
 import getAllCountriesApi from "features/worldView/api/countryApi";
 import useWorldViewApi from "features/worldView/api/useWorldViewApi";
 import SortSelectBox from "features/worldView/components/ui-elements/SortSelectBox";
+import SortSelectBoxWithIcon from "features/worldView/components/ui-elements/SortSelectBoxWithIcon";
+// import SortSelectBoxWithIcon from "features/worldView/components/ui-elements/SortSelectBoxWithIcon";
 import FilterAccordion from "features/worldView/components/ui-parts/FilterAccordion";
 import FilterAccordionPanel from "features/worldView/components/ui-parts/FilterAccordionPanel";
 import WorldViewList from "features/worldView/components/ui-parts/WorldViewList";
@@ -124,11 +127,14 @@ const WorldViewListPage = () => {
     <Box my="10" mx={{ base: "1", sm: "4", lg: "6" }}>
       <Flex mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
         <FilterButton onOpen={onOpen} />
-        <SortSelectBox />
+        <SortSelectBoxWithIcon />
       </Flex>
       <Flex>
         <Box display={{ base: "none", md: "block" }} h="100%" mr="6">
           <Stack w="250px" h="100%" spacing="3" mb="16">
+            <SortAccordion>
+              <SortSelectBox />
+            </SortAccordion>
             <FilterAccordion />
           </Stack>
         </Box>
