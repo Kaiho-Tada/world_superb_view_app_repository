@@ -1,12 +1,15 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
+import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
+import FilterDrawer from "components/ui-parts/FilterDrawer";
 import getAllCategoriesApi from "features/worldView/api/categoryApi";
 import getAllCharacteristicsApi from "features/worldView/api/characteristicApi";
 import getAllCountriesApi from "features/worldView/api/countryApi";
 import useWorldViewApi from "features/worldView/api/useWorldViewApi";
-import FilterButton from "features/worldView/components/ui-elements/FilterButton";
 import SortSelectBox from "features/worldView/components/ui-elements/SortSelectBox";
+import FilterAccordion from "features/worldView/components/ui-parts/FilterAccordion";
+import FilterAccordionPanel from "features/worldView/components/ui-parts/FilterAccordionPanel";
 import WorldViewList from "features/worldView/components/ui-parts/WorldViewList";
 import { WorldView } from "features/worldView/types/api/worldView";
 import useGetCheckBoxItems from "hooks/api/useGetCheckBoxItems";
@@ -115,14 +118,21 @@ const WorldViewListPage = () => {
     setCurrentPage(1);
   }, [state.worldViews]);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box my="10" mx={{ base: "1", sm: "4", lg: "6" }}>
-      <Flex mb="6">
-        <FilterButton />
+      <Flex mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
+        <FilterButton onOpen={onOpen} />
         <SortSelectBox />
       </Flex>
       <Flex>
-        <Box w={{ sm: "100%", lg: state.isOpenFilterAccordion ? "78%" : "100%" }}>
+        <Box display={{ base: "none", md: "block" }} h="100%" mr="6">
+          <Stack w="250px" h="100%" spacing="3" mb="16">
+            <FilterAccordion />
+          </Stack>
+        </Box>
+        <Box>
           {state.loadingSearchWorldViews ? (
             <Loading />
           ) : (
@@ -137,6 +147,9 @@ const WorldViewListPage = () => {
           )}
         </Box>
       </Flex>
+      <FilterDrawer isOpen={isOpen} onClose={onClose}>
+        <FilterAccordionPanel />
+      </FilterDrawer>
     </Box>
   );
 };

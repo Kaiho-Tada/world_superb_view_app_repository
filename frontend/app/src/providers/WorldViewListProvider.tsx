@@ -16,10 +16,6 @@ export type Action =
   | { type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS"; payload: boolean }
   | { type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS"; payload: boolean }
   | { type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: boolean }
-  | { type: "OPEN_FILTER_DRAWER" }
-  | { type: "CLOSE_FILTER_DRAWER" }
-  | { type: "OPEN_FILTER_ACCODION" }
-  | { type: "CLOSE_FILTER_ACCODION" }
   | { type: "SET_WORLD_VIEWS"; payload: WorldView[] }
   | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean }
   | { type: "SET_SORT_CRITERIA"; payload: string };
@@ -38,8 +34,6 @@ type State = {
   loadingCategoryCheckBoxItems: boolean;
   loadingCountryCheckBoxItems: boolean;
   loadingCharacteristicCheckBoxItems: boolean;
-  isOpenFilterDrawer: boolean;
-  isOpenFilterAccordion: boolean;
   worldViews: Array<WorldView>;
   shouldDebounce: boolean;
   sortCriteria: string;
@@ -88,8 +82,6 @@ const initialState: State = {
   loadingCategoryCheckBoxItems: false,
   loadingCountryCheckBoxItems: false,
   loadingCharacteristicCheckBoxItems: false,
-  isOpenFilterDrawer: false,
-  isOpenFilterAccordion: true,
   worldViews: [],
   shouldDebounce: false,
   sortCriteria: "",
@@ -129,18 +121,6 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS":
       return { ...state, loadingCharacteristicCheckBoxItems: action.payload };
-
-    case "OPEN_FILTER_DRAWER":
-      return { ...state, isOpenFilterDrawer: true };
-
-    case "CLOSE_FILTER_DRAWER":
-      return { ...state, isOpenFilterDrawer: false };
-
-    case "OPEN_FILTER_ACCODION":
-      return { ...state, isOpenFilterAccordion: true };
-
-    case "CLOSE_FILTER_ACCODION":
-      return { ...state, isOpenFilterAccordion: false };
 
     case "SET_WORLD_VIEWS":
       return { ...state, worldViews: action.payload };

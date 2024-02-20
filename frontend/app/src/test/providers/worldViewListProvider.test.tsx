@@ -288,48 +288,6 @@ describe("LOADINGアクションのテスト", () => {
   });
 });
 
-describe("FILTER_DRAWERアクションのテスト", () => {
-  test("OPEN_FILTER_DRAWERアクションの場合は、isOpenFilterDrawerがtrueにCLOSE_FILTER_DRAWERがディスパッチされた場合はfalseに更新されること", () => {
-    const { result } = renderHook(() => useWorldViewListContext(), {
-      wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
-    });
-    expect(result.current.state.isOpenFilterDrawer).toBe(false);
-
-    act(() => {
-      result.current.dispatch({ type: "OPEN_FILTER_DRAWER" });
-    });
-
-    expect(result.current.state.isOpenFilterDrawer).toBe(true);
-
-    act(() => {
-      result.current.dispatch({ type: "CLOSE_FILTER_DRAWER" });
-    });
-
-    expect(result.current.state.isOpenFilterDrawer).toBe(false);
-  });
-});
-
-describe("FILTER_ACCODIONアクションのテスト", () => {
-  test("OPEN_FILTER_ACCODIONアクションの場合は、isOpenFilterAccordionがtrueにCLOSE_FILTER_ACCODIONがディスパッチされたfalseに更新されること", () => {
-    const { result } = renderHook(() => useWorldViewListContext(), {
-      wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
-    });
-    expect(result.current.state.isOpenFilterAccordion).toBe(true);
-
-    act(() => {
-      result.current.dispatch({ type: "CLOSE_FILTER_ACCODION" });
-    });
-
-    expect(result.current.state.isOpenFilterAccordion).toBe(false);
-
-    act(() => {
-      result.current.dispatch({ type: "OPEN_FILTER_ACCODION" });
-    });
-
-    expect(result.current.state.isOpenFilterAccordion).toBe(true);
-  });
-});
-
 test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldViewsが指定された値に更新されること", () => {
   const { result } = renderHook(() => useWorldViewListContext(), {
     wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,

@@ -5,13 +5,6 @@ import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
 window.scrollTo = jest.fn();
-// useClickFilterButton関数内のuseBreakpointValue関数の戻り値がundefinedになりエラーが発生するのを回避
-jest.mock("features/worldView/hooks/useClickFilterButton", () => ({
-  __esModule: true,
-  default: () => ({
-    handleClickFilterButton: jest.fn(),
-  }),
-}));
 
 const mockWorldViews = Array.from({ length: 30 }, (_, index) => ({
   id: index + 1,
@@ -158,6 +151,15 @@ describe("handleGetCheckBoxItems関数のテスト", () => {
   });
 });
 
+test("FilterButtonがレンダリングされていること", () => {
+  render(
+    <WorldViewListProvider>
+      <WorldViewList />
+    </WorldViewListProvider>
+  );
+  expect(screen.getByRole("button", { name: "フィルター" })).toBeInTheDocument();
+});
+
 test("並べ替えのSelectBoxがレンダリングされていること", () => {
   render(
     <WorldViewListProvider>
@@ -165,6 +167,15 @@ test("並べ替えのSelectBoxがレンダリングされていること", () =>
     </WorldViewListProvider>
   );
   expect(screen.getByRole("combobox", { name: "並び替えオプションの選択" })).toBeInTheDocument();
+});
+
+test("絞り込みのアコーディオンがレンダリングされていること", () => {
+  render(
+    <WorldViewListProvider>
+      <WorldViewList />
+    </WorldViewListProvider>
+  );
+  expect(screen.getByRole("region", { name: "絞り込みのアコーディオン" })).toBeInTheDocument();
 });
 
 test("絶景一覧がレンダリングされていること", () => {
