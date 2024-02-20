@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, HStack, Stack, useDisclosure } from "@chakra-ui/react";
 import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
@@ -123,11 +123,11 @@ const WorldViewListPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box my="10" mx={{ base: "1", sm: "4", lg: "6" }}>
-      <Flex mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
+    <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
+      <HStack mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
         <FilterButton onOpen={onOpen} />
         <SortSelectBoxWithIcon />
-      </Flex>
+      </HStack>
       <Flex>
         <Box display={{ base: "none", md: "block" }} h="100%" mr="6">
           <Stack w="250px" h="100%" spacing="3" mb="16">

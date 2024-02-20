@@ -114,7 +114,7 @@ const VideoListPage: FC = () => {
       <FilterDrawer isOpen={isOpen} onClose={onClose}>
         <FilterAccordionPanel />
       </FilterDrawer>
-      <Flex ml="6" mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
+      <Flex mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
         {screenSize === "sm" ? (
           <HStack spacing={2} display={{ base: "none", sm: "flex" }}>
             <FilterButton onOpen={onOpen} />
@@ -140,7 +140,7 @@ const VideoListPage: FC = () => {
         )}
       </Flex>
       <Flex>
-        <Box display={{ base: "none", md: "block" }} h="100%">
+        <Box display={{ base: "none", md: "block" }} h="100%" mr="6">
           <Stack w="250px" h="100%" spacing="3" mb="16">
             <SortAccordion>
               <SortSelectBox />
@@ -150,7 +150,7 @@ const VideoListPage: FC = () => {
             </FilterAccordion>
           </Stack>
         </Box>
-        <Box pl="6" w="100%">
+        <Box w="100%">
           {loadingSearchVideos ? (
             <Loading />
           ) : (

@@ -8,21 +8,14 @@ const SortSelectBoxWithIcon = () => {
   const { state } = useWorldViewListContext();
 
   return (
-    <Flex
-      w="200px"
-      bg="gray.100"
-      color="purple.800"
-      align="center"
-      ml="3"
-      _hover={{ opacity: "0.8" }}
-    >
+    <Flex w="200px" bg="gray.100" color="purple.800" align="center" _hover={{ opacity: "0.8" }}>
       <Image boxSize="20px" src={sortIcon} ml="3" />
       <Select
         style={{ display: "inline" }}
         border="none"
         _focus={{ boxShadow: "none" }}
         fontWeight="bold"
-        size="lg"
+        size={{ base: "md", sm: "lg" }}
         fontSize="md"
         _hover={{ cursor: "pointer" }}
         onChange={handleChangeSort}
