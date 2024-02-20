@@ -58,6 +58,49 @@ const mockContextValueLoadingCharacteristic = {
   },
 };
 
+describe("クリアボタンのテスト", () => {
+  describe("Videoモデルのフィルター属性の値が初期値である場合", () => {
+    test("クリアボタンが非表示であること", async () => {
+      (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
+      render(<FilterAccordionPanel />);
+      expect(screen.queryByRole("button", { name: "クリア" })).not.toBeInTheDocument();
+    });
+  });
+
+  describe("Videoモデルのフィルター属性の値が初期値ではない場合", () => {
+    const mockContextValueChecked = {
+      ...mockContextValue,
+      state: {
+        ...mockContextValue.state,
+        categoryCheckBoxItems: [{ label: "滝", parentLabel: "自然", checked: true }],
+      },
+    };
+
+    test("クリアボタンがレンダリングされていること", async () => {
+      (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueChecked);
+      render(<FilterAccordionPanel />);
+      expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
+    });
+
+    test("クリアボタン押下でhandleClear関数が呼び出されること", async () => {
+      (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueChecked);
+      const spyOnUseClear = jest.spyOn(
+        jest.requireActual("features/worldView/hooks/useClear"),
+        "default"
+      );
+      const mockHandleClear = jest.fn();
+      spyOnUseClear.mockReturnValue({ handleClear: mockHandleClear });
+      const user = userEvent.setup();
+      render(<FilterAccordionPanel />);
+      await act(async () => {
+        await user.click(screen.getByRole("button", { name: "クリア" }));
+      });
+      expect(mockHandleClear).toHaveBeenCalledTimes(1);
+      spyOnUseClear.mockRestore();
+    });
+  });
+});
+
 describe("キーワードのテキストボックスのテスト", () => {
   test("textboxがレンダリングされていること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
