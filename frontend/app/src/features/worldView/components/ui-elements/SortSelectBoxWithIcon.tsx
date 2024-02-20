@@ -1,10 +1,10 @@
 import { Flex, Image, Select } from "@chakra-ui/react";
 import sortIcon from "assets/sortIcon.png";
-import useSortWordView from "features/worldView/hooks/useSortWordView";
+import useSortChange from "features/worldView/hooks/useSortChange";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 
 const SortSelectBoxWithIcon = () => {
-  const { handleSortChangeWorldView } = useSortWordView();
+  const { handleChangeSort } = useSortChange();
   const { state } = useWorldViewListContext();
 
   return (
@@ -25,7 +25,7 @@ const SortSelectBoxWithIcon = () => {
         size="lg"
         fontSize="md"
         _hover={{ cursor: "pointer" }}
-        onChange={handleSortChangeWorldView}
+        onChange={handleChangeSort}
         aria-label="並び替えオプションの選択"
         disabled={state.loadingSearchWorldViews}
       >

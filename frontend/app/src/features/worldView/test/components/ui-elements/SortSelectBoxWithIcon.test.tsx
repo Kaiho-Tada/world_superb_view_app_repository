@@ -7,13 +7,6 @@ import { act } from "react-dom/test-utils";
 jest.mock("providers/WorldViewListProvider", () => ({
   useWorldViewListContext: jest.fn(),
 }));
-const mockHandleSortChangeWorldView = jest.fn();
-jest.mock("features/worldView/hooks/useSortWordView", () => ({
-  __esModule: true,
-  default: () => ({
-    handleSortChangeWorldView: mockHandleSortChangeWorldView,
-  }),
-}));
 
 const mockContextValue = {
   state: {
@@ -58,11 +51,20 @@ test("optionが表示されていること", () => {
 
 test("selectBoxのoptionの選択でhandleSortChangeWorldView関数が実行されること", async () => {
   (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
+  const spyOnUseSortChange = jest.spyOn(
+    jest.requireActual("features/worldView/hooks/useSortChange"),
+    "default"
+  );
+  const mockHandleChangeSort = jest.fn();
+  spyOnUseSortChange.mockReturnValue({
+    handleChangeSort: mockHandleChangeSort,
+  });
+
   const user = userEvent.setup();
   render(<SortSelectBox />);
   const selectBox = screen.getByRole("combobox", { name: "並び替えオプションの選択" });
   await act(async () => {
     await user.selectOptions(selectBox, "BMI値が低い順");
   });
-  expect(mockHandleSortChangeWorldView).toHaveBeenCalledTimes(1);
+  expect(mockHandleChangeSort).toHaveBeenCalledTimes(1);
 });

@@ -1,9 +1,9 @@
 import { Box, Select } from "@chakra-ui/react";
-import useSortWordView from "features/worldView/hooks/useSortWordView";
+import useSortChange from "features/worldView/hooks/useSortChange";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 
 const SortSelectBox = () => {
-  const { handleSortChangeWorldView } = useSortWordView();
+  const { handleChangeSort } = useSortChange();
   const { state } = useWorldViewListContext();
   return (
     <Box bg="gray.300" borderRadius="3px">
@@ -15,7 +15,7 @@ const SortSelectBox = () => {
         border="none"
         _hover={{ cursor: "pointer" }}
         _focus={{ boxShadow: "none" }}
-        onChange={handleSortChangeWorldView}
+        onChange={handleChangeSort}
         disabled={state.loadingSearchWorldViews}
       >
         <option value="BMI値が低い順">BMI値が低い順</option>

@@ -43,13 +43,13 @@ test("optionが表示されていること", () => {
 
 test("optionの選択でhandleChangeSort関数が呼び出されること", async () => {
   (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
-  const spyOnUseSortWordView = jest.spyOn(
-    jest.requireActual("features/worldView/hooks/useSortWordView"),
+  const spyOnUseSortChange = jest.spyOn(
+    jest.requireActual("features/worldView/hooks/useSortChange"),
     "default"
   );
-  const mockHandleSortChangeWorldView = jest.fn();
-  spyOnUseSortWordView.mockReturnValue({
-    handleSortChangeWorldView: mockHandleSortChangeWorldView,
+  const mockHandleChangeSort = jest.fn();
+  spyOnUseSortChange.mockReturnValue({
+    handleChangeSort: mockHandleChangeSort,
   });
 
   const user = userEvent.setup();
@@ -60,5 +60,5 @@ test("optionの選択でhandleChangeSort関数が呼び出されること", asyn
       "BMI値が低い順"
     );
   });
-  expect(mockHandleSortChangeWorldView).toHaveBeenCalledTimes(1);
+  expect(mockHandleChangeSort).toHaveBeenCalledTimes(1);
 });
