@@ -5,6 +5,7 @@ import FilterRangeSlider from "components/ui-elements/FilterRangeSlider";
 import FilterSearchBox from "components/ui-elements/FilterSearchBox";
 import SearchButton from "components/ui-elements/SearchButton";
 import useVideoApi from "features/video/api/videoApi";
+import useClear from "features/video/hooks/useClear";
 import Video from "features/video/types/Video";
 import useSearchModel from "hooks/api/useSearchModel";
 import { useVideoListContext } from "providers/VideoListProvider";
@@ -67,13 +68,15 @@ const FilterAccordionPanel = () => {
     .filter((checkItem) => checkItem.checked)
     .map((checkedItem) => checkedItem.label);
 
+  const { handleClear } = useClear();
+
   return (
     <>
       {genreLabels.length ||
       state.keyword.length ||
       !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
         <>
-          <ClearButton loadingSearchModels={loadingSearchVideos} />
+          <ClearButton loadingSearchModels={loadingSearchVideos} handleClear={handleClear} />
           <Divider borderColor="#C2C8D0" />
         </>
       ) : null}

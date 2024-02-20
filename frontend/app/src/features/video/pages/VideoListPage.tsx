@@ -18,6 +18,7 @@ import useDebounce from "hooks/useDebounce";
 import { useVideoListContext } from "providers/VideoListProvider";
 import { FC, useCallback, useEffect, useState } from "react";
 import CheckItem from "types/checkItem";
+import useClear from "../hooks/useClear";
 
 const VideoListPage: FC = () => {
   const { state, dispatch } = useVideoListContext();
@@ -105,6 +106,8 @@ const VideoListPage: FC = () => {
     .filter((checkItem) => checkItem.checked)
     .map((checkedItem) => checkedItem.label);
 
+  const { handleClear } = useClear();
+
   return (
     <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
       <FilterDrawer isOpen={isOpen} onClose={onClose}>
@@ -119,7 +122,7 @@ const VideoListPage: FC = () => {
             state.keyword.length ||
             !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
               <Box>
-                <ClearButton loadingSearchModels={loadingSearchVideos} />
+                <ClearButton loadingSearchModels={loadingSearchVideos} handleClear={handleClear} />
               </Box>
             ) : null}
           </HStack>
@@ -130,7 +133,7 @@ const VideoListPage: FC = () => {
             {genreLabels.length ||
             state.keyword.length ||
             !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
-              <ClearButton loadingSearchModels={loadingSearchVideos} />
+              <ClearButton loadingSearchModels={loadingSearchVideos} handleClear={handleClear} />
             ) : null}
           </Stack>
         )}

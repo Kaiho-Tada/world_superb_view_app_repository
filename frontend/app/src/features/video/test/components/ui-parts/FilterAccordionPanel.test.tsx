@@ -51,7 +51,15 @@ const mockContextValueDisabled = {
 };
 
 describe("クリアボタンのテスト", () => {
-  test("クリアボタンがレンダリングされていること", async () => {
+  describe("Videoモデルのフィルター属性の値が初期値の場合", () => {
+    test("クリアボタンが非表示であること", async () => {
+      spyOnUseVideoListContext.mockReturnValue(mockContextValue);
+      render(<FilterAccordionPanel />);
+      expect(screen.queryByRole("button", { name: "クリア" })).not.toBeInTheDocument();
+    });
+  });
+
+  describe("Videoモデルのフィルター属性の値が初期値ではない場合", () => {
     const mockContextValueChecked = {
       ...mockContextValue,
       state: {
@@ -59,15 +67,29 @@ describe("クリアボタンのテスト", () => {
         genreCheckItems: [{ label: "ラベルA", checked: true }],
       },
     };
-    spyOnUseVideoListContext.mockReturnValue(mockContextValueChecked);
-    render(<FilterAccordionPanel />);
-    expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
-  });
 
-  test("Videoモデルのフィルター属性の値が初期値の場合はクリアボタンが非表示であること", async () => {
-    spyOnUseVideoListContext.mockReturnValue(mockContextValue);
-    render(<FilterAccordionPanel />);
-    expect(screen.queryByRole("button", { name: "クリア" })).not.toBeInTheDocument();
+    test("クリアボタンがレンダリングされていること", async () => {
+      spyOnUseVideoListContext.mockReturnValue(mockContextValueChecked);
+      render(<FilterAccordionPanel />);
+      expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
+    });
+
+    test("クリアボタン押下でhandleClear関数が呼び出されること", async () => {
+      spyOnUseVideoListContext.mockReturnValue(mockContextValueChecked);
+      const spyOnUseClear = jest.spyOn(
+        jest.requireActual("features/video/hooks/useClear"),
+        "default"
+      );
+      const mockHandleClear = jest.fn();
+      spyOnUseClear.mockReturnValue({ handleClear: mockHandleClear });
+      const user = userEvent.setup();
+      render(<FilterAccordionPanel />);
+      await act(async () => {
+        await user.click(screen.getByRole("button", { name: "クリア" }));
+      });
+      expect(mockHandleClear).toHaveBeenCalledTimes(1);
+      spyOnUseClear.mockRestore();
+    });
   });
 });
 
