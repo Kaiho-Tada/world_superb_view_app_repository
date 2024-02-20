@@ -7,8 +7,6 @@ import getAllCountriesApi from "features/worldView/api/countryApi";
 import useWorldViewApi from "features/worldView/api/useWorldViewApi";
 import FilterButton from "features/worldView/components/ui-elements/FilterButton";
 import SortSelectBox from "features/worldView/components/ui-elements/SortSelectBox";
-import FilterAccordion from "features/worldView/components/ui-parts/FilterAccordion";
-import FilterDrawer from "features/worldView/components/ui-parts/FilterDrawer";
 import WorldViewList from "features/worldView/components/ui-parts/WorldViewList";
 import { WorldView } from "features/worldView/types/api/worldView";
 import useGetCheckBoxItems from "hooks/api/useGetCheckBoxItems";
@@ -123,9 +121,7 @@ const WorldViewListPage = () => {
         <FilterButton />
         <SortSelectBox />
       </Flex>
-      <FilterDrawer />
       <Flex>
-        <FilterAccordion />
         <Box w={{ sm: "100%", lg: state.isOpenFilterAccordion ? "78%" : "100%" }}>
           {state.loadingSearchWorldViews ? (
             <Loading />
