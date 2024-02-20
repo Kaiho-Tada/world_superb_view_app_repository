@@ -4,12 +4,12 @@ import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
+import SortAccordion from "components/ui-parts/SortAccordion";
 import getAllGenresApi from "features/video/api/genreApi";
 import useVideoApi from "features/video/api/videoApi";
 import SelectBoxWithIcon from "features/video/components/ui-element/SortSelectBoxWithIcon";
 import FilterAccordion from "features/video/components/ui-parts/FilterAccordion";
 import FilterAccordionPanel from "features/video/components/ui-parts/FilterAccordionPanel";
-import SortAccordion from "features/video/components/ui-parts/SortAccordion";
 import VideoList from "features/video/components/ui-parts/VideoList";
 import Movie from "features/video/types/Video";
 import useGetCheckItems from "hooks/api/useGetCheckItems";
@@ -18,6 +18,7 @@ import useDebounce from "hooks/useDebounce";
 import { useVideoListContext } from "providers/VideoListProvider";
 import { FC, useCallback, useEffect, useState } from "react";
 import CheckItem from "types/checkItem";
+import SortSelectBox from "../components/ui-element/SortSelectBox";
 import useClear from "../hooks/useClear";
 
 const VideoListPage: FC = () => {
@@ -141,7 +142,9 @@ const VideoListPage: FC = () => {
       <Flex>
         <Box display={{ base: "none", md: "block" }} h="100%">
           <Stack w="250px" h="100%" spacing="3" mb="16">
-            <SortAccordion />
+            <SortAccordion>
+              <SortSelectBox />
+            </SortAccordion>
             <FilterAccordion />
           </Stack>
         </Box>

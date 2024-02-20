@@ -6,9 +6,12 @@ import {
   AccordionPanel,
   Box,
 } from "@chakra-ui/react";
-import SortSelectBox from "../ui-element/SortSelectBox";
+import { FC, ReactNode } from "react";
 
-const SortAccordion = () => (
+interface Props {
+  children: ReactNode;
+}
+const SortAccordion: FC<Props> = ({ children }) => (
   <Accordion
     allowMultiple
     role="region"
@@ -35,9 +38,7 @@ const SortAccordion = () => (
         </Box>
         <AccordionIcon />
       </AccordionButton>
-      <AccordionPanel py={3}>
-        <SortSelectBox />
-      </AccordionPanel>
+      <AccordionPanel py={3}>{children}</AccordionPanel>
     </AccordionItem>
   </Accordion>
 );
