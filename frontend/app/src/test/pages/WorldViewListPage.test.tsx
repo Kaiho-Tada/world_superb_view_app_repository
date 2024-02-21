@@ -24,7 +24,6 @@ jest.mock("providers/WorldViewListProvider", () => ({
     state: {
       ...jest.requireActual("providers/WorldViewListProvider").useWorldViewListContext().state,
       worldViews: mockWorldViews,
-      categoryCheckBoxItems: [{ label: "洞窟", parentLabel: "自然", checked: false }],
     },
   }),
 }));
@@ -167,6 +166,62 @@ test("並べ替えのSelectBoxがレンダリングされていること", () =>
     </WorldViewListProvider>
   );
   expect(screen.getByRole("combobox", { name: "並び替えオプションの選択" })).toBeInTheDocument();
+});
+
+describe("クリアボタンのテスト", () => {
+  describe("Videoモデルのフィルターの値が初期値の場合", () => {
+    test("クリアボタンが非表示であること", async () => {
+      render(
+        <WorldViewListProvider>
+          <WorldViewList />
+        </WorldViewListProvider>
+      );
+      expect(screen.queryByRole("button", { name: "クリア" })).not.toBeInTheDocument();
+    });
+  });
+
+  describe("WorldViewモデルのフィルターの値が初期値でない場合", () => {
+    test("クリアボタンがレンダリングされていること", async () => {
+      const spyOnUseGetCheckedLabels = jest.spyOn(
+        jest.requireActual("features/worldView/hooks/useGetCheckedLabels"),
+        "default"
+      );
+      spyOnUseGetCheckedLabels.mockReturnValue({ checkedLabelObject: { categoryLabels: "遺跡" } });
+      render(
+        <WorldViewListProvider>
+          <WorldViewList />
+        </WorldViewListProvider>
+      );
+      expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
+      spyOnUseGetCheckedLabels.mockRestore();
+    });
+
+    test("クリアボタン押下でhandleClear関数が呼び出されること", async () => {
+      const spyOnUseGetCheckedLabels = jest.spyOn(
+        jest.requireActual("features/worldView/hooks/useGetCheckedLabels"),
+        "default"
+      );
+      spyOnUseGetCheckedLabels.mockReturnValue({ checkedLabelObject: { categoryLabels: "遺跡" } });
+      const spyOnUseClear = jest.spyOn(
+        jest.requireActual("features/worldView/hooks/useClear"),
+        "default"
+      );
+      const mockHandleClear = jest.fn();
+      spyOnUseClear.mockReturnValue({ handleClear: mockHandleClear });
+      const user = userEvent.setup();
+      render(
+        <WorldViewListProvider>
+          <WorldViewList />
+        </WorldViewListProvider>
+      );
+      await act(async () => {
+        await user.click(screen.getByRole("button", { name: "クリア" }));
+      });
+      expect(mockHandleClear).toHaveBeenCalledTimes(1);
+      spyOnUseClear.mockRestore();
+      spyOnUseGetCheckedLabels.mockRestore();
+    });
+  });
 });
 
 test("絞り込みのアコーディオンがレンダリングされていること", () => {

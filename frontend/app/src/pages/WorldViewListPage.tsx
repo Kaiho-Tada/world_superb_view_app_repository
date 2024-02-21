@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Stack, useDisclosure } from "@chakra-ui/react";
+import ClearButton from "components/ui-elements/ClearButton";
 import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
@@ -13,6 +14,8 @@ import SortSelectBox from "features/worldView/components/ui-elements/SortSelectB
 import SortSelectBoxWithIcon from "features/worldView/components/ui-elements/SortSelectBoxWithIcon";
 import FilterAccordionPanel from "features/worldView/components/ui-parts/FilterAccordionPanel";
 import WorldViewList from "features/worldView/components/ui-parts/WorldViewList";
+import useClear from "features/worldView/hooks/useClear";
+import useGetCheckedLabels from "features/worldView/hooks/useGetCheckedLabels";
 import { WorldView } from "features/worldView/types/api/worldView";
 import useGetCheckBoxItems from "hooks/api/useGetCheckBoxItems";
 import useGetNestedCheckBoxItems from "hooks/api/useGetNestedCheckBoxItems";
@@ -25,6 +28,7 @@ import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 const WorldViewListPage = () => {
   const { state, dispatch } = useWorldViewListContext();
+  const { keyword, loadingSearchWorldViews } = state;
   const { handleGetNestedCheckBoxItems } = useGetNestedCheckBoxItems();
   const { handleGetCheckBoxItems } = useGetCheckBoxItems();
   const { handleSearchModel } = useSearchModel();
@@ -122,11 +126,25 @@ const WorldViewListPage = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const { handleClear } = useClear();
+  const { checkedLabelObject } = useGetCheckedLabels();
+
   return (
     <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
-      <HStack mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
+      <HStack mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }} flexWrap="wrap">
         <FilterButton onOpen={onOpen} />
         <SortSelectBoxWithIcon />
+        {checkedLabelObject.categoryLabels.length ||
+        checkedLabelObject.countryLabels.length ||
+        checkedLabelObject.characteristicLabels.length ||
+        checkedLabelObject.riskLevelLabels.length ||
+        checkedLabelObject.monthLabels.length ||
+        checkedLabelObject.bmiLabels.length ||
+        keyword ? (
+          <Box>
+            <ClearButton loadingSearchModels={loadingSearchWorldViews} handleClear={handleClear} />
+          </Box>
+        ) : null}
       </HStack>
       <Flex>
         <Box display={{ base: "none", md: "block" }} h="100%" mr="6">
