@@ -21,8 +21,6 @@ export type Action =
   | { type: "SET_SORT_CRITERIA"; payload: string };
 
 type State = {
-  countryStates: string[];
-  categoryClassifications: string[];
   categoryCheckBoxItems: NestedCheckBoxItem[];
   countryCheckBoxItems: NestedCheckBoxItem[];
   characteristicCheckBoxItems: CheckBoxItem[];
@@ -40,8 +38,6 @@ type State = {
 };
 
 const initialState: State = {
-  countryStates: ["アジア", "大洋州", "北米", "中南米", "ヨーロッパ", "中東", "アフリカ"],
-  categoryClassifications: ["自然", "人工"],
   categoryCheckBoxItems: [],
   countryCheckBoxItems: [],
   characteristicCheckBoxItems: [],
