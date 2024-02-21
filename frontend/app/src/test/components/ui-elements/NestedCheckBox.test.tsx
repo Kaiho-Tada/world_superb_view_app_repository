@@ -13,7 +13,7 @@ test("CheckBoxがレンダリングされていること", () => {
         { label: "ラベル2", parentLabel: "親ラベルA", checked: true },
         { label: "ラベル3", parentLabel: "親ラベルB", checked: true },
       ]}
-      loadinCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
@@ -33,7 +33,7 @@ test("categoryCheckBoxItemsのcheckedがtrueの場合、CheckBoxがチェック�
         { label: "ラベル2", parentLabel: "親ラベルA", checked: true },
         { label: "ラベル3", parentLabel: "親ラベルB", checked: true },
       ]}
-      loadinCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
@@ -51,7 +51,7 @@ test("子のCheckboxが全てチェックされている場合、親のCheckbox�
         { label: "ラベル2", parentLabel: "親ラベルA", checked: true },
         { label: "ラベル3", parentLabel: "親ラベルB", checked: true },
       ]}
-      loadinCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
@@ -60,11 +60,11 @@ test("子のCheckboxが全てチェックされている場合、親のCheckbox�
   expect(screen.getByRole("checkbox", { name: "親ラベルB" })).toBeChecked();
 });
 
-test("loadingCategoryCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
+test("loadingGetCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
   render(
     <CategoryCheckBox
       checkBoxItems={[{ label: "ラベル1", parentLabel: "親ラベル", checked: true }]}
-      loadinCheckBoxItems
+      loadingGetCheckBoxItems
       loadingSearchModel={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
@@ -80,7 +80,7 @@ test("loadingSearchWorldViewsがfalseの場合、CheckBoxが有効になって�
         { label: "ラベル2", parentLabel: "親ラベルA", checked: true },
         { label: "ラベル3", parentLabel: "親ラベルB", checked: true },
       ]}
-      loadinCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
@@ -100,7 +100,7 @@ test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになって�
         { label: "ラベル2", parentLabel: "親ラベルA", checked: true },
         { label: "ラベル3", parentLabel: "親ラベルB", checked: true },
       ]}
-      loadinCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
@@ -121,7 +121,7 @@ test("親のCheckBox押下でhandleChangeParentCheckBox関数が実行される�
   render(
     <CategoryCheckBox
       checkBoxItems={[{ label: "ラベル1", parentLabel: "親ラベル", checked: true }]}
-      loadinCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
@@ -145,7 +145,7 @@ test("子のCheckBox押下でhandleChangeCheckBox関数が実行されること"
   render(
     <CategoryCheckBox
       checkBoxItems={[{ label: "ラベル1", parentLabel: "親ラベル", checked: true }]}
-      loadinCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />

@@ -20,9 +20,9 @@ const mockContextValue = {
     bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
     keyword: "",
     loadingSearchWorldViews: false,
-    loadingCategoryCheckBoxItems: false,
-    loadingCountryCheckBoxItems: false,
-    loadingCharacteristicCheckBoxItems: false,
+    loadingGetCategory: false,
+    loadingGetCountry: false,
+    loadingGetCharacteristic: false,
   },
 };
 
@@ -38,7 +38,7 @@ const mockContextValueLoadingCategory = {
   ...mockContextValue,
   state: {
     ...mockContextValue.state,
-    loadingCategoryCheckBoxItems: true,
+    loadingGetCategory: true,
   },
 };
 
@@ -46,7 +46,7 @@ const mockContextValueLoadingCountry = {
   ...mockContextValue,
   state: {
     ...mockContextValue.state,
-    loadingCountryCheckBoxItems: true,
+    loadingGetCountry: true,
   },
 };
 
@@ -54,7 +54,7 @@ const mockContextValueLoadingCharacteristic = {
   ...mockContextValue,
   state: {
     ...mockContextValue.state,
-    loadingCharacteristicCheckBoxItems: true,
+    loadingGetCharacteristic: true,
   },
 };
 
@@ -141,7 +141,7 @@ describe("カテゴリーのCheckBoxのテスト", () => {
     expect(screen.getByRole("checkbox", { name: "滝" })).toBeInTheDocument();
   });
 
-  test("loadingCategoryCheckBoxItemsがtrueの場合、loadingが表示されていること", () => {
+  test("loadingGetCategoryがtrueの場合、loadingが表示されていること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueLoadingCategory);
     render(<FilterAccordionPanel />);
     expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
@@ -176,7 +176,7 @@ describe("地域のCheckBoxのテスト", () => {
     expect(screen.getByRole("checkbox", { name: "中国" })).toBeInTheDocument();
   });
 
-  test("loadingCountryCheckBoxItemsがtrueの場合、loadingが表示されていること", () => {
+  test("loadingGetCountryがtrueの場合、loadingが表示されていること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueLoadingCountry);
     render(<FilterAccordionPanel />);
     expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
@@ -210,7 +210,7 @@ describe("characteristicのCheckBoxのテスト", () => {
     expect(screen.getByRole("checkbox", { name: "幻想・神秘的" })).toBeInTheDocument();
   });
 
-  test("loadingCountryCheckBoxItemsがtrueの場合、loadingが表示されていること", () => {
+  test("loadingGetCharacteristicがtrueの場合、loadingが表示されていること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(
       mockContextValueLoadingCharacteristic
     );

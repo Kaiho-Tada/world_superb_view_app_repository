@@ -4,7 +4,7 @@ import { NestedCheckBoxItemData } from "types/api/nestedCheckBoxItemData";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 type Props = {
-  loadingCheckBoxItemsDispatch: (payload: boolean) => void;
+  loadingGetModelDispatch: (payload: boolean) => void;
   checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
   getAllModelApi: () => Promise<AxiosResponse<NestedCheckBoxItemData[]>>;
 };
@@ -13,8 +13,8 @@ const useGetNestedCheckBoxItems = () => {
   const { showMessage } = useMessage();
 
   const handleGetNestedCheckBoxItems = async (props: Props) => {
-    const { loadingCheckBoxItemsDispatch, checkBoxItemsDispatch, getAllModelApi } = props;
-    loadingCheckBoxItemsDispatch(true);
+    const { loadingGetModelDispatch, checkBoxItemsDispatch, getAllModelApi } = props;
+    loadingGetModelDispatch(true);
     try {
       const res = await getAllModelApi();
       const models = res.data;
@@ -32,7 +32,7 @@ const useGetNestedCheckBoxItems = () => {
         });
       }
     } finally {
-      loadingCheckBoxItemsDispatch(false);
+      loadingGetModelDispatch(false);
     }
   };
   return { handleGetNestedCheckBoxItems };

@@ -13,9 +13,9 @@ export type Action =
   | { type: "SET_CHECKED_CATEGORY_LABELS"; payload: string[] }
   | { type: "SET_KEYWORD"; payload: string }
   | { type: "SET_LOADING_SEARCH_WORLDVIEWS"; payload: boolean }
-  | { type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS"; payload: boolean }
-  | { type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS"; payload: boolean }
-  | { type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: boolean }
+  | { type: "SET_LOADING_GET_CATEGORY"; payload: boolean }
+  | { type: "SET_LOADING_GET_COUNTRY"; payload: boolean }
+  | { type: "SET_LOADING_GET_CHARACTERISTIC"; payload: boolean }
   | { type: "SET_WORLD_VIEWS"; payload: WorldView[] }
   | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean }
   | { type: "SET_SORT_CRITERIA"; payload: string };
@@ -29,9 +29,9 @@ type State = {
   bmiCheckBoxItems: CheckBoxItem[];
   keyword: string;
   loadingSearchWorldViews: boolean;
-  loadingCategoryCheckBoxItems: boolean;
-  loadingCountryCheckBoxItems: boolean;
-  loadingCharacteristicCheckBoxItems: boolean;
+  loadingGetCategory: boolean;
+  loadingGetCountry: boolean;
+  loadingGetCharacteristic: boolean;
   worldViews: Array<WorldView>;
   shouldDebounce: boolean;
   sortCriteria: string;
@@ -75,9 +75,9 @@ const initialState: State = {
   ],
   keyword: "",
   loadingSearchWorldViews: false,
-  loadingCategoryCheckBoxItems: false,
-  loadingCountryCheckBoxItems: false,
-  loadingCharacteristicCheckBoxItems: false,
+  loadingGetCategory: false,
+  loadingGetCountry: false,
+  loadingGetCharacteristic: false,
   worldViews: [],
   shouldDebounce: false,
   sortCriteria: "",
@@ -109,14 +109,14 @@ const reducer = (state: State, action: Action): State => {
     case "SET_LOADING_SEARCH_WORLDVIEWS":
       return { ...state, loadingSearchWorldViews: action.payload };
 
-    case "SET_LOADING_CATEGORY_CHECKBOX_ITEMS":
-      return { ...state, loadingCategoryCheckBoxItems: action.payload };
+    case "SET_LOADING_GET_CATEGORY":
+      return { ...state, loadingGetCategory: action.payload };
 
-    case "SET_LOADING_COUNTRY_CHECKBOX_ITEMS":
-      return { ...state, loadingCountryCheckBoxItems: action.payload };
+    case "SET_LOADING_GET_COUNTRY":
+      return { ...state, loadingGetCountry: action.payload };
 
-    case "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS":
-      return { ...state, loadingCharacteristicCheckBoxItems: action.payload };
+    case "SET_LOADING_GET_CHARACTERISTIC":
+      return { ...state, loadingGetCharacteristic: action.payload };
 
     case "SET_WORLD_VIEWS":
       return { ...state, worldViews: action.payload };

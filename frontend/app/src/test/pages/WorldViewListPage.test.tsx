@@ -118,12 +118,12 @@ describe("handleGetNestedCheckBoxItems関数のテスト", () => {
       </WorldViewListProvider>
     );
     expect(mockHandleGetNestedCheckBoxItems).toHaveBeenCalledWith({
-      loadingCheckBoxItemsDispatch: expect.any(Function),
+      loadingGetModelDispatch: expect.any(Function),
       checkBoxItemsDispatch: expect.any(Function),
       getAllModelApi: spyOnGetAllCategoriesApi,
     });
     expect(mockHandleGetNestedCheckBoxItems).toHaveBeenCalledWith({
-      loadingCheckBoxItemsDispatch: expect.any(Function),
+      loadingGetModelDispatch: expect.any(Function),
       checkBoxItemsDispatch: expect.any(Function),
       getAllModelApi: spyOnCountryApi,
     });
@@ -143,7 +143,7 @@ describe("handleGetCheckBoxItems関数のテスト", () => {
       </WorldViewListProvider>
     );
     expect(mockHandleGetCheckBoxItems).toHaveBeenCalledWith({
-      loadingCheckBoxItemsDispatch: expect.any(Function),
+      loadingGetModelDispatch: expect.any(Function),
       checkBoxItemsDispatch: expect.any(Function),
       getAllModelApi: spyOnGetAllCharacteristicsApi,
     });

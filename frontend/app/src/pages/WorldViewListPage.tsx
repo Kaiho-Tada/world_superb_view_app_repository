@@ -73,8 +73,8 @@ const WorldViewListPage = () => {
 
   useEffect(() => {
     handleGetNestedCheckBoxItems({
-      loadingCheckBoxItemsDispatch: (payload: boolean) => {
-        dispatch({ type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS", payload });
+      loadingGetModelDispatch: (payload: boolean) => {
+        dispatch({ type: "SET_LOADING_GET_CATEGORY", payload });
       },
       checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => {
         dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
@@ -82,8 +82,8 @@ const WorldViewListPage = () => {
       getAllModelApi: getAllCategoriesApi,
     });
     handleGetNestedCheckBoxItems({
-      loadingCheckBoxItemsDispatch: (payload: boolean) => {
-        dispatch({ type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS", payload });
+      loadingGetModelDispatch: (payload: boolean) => {
+        dispatch({ type: "SET_LOADING_GET_COUNTRY", payload });
       },
       checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => {
         dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
@@ -91,8 +91,8 @@ const WorldViewListPage = () => {
       getAllModelApi: getAllCountriesApi,
     });
     handleGetCheckBoxItems({
-      loadingCheckBoxItemsDispatch: (payload: boolean) => {
-        dispatch({ type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS", payload });
+      loadingGetModelDispatch: (payload: boolean) => {
+        dispatch({ type: "SET_LOADING_GET_CHARACTERISTIC", payload });
       },
       checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => {
         dispatch({

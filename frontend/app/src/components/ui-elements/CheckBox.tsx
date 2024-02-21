@@ -5,7 +5,7 @@ import handleChangeCheckBox from "utils/handleChangeCheckBox";
 
 type Props = {
   checkBoxItems: CheckBoxItem[];
-  loadingCheckBoxItems: boolean;
+  loadingGetCheckBoxItems: boolean;
   loadingSearchModel: boolean;
   vertical: boolean;
   checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => void;
@@ -14,7 +14,7 @@ type Props = {
 const CheckBox: FC<Props> = memo((props) => {
   const {
     checkBoxItems,
-    loadingCheckBoxItems,
+    loadingGetCheckBoxItems,
     loadingSearchModel,
     vertical,
     checkBoxItemsDispatch,
@@ -28,7 +28,7 @@ const CheckBox: FC<Props> = memo((props) => {
     ? { display: "flex", flexDirection: "column" }
     : undefined;
 
-  return loadingCheckBoxItems ? (
+  return loadingGetCheckBoxItems ? (
     <Center h="10vh">
       <Spinner role="status" aria-label="読み込み中" />
     </Center>

@@ -248,43 +248,43 @@ describe("LOADINGアクションのテスト", () => {
     expect(result.current.state.loadingSearchWorldViews).toBe(true);
   });
 
-  test("SET_LOADING_CATEGORY_CHECKBOX_ITEMSアクションがディスパッチされた際、loadingCategoryCheckBoxItemsが指定された値に更新されること", () => {
+  test("SET_LOADING_GET_CATEGORYアクションがディスパッチされた際、loadingGetCategoryが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.loadingCategoryCheckBoxItems).toBe(false);
+    expect(result.current.state.loadingGetCategory).toBe(false);
 
     act(() => {
-      result.current.dispatch({ type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS", payload: true });
+      result.current.dispatch({ type: "SET_LOADING_GET_CATEGORY", payload: true });
     });
 
-    expect(result.current.state.loadingCategoryCheckBoxItems).toBe(true);
+    expect(result.current.state.loadingGetCategory).toBe(true);
   });
 
-  test("SET_LOADING_COUNTRY_CHECKBOX_ITEMSアクションがディスパッチされた際、loadingCountryCheckBoxItemsが指定された値に更新されること", () => {
+  test("SET_LOADING_GET_COUNTRYアクションがディスパッチされた際、loadingGetCountryが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.loadingCountryCheckBoxItems).toBe(false);
+    expect(result.current.state.loadingGetCountry).toBe(false);
 
     act(() => {
-      result.current.dispatch({ type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS", payload: true });
+      result.current.dispatch({ type: "SET_LOADING_GET_COUNTRY", payload: true });
     });
 
-    expect(result.current.state.loadingCountryCheckBoxItems).toBe(true);
+    expect(result.current.state.loadingGetCountry).toBe(true);
   });
 
-  test("SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMSアクションがディスパッチされた際、loadingCharacteristicCheckBoxItemsが指定された値に更新されること", () => {
+  test("SET_LOADING_GET_CHARACTERISTICアクションがディスパッチされた際、loadingGetCharacteristicが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.loadingCharacteristicCheckBoxItems).toBe(false);
+    expect(result.current.state.loadingGetCharacteristic).toBe(false);
 
     act(() => {
-      result.current.dispatch({ type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS", payload: true });
+      result.current.dispatch({ type: "SET_LOADING_GET_CHARACTERISTIC", payload: true });
     });
 
-    expect(result.current.state.loadingCharacteristicCheckBoxItems).toBe(true);
+    expect(result.current.state.loadingGetCharacteristic).toBe(true);
   });
 });
 

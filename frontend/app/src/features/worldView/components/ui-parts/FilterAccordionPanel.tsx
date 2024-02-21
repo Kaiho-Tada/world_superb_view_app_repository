@@ -17,11 +17,11 @@ const FilterAccordionPanel = () => {
     keyword,
     loadingSearchWorldViews,
     categoryCheckBoxItems,
-    loadingCategoryCheckBoxItems,
+    loadingGetCategory,
     countryCheckBoxItems,
-    loadingCountryCheckBoxItems,
+    loadingGetCountry,
     characteristicCheckBoxItems,
-    loadingCharacteristicCheckBoxItems,
+    loadingGetCharacteristic,
     monthCheckBoxItems,
     bmiCheckBoxItems,
   } = state;
@@ -94,7 +94,7 @@ const FilterAccordionPanel = () => {
           </Text>
           <NestedCheckBox
             checkBoxItems={categoryCheckBoxItems}
-            loadinCheckBoxItems={loadingCategoryCheckBoxItems}
+            loadingGetCheckBoxItems={loadingGetCategory}
             loadingSearchModel={loadingSearchWorldViews}
             checkBoxItemsDispatch={categoryCheckBoxItemsDispatch}
           />
@@ -106,7 +106,7 @@ const FilterAccordionPanel = () => {
           </Text>
           <NestedCheckBox
             checkBoxItems={countryCheckBoxItems}
-            loadinCheckBoxItems={loadingCountryCheckBoxItems}
+            loadingGetCheckBoxItems={loadingGetCountry}
             loadingSearchModel={loadingSearchWorldViews}
             checkBoxItemsDispatch={countryCheckBoxItemsDispatch}
           />
@@ -118,7 +118,7 @@ const FilterAccordionPanel = () => {
           </Text>
           <CheckBox
             checkBoxItems={characteristicCheckBoxItems}
-            loadingCheckBoxItems={loadingCharacteristicCheckBoxItems}
+            loadingGetCheckBoxItems={loadingGetCharacteristic}
             loadingSearchModel={loadingSearchWorldViews}
             vertical={false}
             checkBoxItemsDispatch={characteristicCheckBoxItemsDispatch}
@@ -138,7 +138,7 @@ const FilterAccordionPanel = () => {
           </Text>
           <NestedCheckBox
             checkBoxItems={monthCheckBoxItems}
-            loadinCheckBoxItems={false}
+            loadingGetCheckBoxItems={false}
             loadingSearchModel={loadingSearchWorldViews}
             checkBoxItemsDispatch={monthCheckBoxItemsDispatch}
           />
@@ -150,7 +150,7 @@ const FilterAccordionPanel = () => {
           </Text>
           <CheckBox
             checkBoxItems={bmiCheckBoxItems}
-            loadingCheckBoxItems={false}
+            loadingGetCheckBoxItems={false}
             loadingSearchModel={loadingSearchWorldViews}
             vertical
             checkBoxItemsDispatch={bmiCheckBoxItemsDispatch}

@@ -7,13 +7,14 @@ import handleGetNestedCheckBoxInfo from "utils/handleGetNestedCheckBoxInfo";
 
 type Props = {
   checkBoxItems: NestedCheckBoxItem[];
-  loadinCheckBoxItems: boolean;
+  loadingGetCheckBoxItems: boolean;
   loadingSearchModel: boolean;
   checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
 };
 
 const NestedCheckBox: FC<Props> = memo((props) => {
-  const { checkBoxItems, loadingSearchModel, loadinCheckBoxItems, checkBoxItemsDispatch } = props;
+  const { checkBoxItems, loadingSearchModel, loadingGetCheckBoxItems, checkBoxItemsDispatch } =
+    props;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleChangeCheckBox<NestedCheckBoxItem[]>({ e, checkBoxItems, checkBoxItemsDispatch });
@@ -24,7 +25,7 @@ const NestedCheckBox: FC<Props> = memo((props) => {
   };
 
   const checkBoxInfo = handleGetNestedCheckBoxInfo({ checkBoxItems });
-  return loadinCheckBoxItems ? (
+  return loadingGetCheckBoxItems ? (
     <Center h="10vh">
       <Spinner role="status" aria-label="読み込み中" />
     </Center>
