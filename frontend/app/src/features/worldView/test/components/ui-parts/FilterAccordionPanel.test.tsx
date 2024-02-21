@@ -144,7 +144,7 @@ describe("カテゴリーのCheckBoxのテスト", () => {
   test("loadingGetCategoryがtrueの場合、loadingが表示されていること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueLoadingCategory);
     render(<FilterAccordionPanel />);
-    expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
   });
 
   test("loadingSearchWorldViewsがtrueの場合、CheckBoxが非活性であること", () => {
@@ -179,7 +179,7 @@ describe("地域のCheckBoxのテスト", () => {
   test("loadingGetCountryがtrueの場合、loadingが表示されていること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueLoadingCountry);
     render(<FilterAccordionPanel />);
-    expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
   });
 
   test("loadingSearchWorldViewsがtrueの場合、CheckBoxが非活性であること", () => {
@@ -215,7 +215,7 @@ describe("characteristicのCheckBoxのテスト", () => {
       mockContextValueLoadingCharacteristic
     );
     render(<FilterAccordionPanel />);
-    expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
   });
 
   test("loadingSearchWorldViewsがtrueの場合、CheckBoxが非活性であること", () => {

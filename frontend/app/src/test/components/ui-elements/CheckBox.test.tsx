@@ -41,7 +41,7 @@ test("loadingGetCheckBoxItemsがtrueの場合、スピナーが表示されて�
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
   );
-  expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
+  expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
 });
 
 test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {

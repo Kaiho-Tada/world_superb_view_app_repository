@@ -1,9 +1,10 @@
-import { Box, Center, Checkbox, Spinner, Stack } from "@chakra-ui/react";
+import { Box, Checkbox, Stack } from "@chakra-ui/react";
 import { ChangeEvent, FC, memo } from "react";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
 import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
 import handleGetNestedCheckBoxInfo from "utils/handleGetNestedCheckBoxInfo";
+import Loading from "./Loading";
 
 type Props = {
   checkBoxItems: NestedCheckBoxItem[];
@@ -26,9 +27,7 @@ const NestedCheckBox: FC<Props> = memo((props) => {
 
   const checkBoxInfo = handleGetNestedCheckBoxInfo({ checkBoxItems });
   return loadingGetCheckBoxItems ? (
-    <Center h="10vh">
-      <Spinner role="status" aria-label="読み込み中" />
-    </Center>
+    <Loading />
   ) : (
     <Stack spacing={2}>
       {checkBoxInfo.map((information) => (
