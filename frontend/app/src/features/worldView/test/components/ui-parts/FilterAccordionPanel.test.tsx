@@ -14,7 +14,7 @@ const mockContextValue = {
   state: {
     categoryCheckBoxItems: [{ label: "滝", parentLabel: "自然", checked: false }],
     countryCheckBoxItems: [{ label: "中国", parentLabel: "アジア", checked: false }],
-    characteristicCheckBoxItems: [{ label: "幻想・神秘的", checked: false }],
+    characteristicCheckItems: [{ label: "幻想・神秘的", checked: false }],
     riskLevelCheckBoxItems: [{ label: "4", checked: false }],
     monthCheckBoxItems: [{ label: "1月", parentLabel: "冬", checked: false }],
     bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
@@ -203,11 +203,11 @@ describe("地域のCheckBoxのテスト", () => {
   });
 });
 
-describe("characteristicのCheckBoxのテスト", () => {
-  test("CheckBoxがレンダリングされていること", () => {
+describe("characteristicのCheckItemBoxのテスト", () => {
+  test("CheckItemBoxがレンダリングされていること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     render(<FilterAccordionPanel />);
-    expect(screen.getByRole("checkbox", { name: "幻想・神秘的" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "幻想・神秘的" })).toBeInTheDocument();
   });
 
   test("loadingGetCharacteristicがtrueの場合、loadingが表示されていること", () => {
@@ -218,21 +218,24 @@ describe("characteristicのCheckBoxのテスト", () => {
     expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
   });
 
-  test("loadingSearchWorldViewsがtrueの場合、CheckBoxが非活性であること", () => {
+  test("loadingSearchWorldViewsがtrueの場合、CheckItemBoxが非活性であること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueLoadingWorldView);
     render(<FilterAccordionPanel />);
-    expect(screen.getByRole("checkbox", { name: "幻想・神秘的" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "幻想・神秘的" })).toHaveStyle("opacity: 0.5");
+    expect(screen.getByRole("button", { name: "幻想・神秘的" })).toHaveStyle(
+      "pointer-events: none"
+    );
   });
 
-  test("CheckBox押下でcharacteristicCheckItemを更新するdispatch関数が実行されること", async () => {
+  test("CheckItemBox押下でcharacteristicCheckItemを更新するdispatch関数が実行されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const user = userEvent.setup();
     render(<FilterAccordionPanel />);
     await act(async () => {
-      await user.click(screen.getByRole("checkbox", { name: "幻想・神秘的" }));
+      await user.click(screen.getByRole("button", { name: "幻想・神秘的" }));
     });
     expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+      type: "SET_CHARACTERISTIC_CHECK_ITEMS",
       payload: [{ label: "幻想・神秘的", checked: true }],
     });
   });

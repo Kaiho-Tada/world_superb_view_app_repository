@@ -8,7 +8,7 @@ describe("handleChangeCheckItem関数の挙動のテスト", () => {
     test("checkItemsのcheckedがfalseの場合、trueに更新されること", () => {
       const mockEvent: Partial<MouseEvent<HTMLDivElement>> = {
         target: Object.assign(document.createElement("div"), {
-          innerText: "ラベルA",
+          textContent: "ラベルA",
         }),
       };
       handleChangeCheckItem({
@@ -22,7 +22,7 @@ describe("handleChangeCheckItem関数の挙動のテスト", () => {
     test("checkItemsのcheckedがtrueの場合、falseに更新されること", () => {
       const mockEvent: Partial<MouseEvent<HTMLDivElement>> = {
         target: Object.assign(document.createElement("div"), {
-          innerText: "ラベルA",
+          textContent: "ラベルA",
         }),
       };
       handleChangeCheckItem({
@@ -38,7 +38,7 @@ describe("handleChangeCheckItem関数の挙動のテスト", () => {
     test("checkItemsのcheckedが更新されないこと", () => {
       const mockEvent: Partial<MouseEvent<HTMLDivElement>> = {
         target: Object.assign(document.createElement("div"), {
-          innerText: "ラベルB",
+          textContent: "ラベルB",
         }),
       };
       handleChangeCheckItem({

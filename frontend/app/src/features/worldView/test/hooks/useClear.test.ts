@@ -9,7 +9,7 @@ jest.mock("providers/WorldViewListProvider", () => ({
     state: {
       categoryCheckBoxItems: [{ label: "城", classification: "人工", checked: true }],
       countryCheckBoxItems: [{ label: "ペルー", stateName: "中南米", checked: true }],
-      characteristicCheckBoxItems: [{ label: "幻想・神秘的", checked: true }],
+      characteristicCheckItems: [{ label: "幻想・神秘的", checked: true }],
       riskLevelCheckBoxItems: [{ label: "4", checked: true }],
       monthCheckBoxItems: [{ label: "1月", season: "冬", checked: true }],
       bmiCheckBoxItems: [{ label: "0%〜10%", checked: true }],
@@ -65,7 +65,7 @@ describe("handleClearCheckBox関数のテスト", () => {
       payload: [{ label: "ペルー", stateName: "中南米", checked: false }],
     });
     expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+      type: "SET_CHARACTERISTIC_CHECK_ITEMS",
       payload: [{ label: "幻想・神秘的", checked: false }],
     });
     expect(mockDispatch).toHaveBeenCalledWith({

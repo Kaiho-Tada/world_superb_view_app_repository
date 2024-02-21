@@ -9,7 +9,7 @@ interface Props {
 
 const handleChangeCheckItem = ({ e, checkItems, checkItemsDispatch }: Props) => {
   const clickedElement = e.target as HTMLElement;
-  const itemLabel = clickedElement.innerText;
+  const itemLabel = clickedElement.textContent;
   const newCheckItems = checkItems.map((originalCheckItem) => {
     const checkItem = { ...originalCheckItem };
     if (checkItem.label === itemLabel) {

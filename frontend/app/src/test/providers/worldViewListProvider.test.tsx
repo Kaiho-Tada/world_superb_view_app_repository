@@ -63,11 +63,11 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.characteristicCheckBoxItems).toEqual([]);
+    expect(result.current.state.characteristicCheckItems).toEqual([]);
 
     act(() => {
       result.current.dispatch({
-        type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+        type: "SET_CHARACTERISTIC_CHECK_ITEMS",
         payload: [
           {
             label: "幻想・神秘的",
@@ -77,7 +77,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
       });
     });
 
-    expect(result.current.state.characteristicCheckBoxItems).toEqual([
+    expect(result.current.state.characteristicCheckItems).toEqual([
       {
         label: "幻想・神秘的",
         checked: false,

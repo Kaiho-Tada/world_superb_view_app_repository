@@ -1,5 +1,6 @@
 import { Box, Divider, Stack, Text } from "@chakra-ui/react";
 import CheckBox from "components/ui-elements/CheckBox";
+import CheckItemBox from "components/ui-elements/CheckItemBox";
 import ClearButton from "components/ui-elements/ClearButton";
 import FilterSearchBox from "components/ui-elements/FilterSearchBox";
 import NestedCheckBox from "components/ui-elements/NestedCheckBox";
@@ -20,7 +21,7 @@ const FilterAccordionPanel = () => {
     loadingGetCategory,
     countryCheckBoxItems,
     loadingGetCountry,
-    characteristicCheckBoxItems,
+    characteristicCheckItems,
     loadingGetCharacteristic,
     monthCheckBoxItems,
     bmiCheckBoxItems,
@@ -33,10 +34,10 @@ const FilterAccordionPanel = () => {
     dispatch({ type: "SET_SHOULD_DEBOUNCE", payload });
   };
 
-  const characteristicCheckBoxItemsDispatch = useCallback((newCheckBoxItems: CheckBoxItem[]) => {
+  const characteristicCheckItemsDispatch = useCallback((newCheckItems: CheckBoxItem[]) => {
     dispatch({
-      type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
-      payload: newCheckBoxItems,
+      type: "SET_CHARACTERISTIC_CHECK_ITEMS",
+      payload: newCheckItems,
     });
   }, []);
   const bmiCheckBoxItemsDispatch = useCallback((newCheckBoxItems: CheckBoxItem[]) => {
@@ -116,12 +117,11 @@ const FilterAccordionPanel = () => {
           <Text textShadow="0.5px 0.5px #000000" pb="3">
             ジャンル
           </Text>
-          <CheckBox
-            checkBoxItems={characteristicCheckBoxItems}
-            loadingGetCheckBoxItems={loadingGetCharacteristic}
-            loadingSearchModel={loadingSearchWorldViews}
-            vertical={false}
-            checkBoxItemsDispatch={characteristicCheckBoxItemsDispatch}
+          <CheckItemBox
+            checkItems={characteristicCheckItems}
+            loadingGetModels={loadingGetCharacteristic}
+            loadingSearchModels={loadingSearchWorldViews}
+            checkItemsDispatch={characteristicCheckItemsDispatch}
           />
         </Box>
         <Divider borderColor="#C2C8D0" />

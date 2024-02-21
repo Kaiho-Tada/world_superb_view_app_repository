@@ -63,7 +63,7 @@ const WorldViewListPage = () => {
   }, [
     state.categoryCheckBoxItems,
     state.countryCheckBoxItems,
-    state.characteristicCheckBoxItems,
+    state.characteristicCheckItems,
     state.riskLevelCheckBoxItems,
     state.monthCheckBoxItems,
     state.bmiCheckBoxItems,
@@ -96,7 +96,7 @@ const WorldViewListPage = () => {
       },
       checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => {
         dispatch({
-          type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+          type: "SET_CHARACTERISTIC_CHECK_ITEMS",
           payload: newCheckBoxItems,
         });
       },

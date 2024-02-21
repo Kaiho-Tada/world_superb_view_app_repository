@@ -5,7 +5,7 @@ const useGetCheckedLabels = () => {
   const checkBoxItemArray = {
     categoryLabels: state.categoryCheckBoxItems,
     countryLabels: state.countryCheckBoxItems,
-    characteristicLabels: state.characteristicCheckBoxItems,
+    characteristicLabels: state.characteristicCheckItems,
     riskLevelLabels: state.riskLevelCheckBoxItems,
     monthLabels: state.monthCheckBoxItems,
     bmiLabels: state.bmiCheckBoxItems,

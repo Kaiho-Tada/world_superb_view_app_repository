@@ -6,7 +6,7 @@ import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 export type Action =
   | { type: "SET_CATEGORY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_COUNTRY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
-  | { type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
+  | { type: "SET_CHARACTERISTIC_CHECK_ITEMS"; payload: CheckBoxItem[] }
   | { type: "SET_RISK_LEVEL_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
   | { type: "SET_MONTH_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_BMI_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
@@ -23,7 +23,7 @@ export type Action =
 type State = {
   categoryCheckBoxItems: NestedCheckBoxItem[];
   countryCheckBoxItems: NestedCheckBoxItem[];
-  characteristicCheckBoxItems: CheckBoxItem[];
+  characteristicCheckItems: CheckBoxItem[];
   riskLevelCheckBoxItems: CheckBoxItem[];
   monthCheckBoxItems: NestedCheckBoxItem[];
   bmiCheckBoxItems: CheckBoxItem[];
@@ -40,7 +40,7 @@ type State = {
 const initialState: State = {
   categoryCheckBoxItems: [],
   countryCheckBoxItems: [],
-  characteristicCheckBoxItems: [],
+  characteristicCheckItems: [],
   riskLevelCheckBoxItems: [
     { label: "4", checked: false },
     { label: "3", checked: false },
@@ -91,8 +91,8 @@ const reducer = (state: State, action: Action): State => {
     case "SET_COUNTRY_CHECKBOX_ITEMS":
       return { ...state, countryCheckBoxItems: action.payload };
 
-    case "SET_CHARACTERISTIC_CHECKBOX_ITEMS":
-      return { ...state, characteristicCheckBoxItems: action.payload };
+    case "SET_CHARACTERISTIC_CHECK_ITEMS":
+      return { ...state, characteristicCheckItems: action.payload };
 
     case "SET_RISK_LEVEL_CHECKBOX_ITEMS":
       return { ...state, riskLevelCheckBoxItems: action.payload };

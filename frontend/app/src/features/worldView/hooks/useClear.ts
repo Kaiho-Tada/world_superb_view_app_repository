@@ -8,10 +8,10 @@ const useClear = () => {
 
   const handleClear = () => {
     handleClearCheckBox({
-      checkBoxItems: state.characteristicCheckBoxItems,
+      checkBoxItems: state.characteristicCheckItems,
       checkBoxItemsDispatch: (clearedCheckBoxItems: CheckBoxItem[]) => {
         dispatch({
-          type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+          type: "SET_CHARACTERISTIC_CHECK_ITEMS",
           payload: clearedCheckBoxItems,
         });
       },

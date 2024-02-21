@@ -11,7 +11,7 @@ jest.mock("providers/WorldViewListProvider", () => ({
     state: {
       categoryCheckBoxItems: [{ label: "遺跡", checked: true }],
       countryCheckBoxItems: [{ label: "中国", checked: true }],
-      characteristicCheckBoxItems: [{ label: "歴史・文化的", checked: true }],
+      characteristicCheckItems: [{ label: "歴史・文化的", checked: true }],
       riskLevelCheckBoxItems: [{ label: "1", checked: true }],
       monthCheckBoxItems: [{ label: "9月", checked: true }],
       bmiCheckBoxItems: [{ label: "4.0", checked: true }],
