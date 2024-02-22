@@ -9,7 +9,7 @@ export type Action =
   | { type: "SET_CHARACTERISTIC_CHECK_ITEMS"; payload: CheckBoxItem[] }
   | { type: "SET_RISK_LEVEL_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
   | { type: "SET_MONTH_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
-  | { type: "SET_BMI_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
+  | { type: "SET_BMI_RANGE"; payload: number[] }
   | { type: "SET_CHECKED_CATEGORY_LABELS"; payload: string[] }
   | { type: "SET_KEYWORD"; payload: string }
   | { type: "SET_LOADING_SEARCH_WORLDVIEWS"; payload: boolean }
@@ -18,7 +18,8 @@ export type Action =
   | { type: "SET_LOADING_GET_CHARACTERISTIC"; payload: boolean }
   | { type: "SET_WORLD_VIEWS"; payload: WorldView[] }
   | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean }
-  | { type: "SET_SORT_CRITERIA"; payload: string };
+  | { type: "SET_SORT_CRITERIA"; payload: string }
+  | { type: "SET_IS_DISABLED_SEARCH_BUTTON"; payload: boolean };
 
 type State = {
   categoryCheckBoxItems: NestedCheckBoxItem[];
@@ -26,7 +27,7 @@ type State = {
   characteristicCheckItems: CheckBoxItem[];
   riskLevelCheckBoxItems: CheckBoxItem[];
   monthCheckBoxItems: NestedCheckBoxItem[];
-  bmiCheckBoxItems: CheckBoxItem[];
+  bmiRange: number[];
   keyword: string;
   loadingSearchWorldViews: boolean;
   loadingGetCategory: boolean;
@@ -35,6 +36,7 @@ type State = {
   worldViews: Array<WorldView>;
   shouldDebounce: boolean;
   sortCriteria: string;
+  isDisabledSearchButton: boolean;
 };
 
 const initialState: State = {
@@ -62,17 +64,7 @@ const initialState: State = {
     { label: "11月", parentLabel: "秋", checked: false },
     { label: "12月", parentLabel: "冬", checked: false },
   ],
-  bmiCheckBoxItems: [
-    { label: "30%〜", checked: false },
-    { label: "20%〜30%", checked: false },
-    { label: "10%〜20%", checked: false },
-    { label: "0%〜10%", checked: false },
-    { label: "-10%〜0%", checked: false },
-    { label: "-20%〜-10%", checked: false },
-    { label: "-30%〜-20%", checked: false },
-    { label: "-40%〜-30%", checked: false },
-    { label: "〜-40%", checked: false },
-  ],
+  bmiRange: [-40, 30],
   keyword: "",
   loadingSearchWorldViews: false,
   loadingGetCategory: false,
@@ -81,6 +73,7 @@ const initialState: State = {
   worldViews: [],
   shouldDebounce: false,
   sortCriteria: "",
+  isDisabledSearchButton: true,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -100,8 +93,8 @@ const reducer = (state: State, action: Action): State => {
     case "SET_MONTH_CHECKBOX_ITEMS":
       return { ...state, monthCheckBoxItems: action.payload };
 
-    case "SET_BMI_CHECKBOX_ITEMS":
-      return { ...state, bmiCheckBoxItems: action.payload };
+    case "SET_BMI_RANGE":
+      return { ...state, bmiRange: action.payload };
 
     case "SET_KEYWORD":
       return { ...state, keyword: action.payload };
@@ -126,6 +119,9 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_SORT_CRITERIA":
       return { ...state, sortCriteria: action.payload };
+
+    case "SET_IS_DISABLED_SEARCH_BUTTON":
+      return { ...state, isDisabledSearchButton: action.payload };
 
     default:
       return state;

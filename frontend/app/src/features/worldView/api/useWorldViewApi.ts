@@ -4,6 +4,7 @@ import useGetCheckedLabels from "../hooks/useGetCheckedLabels";
 
 const useWorldViewApi = () => {
   const { state } = useWorldViewListContext();
+  const { bmiRange } = state;
   const { checkedLabelObject } = useGetCheckedLabels();
 
   const searchWorldViewApi = () =>
@@ -14,7 +15,7 @@ const useWorldViewApi = () => {
         characteristicNames: checkedLabelObject.characteristicLabels,
         riskLevels: checkedLabelObject.riskLevelLabels,
         months: checkedLabelObject.monthLabels,
-        bmiRanges: checkedLabelObject.bmiLabels,
+        bmiRange,
         keyword: state.keyword,
         sortCriteria: state.sortCriteria,
       },

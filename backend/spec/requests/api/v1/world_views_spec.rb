@@ -187,33 +187,72 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
         end
       end
 
-      describe "filter_by_country_bmiスコープのテスト" do
-        it "paramsのbmi_rangesの範囲に含まれるbmiカラムを持つCountryモデルと関連づけられたレコードを返すこと" do
-          world_view1 = create(:world_view)
-          world_view2 = create(:world_view)
-          world_view3 = create(:world_view)
-          create(:world_view_country, world_view: world_view1, country: create(:country, bmi: 23.4))
-          create(:world_view_country, world_view: world_view2, country: create(:country, bmi: -18.2))
-          create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -40.2))
-          get api_v1_world_views_search_path, params: {
-            bmi_ranges: ["20%〜30%", "〜-40%"]
-          }
-          json_response = JSON.parse(response.body)
-          expect(response).to have_http_status(200)
-          expect(json_response.length).to eq(2)
-          expect(json_response.pluck("id")).to include(world_view1.id, world_view3.id)
+      describe ".filter_by_country_bmi" do
+        let!(:world_view1) { create(:world_view) }
+        let!(:world_view2) { create(:world_view) }
+        let!(:country1) { create(:country, bmi: 6.0) }
+        let!(:country2) { create(:country, bmi: 18.0) }
+
+        before do
+          create(:world_view_country, world_view: world_view1, country: country1)
+          create(:world_view_country, world_view: world_view1, country: country2)
+          create(:world_view_country, world_view: world_view2, country: country2)
         end
 
-        it "返されるレコードが重複しないこと" do
-          duplicated_world_view = create(:world_view)
-          create(:world_view_country, world_view: duplicated_world_view, country: create(:country, bmi: -10.2))
-          create(:world_view_country, world_view: duplicated_world_view, country: create(:country, bmi: 1.2))
-          get api_v1_world_views_search_path, params: {
-            bmi_ranges: ["-20%〜-10%", "0〜10%"]
-          }
-          json_response = JSON.parse(response.body)
-          expect(response).to have_http_status(200)
-          expect(json_response).to eq json_response.uniq
+        context "bmi_rangeが[0, 10]である場合" do
+          it "bmi_rangeが0〜10の範囲内のCountryモデルと関連づいたレコードが返されること" do
+            get api_v1_world_views_search_path, params: {
+              bmi_range: ["0", "10"]
+            }
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response.length).to eq(1)
+            expect(json_response.pluck("id")).to include world_view1.id
+          end
+        end
+
+        context "bmi_rangeが[10, 20]である場合" do
+          it "bmi_rangeが10〜20の範囲内のCountryモデルと関連づいたレコードが返されること" do
+            get api_v1_world_views_search_path, params: {
+              bmi_range: ["10", "20"]
+            }
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response.length).to eq(2)
+            expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
+          end
+        end
+
+        context "bmi_rangeが[0, 20]である場合" do
+          it "bmi_rangeが0〜20の範囲内のCountryモデルと関連づいたレコードが返されること" do
+            get api_v1_world_views_search_path, params: {
+              bmi_range: ["0", "20"]
+            }
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response.length).to eq(2)
+            expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
+          end
+
+          it "返されるレコードが重複しないこと" do
+            get api_v1_world_views_search_path, params: {
+              bmi_range: ["0", "20"]
+            }
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response).to eq json_response.uniq
+          end
+        end
+
+        context "bmi_rangeがnilである場合" do
+          it "レコードが全件返されること" do
+            world_view3 = create(:world_view)
+            get api_v1_world_views_search_path
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response.length).to eq(3)
+            expect(json_response.pluck("id")).to include world_view1.id, world_view2.id, world_view3.id
+          end
         end
       end
     end

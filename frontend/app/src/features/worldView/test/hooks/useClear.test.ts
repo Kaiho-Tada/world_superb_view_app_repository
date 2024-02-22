@@ -1,5 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import useClear from "features/worldView/hooks/useClear";
+import { act } from "react-dom/test-utils";
 
 const mockDispatch = jest.fn();
 jest.mock("providers/WorldViewListProvider", () => ({
@@ -12,7 +13,7 @@ jest.mock("providers/WorldViewListProvider", () => ({
       characteristicCheckItems: [{ label: "幻想・神秘的", checked: true }],
       riskLevelCheckBoxItems: [{ label: "4", checked: true }],
       monthCheckBoxItems: [{ label: "1月", season: "冬", checked: true }],
-      bmiCheckBoxItems: [{ label: "0%〜10%", checked: true }],
+      bmiRange: [0, 10],
     },
   }),
 }));
@@ -45,10 +46,10 @@ describe("handleClearCheckBox関数のテスト", () => {
       checkBoxItems: [{ label: "1月", season: "冬", checked: true }],
       checkBoxItemsDispatch: expect.any(Function),
     });
-    expect(spyOnHandleClearCheckBox).toHaveBeenCalledWith({
-      checkBoxItems: [{ label: "0%〜10%", checked: true }],
-      checkBoxItemsDispatch: expect.any(Function),
-    });
+    // expect(spyOnHandleClearCheckBox).toHaveBeenCalledWith({
+    //   checkBoxItems: [{ label: "0%〜10%", checked: true }],
+    //   checkBoxItemsDispatch: expect.any(Function),
+    // });
 
     spyOnHandleClearCheckBox.mockRestore();
   });
@@ -76,10 +77,29 @@ describe("handleClearCheckBox関数のテスト", () => {
       type: "SET_MONTH_CHECKBOX_ITEMS",
       payload: [{ label: "1月", season: "冬", checked: false }],
     });
-    expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_BMI_CHECKBOX_ITEMS",
-      payload: [{ label: "0%〜10%", checked: false }],
-    });
+    // expect(mockDispatch).toHaveBeenCalledWith({
+    //   type: "SET_BMI_CHECKBOX_ITEMS",
+    //   payload: [{ label: "0%〜10%", checked: false }],
+    // });
+  });
+});
+
+test("bmiRangeの範囲が[-40, 30]に更新されること", () => {
+  const { result } = renderHook(() => useClear());
+  act(() => {
+    result.current.handleClear();
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_BMI_RANGE", payload: [-40, 30] });
+});
+
+test("isDisabledがtrueに更新されること", () => {
+  const { result } = renderHook(() => useClear());
+  act(() => {
+    result.current.handleClear();
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_IS_DISABLED_SEARCH_BUTTON",
+    payload: true,
   });
 });
 

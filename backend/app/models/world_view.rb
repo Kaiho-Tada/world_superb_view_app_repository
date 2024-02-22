@@ -76,10 +76,10 @@ class WorldView < ApplicationRecord
     where(id: world_view_ids)
   }
 
-  scope :filter_by_country_bmi, lambda { |bmi_ranges|
-    return self if bmi_ranges.nil?
+  scope :filter_by_country_bmi, lambda { |bmi_range|
+    return self if bmi_range.blank?
 
-    countries = Country.all.filter_by_bmi(bmi_ranges)
+    countries = Country.filter_by_bmi(bmi_range)
     country_ids = countries&.map(&:id)&.join(",")
 
     joins(:countries).where("countries.id IN (#{country_ids})").distinct

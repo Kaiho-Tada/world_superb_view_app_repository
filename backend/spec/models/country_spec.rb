@@ -74,24 +74,7 @@ RSpec.describe Country, type: :model do
     end
   end
 
-  describe "メソッドのテスト" do
-    describe "parse_rangeメソッドのテスト" do
-      it "範囲文字列がRangeオブジェクトに変換されること" do
-        range_string1 = "10%〜20%"
-        range_string2 = "30%〜"
-        expect(Country.parse_range(range_string1)).to eq 10..20
-        expect(Country.parse_range(range_string2)).to eq 30..100
-      end
-      it "負の範囲文字列がRangeオブジェクトに変換されること" do
-        range_string1 = "-10%〜-20%"
-        range_string2 = "〜-40%"
-        expect(Country.parse_range(range_string1)).to eq(-10..-20)
-        expect(Country.parse_range(range_string2)).to eq(-100..-40)
-      end
-    end
-  end
-
-  describe "スコープテスト" do
+  describe "scope test" do
     it "filter_by_nameスコープのテスト" do
       country1 = create(:country, name: "アメリカ")
       country2 = create(:country, name: "エジプト")
@@ -108,15 +91,20 @@ RSpec.describe Country, type: :model do
       expect(Country.filter_by_risk_level(["4", "3"])).to include(country1, country2)
     end
 
-    it "filter_by_bmiスコープでbmiカラムが引数の範囲に含まれているCountryモデルを取得できること" do
-      country1 = create(:country, bmi: 16.3)
-      country2 = create(:country, bmi: -28.9)
-      country3 = create(:country, bmi: 36.6)
-      country4 = create(:country, bmi: -46.2)
-      expect(Country.filter_by_bmi(["10%〜20%"])).to include country1
-      expect(Country.filter_by_bmi(["-30%〜-20%"])).to include country2
-      expect(Country.filter_by_bmi(["30%〜"])).to include country3
-      expect(Country.filter_by_bmi(["〜-40%"])).to include country4
+    describe ".filter_by_bmi" do
+      let!(:country1) { create(:country, bmi: 5.0) }
+      let!(:country2) { create(:country, bmi: -5.0) }
+      let!(:country3) { create(:country) }
+
+      it "bmi_rangeの範囲内のレコードが返されること" do
+        expect(Country.filter_by_bmi(["0", "10"])).to include country1
+        expect(Country.filter_by_bmi(["-10", "0"])).to include country2
+        expect(Country.filter_by_bmi(["-10", "10"])).to include country1, country2
+      end
+
+      it "bmi_rangeがnilである場合、レコードが全件返されること" do
+        expect(Country.filter_by_bmi(nil)).to include country1, country2, country3
+      end
     end
   end
 end

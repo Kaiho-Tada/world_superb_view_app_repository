@@ -4,6 +4,8 @@ import FilterAccordionPanel from "features/worldView/components/ui-parts/FilterA
 import { useWorldViewListContext as mockUseWorldViewListContext } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
+global.ResizeObserver = require("resize-observer-polyfill");
+
 jest.mock("providers/WorldViewListProvider", () => ({
   useWorldViewListContext: jest.fn(),
 }));
@@ -17,12 +19,13 @@ const mockContextValue = {
     characteristicCheckItems: [{ label: "幻想・神秘的", checked: false }],
     riskLevelCheckBoxItems: [{ label: "4", checked: false }],
     monthCheckBoxItems: [{ label: "1月", parentLabel: "冬", checked: false }],
-    bmiCheckBoxItems: [{ label: "0%〜10%", checked: false }],
+    bmiRange: [-40, 30],
     keyword: "",
     loadingSearchWorldViews: false,
     loadingGetCategory: false,
     loadingGetCountry: false,
     loadingGetCharacteristic: false,
+    isDisabledSeachButton: false,
   },
 };
 
@@ -279,29 +282,92 @@ describe("ベストシーズンのCheckBoxがレンダリングされている�
   });
 });
 
-describe("BMIのCheckBoxのテスト", () => {
-  test("CheckBoxがレンダリングされていること", async () => {
+describe("FilterRangeSliderのテスト", () => {
+  test("RangeSliderがレンダリングされること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     render(<FilterAccordionPanel />);
-    expect(screen.getByRole("checkbox", { name: "0%〜10%" })).toBeInTheDocument();
+    expect(screen.getAllByRole("slider").length).toBe(2);
   });
+});
 
-  test("loadingSearchWorldViewsがtrueの場合、CheckBoxが非活性であること", () => {
-    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueLoadingWorldView);
-    render(<FilterAccordionPanel />);
-    expect(screen.getByRole("checkbox", { name: "0%〜10%" })).toBeDisabled();
-  });
-
-  test("CheckBox押下でmonthCheckItemを更新するdispatch関数が実行されること", async () => {
+describe("SearchButtonのテスト", () => {
+  test("SearchButtonがレンダリングされていること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<FilterAccordionPanel />);
+    expect(screen.getByRole("button", { name: "検索" })).toBeInTheDocument();
+  });
+
+  test("isDisabledSearchButtonがfalseの場合、SearchButton押下でisDisabledがtrueに更新され、handleSearchModel関数が呼び出されること", async () => {
+    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
+    const spyOnUseSearchModel = jest.spyOn(
+      jest.requireActual("hooks/api/useSearchModel"),
+      "default"
+    );
+    const mockHandleSearchModel = jest.fn();
+    spyOnUseSearchModel.mockReturnValue({
+      handleSearchModel: mockHandleSearchModel,
+    });
+    const spyOnUseWorldViewApi = jest.spyOn(
+      jest.requireActual("features/worldView/api/useWorldViewApi"),
+      "default"
+    );
+    const mockSearchWorldViewApi = jest.fn();
+    spyOnUseWorldViewApi.mockReturnValue({ searchWorldViewApi: mockSearchWorldViewApi });
     const user = userEvent.setup();
     render(<FilterAccordionPanel />);
     await act(async () => {
-      await user.click(screen.getByRole("checkbox", { name: "0%〜10%" }));
+      await user.click(screen.getByRole("button", { name: "検索" }));
     });
     expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_BMI_CHECKBOX_ITEMS",
-      payload: [{ label: "0%〜10%", checked: true }],
+      type: "SET_IS_DISABLED_SEARCH_BUTTON",
+      payload: true,
     });
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+    expect(mockHandleSearchModel).toHaveBeenCalledWith({
+      modelDispatch: expect.any(Function),
+      loadingSearchModelDispatch: expect.any(Function),
+      searchModelApi: mockSearchWorldViewApi,
+    });
+    expect(mockHandleSearchModel).toHaveBeenCalledTimes(1);
+    spyOnUseSearchModel.mockRestore();
+    spyOnUseWorldViewApi.mockRestore();
+  });
+
+  test("SearchButton押下でhandleSearchModel関数内でSET_WORLD_VIEWSアクションとSET_LOADING_SEARCH_WORLDVIEWSアクションがディスパッチされること", async () => {
+    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
+    const spyOnUseWorldViewApi = jest.spyOn(
+      jest.requireActual("features/worldView/api/useWorldViewApi"),
+      "default"
+    );
+    spyOnUseWorldViewApi.mockReturnValue({
+      searchWorldViewApi: () => ({
+        data: [
+          { id: 1, name: "name1" },
+          { id: 2, name: "name2" },
+        ],
+      }),
+    });
+
+    const user = userEvent.setup();
+    render(<FilterAccordionPanel />);
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "検索" }));
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_WORLD_VIEWS",
+      payload: [
+        { id: 1, name: "name1" },
+        { id: 2, name: "name2" },
+      ],
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_LOADING_SEARCH_WORLDVIEWS",
+      payload: true,
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_LOADING_SEARCH_WORLDVIEWS",
+      payload: false,
+    });
+    spyOnUseWorldViewApi.mockRestore();
   });
 });

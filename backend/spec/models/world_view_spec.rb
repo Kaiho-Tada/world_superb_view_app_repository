@@ -182,27 +182,54 @@ RSpec.describe WorldView, type: :model do
       end
     end
 
-    describe "filter_by_country_bmi" do
-      it "引数のbmi_rangesの範囲に含まれる値のbmiカラムを持つCountryモデルと関連付けられたレコードを返すこと" do
-        world_view1 = create(:world_view)
-        world_view2 = create(:world_view)
-        world_view3 = create(:world_view)
-        create(:world_view_country, world_view: world_view1, country: create(:country, bmi: 2.2))
-        create(:world_view_country, world_view: world_view2, country: create(:country, bmi: 35.9))
-        create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -5.1))
-        create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -40.2))
-        expect(WorldView.filter_by_country_bmi(["0%〜10%"])).to include world_view1
-        expect(WorldView.filter_by_country_bmi(["30%〜"])).to include world_view2
-        expect(WorldView.filter_by_country_bmi(["-10%〜0%"])).to include world_view3
-        expect(WorldView.filter_by_country_bmi(["〜-40%"])).to include world_view3
+    describe ".filter_by_country_bmi" do
+      let!(:world_view1) { create(:world_view) }
+      let!(:world_view2) { create(:world_view) }
+      let!(:country1) { create(:country, bmi: 6.0) }
+      let!(:country2) { create(:country, bmi: 18.0) }
+
+      before do
+        create(:world_view_country, world_view: world_view1, country: country1)
+        create(:world_view_country, world_view: world_view1, country: country2)
+        create(:world_view_country, world_view: world_view2, country: country2)
       end
 
-      it "返されるレコードが重複しないこと" do
-        duplicate_world_view = create(:world_view)
-        create(:world_view_country, world_view: duplicate_world_view, country: create(:country, bmi: 35.9))
-        create(:world_view_country, world_view: duplicate_world_view, country: create(:country, bmi: -40.2))
-        result_world_view = WorldView.filter_by_country_bmi(["30%〜", "〜-40%"])
-        expect(result_world_view).to eq result_world_view.distinct
+      context "bmi_rangeが[0, 10]である場合" do
+        it "bmi_rangeが0〜10の範囲内のCountryモデルと関連づいたレコードが返されること" do
+          result = WorldView.filter_by_country_bmi(["0", "10"])
+          expect(result).to include world_view1
+          expect(result.length).to be 1
+        end
+      end
+
+      context "bmi_rangeが[10, 20]である場合" do
+        it "bmi_rangeが10〜20の範囲内のCountryモデルと関連づいたレコードが返されること" do
+          result = WorldView.filter_by_country_bmi(["10", "20"])
+          expect(result).to include world_view1, world_view2
+          expect(result.length).to be 2
+        end
+      end
+
+      context "bmi_rangeが[0, 20]である場合" do
+        it "bmi_rangeが0〜20の範囲内のCountryモデルと関連づいたレコードが返されること" do
+          result = WorldView.filter_by_country_bmi(["0", "20"])
+          expect(result).to include world_view1, world_view2
+          expect(result.length).to be 2
+        end
+
+        it "返されるレコードが重複しないこと" do
+          result = WorldView.filter_by_country_bmi(["0", "20"])
+          expect(result).to eq result.distinct
+        end
+      end
+
+      context "bmi_rangeがnilである場合" do
+        it "レコードが全件返されること" do
+          world_view3 = create(:world_view)
+          result = WorldView.filter_by_country_bmi(nil)
+          expect(result).to include world_view1, world_view2, world_view3
+          expect(result.length).to be 3
+        end
       end
     end
 

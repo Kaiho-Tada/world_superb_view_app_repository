@@ -5,6 +5,7 @@ import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
 window.scrollTo = jest.fn();
+global.ResizeObserver = require("resize-observer-polyfill");
 
 const mockWorldViews = Array.from({ length: 30 }, (_, index) => ({
   id: index + 1,

@@ -8,7 +8,6 @@ const useGetCheckedLabels = () => {
     characteristicLabels: state.characteristicCheckItems,
     riskLevelLabels: state.riskLevelCheckBoxItems,
     monthLabels: state.monthCheckBoxItems,
-    bmiLabels: state.bmiCheckBoxItems,
   };
   const checkedLabelObject = Object.fromEntries(
     Object.entries(checkBoxItemArray).map(([key, checkBoxItems]) => [

@@ -13,10 +13,11 @@ interface Props {
   min: number;
   max: number;
   step: number;
-  handleChange: (newValue: number[]) => void;
+  handleChange: (newRange: number[]) => void;
 }
 const FilterRangeSlider: FC<Props> = memo((props) => {
   const { value, min, max, step, handleChange } = props;
+
   return (
     <RangeSlider
       value={value}
@@ -46,7 +47,7 @@ const FilterRangeSlider: FC<Props> = memo((props) => {
           {min}
         </Text>
         <Text position="absolute" bottom="-15px" left="48%">
-          {(max - min) / 2}
+          {(max + min) / 2}
         </Text>
         <Text position="absolute" bottom="-15px" left="96.5%">
           {max}

@@ -1,11 +1,15 @@
 import { Box, Divider, Stack, Text } from "@chakra-ui/react";
-import CheckBox from "components/ui-elements/CheckBox";
 import CheckItemBox from "components/ui-elements/CheckItemBox";
 import ClearButton from "components/ui-elements/ClearButton";
+import FilterRangeSlider from "components/ui-elements/FilterRangeSlider";
 import FilterSearchBox from "components/ui-elements/FilterSearchBox";
 import NestedCheckBox from "components/ui-elements/NestedCheckBox";
+import SearchButton from "components/ui-elements/SearchButton";
+import useWorldViewApi from "features/worldView/api/useWorldViewApi";
 import useClear from "features/worldView/hooks/useClear";
 import useGetCheckedLabels from "features/worldView/hooks/useGetCheckedLabels";
+import { WorldView } from "features/worldView/types/api/worldView";
+import useSearchModel from "hooks/api/useSearchModel";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { useCallback } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
@@ -24,7 +28,8 @@ const FilterAccordionPanel = () => {
     characteristicCheckItems,
     loadingGetCharacteristic,
     monthCheckBoxItems,
-    bmiCheckBoxItems,
+    bmiRange,
+    isDisabledSearchButton,
   } = state;
 
   const keywordDispatch = (newKeyword: string) => {
@@ -40,9 +45,17 @@ const FilterAccordionPanel = () => {
       payload: newCheckItems,
     });
   }, []);
-  const bmiCheckBoxItemsDispatch = useCallback((newCheckBoxItems: CheckBoxItem[]) => {
-    dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-  }, []);
+
+  const bmiRangeDispatch = useCallback(
+    (newBmiRange: number[]) => {
+      if (isDisabledSearchButton) {
+        dispatch({ type: "SET_IS_DISABLED_SEARCH_BUTTON", payload: false });
+      }
+      dispatch({ type: "SET_BMI_RANGE", payload: newBmiRange });
+    },
+    [isDisabledSearchButton]
+  );
+
   const categoryCheckBoxItemsDispatch = useCallback((newCheckBoxItems: NestedCheckBoxItem[]) => {
     dispatch({
       type: "SET_CATEGORY_CHECKBOX_ITEMS",
@@ -62,6 +75,28 @@ const FilterAccordionPanel = () => {
   const { handleClear } = useClear();
   const { checkedLabelObject } = useGetCheckedLabels();
 
+  const { handleSearchModel } = useSearchModel();
+
+  const worldViewDispatch = (responseData: WorldView[]) => {
+    dispatch({ type: "SET_WORLD_VIEWS", payload: responseData });
+  };
+
+  const loadingSearchWorldViewDispatch = (payload: boolean) => {
+    dispatch({ type: "SET_LOADING_SEARCH_WORLDVIEWS", payload });
+  };
+  const { searchWorldViewApi } = useWorldViewApi();
+
+  const handleClickSearchButton = useCallback(() => {
+    if (!isDisabledSearchButton) {
+      dispatch({ type: "SET_IS_DISABLED_SEARCH_BUTTON", payload: true });
+    }
+    handleSearchModel<WorldView>({
+      modelDispatch: worldViewDispatch,
+      loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
+      searchModelApi: searchWorldViewApi,
+    });
+  }, [isDisabledSearchButton, searchWorldViewApi]);
+
   return (
     <>
       {checkedLabelObject.categoryLabels.length ||
@@ -69,7 +104,7 @@ const FilterAccordionPanel = () => {
       checkedLabelObject.characteristicLabels.length ||
       checkedLabelObject.riskLevelLabels.length ||
       checkedLabelObject.monthLabels.length ||
-      checkedLabelObject.bmiLabels.length ||
+      !(bmiRange[0] === -40 && bmiRange[1] === 30) ||
       keyword ? (
         <>
           <ClearButton loadingSearchModels={loadingSearchWorldViews} handleClear={handleClear} />
@@ -148,12 +183,20 @@ const FilterAccordionPanel = () => {
           <Text textShadow="0.5px 0.5px #000000" pb="3">
             BMI
           </Text>
-          <CheckBox
-            checkBoxItems={bmiCheckBoxItems}
-            loadingGetCheckBoxItems={false}
-            loadingSearchModel={loadingSearchWorldViews}
-            vertical
-            checkBoxItemsDispatch={bmiCheckBoxItemsDispatch}
+          <FilterRangeSlider
+            value={bmiRange}
+            min={-40}
+            max={30}
+            step={5}
+            handleChange={bmiRangeDispatch}
+          />
+        </Box>
+        <Divider borderColor="#C2C8D0" />
+        <Box px="5" py="2">
+          <SearchButton
+            handleClick={handleClickSearchButton}
+            loadingSearchModels={loadingSearchWorldViews}
+            disabled={isDisabledSearchButton}
           />
         </Box>
       </Stack>

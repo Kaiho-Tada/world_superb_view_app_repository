@@ -5,6 +5,7 @@ import handleClearCheckBox from "utils/handleClearCheckBox";
 
 const useClear = () => {
   const { state, dispatch } = useWorldViewListContext();
+  const { bmiRange } = state;
 
   const handleClear = () => {
     handleClearCheckBox({
@@ -21,13 +22,6 @@ const useClear = () => {
       checkBoxItems: state.riskLevelCheckBoxItems,
       checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => {
         dispatch({ type: "SET_RISK_LEVEL_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-      },
-    });
-
-    handleClearCheckBox({
-      checkBoxItems: state.bmiCheckBoxItems,
-      checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => {
-        dispatch({ type: "SET_BMI_CHECKBOX_ITEMS", payload: newCheckBoxItems });
       },
     });
 
@@ -51,6 +45,11 @@ const useClear = () => {
         dispatch({ type: "SET_MONTH_CHECKBOX_ITEMS", payload: newCheckBoxItems });
       },
     });
+
+    if (bmiRange[0] !== -40 || bmiRange[1] !== 30) {
+      dispatch({ type: "SET_BMI_RANGE", payload: [-40, 30] });
+    }
+    dispatch({ type: "SET_IS_DISABLED_SEARCH_BUTTON", payload: true });
 
     dispatch({ type: "SET_KEYWORD", payload: "" });
   };

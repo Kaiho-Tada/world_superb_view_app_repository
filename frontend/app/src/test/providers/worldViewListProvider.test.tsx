@@ -173,52 +173,34 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
       { label: "12月", parentLabel: "冬", checked: true },
     ]);
   });
+});
 
-  test("SET_BMI_CHECKBOX_ITEMSアクションがディスパッチされた際、bmiCheckBoxItemsが指定された値に更新されること", () => {
-    const { result } = renderHook(() => useWorldViewListContext(), {
-      wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
-    });
-    expect(result.current.state.bmiCheckBoxItems).toEqual([
-      { label: "30%〜", checked: false },
-      { label: "20%〜30%", checked: false },
-      { label: "10%〜20%", checked: false },
-      { label: "0%〜10%", checked: false },
-      { label: "-10%〜0%", checked: false },
-      { label: "-20%〜-10%", checked: false },
-      { label: "-30%〜-20%", checked: false },
-      { label: "-40%〜-30%", checked: false },
-      { label: "〜-40%", checked: false },
-    ]);
-
-    act(() => {
-      result.current.dispatch({
-        type: "SET_BMI_CHECKBOX_ITEMS",
-        payload: [
-          { label: "30%〜", checked: true },
-          { label: "20%〜30%", checked: false },
-          { label: "10%〜20%", checked: false },
-          { label: "0%〜10%", checked: false },
-          { label: "-10%〜0%", checked: false },
-          { label: "-20%〜-10%", checked: false },
-          { label: "-30%〜-20%", checked: false },
-          { label: "-40%〜-30%", checked: false },
-          { label: "〜-40%", checked: true },
-        ],
-      });
-    });
-
-    expect(result.current.state.bmiCheckBoxItems).toEqual([
-      { label: "30%〜", checked: true },
-      { label: "20%〜30%", checked: false },
-      { label: "10%〜20%", checked: false },
-      { label: "0%〜10%", checked: false },
-      { label: "-10%〜0%", checked: false },
-      { label: "-20%〜-10%", checked: false },
-      { label: "-30%〜-20%", checked: false },
-      { label: "-40%〜-30%", checked: false },
-      { label: "〜-40%", checked: true },
-    ]);
+test("SET_BMI_RANGEアクションがディスパッチされた際、bmiRangeが指定された配列に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
   });
+  expect(result.current.state.bmiRange).toEqual([-40, 30]);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_BMI_RANGE",
+      payload: [10, 20],
+    });
+  });
+  expect(result.current.state.bmiRange).toEqual([10, 20]);
+});
+
+test("SET_IS_DISABLEDアクションがディスパッチされた際、isDisabledSearchButtonが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.isDisabledSearchButton).toBe(true);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_IS_DISABLED_SEARCH_BUTTON",
+      payload: false,
+    });
+  });
+  expect(result.current.state.isDisabledSearchButton).toBe(false);
 });
 
 test("SET_KEYWORDアクションがディスパッチされた際、keywordが指定された値に更新されること", () => {

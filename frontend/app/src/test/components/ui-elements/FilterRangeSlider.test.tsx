@@ -47,7 +47,7 @@ test("デフォルト値が表示されていること", () => {
   expect(getByText(value[1])).toBeInTheDocument();
   expect(getByText(min)).toBeInTheDocument();
   expect(getByText(max)).toBeInTheDocument();
-  expect(getByText((max - min) / 2)).toBeInTheDocument();
+  expect(getByText((max + min) / 2)).toBeInTheDocument();
 });
 
 test("スライダーのクリックをトリガーにhandleChange関数が呼び出されること", async () => {

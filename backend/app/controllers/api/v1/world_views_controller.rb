@@ -17,7 +17,7 @@ class Api::V1::WorldViewsController < ApplicationController
 
   def world_view_params
     params.permit(:keyword, :sort_criteria, category_names: [], country_names: [], characteristic_names: [],
-                                            risk_levels: [], months: [], bmi_ranges: [])
+                                            risk_levels: [], months: [], bmi_range: [])
   end
 
   def world_view_filter(model)
@@ -26,7 +26,7 @@ class Api::V1::WorldViewsController < ApplicationController
          .filter_by_characteristic_name(world_view_params[:characteristic_names])
          .filter_by_country_risk_level(world_view_params[:risk_levels])
          .filter_by_keyword(world_view_params[:keyword])
-         .filter_by_country_bmi(world_view_params[:bmi_ranges])
+         .filter_by_country_bmi(world_view_params[:bmi_range])
          .filter_by_month(world_view_params[:months])
   end
 

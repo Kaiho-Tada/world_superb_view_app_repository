@@ -66,7 +66,6 @@ const WorldViewListPage = () => {
     state.characteristicCheckItems,
     state.riskLevelCheckBoxItems,
     state.monthCheckBoxItems,
-    state.bmiCheckBoxItems,
     state.keyword,
     state.sortCriteria,
   ]);
@@ -139,7 +138,6 @@ const WorldViewListPage = () => {
         checkedLabelObject.characteristicLabels.length ||
         checkedLabelObject.riskLevelLabels.length ||
         checkedLabelObject.monthLabels.length ||
-        checkedLabelObject.bmiLabels.length ||
         keyword ? (
           <Box>
             <ClearButton loadingSearchModels={loadingSearchWorldViews} handleClear={handleClear} />

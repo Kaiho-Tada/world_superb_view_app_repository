@@ -14,7 +14,7 @@ jest.mock("providers/WorldViewListProvider", () => ({
       characteristicCheckItems: [{ label: "歴史・文化的", checked: true }],
       riskLevelCheckBoxItems: [{ label: "1", checked: true }],
       monthCheckBoxItems: [{ label: "9月", checked: true }],
-      bmiCheckBoxItems: [{ label: "4.0", checked: true }],
+      bmiRange: [-40, 30],
       keyword: "万",
       sortCriteria: "latest",
     },
@@ -33,7 +33,7 @@ test("worldViewApi関数が意図したURLにGETリクエストとparamsを送�
     characteristic_names: ["歴史・文化的"],
     risk_levels: ["1"],
     months: ["9月"],
-    bmi_ranges: ["4.0"],
+    bmi_range: [-40, 30],
     keyword: "万",
     sort_criteria: "latest",
   });

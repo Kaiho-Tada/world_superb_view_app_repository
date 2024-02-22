@@ -8,7 +8,7 @@ jest.mock("providers/WorldViewListProvider", () => ({
       characteristicCheckItems: [{ label: "歴史・文化的", checked: true }],
       riskLevelCheckBoxItems: [{ label: "1", checked: true }],
       monthCheckBoxItems: [{ label: "9月", checked: true }],
-      bmiCheckBoxItems: [{ label: "4.0", checked: true }],
+      // bmiCheckBoxItems: [{ label: "4.0", checked: true }],
     },
   }),
 }));
@@ -21,6 +21,6 @@ test("checkがついているcheckBoxItemsのラベルが取得できること",
     characteristicLabels: ["歴史・文化的"],
     riskLevelLabels: ["1"],
     monthLabels: ["9月"],
-    bmiLabels: ["4.0"],
+    // bmiLabels: ["4.0"],
   });
 });
