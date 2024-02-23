@@ -14,7 +14,7 @@ import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { useCallback } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
-import RiskLevelCheckBox from "../ui-elements/RiskLevelCheckBox";
+import RiskLevelCheckBox from "../ui-elements/RiskLevelRadioButton";
 
 const FilterAccordionPanel = () => {
   const { state, dispatch } = useWorldViewListContext();
@@ -30,6 +30,7 @@ const FilterAccordionPanel = () => {
     monthCheckBoxItems,
     bmiRange,
     isDisabledSearchButton,
+    riskLevel,
   } = state;
 
   const keywordDispatch = (newKeyword: string) => {
@@ -102,8 +103,8 @@ const FilterAccordionPanel = () => {
       {checkedLabelObject.categoryLabels.length ||
       checkedLabelObject.countryLabels.length ||
       checkedLabelObject.characteristicLabels.length ||
-      checkedLabelObject.riskLevelLabels.length ||
       checkedLabelObject.monthLabels.length ||
+      riskLevel !== undefined ||
       !(bmiRange[0] === -40 && bmiRange[1] === 30) ||
       keyword ? (
         <>

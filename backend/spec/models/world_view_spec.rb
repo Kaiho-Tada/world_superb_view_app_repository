@@ -123,27 +123,47 @@ RSpec.describe WorldView, type: :model do
       end
     end
 
-    describe "filter_by_country_risk_levelスコープのテスト" do
-      it "引数のrisk_levelsの配列に含まれるリスクレベルを持つCountryモデルと関連づけられたレコードを返すこと" do
-        matera_cave_dwellings = create(:world_view, name: "マテーラの洞窟住居")
-        civita_di_bagnoregio = create(:world_view, name: "チヴィタディバニョレージョ")
-        machu_picchu = create(:world_view, name: "マチュピチュ")
-        country_italy = create(:country, name: "イタリア", risk_level: 0)
-        country_peru = create(:country, name: "ペルー", risk_level: 3)
-        create(:world_view_country, world_view: matera_cave_dwellings, country: country_italy)
-        create(:world_view_country, world_view: civita_di_bagnoregio, country: country_italy)
-        create(:world_view_country, world_view: machu_picchu, country: country_peru)
-        expect(WorldView.filter_by_country_risk_level(["0"])).to include(matera_cave_dwellings, civita_di_bagnoregio)
-        expect(WorldView.filter_by_country_risk_level(["3"])).to include(machu_picchu)
-        expect(WorldView.filter_by_country_risk_level(["0", "3"])).to include(matera_cave_dwellings, civita_di_bagnoregio, machu_picchu)
+    describe ".filter_by_country_risk_level" do
+      let!(:world_view1) { create(:world_view) }
+      let!(:world_view2) { create(:world_view) }
+      let!(:country1) { create(:country, risk_level: 1) }
+      let!(:neighboring_country1) { create(:country, risk_level: 1) }
+      let!(:country2) { create(:country, risk_level: 2) }
+
+      before do
+        create(:world_view_country, world_view: world_view1, country: country1)
+        create(:world_view_country, world_view: world_view1, country: neighboring_country1)
+        create(:world_view_country, world_view: world_view2, country: country2)
       end
 
-      it "返されるレコードが重複しないこと" do
-        duplicate_world_view = create(:world_view)
-        create(:world_view_country, world_view: duplicate_world_view, country: create(:country, risk_level: 1))
-        create(:world_view_country, world_view: duplicate_world_view, country: create(:country, risk_level: 2))
-        result_world_view = WorldView.filter_by_country_risk_level(["1", "2"])
-        expect(result_world_view).to eq result_world_view.distinct
+      context "risk_levelが'1'の場合" do
+        it "risk_levelが1のCountryモデルと関連づいたレコードが返されること" do
+          result = WorldView.filter_by_country_risk_level("1")
+          expect(result).to include world_view1
+          expect(result.length).to be 1
+        end
+
+        it "返されるレコードが重複しないこと" do
+          result = WorldView.filter_by_country_risk_level("1")
+          expect(result).to eq result.distinct
+        end
+      end
+
+      context "risk_levelが'2'の場合" do
+        it "risk_levelが2のCountryモデルと関連づいたレコードが返されること" do
+          result = WorldView.filter_by_country_risk_level("2")
+          expect(result).to include world_view2
+          expect(result.length).to be 1
+        end
+      end
+
+      context "risk_levelがnilの場合" do
+        it "レコードが全件返されること" do
+          world_view3 = create(:world_view)
+          result = WorldView.filter_by_country_risk_level(nil)
+          expect(result).to include world_view1, world_view2, world_view3
+          expect(result.length).to be 3
+        end
       end
     end
 

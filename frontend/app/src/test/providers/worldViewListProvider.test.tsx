@@ -85,38 +85,18 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
     ]);
   });
 
-  test("SET_RISK_LEVEL_CHECKBOX_ITEMSアクションがディスパッチされた際、riskLevelCheckBoxItemsが指定された値に更新されること", () => {
+  test("SET_RISK_LEVELアクションがディスパッチされた際、riskLevelが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.riskLevelCheckBoxItems).toEqual([
-      { label: "4", checked: false },
-      { label: "3", checked: false },
-      { label: "2", checked: false },
-      { label: "1", checked: false },
-      { label: "0", checked: false },
-    ]);
-
+    expect(result.current.state.riskLevel).toEqual(undefined);
     act(() => {
       result.current.dispatch({
-        type: "SET_RISK_LEVEL_CHECKBOX_ITEMS",
-        payload: [
-          { label: "4", checked: true },
-          { label: "3", checked: false },
-          { label: "2", checked: false },
-          { label: "1", checked: false },
-          { label: "0", checked: true },
-        ],
+        type: "SET_RISK_LEVEL",
+        payload: "1",
       });
     });
-
-    expect(result.current.state.riskLevelCheckBoxItems).toEqual([
-      { label: "4", checked: true },
-      { label: "3", checked: false },
-      { label: "2", checked: false },
-      { label: "1", checked: false },
-      { label: "0", checked: true },
-    ]);
+    expect(result.current.state.riskLevel).toEqual("1");
   });
 
   test("SET_MONTH_CHECKBOX_ITEMSアクションがディスパッチされた際、monthCheckBoxItemsが指定された値に更新されること", () => {

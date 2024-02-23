@@ -7,7 +7,7 @@ export type Action =
   | { type: "SET_CATEGORY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_COUNTRY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_CHARACTERISTIC_CHECK_ITEMS"; payload: CheckBoxItem[] }
-  | { type: "SET_RISK_LEVEL_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
+  | { type: "SET_RISK_LEVEL"; payload: string | undefined }
   | { type: "SET_MONTH_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_BMI_RANGE"; payload: number[] }
   | { type: "SET_CHECKED_CATEGORY_LABELS"; payload: string[] }
@@ -25,7 +25,7 @@ type State = {
   categoryCheckBoxItems: NestedCheckBoxItem[];
   countryCheckBoxItems: NestedCheckBoxItem[];
   characteristicCheckItems: CheckBoxItem[];
-  riskLevelCheckBoxItems: CheckBoxItem[];
+  riskLevel: string | undefined;
   monthCheckBoxItems: NestedCheckBoxItem[];
   bmiRange: number[];
   keyword: string;
@@ -43,13 +43,7 @@ const initialState: State = {
   categoryCheckBoxItems: [],
   countryCheckBoxItems: [],
   characteristicCheckItems: [],
-  riskLevelCheckBoxItems: [
-    { label: "4", checked: false },
-    { label: "3", checked: false },
-    { label: "2", checked: false },
-    { label: "1", checked: false },
-    { label: "0", checked: false },
-  ],
+  riskLevel: undefined,
   monthCheckBoxItems: [
     { label: "1月", parentLabel: "冬", checked: false },
     { label: "2月", parentLabel: "冬", checked: false },
@@ -87,8 +81,8 @@ const reducer = (state: State, action: Action): State => {
     case "SET_CHARACTERISTIC_CHECK_ITEMS":
       return { ...state, characteristicCheckItems: action.payload };
 
-    case "SET_RISK_LEVEL_CHECKBOX_ITEMS":
-      return { ...state, riskLevelCheckBoxItems: action.payload };
+    case "SET_RISK_LEVEL":
+      return { ...state, riskLevel: action.payload };
 
     case "SET_MONTH_CHECKBOX_ITEMS":
       return { ...state, monthCheckBoxItems: action.payload };

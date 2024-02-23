@@ -21,8 +21,10 @@ class Country < ApplicationRecord
     where(name: [*names])
   }
 
-  scope :filter_by_risk_level, lambda { |risk_levels|
-    where(risk_level: [*risk_levels])
+  scope :filter_by_risk_level, lambda { |risk_level|
+    return self if risk_level.blank?
+
+    where(risk_level:)
   }
 
   scope :filter_by_bmi, lambda { |bmi_range|

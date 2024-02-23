@@ -16,15 +16,15 @@ class Api::V1::WorldViewsController < ApplicationController
   private
 
   def world_view_params
-    params.permit(:keyword, :sort_criteria, category_names: [], country_names: [], characteristic_names: [],
-                                            risk_levels: [], months: [], bmi_range: [])
+    params.permit(:keyword, :sort_criteria, :risk_level, category_names: [], country_names: [],
+                                                         characteristic_names: [], months: [], bmi_range: [])
   end
 
   def world_view_filter(model)
     model.filter_by_category_name(world_view_params[:category_names])
          .filter_by_country_name(world_view_params[:country_names])
          .filter_by_characteristic_name(world_view_params[:characteristic_names])
-         .filter_by_country_risk_level(world_view_params[:risk_levels])
+         .filter_by_country_risk_level(world_view_params[:risk_level])
          .filter_by_keyword(world_view_params[:keyword])
          .filter_by_country_bmi(world_view_params[:bmi_range])
          .filter_by_month(world_view_params[:months])

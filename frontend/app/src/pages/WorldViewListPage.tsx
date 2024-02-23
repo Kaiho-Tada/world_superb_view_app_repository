@@ -28,7 +28,7 @@ import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 const WorldViewListPage = () => {
   const { state, dispatch } = useWorldViewListContext();
-  const { keyword, loadingSearchWorldViews } = state;
+  const { keyword, loadingSearchWorldViews, riskLevel, bmiRange } = state;
   const { handleGetNestedCheckBoxItems } = useGetNestedCheckBoxItems();
   const { handleGetCheckBoxItems } = useGetCheckBoxItems();
   const { handleSearchModel } = useSearchModel();
@@ -64,7 +64,7 @@ const WorldViewListPage = () => {
     state.categoryCheckBoxItems,
     state.countryCheckBoxItems,
     state.characteristicCheckItems,
-    state.riskLevelCheckBoxItems,
+    riskLevel,
     state.monthCheckBoxItems,
     state.keyword,
     state.sortCriteria,
@@ -136,8 +136,9 @@ const WorldViewListPage = () => {
         {checkedLabelObject.categoryLabels.length ||
         checkedLabelObject.countryLabels.length ||
         checkedLabelObject.characteristicLabels.length ||
-        checkedLabelObject.riskLevelLabels.length ||
         checkedLabelObject.monthLabels.length ||
+        riskLevel !== undefined ||
+        !(bmiRange[0] === -40 && bmiRange[1] === 30) ||
         keyword ? (
           <Box>
             <ClearButton loadingSearchModels={loadingSearchWorldViews} handleClear={handleClear} />

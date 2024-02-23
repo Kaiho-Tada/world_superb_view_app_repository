@@ -48,12 +48,12 @@ class WorldView < ApplicationRecord
     joins(:characteristics).where("characteristics.id IN (#{characteristic_ids})").distinct
   }
 
-  scope :filter_by_country_risk_level, lambda { |risk_levels|
-    return self if risk_levels.blank?
+  scope :filter_by_country_risk_level, lambda { |risk_level|
+    return self if risk_level.blank?
 
     countries = Country
                 .all
-                .filter_by_risk_level(risk_levels)
+                .filter_by_risk_level(risk_level)
 
     country_ids = countries&.map(&:id)&.join(",")
     joins(:countries).where("countries.id IN (#{country_ids})").distinct

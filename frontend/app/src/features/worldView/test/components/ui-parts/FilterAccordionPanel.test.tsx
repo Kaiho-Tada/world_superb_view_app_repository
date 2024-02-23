@@ -17,7 +17,7 @@ const mockContextValue = {
     categoryCheckBoxItems: [{ label: "滝", parentLabel: "自然", checked: false }],
     countryCheckBoxItems: [{ label: "中国", parentLabel: "アジア", checked: false }],
     characteristicCheckItems: [{ label: "幻想・神秘的", checked: false }],
-    riskLevelCheckBoxItems: [{ label: "4", checked: false }],
+    riskLevel: undefined,
     monthCheckBoxItems: [{ label: "1月", parentLabel: "冬", checked: false }],
     bmiRange: [-40, 30],
     keyword: "",
@@ -244,12 +244,11 @@ describe("characteristicのCheckItemBoxのテスト", () => {
   });
 });
 
-describe("危険度のCheckBoxのテスト", () => {
-  test("CheckBoxがレンダリングされていること", async () => {
+describe("リスクレベルのラジオボタンがレンダリングされていること", () => {
+  test("ラジオボタンがレンダリングされていること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     render(<FilterAccordionPanel />);
-    const riskLevel = screen.getAllByRole("img", { name: "リスクレベル" });
-    expect(riskLevel.length).toBe(4);
+    expect(screen.getAllByRole("radio").length).toBe(5);
   });
 });
 

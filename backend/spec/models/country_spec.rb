@@ -83,12 +83,34 @@ RSpec.describe Country, type: :model do
       expect(Country.filter_by_name(["アメリカ", "エジプト"])).to include(country1, country2)
     end
 
-    it "filter_by_risk_levelスコープのテスト" do
-      country1 = create(:country, name: "ロシア", risk_level: 4)
-      country2 = create(:country, name: "エジプト", risk_level: 3)
-      expect(Country.filter_by_risk_level(["4"])).to include(country1)
-      expect(Country.filter_by_risk_level(["3"])).to include(country2)
-      expect(Country.filter_by_risk_level(["4", "3"])).to include(country1, country2)
+    describe ".filter_by_risk_level" do
+      let!(:country1) { create(:country, risk_level: 1) }
+      let!(:country2) { create(:country, risk_level: 2) }
+      let!(:country3) { create(:country, risk_level: 3) }
+
+      context "risk_levelが'1'の場合" do
+        it "risk_levelが1のレコードが返されること" do
+          result = Country.filter_by_risk_level("1")
+          expect(result).to include country1
+          expect(result.length).to be 1
+        end
+      end
+
+      context "risk_levelが'2'の場合" do
+        it "risk_levelが2のレコードが返されること" do
+          result = Country.filter_by_risk_level("2")
+          expect(result).to include country2
+          expect(result.length).to be 1
+        end
+      end
+
+      context "risk_levelがnilの場合" do
+        it "レコードが全件返されること" do
+          result = Country.filter_by_risk_level(nil)
+          expect(result).to include country1, country2, country3
+          expect(result.length).to be 3
+        end
+      end
     end
 
     describe ".filter_by_bmi" do

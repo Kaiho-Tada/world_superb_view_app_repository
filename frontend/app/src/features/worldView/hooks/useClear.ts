@@ -5,7 +5,7 @@ import handleClearCheckBox from "utils/handleClearCheckBox";
 
 const useClear = () => {
   const { state, dispatch } = useWorldViewListContext();
-  const { bmiRange } = state;
+  const { bmiRange, riskLevel } = state;
 
   const handleClear = () => {
     handleClearCheckBox({
@@ -15,13 +15,6 @@ const useClear = () => {
           type: "SET_CHARACTERISTIC_CHECK_ITEMS",
           payload: clearedCheckBoxItems,
         });
-      },
-    });
-
-    handleClearCheckBox({
-      checkBoxItems: state.riskLevelCheckBoxItems,
-      checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => {
-        dispatch({ type: "SET_RISK_LEVEL_CHECKBOX_ITEMS", payload: newCheckBoxItems });
       },
     });
 
@@ -46,9 +39,25 @@ const useClear = () => {
       },
     });
 
+    if (riskLevel !== undefined) {
+      dispatch({ type: "SET_RISK_LEVEL", payload: undefined });
+    }
+    const radioElement = document.querySelector("input[type='radio']");
+    console.log(radioElement);
+    if (radioElement instanceof HTMLInputElement) {
+      radioElement.checked = false;
+    }
+
+    // const radioElement = document.querySelector("input[type='radio']");
+    // if (radioElement) {
+    //   radioElement.checked = false;
+    // }
+    // document.querySelector("input[type='radio']")?.checked = false;
+
     if (bmiRange[0] !== -40 || bmiRange[1] !== 30) {
       dispatch({ type: "SET_BMI_RANGE", payload: [-40, 30] });
     }
+
     dispatch({ type: "SET_IS_DISABLED_SEARCH_BUTTON", payload: true });
 
     dispatch({ type: "SET_KEYWORD", payload: "" });

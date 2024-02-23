@@ -96,34 +96,63 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
         end
       end
 
-      describe "filter_by_country_risk_levelスコープのテスト" do
-        it "paramsのrisk_levelsの配列に含まれるrisk_levelのCountryモデルと関連付けられたレコードを返すこと" do
-          world_view1 = create(:world_view)
-          world_view2 = create(:world_view)
-          country1 = create(:country, risk_level: 1)
+      describe ".filter_by_country_risk_level" do
+        let!(:world_view1) { create(:world_view) }
+        let!(:world_view2) { create(:world_view) }
+        let!(:country1) { create(:country, risk_level: 1) }
+        let!(:neighboring_country1) { create(:country, risk_level: 1) }
+        let!(:country2) { create(:country, risk_level: 2) }
+
+        before do
           create(:world_view_country, world_view: world_view1, country: country1)
-          create(:world_view_country, world_view: world_view2, country: country1)
-          get api_v1_world_views_search_path, params: {
-            risk_levels: ["1"]
-          }
-          json_response = JSON.parse(response.body)
-          expect(response).to have_http_status(200)
-          expect(json_response.length).to eq(2)
-          expect(json_response.pluck("id")).to include(world_view1.id, world_view2.id)
+          create(:world_view_country, world_view: world_view1, country: neighboring_country1)
+          create(:world_view_country, world_view: world_view2, country: country2)
         end
 
-        it "返されるレコードが重複しないこと" do
-          duplicated_world_view = create(:world_view)
-          country1 = create(:country, risk_level: 1)
-          country2 = create(:country, risk_level: 2)
-          create(:world_view_country, world_view: duplicated_world_view, country: country1)
-          create(:world_view_country, world_view: duplicated_world_view, country: country2)
-          get api_v1_world_views_search_path, params: {
-            risk_levels: ["1", "2"]
-          }
-          json_response = JSON.parse(response.body)
-          expect(response).to have_http_status(200)
-          expect(json_response).to eq json_response.uniq
+        context "risk_levelが'1'の場合" do
+          it "risk_levelが1のCountryモデルと関連づいたレコードが返されること" do
+            get api_v1_world_views_search_path, params: {
+              risk_level: "1"
+            }
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response.length).to eq(1)
+            expect(json_response.pluck("id")).to include world_view1.id
+          end
+
+          it "返されるレコードが重複しないこと" do
+            get api_v1_world_views_search_path, params: {
+              risk_level: "1"
+            }
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response).to eq json_response.uniq
+          end
+        end
+
+        context "risk_levelが'2'の場合" do
+          it "risk_levelが2のCountryモデルと関連づいたレコードが返されること" do
+            get api_v1_world_views_search_path, params: {
+              risk_level: "2"
+            }
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response.length).to eq(1)
+            expect(json_response.pluck("id")).to include world_view2.id
+          end
+        end
+
+        context "risk_levelがnilの場合" do
+          it "レコードが全件返されること" do
+            world_view3 = create(:world_view)
+            get api_v1_world_views_search_path, params: {
+              risk_level: nil
+            }
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response.length).to eq(3)
+            expect(json_response.pluck("id")).to include world_view1.id, world_view2.id, world_view3.id
+          end
         end
       end
 
