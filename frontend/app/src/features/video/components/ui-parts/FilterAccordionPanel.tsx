@@ -115,6 +115,7 @@ const FilterAccordionPanel = () => {
             max={10}
             step={1}
             handleChange={handleChangeRangeSlider}
+            rangeLabel="Rated"
           />
         </Box>
         <Divider borderColor="#C2C8D0" />

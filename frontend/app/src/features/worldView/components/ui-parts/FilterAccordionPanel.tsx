@@ -188,8 +188,9 @@ const FilterAccordionPanel = () => {
             value={bmiRange}
             min={-40}
             max={30}
-            step={5}
+            step={10}
             handleChange={bmiRangeDispatch}
+            rangeLabel="BMI"
           />
         </Box>
         <Divider borderColor="#C2C8D0" />
