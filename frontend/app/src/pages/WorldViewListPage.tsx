@@ -28,7 +28,7 @@ import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 const WorldViewListPage = () => {
   const { state, dispatch } = useWorldViewListContext();
-  const { keyword, loadingSearchWorldViews, riskLevel, bmiRange } = state;
+  const { keyword, loadingSearchWorldViews, riskLevel, bmiRange, monthRange } = state;
   const { handleGetNestedCheckBoxItems } = useGetNestedCheckBoxItems();
   const { handleGetCheckBoxItems } = useGetCheckBoxItems();
   const { handleSearchModel } = useSearchModel();
@@ -65,7 +65,6 @@ const WorldViewListPage = () => {
     state.countryCheckBoxItems,
     state.characteristicCheckItems,
     riskLevel,
-    state.monthCheckBoxItems,
     state.keyword,
     state.sortCriteria,
   ]);
@@ -136,8 +135,8 @@ const WorldViewListPage = () => {
         {checkedLabelObject.categoryLabels.length ||
         checkedLabelObject.countryLabels.length ||
         checkedLabelObject.characteristicLabels.length ||
-        checkedLabelObject.monthLabels.length ||
         riskLevel !== undefined ||
+        !(monthRange[0] === 1 && monthRange[1] === 12) ||
         !(bmiRange[0] === -40 && bmiRange[1] === 30) ||
         keyword ? (
           <Box>

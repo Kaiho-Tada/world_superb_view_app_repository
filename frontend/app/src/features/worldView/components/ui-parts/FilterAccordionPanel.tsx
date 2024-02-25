@@ -27,7 +27,7 @@ const FilterAccordionPanel = () => {
     loadingGetCountry,
     characteristicCheckItems,
     loadingGetCharacteristic,
-    monthCheckBoxItems,
+    monthRange,
     bmiRange,
     isDisabledSearchButton,
     riskLevel,
@@ -69,9 +69,15 @@ const FilterAccordionPanel = () => {
       payload: newCheckBoxItems,
     });
   }, []);
-  const monthCheckBoxItemsDispatch = useCallback((newCheckBoxItems: NestedCheckBoxItem[]) => {
-    dispatch({ type: "SET_MONTH_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-  }, []);
+  const monthRangeDispatch = useCallback(
+    (newMonthRange: number[]) => {
+      if (isDisabledSearchButton) {
+        dispatch({ type: "SET_IS_DISABLED_SEARCH_BUTTON", payload: false });
+      }
+      dispatch({ type: "SET_MONTH_RANGE", payload: newMonthRange });
+    },
+    [isDisabledSearchButton]
+  );
 
   const { handleClear } = useClear();
   const { checkedLabelObject } = useGetCheckedLabels();
@@ -103,8 +109,8 @@ const FilterAccordionPanel = () => {
       {checkedLabelObject.categoryLabels.length ||
       checkedLabelObject.countryLabels.length ||
       checkedLabelObject.characteristicLabels.length ||
-      checkedLabelObject.monthLabels.length ||
       riskLevel !== undefined ||
+      !(monthRange[0] === 1 && monthRange[1] === 12) ||
       !(bmiRange[0] === -40 && bmiRange[1] === 30) ||
       keyword ? (
         <>
@@ -172,11 +178,13 @@ const FilterAccordionPanel = () => {
           <Text textShadow="0.5px 0.5px #000000" pb="3">
             ベストシーズン
           </Text>
-          <NestedCheckBox
-            checkBoxItems={monthCheckBoxItems}
-            loadingGetCheckBoxItems={false}
-            loadingSearchModel={loadingSearchWorldViews}
-            checkBoxItemsDispatch={monthCheckBoxItemsDispatch}
+          <FilterRangeSlider
+            value={monthRange}
+            min={1}
+            max={12}
+            step={1}
+            handleChange={monthRangeDispatch}
+            rangeLabel="Month"
           />
         </Box>
         <Divider borderColor="#C2C8D0" />

@@ -190,15 +190,42 @@ RSpec.describe WorldView, type: :model do
       end
     end
 
-    describe "filter_by_monthのスコープのテスト" do
-      it "引数のmonthsの月をbest_seasonに持つレコードを返すこと" do
-        world_view1 = create(:world_view, best_season: "12月〜2月")
-        world_view2 = create(:world_view, best_season: "3月〜5月 or 9月〜11月")
-        world_view3 = create(:world_view, best_season: "6月〜8月")
-        expect(WorldView.filter_by_month(["1月"])).to eq [world_view1]
-        expect(WorldView.filter_by_month(["4月"])).to eq [world_view2]
-        expect(WorldView.filter_by_month(["7月"])).to eq [world_view3]
-        expect(WorldView.filter_by_month(["10月", "11月"])).to eq [world_view2]
+    describe ".filter_by_month" do
+      let!(:world_view1) { create(:world_view, best_season: "2月〜6月") }
+      let!(:world_view2) { create(:world_view, best_season: "4月〜6月 or 8月〜12月") }
+      let!(:world_view3) { create(:world_view, best_season: "9月〜1月") }
+
+      context "month_rangeが['1', '4']である場合" do
+        it "best_seasonが1〜4月の範囲内のレコードが返されること" do
+          result = WorldView.filter_by_month(["1", "4"])
+          expect(result).to include world_view1, world_view2, world_view3
+          expect(result.length).to be 3
+        end
+      end
+
+      context "month_rangeが['5', '8']である場合" do
+        it "best_seasonが4〜6月の範囲内のレコードが返されること" do
+          result = WorldView.filter_by_month(["5", "8"])
+          expect(result).to include world_view1, world_view2
+          expect(result.length).to be 2
+        end
+      end
+
+      context "month_rangeが['9', '12']である場合" do
+        it "best_seasonが7〜9月の範囲内のレコードが返されること" do
+          result = WorldView.filter_by_month(["9", "12"])
+          expect(result).to include world_view2, world_view3
+          expect(result.length).to be 2
+        end
+      end
+
+      context "month_rangeが['1', '12']である場合" do
+        it "全てのレコードが返されること" do
+          world_view4 = create(:world_view)
+          result = WorldView.filter_by_month(["1", "12"])
+          expect(result).to include world_view1, world_view2, world_view3, world_view4
+          expect(result.length).to be 4
+        end
       end
     end
 
@@ -243,10 +270,10 @@ RSpec.describe WorldView, type: :model do
         end
       end
 
-      context "bmi_rangeがnilである場合" do
+      context "bmi_rangeが['-40', '30']である場合" do
         it "レコードが全件返されること" do
           world_view3 = create(:world_view)
-          result = WorldView.filter_by_country_bmi(nil)
+          result = WorldView.filter_by_country_bmi(["-40", "30"])
           expect(result).to include world_view1, world_view2, world_view3
           expect(result.length).to be 3
         end

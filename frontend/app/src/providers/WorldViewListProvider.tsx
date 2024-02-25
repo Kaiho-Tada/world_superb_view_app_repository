@@ -8,7 +8,7 @@ export type Action =
   | { type: "SET_COUNTRY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_CHARACTERISTIC_CHECK_ITEMS"; payload: CheckBoxItem[] }
   | { type: "SET_RISK_LEVEL"; payload: string | undefined }
-  | { type: "SET_MONTH_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
+  | { type: "SET_MONTH_RANGE"; payload: number[] }
   | { type: "SET_BMI_RANGE"; payload: number[] }
   | { type: "SET_CHECKED_CATEGORY_LABELS"; payload: string[] }
   | { type: "SET_KEYWORD"; payload: string }
@@ -26,7 +26,7 @@ type State = {
   countryCheckBoxItems: NestedCheckBoxItem[];
   characteristicCheckItems: CheckBoxItem[];
   riskLevel: string | undefined;
-  monthCheckBoxItems: NestedCheckBoxItem[];
+  monthRange: number[];
   bmiRange: number[];
   keyword: string;
   loadingSearchWorldViews: boolean;
@@ -44,20 +44,7 @@ const initialState: State = {
   countryCheckBoxItems: [],
   characteristicCheckItems: [],
   riskLevel: undefined,
-  monthCheckBoxItems: [
-    { label: "1月", parentLabel: "冬", checked: false },
-    { label: "2月", parentLabel: "冬", checked: false },
-    { label: "3月", parentLabel: "春", checked: false },
-    { label: "4月", parentLabel: "春", checked: false },
-    { label: "5月", parentLabel: "春", checked: false },
-    { label: "6月", parentLabel: "夏", checked: false },
-    { label: "7月", parentLabel: "夏", checked: false },
-    { label: "8月", parentLabel: "夏", checked: false },
-    { label: "9月", parentLabel: "秋", checked: false },
-    { label: "10月", parentLabel: "秋", checked: false },
-    { label: "11月", parentLabel: "秋", checked: false },
-    { label: "12月", parentLabel: "冬", checked: false },
-  ],
+  monthRange: [1, 12],
   bmiRange: [-40, 30],
   keyword: "",
   loadingSearchWorldViews: false,
@@ -84,8 +71,8 @@ const reducer = (state: State, action: Action): State => {
     case "SET_RISK_LEVEL":
       return { ...state, riskLevel: action.payload };
 
-    case "SET_MONTH_CHECKBOX_ITEMS":
-      return { ...state, monthCheckBoxItems: action.payload };
+    case "SET_MONTH_RANGE":
+      return { ...state, monthRange: action.payload };
 
     case "SET_BMI_RANGE":
       return { ...state, bmiRange: action.payload };

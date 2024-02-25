@@ -12,7 +12,7 @@ jest.mock("providers/WorldViewListProvider", () => ({
       countryCheckBoxItems: [{ label: "ペルー", stateName: "中南米", checked: true }],
       characteristicCheckItems: [{ label: "幻想・神秘的", checked: true }],
       riskLevel: "4",
-      monthCheckBoxItems: [{ label: "1月", season: "冬", checked: true }],
+      monthRange: [6, 9],
       bmiRange: [0, 10],
     },
   }),
@@ -38,10 +38,6 @@ describe("handleClearCheckBox関数のテスト", () => {
       checkBoxItems: [{ label: "幻想・神秘的", checked: true }],
       checkBoxItemsDispatch: expect.any(Function),
     });
-    expect(spyOnHandleClearCheckBox).toHaveBeenCalledWith({
-      checkBoxItems: [{ label: "1月", season: "冬", checked: true }],
-      checkBoxItemsDispatch: expect.any(Function),
-    });
     spyOnHandleClearCheckBox.mockRestore();
   });
 
@@ -60,10 +56,6 @@ describe("handleClearCheckBox関数のテスト", () => {
       type: "SET_CHARACTERISTIC_CHECK_ITEMS",
       payload: [{ label: "幻想・神秘的", checked: false }],
     });
-    expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_MONTH_CHECKBOX_ITEMS",
-      payload: [{ label: "1月", season: "冬", checked: false }],
-    });
   });
 });
 
@@ -73,6 +65,14 @@ test("riskLevelがundefinedに更新されること", () => {
     result.current.handleClear();
   });
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_RISK_LEVEL", payload: undefined });
+});
+
+test("monthRangeの範囲が[1, 12]に更新されること", () => {
+  const { result } = renderHook(() => useClear());
+  act(() => {
+    result.current.handleClear();
+  });
+  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_MONTH_RANGE", payload: [1, 12] });
 });
 
 test("bmiRangeの範囲が[-40, 30]に更新されること", () => {

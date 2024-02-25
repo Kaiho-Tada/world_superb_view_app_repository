@@ -5,7 +5,7 @@ import handleClearCheckBox from "utils/handleClearCheckBox";
 
 const useClear = () => {
   const { state, dispatch } = useWorldViewListContext();
-  const { bmiRange, riskLevel } = state;
+  const { bmiRange, riskLevel, monthRange } = state;
 
   const handleClear = () => {
     handleClearCheckBox({
@@ -32,27 +32,13 @@ const useClear = () => {
       },
     });
 
-    handleClearCheckBox<NestedCheckBoxItem>({
-      checkBoxItems: state.monthCheckBoxItems,
-      checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => {
-        dispatch({ type: "SET_MONTH_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-      },
-    });
-
     if (riskLevel !== undefined) {
       dispatch({ type: "SET_RISK_LEVEL", payload: undefined });
     }
-    const radioElement = document.querySelector("input[type='radio']");
-    console.log(radioElement);
-    if (radioElement instanceof HTMLInputElement) {
-      radioElement.checked = false;
-    }
 
-    // const radioElement = document.querySelector("input[type='radio']");
-    // if (radioElement) {
-    //   radioElement.checked = false;
-    // }
-    // document.querySelector("input[type='radio']")?.checked = false;
+    if (monthRange[0] !== 1 || monthRange[1] !== 12) {
+      dispatch({ type: "SET_MONTH_RANGE", payload: [1, 12] });
+    }
 
     if (bmiRange[0] !== -40 || bmiRange[1] !== 30) {
       dispatch({ type: "SET_BMI_RANGE", payload: [-40, 30] });

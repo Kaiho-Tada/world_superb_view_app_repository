@@ -66,22 +66,22 @@ class WorldView < ApplicationRecord
       .where("world_views.name LIKE(?) or countries.name LIKE(?)", "%#{keyword}%", "%#{keyword}%").distinct
   }
 
-  scope :filter_by_month, lambda { |months|
-    return self if months.nil?
+  scope :filter_by_month, lambda { |month_range|
+    return self if month_range == ["1", "12"]
 
-    numeric_months = months.map { |month| month.gsub(/[^0-9]/, "").to_i }
+    start_value, end_value = month_range.map(&:to_i)
+    months = (start_value..end_value).to_a
     world_view_ids = WorldView.select do |world_view|
-      (extract_months_range(world_view.best_season) & numeric_months).any?
+      (extract_months_range(world_view.best_season) & months).any?
     end.pluck(:id)
     where(id: world_view_ids)
   }
 
   scope :filter_by_country_bmi, lambda { |bmi_range|
-    return self if bmi_range.blank?
+    return self if bmi_range == ["-40", "30"]
 
     countries = Country.filter_by_bmi(bmi_range)
     country_ids = countries&.map(&:id)&.join(",")
-
     joins(:countries).where("countries.id IN (#{country_ids})").distinct
   }
 

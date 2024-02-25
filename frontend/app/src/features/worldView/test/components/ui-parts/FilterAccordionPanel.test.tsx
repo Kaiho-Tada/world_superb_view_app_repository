@@ -18,7 +18,7 @@ const mockContextValue = {
     countryCheckBoxItems: [{ label: "中国", parentLabel: "アジア", checked: false }],
     characteristicCheckItems: [{ label: "幻想・神秘的", checked: false }],
     riskLevel: undefined,
-    monthCheckBoxItems: [{ label: "1月", parentLabel: "冬", checked: false }],
+    monthRange: [1, 12],
     bmiRange: [-40, 30],
     keyword: "",
     loadingSearchWorldViews: false,
@@ -252,40 +252,11 @@ describe("リスクレベルのラジオボタンがレンダリングされて�
   });
 });
 
-describe("ベストシーズンのCheckBoxがレンダリングされていること", () => {
-  test("CheckBoxがレンダリングされていること", async () => {
-    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
-    render(<FilterAccordionPanel />);
-    expect(screen.getByRole("checkbox", { name: "冬" })).toBeInTheDocument();
-    expect(screen.getByRole("checkbox", { name: "1月" })).toBeInTheDocument();
-  });
-
-  test("loadingSearchWorldViewsがtrueの場合、CheckBoxが非活性であること", () => {
-    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueLoadingWorldView);
-    render(<FilterAccordionPanel />);
-    expect(screen.getByRole("checkbox", { name: "冬" })).toBeDisabled();
-    expect(screen.getByRole("checkbox", { name: "1月" })).toBeDisabled();
-  });
-
-  test("CheckBox押下でmonthCheckItemを更新するdispatch関数が実行されること", async () => {
-    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
-    const user = userEvent.setup();
-    render(<FilterAccordionPanel />);
-    await act(async () => {
-      await user.click(screen.getByRole("checkbox", { name: "1月" }));
-    });
-    expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_MONTH_CHECKBOX_ITEMS",
-      payload: [{ label: "1月", parentLabel: "冬", checked: true }],
-    });
-  });
-});
-
 describe("FilterRangeSliderのテスト", () => {
   test("RangeSliderがレンダリングされること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     render(<FilterAccordionPanel />);
-    expect(screen.getAllByRole("slider").length).toBe(2);
+    expect(screen.getAllByRole("slider").length).toBe(4);
   });
 });
 

@@ -98,61 +98,20 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
     });
     expect(result.current.state.riskLevel).toEqual("1");
   });
+});
 
-  test("SET_MONTH_CHECKBOX_ITEMSアクションがディスパッチされた際、monthCheckBoxItemsが指定された値に更新されること", () => {
-    const { result } = renderHook(() => useWorldViewListContext(), {
-      wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
-    });
-    expect(result.current.state.monthCheckBoxItems).toEqual([
-      { label: "1月", parentLabel: "冬", checked: false },
-      { label: "2月", parentLabel: "冬", checked: false },
-      { label: "3月", parentLabel: "春", checked: false },
-      { label: "4月", parentLabel: "春", checked: false },
-      { label: "5月", parentLabel: "春", checked: false },
-      { label: "6月", parentLabel: "夏", checked: false },
-      { label: "7月", parentLabel: "夏", checked: false },
-      { label: "8月", parentLabel: "夏", checked: false },
-      { label: "9月", parentLabel: "秋", checked: false },
-      { label: "10月", parentLabel: "秋", checked: false },
-      { label: "11月", parentLabel: "秋", checked: false },
-      { label: "12月", parentLabel: "冬", checked: false },
-    ]);
-
-    act(() => {
-      result.current.dispatch({
-        type: "SET_MONTH_CHECKBOX_ITEMS",
-        payload: [
-          { label: "1月", parentLabel: "冬", checked: true },
-          { label: "2月", parentLabel: "冬", checked: false },
-          { label: "3月", parentLabel: "春", checked: false },
-          { label: "4月", parentLabel: "春", checked: false },
-          { label: "5月", parentLabel: "春", checked: false },
-          { label: "6月", parentLabel: "夏", checked: false },
-          { label: "7月", parentLabel: "夏", checked: false },
-          { label: "8月", parentLabel: "夏", checked: false },
-          { label: "9月", parentLabel: "秋", checked: false },
-          { label: "10月", parentLabel: "秋", checked: false },
-          { label: "11月", parentLabel: "秋", checked: false },
-          { label: "12月", parentLabel: "冬", checked: true },
-        ],
-      });
-    });
-
-    expect(result.current.state.monthCheckBoxItems).toEqual([
-      { label: "1月", parentLabel: "冬", checked: true },
-      { label: "2月", parentLabel: "冬", checked: false },
-      { label: "3月", parentLabel: "春", checked: false },
-      { label: "4月", parentLabel: "春", checked: false },
-      { label: "5月", parentLabel: "春", checked: false },
-      { label: "6月", parentLabel: "夏", checked: false },
-      { label: "7月", parentLabel: "夏", checked: false },
-      { label: "8月", parentLabel: "夏", checked: false },
-      { label: "9月", parentLabel: "秋", checked: false },
-      { label: "10月", parentLabel: "秋", checked: false },
-      { label: "11月", parentLabel: "秋", checked: false },
-      { label: "12月", parentLabel: "冬", checked: true },
-    ]);
+test("SET_MONTH_RANGEアクションがディスパッチされた際、monthRangeが指定された配列に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
   });
+  expect(result.current.state.monthRange).toEqual([1, 12]);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_MONTH_RANGE",
+      payload: [6, 9],
+    });
+  });
+  expect(result.current.state.monthRange).toEqual([6, 9]);
 });
 
 test("SET_BMI_RANGEアクションがディスパッチされた際、bmiRangeが指定された配列に更新されること", () => {
