@@ -1,5 +1,4 @@
 import { Box, Center, Spinner } from "@chakra-ui/react";
-import Loading from "components/ui-elements/Loading";
 import { FC, memo, MouseEvent } from "react";
 import CheckItem from "types/checkItem";
 import handleChangeCheckItem from "utils/handleChangeCheckItem";
