@@ -159,7 +159,7 @@ const WorldViewListPage = () => {
             </FilterAccordion>
           </Stack>
         </Box>
-        <Box>
+        <Box w="100%">
           {state.loadingSearchWorldViews ? (
             <Loading />
           ) : (

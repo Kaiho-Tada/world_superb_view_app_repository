@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Center, Spinner } from "@chakra-ui/react";
 import Loading from "components/ui-elements/Loading";
 import { FC, memo, MouseEvent } from "react";
 import CheckItem from "types/checkItem";
@@ -22,7 +22,9 @@ const CheckItemBox: FC<Props> = memo(
     return (
       <div>
         {loadingGetModels ? (
-          <Loading />
+          <Center h="10vh">
+            <Spinner role="status" aria-label="読み込み中" />
+          </Center>
         ) : (
           checkItems.map((checkItem) => (
             <Box

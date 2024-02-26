@@ -43,7 +43,7 @@ test("loadingGetModelsがtrueの場合、スピナーが表示されているこ
       loadingSearchModels={false}
     />
   );
-  expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
+  expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
 });
 
 test("loadingSearchModelsがtrueの場合、CheckItemBoxがdisabledになっていること", () => {

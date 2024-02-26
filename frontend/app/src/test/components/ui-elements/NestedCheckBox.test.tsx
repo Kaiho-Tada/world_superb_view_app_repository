@@ -19,7 +19,7 @@ test("loadingGetCheckBoxItemsがtrueの場合、スピナーが表示されて�
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );
-  expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
+  expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
 });
 
 test("表示切り替えのCheckBoxがレンダリングされていること", () => {
