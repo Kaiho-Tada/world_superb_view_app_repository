@@ -14,8 +14,10 @@ const mockDispatch = jest.fn();
 const mockContextValue = {
   dispatch: mockDispatch,
   state: {
-    categoryCheckBoxItems: [{ label: "滝", parentLabel: "自然", checked: false }],
-    countryCheckBoxItems: [{ label: "中国", parentLabel: "アジア", checked: false }],
+    categoryCheckBoxItems: [{ label: "滝", parentLabel: "自然", checked: false, isVisible: true }],
+    countryCheckBoxItems: [
+      { label: "中国", parentLabel: "アジア", checked: false, isVisible: true },
+    ],
     characteristicCheckItems: [{ label: "幻想・神秘的", checked: false }],
     riskLevel: undefined,
     monthRange: [1, 12],
@@ -157,17 +159,18 @@ describe("カテゴリーのCheckBoxのテスト", () => {
     expect(screen.getByRole("checkbox", { name: "滝" })).toBeDisabled();
   });
 
-  test("CheckBoxが押下でcheckItemを更新するdispatch関数が実行されること", async () => {
+  test("表示切り替えのCheckBox押下でpropsのcategoryCheckBoxItemsDispatch関数とisSkipSearchApiDispatchが実行されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const user = userEvent.setup();
     render(<FilterAccordionPanel />);
     await act(async () => {
-      await user.click(screen.getByRole("checkbox", { name: "滝" }));
+      await user.click(screen.getByRole("checkbox", { name: "自然" }));
     });
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "SET_CATEGORY_CHECKBOX_ITEMS",
-      payload: [{ label: "滝", parentLabel: "自然", checked: true }],
+      payload: [{ label: "滝", parentLabel: "自然", checked: false, isVisible: false }],
     });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
   });
 });
 
@@ -192,17 +195,18 @@ describe("地域のCheckBoxのテスト", () => {
     expect(screen.getByRole("checkbox", { name: "中国" })).toBeDisabled();
   });
 
-  test("countryのチェックボックス押下でcountryCheckItemを更新するdispatch関数が実行されること", async () => {
+  test("表示切り替えのCheckBox押下でpropsのcountryCheckBoxItemsDispatch関数とisSkipSearchApiDispatchが実行されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const user = userEvent.setup();
     render(<FilterAccordionPanel />);
     await act(async () => {
-      await user.click(screen.getByRole("checkbox", { name: "中国" }));
+      await user.click(screen.getByRole("checkbox", { name: "アジア" }));
     });
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "SET_COUNTRY_CHECKBOX_ITEMS",
-      payload: [{ label: "中国", parentLabel: "アジア", checked: true }],
+      payload: [{ label: "中国", parentLabel: "アジア", checked: false, isVisible: false }],
     });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
   });
 });
 

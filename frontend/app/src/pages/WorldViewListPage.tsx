@@ -28,7 +28,8 @@ import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 const WorldViewListPage = () => {
   const { state, dispatch } = useWorldViewListContext();
-  const { keyword, loadingSearchWorldViews, riskLevel, bmiRange, monthRange } = state;
+  const { keyword, loadingSearchWorldViews, riskLevel, bmiRange, monthRange, isSkipSearchApi } =
+    state;
   const { handleGetNestedCheckBoxItems } = useGetNestedCheckBoxItems();
   const { handleGetCheckBoxItems } = useGetCheckBoxItems();
   const { handleSearchModel } = useSearchModel();
@@ -43,23 +44,26 @@ const WorldViewListPage = () => {
   };
 
   useEffect(() => {
-    if (state.shouldDebounce) {
-      handleDebounceWithArg<WorldView>({
-        fn: handleSearchModel,
-        arg: {
+    if (!isSkipSearchApi) {
+      if (state.shouldDebounce) {
+        handleDebounceWithArg<WorldView>({
+          fn: handleSearchModel,
+          arg: {
+            loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
+            modelDispatch: worldViewDispatch,
+            searchModelApi: searchWorldViewApi,
+          },
+        });
+        dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
+      } else {
+        handleSearchModel<WorldView>({
           loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
           modelDispatch: worldViewDispatch,
           searchModelApi: searchWorldViewApi,
-        },
-      });
-      dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
-    } else {
-      handleSearchModel<WorldView>({
-        loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
-        modelDispatch: worldViewDispatch,
-        searchModelApi: searchWorldViewApi,
-      });
+        });
+      }
     }
+    dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: false });
   }, [
     state.categoryCheckBoxItems,
     state.countryCheckBoxItems,

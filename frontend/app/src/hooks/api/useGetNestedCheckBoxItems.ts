@@ -18,12 +18,13 @@ const useGetNestedCheckBoxItems = () => {
     try {
       const res = await getAllModelApi();
       const models = res.data;
-      const newCategoryCheckBoxItems = models.map((model: NestedCheckBoxItemData) => ({
+      const newCheckBoxItems = models.map((model: NestedCheckBoxItemData) => ({
         label: model.name,
         parentLabel: model.parent,
         checked: false,
+        isVisible: false,
       }));
-      checkBoxItemsDispatch(newCategoryCheckBoxItems);
+      checkBoxItemsDispatch(newCheckBoxItems);
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 500) {
         showMessage({

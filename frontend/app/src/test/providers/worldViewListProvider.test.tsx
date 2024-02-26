@@ -17,6 +17,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
             label: "砂漠",
             parentLabel: "自然",
             checked: false,
+            isVisible: false,
           },
         ],
       });
@@ -27,6 +28,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
         label: "砂漠",
         parentLabel: "自然",
         checked: false,
+        isVisible: false,
       },
     ]);
   });
@@ -45,6 +47,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
             label: "アメリカ",
             parentLabel: "北米",
             checked: false,
+            isVisible: false,
           },
         ],
       });
@@ -55,6 +58,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
         label: "アメリカ",
         parentLabel: "北米",
         checked: false,
+        isVisible: false,
       },
     ]);
   });
@@ -275,4 +279,17 @@ test("SET_SORT_CRITERIAアクションがディスパッチされた際、sortCr
   });
 
   expect(result.current.state.sortCriteria).toEqual("latest");
+});
+
+test("SET_IS_SKIP_SEARCH_APIアクションがディスパッチされた際、isSkipSearchApiが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.isSkipSearchApi).toEqual(false);
+
+  act(() => {
+    result.current.dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
+  });
+
+  expect(result.current.state.isSkipSearchApi).toEqual(true);
 });

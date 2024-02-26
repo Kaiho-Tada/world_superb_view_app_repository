@@ -19,7 +19,8 @@ export type Action =
   | { type: "SET_WORLD_VIEWS"; payload: WorldView[] }
   | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean }
   | { type: "SET_SORT_CRITERIA"; payload: string }
-  | { type: "SET_IS_DISABLED_SEARCH_BUTTON"; payload: boolean };
+  | { type: "SET_IS_DISABLED_SEARCH_BUTTON"; payload: boolean }
+  | { type: "SET_IS_SKIP_SEARCH_API"; payload: boolean };
 
 type State = {
   categoryCheckBoxItems: NestedCheckBoxItem[];
@@ -37,6 +38,7 @@ type State = {
   shouldDebounce: boolean;
   sortCriteria: string;
   isDisabledSearchButton: boolean;
+  isSkipSearchApi: boolean;
 };
 
 const initialState: State = {
@@ -55,6 +57,7 @@ const initialState: State = {
   shouldDebounce: false,
   sortCriteria: "",
   isDisabledSearchButton: true,
+  isSkipSearchApi: false,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -103,6 +106,9 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_IS_DISABLED_SEARCH_BUTTON":
       return { ...state, isDisabledSearchButton: action.payload };
+
+    case "SET_IS_SKIP_SEARCH_API":
+      return { ...state, isSkipSearchApi: action.payload };
 
     default:
       return state;

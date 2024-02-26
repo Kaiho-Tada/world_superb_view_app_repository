@@ -1,8 +1,9 @@
-import { Box, Checkbox, Stack } from "@chakra-ui/react";
+import { Box, Checkbox } from "@chakra-ui/react";
 import { ChangeEvent, FC, memo } from "react";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
 import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
+import handleChangeVisibility from "utils/handleChangeVisibility";
 import handleGetNestedCheckBoxInfo from "utils/handleGetNestedCheckBoxInfo";
 import Loading from "./Loading";
 
@@ -11,11 +12,17 @@ type Props = {
   loadingGetCheckBoxItems: boolean;
   loadingSearchModel: boolean;
   checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
+  isSkipSearchApiDispatch: (payload: boolean) => void;
 };
 
 const NestedCheckBox: FC<Props> = memo((props) => {
-  const { checkBoxItems, loadingSearchModel, loadingGetCheckBoxItems, checkBoxItemsDispatch } =
-    props;
+  const {
+    checkBoxItems,
+    loadingSearchModel,
+    loadingGetCheckBoxItems,
+    checkBoxItemsDispatch,
+    isSkipSearchApiDispatch,
+  } = props;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleChangeCheckBox<NestedCheckBoxItem[]>({ e, checkBoxItems, checkBoxItemsDispatch });
@@ -25,24 +32,39 @@ const NestedCheckBox: FC<Props> = memo((props) => {
     handleChangeParentCheckBox({ e, checkBoxItems, checkBoxItemsDispatch });
   };
 
+  const handleToggleVisibility = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChangeVisibility({ e, checkBoxItems, checkBoxItemsDispatch });
+    isSkipSearchApiDispatch(true);
+  };
+
   const checkBoxInfo = handleGetNestedCheckBoxInfo({ checkBoxItems });
   return loadingGetCheckBoxItems ? (
     <Loading />
   ) : (
-    <Stack spacing={2}>
+    <Box>
       {checkBoxInfo.map((information) => (
         <Box key={information.parentLabel}>
           <Checkbox
-            isChecked={information.allChecked}
-            isIndeterminate={information.isIndeterminate}
+            isChecked={information.allVisible}
             value={information.parentLabel}
             disabled={loadingSearchModel}
-            onChange={handleChangeParent}
+            onChange={handleToggleVisibility}
             colorScheme="teal"
           >
             {information.parentLabel}
           </Checkbox>
-          <Box pl={6} my={1}>
+          <Box pl={6}>
+            <Checkbox
+              isChecked={information.allChecked}
+              isIndeterminate={information.isIndeterminate}
+              value={information.parentLabel}
+              disabled={loadingSearchModel}
+              onChange={handleChangeParent}
+              colorScheme="teal"
+              style={{ display: information.allVisible ? "inline-flex" : "none" }}
+            >
+              全て
+            </Checkbox>
             {checkBoxItems.map((checkBoxItem) =>
               checkBoxItem.parentLabel === information.parentLabel ? (
                 <Checkbox
@@ -53,6 +75,7 @@ const NestedCheckBox: FC<Props> = memo((props) => {
                   value={checkBoxItem.label}
                   onChange={handleChange}
                   isDisabled={loadingSearchModel}
+                  style={{ display: checkBoxItem.isVisible ? "inline-flex" : "none" }}
                 >
                   {checkBoxItem.label}
                 </Checkbox>
@@ -61,7 +84,7 @@ const NestedCheckBox: FC<Props> = memo((props) => {
           </Box>
         </Box>
       ))}
-    </Stack>
+    </Box>
   );
 });
 

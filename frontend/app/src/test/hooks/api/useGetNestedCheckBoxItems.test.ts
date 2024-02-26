@@ -29,8 +29,8 @@ test("handleGetCheckBoxItems関数成功時のテスト", async () => {
   });
   expect(mockLoadingGetModelDispatch).toHaveBeenCalledWith(true);
   expect(mockCheckBoxItemsDispatch).toHaveBeenCalledWith([
-    { label: "name1", parentLabel: "parent1", checked: false },
-    { label: "name2", parentLabel: "parent2", checked: false },
+    { label: "name1", parentLabel: "parent1", checked: false, isVisible: false },
+    { label: "name2", parentLabel: "parent2", checked: false, isVisible: false },
   ]);
   expect(mockLoadingGetModelDispatch).toHaveBeenCalledWith(false);
   expect(mockLoadingGetModelDispatch).toHaveBeenCalledTimes(2);
