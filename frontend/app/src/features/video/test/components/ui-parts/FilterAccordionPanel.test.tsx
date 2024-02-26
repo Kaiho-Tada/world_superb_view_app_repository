@@ -130,7 +130,7 @@ describe("ジャンルのCheckItemBoxのテスト", () => {
   test("loadingGetGenresがtrueの場合、loadingが表示されていること", async () => {
     spyOnUseVideoListContext.mockReturnValue(mockContextValueLoadingGenre);
     render(<FilterAccordionPanel />);
-    expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
+    expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
   });
 
   test("loadingSearchVideosがtrueの場合、CheckItemBoxが非活性であること", async () => {
