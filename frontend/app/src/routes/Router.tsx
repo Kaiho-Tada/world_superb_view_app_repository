@@ -4,12 +4,12 @@ import useAuthorizeLoggedInUser from "features/auth/hooks/useAuthorizeLoggedInUs
 import useAuthorizeLoggedOutUser from "features/auth/hooks/useAuthorizeLoggedOutUser";
 import useAuthorizeRegisteredUser from "features/auth/hooks/useAuthorizeRegisteredUser";
 import VideoListPage from "features/video/pages/VideoListPage";
+import WorldViewListPage from "features/worldView/pages/WorldViewListPage";
 import Home from "pages/Home";
 import Login from "pages/Login";
 import Profile from "pages/Profile";
 import SignUp from "pages/SignUp";
 import UserManagementPage from "pages/UserManagementPage";
-import WorldViewListPage from "pages/WorldViewListPage";
 import { VideoListProvider } from "providers/VideoListProvider";
 import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { FC } from "react";

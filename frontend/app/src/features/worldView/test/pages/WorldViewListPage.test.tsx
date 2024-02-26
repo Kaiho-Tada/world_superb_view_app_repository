@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import WorldViewList from "pages/WorldViewListPage";
+import WorldViewList from "features/worldView/pages/WorldViewListPage";
 import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
