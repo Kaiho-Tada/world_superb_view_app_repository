@@ -57,7 +57,7 @@ test("getAllModelsApi関数がエラーを返した際の処理のテスト", as
     const error = new Error();
     Object.assign(error, {
       isAxiosError: true,
-      response: { status: 500, data: { error: "モデルの取得に失敗しました。" } },
+      response: { status: 500 },
     });
     throw error;
   });
@@ -76,7 +76,7 @@ test("getAllModelsApi関数がエラーを返した際の処理のテスト", as
   expect(mockGetAllModelsApi).toHaveBeenCalledTimes(1);
   expect(mockSetModels).toHaveBeenCalledTimes(0);
   expect(mockUseToast).toHaveBeenCalledWith({
-    title: "モデルの取得に失敗しました。",
+    title: "データの取得に失敗しました。",
     status: "error",
     position: "top",
     duration: 5000,

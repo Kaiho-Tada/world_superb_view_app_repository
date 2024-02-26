@@ -41,7 +41,7 @@ test("handleSearchWorldView失敗時のテスト", async () => {
     const error = new Error();
     Object.assign(error, {
       isAxiosError: true,
-      response: { data: { error: "絶景モデルのフィルタリング処理に失敗しました。" }, status: 500 },
+      response: { status: 500 },
     });
     throw error;
   });
@@ -55,7 +55,7 @@ test("handleSearchWorldView失敗時のテスト", async () => {
 
   expect(mockLoadingSearchModelDispatch).toHaveBeenCalledWith(true);
   expect(mockToast).toHaveBeenCalledWith({
-    title: "絶景モデルのフィルタリング処理に失敗しました。",
+    title: "データの取得に失敗しました。",
     status: "error",
     position: "top",
     duration: 5000,

@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Api::V1::WorldViews", type: :request do
   describe "GET api/v1/world_views/search" do
-    params = {month_range: ["1", "12"], bmi_range: ["-40", "30"], keyword: "", sort_criteria: ""}
+    params = { month_range: ["1", "12"], bmi_range: ["-40", "30"], keyword: "", sort_criteria: "" }
     describe "world_view_filterメソッド内のスコープのテスト" do
       describe "filter_by_category_nameスコープのテスト" do
         it "paramsのcategory_namesの配列に含まれる名前のCategoryモデルと関連付けられたレコードを返すこと" do
@@ -275,7 +275,7 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
         context "bmi_rangeが['-40', '30']である場合" do
           it "レコードが全件返されること" do
             world_view3 = create(:world_view)
-            get api_v1_world_views_search_path, params: params
+            get(api_v1_world_views_search_path, params:)
             expect(response).to have_http_status(200)
             json_response = JSON.parse(response.body)
             expect(json_response.length).to eq(3)
@@ -347,17 +347,6 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           expect(json.pluck("id")).to eq [world_view3, world_view2, world_view1].pluck(:id)
         end
       end
-    end
-
-    it "searchアクション内で発生したエラーが適切に処理されること" do
-      allow_any_instance_of(Api::V1::WorldViewsController).to receive(:world_view_filter).and_raise(StandardError, "Filtering error")
-      expect(Rails.logger).to receive(:error).with(StandardError)
-      expect(Rails.logger).to receive(:error).with("Filtering error")
-      expect(Rails.logger).to receive(:error).with(instance_of(String))
-      get api_v1_world_views_search_path, params: params
-      json = JSON.parse(response.body)
-      expect(response).to have_http_status(500)
-      expect(json["error"]).to eq("絶景モデルのフィルタリング処理に失敗しました。")
     end
   end
 end

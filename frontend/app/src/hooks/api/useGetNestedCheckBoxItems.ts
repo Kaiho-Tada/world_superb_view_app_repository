@@ -28,7 +28,7 @@ const useGetNestedCheckBoxItems = () => {
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 500) {
         showMessage({
-          title: error.response.data.error,
+          title: "データの取得に失敗しました。",
           status: "error",
         });
       }

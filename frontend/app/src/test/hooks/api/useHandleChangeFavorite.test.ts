@@ -43,7 +43,7 @@ describe("handleChangeFavorite関数のテスト", () => {
       });
       expect(mockSetFavoriteId).toHaveBeenCalledTimes(0);
       expect(mockUseToast).toHaveBeenCalledWith({
-        title: "削除するリソースが見つかりませんでした。",
+        title: "削除するリソースが見つかりません。",
         status: "error",
         position: "top",
         duration: 5000,

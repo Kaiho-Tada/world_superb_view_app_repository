@@ -8,9 +8,6 @@ class Api::V1::WorldViewsController < ApplicationController
                                                       { characteristics: { only: %i[id name] } },
                                                       { world_view_favorites: { only: %i[id user_id] } },
                                                       { countries: { only: %i[id name risk_level bmi] } }])
-  rescue StandardError => e
-    ErrorUtility.log_and_notify(e)
-    render json: { error: "絶景モデルのフィルタリング処理に失敗しました。" }, status: :internal_server_error
   end
 
   private
