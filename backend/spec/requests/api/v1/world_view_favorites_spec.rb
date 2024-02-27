@@ -13,8 +13,8 @@ RSpec.describe "Api::V1::WorldViewFavorites", type: :request do
           }
         }, headers: auth_tokens
         expect(response).to have_http_status(200)
-        @json = JSON.parse(response.body)
-        expect(@json["user_id"]).to eq user.id
+        json = JSON.parse(response.body)
+        expect(json["user_id"]).to eq user.id
       end
 
       it "world_view_idと同じidを持つWorldViewモデルが見つからない場合、お気に入り登録に失敗すること" do
@@ -40,8 +40,9 @@ RSpec.describe "Api::V1::WorldViewFavorites", type: :request do
   end
 
   describe " DELETE /api/v1/world_view_favorites/:id" do
+    let!(:world_view_favorite) { create(:world_view_favorite) }
+
     it "お気に入り解除できること" do
-      world_view_favorite = create(:world_view_favorite)
       delete api_v1_world_view_favorite_path(world_view_favorite)
       expect(response).to have_http_status(204)
       expect(WorldViewFavorite.exists?(world_view_favorite.id)).to be false

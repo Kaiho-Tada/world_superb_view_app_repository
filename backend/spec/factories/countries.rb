@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:code) { |n| "country_code#{n}" }
     risk_level      { 1 }
     portrait        { Rack::Test::UploadedFile.new("spec/fixtures/images/test_image.jpeg", "image/jpeg") }
-    bmi             { 10.0 }
+    bmi             { 20.0 }
     region          { "region" }
   end
 end

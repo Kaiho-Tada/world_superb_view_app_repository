@@ -8,6 +8,8 @@ class Category < ApplicationRecord
   alias_attribute :parent, :classification
 
   scope :filter_by_name, lambda { |names|
+    return self if names.blank?
+
     where(name: [*names])
   }
 end

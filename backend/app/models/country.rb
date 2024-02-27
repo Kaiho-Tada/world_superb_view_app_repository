@@ -6,7 +6,6 @@ class Country < ApplicationRecord
 
   validates :name, length: { maximum: 30 }, presence: true
   validates :code, length: { maximum: 30 }, presence: true
-  validates :risk_level, length: { maximum: 1 }
   validates :region, presence: true
 
   validate :validate_image
@@ -18,6 +17,8 @@ class Country < ApplicationRecord
   end
 
   scope :filter_by_name, lambda { |names|
+    return self if names.blank?
+
     where(name: [*names])
   }
 

@@ -16,7 +16,7 @@ class WorldView < ApplicationRecord
   validates :best_season, length: { maximum: 30 }, presence: true
 
   scope :filter_by_category_name, lambda { |category_names|
-    return self if category_names.nil?
+    return self if category_names.blank?
 
     categories = Category
                  .all
@@ -27,7 +27,7 @@ class WorldView < ApplicationRecord
   }
 
   scope :filter_by_country_name, lambda { |country_names|
-    return self if country_names.nil?
+    return self if country_names.blank?
 
     countries = Country
                 .all
@@ -38,7 +38,7 @@ class WorldView < ApplicationRecord
   }
 
   scope :filter_by_characteristic_name, lambda { |characteristic_names|
-    return self if characteristic_names.nil?
+    return self if characteristic_names.blank?
 
     characteristics = Characteristic
                       .all

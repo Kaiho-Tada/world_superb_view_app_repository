@@ -1,33 +1,26 @@
 require "rails_helper"
 
 RSpec.describe Characteristic, type: :model do
-  describe "バリデーションのテスト" do
-    it "nameが存在する場合、有効な状態であること" do
-      expect(build(:characteristic)).to be_valid
-    end
-
-    context "nameカラム" do
-      it "nameが無い場合、無効な状態であること" do
-        characteristic = build(:characteristic, name: nil)
-        characteristic.valid?
-        expect(characteristic.errors.full_messages).to eq ["属性名を入力してください"]
-      end
-
-      it "nameは30文字以内であること" do
-        characteristic = build(:characteristic, name: "a" * 31)
-        characteristic.valid?
-        expect(characteristic.errors.full_messages).to eq ["属性名は30文字以内で入力してください"]
-      end
-    end
+  describe "association test" do
+    it { is_expected.to have_many(:world_view_characteristics).dependent(:destroy) }
+    it { is_expected.to have_many(:world_views).through(:world_view_characteristics) }
   end
 
-  describe "スコープテスト" do
-    it "filter_by_nameスコープのテスト" do
-      characteristic1 = create(:characteristic, name: "雄大")
-      characteristic2 = create(:characteristic, name: "畏怖")
-      expect(Characteristic.filter_by_name(["雄大"])).to include(characteristic1)
-      expect(Characteristic.filter_by_name(["畏怖"])).to include(characteristic2)
-      expect(Characteristic.filter_by_name(["雄大", "畏怖"])).to include(characteristic1, characteristic2)
+  describe "validation test" do
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_most(30) }
+  end
+
+  describe "scope test" do
+    describe ".filter_by_nameスコープのテスト" do
+      let!(:characteristic1) { create(:characteristic) }
+      let!(:characteristic2) { create(:characteristic) }
+
+      it "引数の配列内に含まれる名前のレコードが返されること" do
+        expect(Characteristic.filter_by_name([characteristic1.name])).to contain_exactly characteristic1
+        expect(Characteristic.filter_by_name([characteristic2.name])).to contain_exactly characteristic2
+        expect(Characteristic.filter_by_name([characteristic1.name, characteristic2.name])).to contain_exactly characteristic1, characteristic2
+      end
     end
   end
 end
