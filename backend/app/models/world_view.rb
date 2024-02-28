@@ -108,22 +108,16 @@ class WorldView < ApplicationRecord
     end
   }
 
-  scope :sort_by_latest, lambda {
-    order(created_at: :desc)
-  }
-
-  scope :sort_by_country_bmi, lambda {
-    joins(:countries).group("world_views.id").order("MIN(countries.bmi) ASC")
-  }
-
-  scope :sort_by_country_risk_level, lambda {
-    joins(:countries).group("world_views.id").order("MIN(countries.risk_level) ASC")
-  }
-
-  scope :sort_by_favorite_count, lambda {
-    left_joins(:world_view_favorites)
-      .group(:id)
-      .order("COUNT(world_view_favorites.id) DESC")
+  scope :sort_order_by, lambda { |sort_criteria|
+    case sort_criteria
+    when "latest"     then order(created_at: :desc)
+    when "bmi"        then joins(:countries).group("world_views.id").order("MIN(countries.bmi) ASC")
+    when "riskLevel"  then joins(:countries).group("world_views.id").order("MIN(countries.risk_level) ASC")
+    when "favorite"   then left_joins(:world_view_favorites).group(:id).order("COUNT(world_view_favorites.id) DESC")
+    when ""           then self
+    else
+      raise ArgumentError, "Invalid sort criteria: #{sort_criteria}"
+    end
   }
 
   def self.extract_months_range(input)

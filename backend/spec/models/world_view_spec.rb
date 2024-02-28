@@ -256,71 +256,91 @@ RSpec.describe WorldView, type: :model do
       end
     end
 
-    describe ".sort_by_latest" do
-      let!(:world_view1) { create(:world_view, created_at: 3.days.ago) }
-      let!(:world_view2) { create(:world_view, created_at: 2.days.ago) }
-      let!(:world_view3) { create(:world_view, created_at: 1.day.ago) }
+    describe ".sort_order_by" do
+      context "引数が'latest'の場合" do
+        let!(:world_view1) { create(:world_view, created_at: 3.days.ago) }
+        let!(:world_view2) { create(:world_view, created_at: 2.days.ago) }
+        let!(:world_view3) { create(:world_view, created_at: 1.day.ago) }
 
-      it "新しい順にレコードが返されること" do
-        expect(WorldView.sort_by_latest).to eq [world_view3, world_view2, world_view1]
-      end
-    end
-
-    describe ".sort_by_country_bmi" do
-      let!(:world_view1) {  create(:world_view) }
-      let!(:world_view2) {  create(:world_view) }
-      let!(:world_view3) {  create(:world_view) }
-
-      before do
-        create(:world_view_country, world_view: world_view1, country: create(:country, bmi: 15.0))
-        create(:world_view_country, world_view: world_view2, country: create(:country, bmi: 1.0))
-        create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -20.5))
+        it "新しい順にレコードが返されること" do
+          expect(WorldView.sort_order_by("latest")).to eq [world_view3, world_view2, world_view1]
+        end
       end
 
-      it "関連のCountryのBMIの値が低い順にレコードが返されること" do
-        expect(WorldView.sort_by_country_bmi).to eq [world_view3, world_view2, world_view1]
+      context "引数が'bmi'の場合" do
+        let!(:world_view1) {  create(:world_view) }
+        let!(:world_view2) {  create(:world_view) }
+        let!(:world_view3) {  create(:world_view) }
+
+        before do
+          create(:world_view_country, world_view: world_view1, country: create(:country, bmi: 15.0))
+          create(:world_view_country, world_view: world_view2, country: create(:country, bmi: 1.0))
+          create(:world_view_country, world_view: world_view3, country: create(:country, bmi: -20.5))
+        end
+
+        it "関連のCountryのBMIの値が低い順にレコードが返されること" do
+          expect(WorldView.sort_order_by("bmi")).to eq [world_view3, world_view2, world_view1]
+        end
+
+        it "返すレコードが重複している場合はBMI値がより低いCountryモデルと関連付いたレコードが返されること" do
+          create(:world_view_country, world_view: world_view1, country: create(:country, bmi: -40.0))
+          expect(WorldView.sort_order_by("bmi")).to eq [world_view1, world_view3, world_view2]
+        end
       end
 
-      it "返されるレコードが重複している場合はBMI値の低いCountryモデルと関連付いたレコードが返されること" do
-        create(:world_view_country, world_view: world_view1, country: create(:country, bmi: -40.0))
-        expect(WorldView.sort_by_country_bmi).to eq [world_view1, world_view3, world_view2]
-      end
-    end
+      context "引数が'riskLevel'の場合" do
+        let!(:world_view1) {  create(:world_view) }
+        let!(:world_view2) {  create(:world_view) }
+        let!(:world_view3) {  create(:world_view) }
 
-    describe ".sort_by_country_risk_level" do
-      let!(:world_view1) {  create(:world_view) }
-      let!(:world_view2) {  create(:world_view) }
-      let!(:world_view3) {  create(:world_view) }
+        before do
+          create(:world_view_country, world_view: world_view1, country: create(:country, risk_level: 3))
+          create(:world_view_country, world_view: world_view2, country: create(:country, risk_level: 2))
+          create(:world_view_country, world_view: world_view3, country: create(:country, risk_level: 1))
+        end
 
-      before do
-        create(:world_view_country, world_view: world_view1, country: create(:country, risk_level: 3))
-        create(:world_view_country, world_view: world_view2, country: create(:country, risk_level: 2))
-        create(:world_view_country, world_view: world_view3, country: create(:country, risk_level: 1))
-      end
+        it "関連のCountryのrisk_levelの値が低い順にレコードが返されること" do
+          expect(WorldView.sort_order_by("riskLevel")).to eq [world_view3, world_view2, world_view1]
+        end
 
-      it "関連のCountryモデルのrisk_levelの値が低い順にレコードが返されること" do
-        expect(WorldView.sort_by_country_risk_level).to eq [world_view3, world_view2, world_view1]
-      end
-
-      it "返されるレコードが重複している場合はリスクレベルの低いCountryモデルと関連付いたレコードが返されること" do
-        create(:world_view_country, world_view: world_view1, country: create(:country, risk_level: 0))
-        expect(WorldView.sort_by_country_risk_level).to eq [world_view1, world_view3, world_view2]
-      end
-    end
-
-    describe ".sort_by_favorite_count" do
-      let!(:world_view1) {  create(:world_view) }
-      let!(:world_view2) {  create(:world_view) }
-      let!(:world_view3) {  create(:world_view) }
-
-      before do
-        create(:world_view_favorite, world_view: world_view2, user: create(:user))
-        create(:world_view_favorite, world_view: world_view3, user: create(:user))
-        create(:world_view_favorite, world_view: world_view3, user: create(:user))
+        it "返すレコードが重複している場合はリスクレベルがより低いCountryモデルと関連付いたレコードが返されること" do
+          create(:world_view_country, world_view: world_view1, country: create(:country, risk_level: 0))
+          expect(WorldView.sort_order_by("riskLevel")).to eq [world_view1, world_view3, world_view2]
+        end
       end
 
-      it "いいねの数が多い順にレコードが返されること" do
-        expect(WorldView.sort_by_favorite_count).to eq [world_view3, world_view2, world_view1]
+      context "引数が'favorite'の場合" do
+        let!(:world_view1) {  create(:world_view) }
+        let!(:world_view2) {  create(:world_view) }
+        let!(:world_view3) {  create(:world_view) }
+
+        before do
+          create(:world_view_favorite, world_view: world_view2, user: create(:user))
+          create(:world_view_favorite, world_view: world_view3, user: create(:user))
+          create(:world_view_favorite, world_view: world_view3, user: create(:user))
+        end
+
+        it "いいねの数が多い順にレコードが返されること" do
+          expect(WorldView.sort_order_by("favorite")).to eq [world_view3, world_view2, world_view1]
+        end
+      end
+
+      context "引数が空文字の場合" do
+        let!(:world_view1) {  create(:world_view) }
+        let!(:world_view2) {  create(:world_view) }
+        let!(:world_view3) {  create(:world_view) }
+
+        it "全てのレコードが処理されずに返されること" do
+          expect(WorldView.sort_order_by("")).to eq [world_view1, world_view2, world_view3]
+        end
+      end
+
+      context "引数が不正な場合" do
+        it "ArgumentErrorが発生すること" do
+          expect do
+            WorldView.sort_order_by("invalid_sort_criteria")
+          end.to raise_error(ArgumentError, "Invalid sort criteria: invalid_sort_criteria")
+        end
       end
     end
   end

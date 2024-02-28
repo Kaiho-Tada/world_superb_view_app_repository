@@ -1,7 +1,7 @@
 class Api::V1::WorldViewsController < ApplicationController
   def search
     filtered_world_views = world_view_filter(WorldView)
-    sorted_world_views = world_view_sort(filtered_world_views)
+    sorted_world_views = filtered_world_views.sort_order_by(world_view_params[:sort_criteria])
     render json: sorted_world_views.preload(:categories, :characteristics, :world_view_favorites, :countries)
                                    .as_json(except: %i[created_at updated_at],
                                             include: [{ categories: { only: %i[id name] } },
@@ -25,17 +25,5 @@ class Api::V1::WorldViewsController < ApplicationController
          .filter_by_keyword(world_view_params[:keyword])
          .filter_by_country_bmi(world_view_params[:bmi_range])
          .filter_by_month(world_view_params[:month_range])
-  end
-
-  def world_view_sort(world_views)
-    case world_view_params[:sort_criteria]
-    when "latest"     then world_views.sort_by_latest
-    when "bmi"        then world_views.sort_by_country_bmi
-    when "riskLevel"  then world_views.sort_by_country_risk_level
-    when "favorite"   then world_views.sort_by_favorite_count
-    when ""           then world_views
-    else
-      raise ArgumentError, "Invalid sort criteria: #{world_view_params[:sort_criteria]}"
-    end
   end
 end

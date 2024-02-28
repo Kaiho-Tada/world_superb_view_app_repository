@@ -420,7 +420,7 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
       end
     end
 
-    describe "#world_view_sort" do
+    describe ".sort_order_by" do
       context "sort_criteriaが'latest'の場合" do
         let!(:world_view1) { create(:world_view, created_at: 3.days.ago) }
         let!(:world_view2) { create(:world_view, created_at: 2.days.ago) }
