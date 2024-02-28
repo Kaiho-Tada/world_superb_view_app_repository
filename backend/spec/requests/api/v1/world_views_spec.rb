@@ -282,13 +282,23 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
       describe ".filter_by_country_bmi" do
         let!(:world_view1) { create(:world_view) }
         let!(:world_view2) { create(:world_view) }
-        let!(:country1) { create(:country, bmi: 6.0) }
+        let!(:country1) { create(:country, bmi: 0.0) }
         let!(:country2) { create(:country, bmi: 18.0) }
 
         before do
           create(:world_view_country, world_view: world_view1, country: country1)
           create(:world_view_country, world_view: world_view1, country: country2)
           create(:world_view_country, world_view: world_view2, country: country2)
+        end
+
+        context "bmi_rangeが[0, 0]である場合" do
+          it "bmi_rangeが0のCountryモデルと関連づいたレコードが返されること" do
+            get api_v1_world_views_search_path, params: params.merge(bmi_range: ["0", "0"])
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response.length).to eq(1)
+            expect(json_response.pluck("id")).to include world_view1.id
+          end
         end
 
         context "bmi_rangeが[0, 10]である場合" do

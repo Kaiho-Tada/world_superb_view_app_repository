@@ -201,7 +201,7 @@ RSpec.describe WorldView, type: :model do
     describe ".filter_by_country_bmi" do
       let!(:world_view1) { create(:world_view) }
       let!(:world_view2) { create(:world_view) }
-      let!(:country1) { create(:country, bmi: 6.0) }
+      let!(:country1) { create(:country, bmi: 0.0) }
       let!(:country2) { create(:country, bmi: 18.0) }
 
       before do
@@ -211,6 +211,7 @@ RSpec.describe WorldView, type: :model do
       end
 
       it "bmiが引数のbmi_rangeの範囲内のCountryモデルと関連づけされたレコードが返されること" do
+        expect(WorldView.filter_by_country_bmi(["0", "0"])).to contain_exactly world_view1
         expect(WorldView.filter_by_country_bmi(["0", "10"])).to contain_exactly world_view1
         expect(WorldView.filter_by_country_bmi(["10", "20"])).to contain_exactly world_view1, world_view2
         expect(WorldView.filter_by_country_bmi(["0", "20"])).to contain_exactly world_view1, world_view2

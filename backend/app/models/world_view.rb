@@ -80,9 +80,17 @@ class WorldView < ApplicationRecord
   scope :filter_by_country_bmi, lambda { |bmi_range|
     return self if bmi_range == ["-40", "30"]
 
-    countries = Country.filter_by_bmi(bmi_range)
+    if bmi_range[0] == bmi_range[1]
+      countries = Country.where(bmi: bmi_range[0])
+    else
+      countries = Country.filter_by_bmi(bmi_range)
+    end
     country_ids = countries&.map(&:id)&.join(",")
-    joins(:countries).where("countries.id IN (#{country_ids})").distinct
+    if country_ids.present?
+      joins(:countries).where("countries.id IN (#{country_ids})").distinct
+    else
+      none
+    end
   }
 
   scope :sort_by_latest, lambda {
