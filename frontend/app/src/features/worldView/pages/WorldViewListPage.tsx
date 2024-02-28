@@ -28,13 +28,28 @@ import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 const WorldViewListPage = () => {
   const { state, dispatch } = useWorldViewListContext();
-  const { keyword, loadingSearchWorldViews, riskLevel, bmiRange, monthRange, isSkipSearchApi } =
-    state;
+  const {
+    keyword,
+    loadingSearchWorldViews,
+    riskLevel,
+    bmiRange,
+    monthRange,
+    isSkipSearchApi,
+    shouldDebounce,
+    categoryCheckBoxItems,
+    countryCheckBoxItems,
+    characteristicCheckItems,
+    sortCriteria,
+    worldViews,
+  } = state;
   const { handleGetNestedCheckBoxItems } = useGetNestedCheckBoxItems();
   const { handleGetCheckBoxItems } = useGetCheckBoxItems();
   const { handleSearchModel } = useSearchModel();
   const { handleDebounceWithArg } = useDebounce(1500);
   const { searchWorldViewApi } = useWorldViewApi();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { handleClear } = useClear();
+  const { checkedLabelObject } = useGetCheckedLabels();
 
   const loadingSearchWorldViewDispatch = (payload: boolean) => {
     dispatch({ type: "SET_LOADING_SEARCH_WORLDVIEWS", payload });
@@ -42,10 +57,9 @@ const WorldViewListPage = () => {
   const worldViewDispatch = (responseData: WorldView[]) => {
     dispatch({ type: "SET_WORLD_VIEWS", payload: responseData });
   };
-
   useEffect(() => {
     if (!isSkipSearchApi) {
-      if (state.shouldDebounce) {
+      if (shouldDebounce) {
         handleDebounceWithArg<WorldView>({
           fn: handleSearchModel,
           arg: {
@@ -65,43 +79,49 @@ const WorldViewListPage = () => {
     }
     dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: false });
   }, [
-    state.categoryCheckBoxItems,
-    state.countryCheckBoxItems,
-    state.characteristicCheckItems,
+    categoryCheckBoxItems,
+    countryCheckBoxItems,
+    characteristicCheckItems,
     riskLevel,
-    state.keyword,
-    state.sortCriteria,
+    keyword,
+    sortCriteria,
   ]);
 
+  const loadingGetCategoryDispatch = (payload: boolean) => {
+    dispatch({ type: "SET_LOADING_GET_CATEGORY", payload });
+  };
+  const categoryCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
+    dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  };
+  const loadingGetCountryDispatch = (payload: boolean) => {
+    dispatch({ type: "SET_LOADING_GET_COUNTRY", payload });
+  };
+  const countryCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
+    dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  };
+  const loadingGetCharacteristicDispatch = (payload: boolean) => {
+    dispatch({ type: "SET_LOADING_GET_CHARACTERISTIC", payload });
+  };
+  const characteristicCheckBoxItemsDispatch = (newCheckBoxItems: CheckBoxItem[]) => {
+    dispatch({
+      type: "SET_CHARACTERISTIC_CHECK_ITEMS",
+      payload: newCheckBoxItems,
+    });
+  };
   useEffect(() => {
     handleGetNestedCheckBoxItems({
-      loadingGetModelDispatch: (payload: boolean) => {
-        dispatch({ type: "SET_LOADING_GET_CATEGORY", payload });
-      },
-      checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => {
-        dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-      },
+      loadingGetModelDispatch: loadingGetCategoryDispatch,
+      checkBoxItemsDispatch: categoryCheckBoxItemsDispatch,
       getAllModelApi: getAllCategoriesApi,
     });
     handleGetNestedCheckBoxItems({
-      loadingGetModelDispatch: (payload: boolean) => {
-        dispatch({ type: "SET_LOADING_GET_COUNTRY", payload });
-      },
-      checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => {
-        dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
-      },
+      loadingGetModelDispatch: loadingGetCountryDispatch,
+      checkBoxItemsDispatch: countryCheckBoxItemsDispatch,
       getAllModelApi: getAllCountriesApi,
     });
     handleGetCheckBoxItems({
-      loadingGetModelDispatch: (payload: boolean) => {
-        dispatch({ type: "SET_LOADING_GET_CHARACTERISTIC", payload });
-      },
-      checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => {
-        dispatch({
-          type: "SET_CHARACTERISTIC_CHECK_ITEMS",
-          payload: newCheckBoxItems,
-        });
-      },
+      loadingGetModelDispatch: loadingGetCharacteristicDispatch,
+      checkBoxItemsDispatch: characteristicCheckBoxItemsDispatch,
       getAllModelApi: getAllCharacteristicsApi,
     });
   }, []);
@@ -110,8 +130,8 @@ const WorldViewListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const endOffset = itemsOffset + itemsPerPage;
-  const currentViews = state.worldViews.slice(itemsOffset, endOffset);
-  const pageCount = Math.ceil(state.worldViews.length / itemsPerPage);
+  const currentViews = worldViews.slice(itemsOffset, endOffset);
+  const pageCount = Math.ceil(worldViews.length / itemsPerPage);
   const handlePageChange = useCallback(
     (newPage: number) => {
       setCurrentPage(newPage);
@@ -124,12 +144,7 @@ const WorldViewListPage = () => {
   useEffect(() => {
     setItemsOffset(0);
     setCurrentPage(1);
-  }, [state.worldViews]);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const { handleClear } = useClear();
-  const { checkedLabelObject } = useGetCheckedLabels();
+  }, [worldViews]);
 
   return (
     <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
@@ -160,7 +175,7 @@ const WorldViewListPage = () => {
           </Stack>
         </Box>
         <Box w="100%">
-          {state.loadingSearchWorldViews ? (
+          {loadingSearchWorldViews ? (
             <Loading />
           ) : (
             <>
