@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Stack, useDisclosure } from "@chakra-ui/react";
+import { AxiosResponse } from "axios";
 import ClearButton from "components/ui-elements/ClearButton";
 import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
@@ -60,7 +61,11 @@ const WorldViewListPage = () => {
   useEffect(() => {
     if (!isSkipSearchApi) {
       if (shouldDebounce) {
-        handleDebounceWithArg<WorldView>({
+        handleDebounceWithArg<{
+          loadingSearchModelDispatch: (payload: boolean) => void;
+          modelDispatch: (responseData: WorldView[]) => void;
+          searchModelApi: () => Promise<AxiosResponse<any, any>>;
+        }>({
           fn: handleSearchModel,
           arg: {
             loadingSearchModelDispatch: loadingSearchWorldViewDispatch,

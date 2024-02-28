@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Stack, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
+import { AxiosResponse } from "axios";
 import ClearButton from "components/ui-elements/ClearButton";
 import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
@@ -46,7 +47,11 @@ const VideoListPage: FC = () => {
 
   useEffect(() => {
     if (shouldDebounce) {
-      handleDebounceWithArg<Movie>({
+      handleDebounceWithArg<{
+        modelDispatch: (responseData: Movie[]) => void;
+        loadingSearchModelDispatch: (payload: boolean) => void;
+        searchModelApi: () => Promise<AxiosResponse<Movie[]>>;
+      }>({
         fn: handleSearchModel,
         arg: {
           modelDispatch: movieDispatch,

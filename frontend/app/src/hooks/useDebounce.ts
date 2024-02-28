@@ -1,15 +1,5 @@
-import { AxiosResponse } from "axios";
 import { useCallback, useRef } from "react";
 
-type ArgProps<T> = {
-  loadingSearchModelDispatch: (payload: boolean) => void;
-  modelDispatch: (responseData: T[]) => void;
-  searchModelApi: () => Promise<AxiosResponse<T[]>>;
-};
-type DebounceProps<T> = {
-  fn: (props: ArgProps<T>) => Promise<void>;
-  arg: ArgProps<T>;
-};
 const useDebounce = (timeout: number) => {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const handleDebounce = (fn: () => void) => {
@@ -22,7 +12,7 @@ const useDebounce = (timeout: number) => {
   };
 
   const handleDebounceWithArg = useCallback(
-    <T>({ fn, arg }: DebounceProps<T>) => {
+    <T>({ fn, arg }: { fn: (props: T) => void; arg: T }) => {
       if (timer.current) {
         clearTimeout(timer.current);
       }
