@@ -52,6 +52,15 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
             expect(json_response).to eq json_response.uniq
           end
         end
+
+        context "ヒットするレコードが存在しない場合" do
+          it "空の配列が返されること" do
+            get api_v1_world_views_search_path, params: params.merge(category_names: ["unregistered_name"])
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response).to eq []
+          end
+        end
       end
 
       describe ".filter_by_country_name" do
@@ -100,6 +109,15 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
             expect(response).to have_http_status(200)
             json_response = JSON.parse(response.body)
             expect(json_response).to eq json_response.uniq
+          end
+        end
+
+        context "ヒットするレコードが存在しない場合" do
+          it "空の配列が返されること" do
+            get api_v1_world_views_search_path, params: params.merge(country_names: ["unregistered_name"])
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response).to eq []
           end
         end
       end
@@ -152,6 +170,15 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
             expect(json_response).to eq json_response.uniq
           end
         end
+
+        context "ヒットするレコードが存在しない場合" do
+          it "空の配列が返されること" do
+            get api_v1_world_views_search_path, params: params.merge(characteristic_names: ["unregistered_name"])
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response).to eq []
+          end
+        end
       end
 
       describe ".filter_by_country_risk_level" do
@@ -191,6 +218,15 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
             json_response = JSON.parse(response.body)
             expect(json_response.length).to eq(1)
             expect(json_response.pluck("id")).to include world_view2.id
+          end
+        end
+
+        context "ヒットするレコードが存在しない場合" do
+          it "空の配列が返されること" do
+            get api_v1_world_views_search_path, params: params.merge(risk_level: "5")
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response).to eq []
           end
         end
       end
@@ -241,6 +277,15 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
             expect(json_response).to eq json_response.uniq
           end
         end
+
+        context "ヒットするレコードが存在しない場合" do
+          it "空の配列が返されること" do
+            get api_v1_world_views_search_path, params: params.merge(keyword: "unregistered_name")
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response).to eq []
+          end
+        end
       end
 
       describe ".filter_by_month" do
@@ -275,6 +320,15 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
             json_response = JSON.parse(response.body)
             expect(json_response.length).to be 2
             expect(json_response.pluck("id")).to include world_view2.id, world_view3.id
+          end
+        end
+
+        context "ヒットするレコードが存在しない場合" do
+          it "空の配列が返されること" do
+            get api_v1_world_views_search_path, params: params.merge(month_range: ["13", "14"])
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response).to eq []
           end
         end
       end
@@ -335,6 +389,15 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
             expect(response).to have_http_status(200)
             json_response = JSON.parse(response.body)
             expect(json_response).to eq json_response.uniq
+          end
+        end
+
+        context "ヒットするレコードが存在しない場合" do
+          it "空の配列が返されること" do
+            get api_v1_world_views_search_path, params: params.merge(bmi_range: ["40", "50"])
+            expect(response).to have_http_status(200)
+            json_response = JSON.parse(response.body)
+            expect(json_response).to eq []
           end
         end
       end

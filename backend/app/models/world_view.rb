@@ -23,7 +23,11 @@ class WorldView < ApplicationRecord
                  .filter_by_name(category_names)
     category_ids = categories.map(&:id).join(",")
 
-    joins(:categories).where("categories.id IN (#{category_ids})").distinct
+    if category_ids.present?
+      joins(:categories).where("categories.id IN (#{category_ids})").distinct
+    else
+      none
+    end
   }
 
   scope :filter_by_country_name, lambda { |country_names|
@@ -34,7 +38,11 @@ class WorldView < ApplicationRecord
                 .filter_by_name(country_names)
     country_ids = countries&.map(&:id)&.join(",")
 
-    joins(:countries).where("countries.id IN (#{country_ids})").distinct
+    if country_ids.present?
+      joins(:countries).where("countries.id IN (#{country_ids})").distinct
+    else
+      none
+    end
   }
 
   scope :filter_by_characteristic_name, lambda { |characteristic_names|
@@ -45,7 +53,11 @@ class WorldView < ApplicationRecord
                       .filter_by_name(characteristic_names)
     characteristic_ids = characteristics&.map(&:id)&.join(",")
 
-    joins(:characteristics).where("characteristics.id IN (#{characteristic_ids})").distinct
+    if characteristic_ids.present?
+      joins(:characteristics).where("characteristics.id IN (#{characteristic_ids})").distinct
+    else
+      none
+    end
   }
 
   scope :filter_by_country_risk_level, lambda { |risk_level|
@@ -54,9 +66,12 @@ class WorldView < ApplicationRecord
     countries = Country
                 .all
                 .filter_by_risk_level(risk_level)
-
     country_ids = countries&.map(&:id)&.join(",")
-    joins(:countries).where("countries.id IN (#{country_ids})").distinct
+    if country_ids.present?
+      joins(:countries).where("countries.id IN (#{country_ids})").distinct
+    else
+      none
+    end
   }
 
   scope :filter_by_keyword, lambda { |keyword|

@@ -63,6 +63,10 @@ RSpec.describe WorldView, type: :model do
         world_view3 = create(:world_view)
         expect(WorldView.filter_by_category_name(nil)).to contain_exactly world_view1, world_view2, world_view3
       end
+
+      it "ヒットするレコードが存在しない場合は空の配列が返されること" do
+        expect(WorldView.filter_by_category_name("unregistered_name")).to eq []
+      end
     end
 
     describe ".filter_by_country_name" do
@@ -91,6 +95,10 @@ RSpec.describe WorldView, type: :model do
       it "引数がnilの場合はレコードが全件返されること" do
         world_view3 = create(:world_view)
         expect(WorldView.filter_by_country_name(nil)).to contain_exactly world_view1, world_view2, world_view3
+      end
+
+      it "ヒットするレコードが存在しない場合は空の配列が返されること" do
+        expect(WorldView.filter_by_country_name("unregistered_name")).to eq []
       end
     end
 
@@ -121,6 +129,10 @@ RSpec.describe WorldView, type: :model do
         world_view3 = create(:world_view)
         expect(WorldView.filter_by_characteristic_name(nil)).to contain_exactly world_view1, world_view2, world_view3
       end
+
+      it "ヒットするレコードが存在しない場合は空の配列が返されること" do
+        expect(WorldView.filter_by_characteristic_name("unregistered_name")).to eq []
+      end
     end
 
     describe ".filter_by_country_risk_level" do
@@ -149,6 +161,10 @@ RSpec.describe WorldView, type: :model do
       it "引数がnilの場合はレコードが全件返されること" do
         world_view3 = create(:world_view)
         expect(WorldView.filter_by_country_risk_level(nil)).to contain_exactly world_view1, world_view2, world_view3
+      end
+
+      it "ヒットするレコードが存在しない場合は空の配列が返されること" do
+        expect(WorldView.filter_by_country_risk_level("5")).to eq []
       end
     end
 
@@ -180,6 +196,10 @@ RSpec.describe WorldView, type: :model do
         world_view3 = create(:world_view)
         expect(WorldView.filter_by_keyword("")).to contain_exactly world_view1, world_view2, world_view3
       end
+
+      it "ヒットするレコードが存在しない場合は空の配列が返されること" do
+        expect(WorldView.filter_by_keyword("unregistered_name")).to eq []
+      end
     end
 
     describe ".filter_by_month" do
@@ -195,6 +215,10 @@ RSpec.describe WorldView, type: :model do
 
       it "month_rangeが['1', '12']である場合はレコードが全件返されること" do
         expect(WorldView.filter_by_month(["1", "12"])).to contain_exactly world_view1, world_view2, world_view3
+      end
+
+      it "ヒットするレコードが存在しない場合は空の配列が返されること" do
+        expect(WorldView.filter_by_month(["13", "14"])).to eq []
       end
     end
 
@@ -225,6 +249,10 @@ RSpec.describe WorldView, type: :model do
       it "bmi_rangeが['-40', '30']である場合レコードが全件返されること" do
         world_view3 = create(:world_view)
         expect(WorldView.filter_by_country_bmi(["-40", "30"])).to contain_exactly world_view1, world_view2, world_view3
+      end
+
+      it "ヒットするレコードが存在しない場合は空の配列が返されること" do
+        expect(WorldView.filter_by_country_bmi(["40", "50"])).to eq []
       end
     end
 
