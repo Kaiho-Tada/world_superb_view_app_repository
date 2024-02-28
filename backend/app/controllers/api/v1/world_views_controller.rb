@@ -29,16 +29,13 @@ class Api::V1::WorldViewsController < ApplicationController
 
   def world_view_sort(world_views)
     case world_view_params[:sort_criteria]
-    when "latest"
-      world_views.sort_by_latest
-    when "bmi"
-      world_views.sort_by_country_bmi
-    when "riskLevel"
-      world_views.sort_by_country_risk_level
-    when "favorite"
-      world_views.sort_by_favorite_count
+    when "latest"     then world_views.sort_by_latest
+    when "bmi"        then world_views.sort_by_country_bmi
+    when "riskLevel"  then world_views.sort_by_country_risk_level
+    when "favorite"   then world_views.sort_by_favorite_count
+    when ""           then world_views
     else
-      world_views
+      raise ArgumentError, "Invalid sort criteria: #{world_view_params[:sort_criteria]}"
     end
   end
 end

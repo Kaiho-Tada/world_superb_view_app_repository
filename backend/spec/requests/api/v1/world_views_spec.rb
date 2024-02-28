@@ -509,6 +509,28 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
           expect(json.pluck("id")).to eq [world_view3, world_view2, world_view1].pluck(:id)
         end
       end
+
+      context "sort_criteriaが空文字の場合" do
+        let!(:world_views) { create_list(:world_view, 5) }
+
+        before do
+          get api_v1_world_views_search_path, params: params.merge(sort_criteria: "")
+        end
+
+        it "レコードが全件取得できること" do
+          expect(response).to have_http_status(200)
+          json_response = JSON.parse(response.body)
+          expect(json_response.length).to eq 5
+        end
+      end
+
+      context "sort_criteriaが不正な場合" do
+        it "ArgumentErrorが発生すること" do
+          expect do
+            get api_v1_world_views_search_path, params: params.merge(sort_criteria: "invalid_sort_criteria")
+          end.to raise_error(ArgumentError, "Invalid sort criteria: invalid_sort_criteria")
+        end
+      end
     end
   end
 end
