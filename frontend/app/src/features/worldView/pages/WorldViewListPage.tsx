@@ -64,7 +64,7 @@ const WorldViewListPage = () => {
         handleDebounceWithArg<{
           loadingSearchModelDispatch: (payload: boolean) => void;
           modelDispatch: (responseData: WorldView[]) => void;
-          searchModelApi: () => Promise<AxiosResponse<any, any>>;
+          searchModelApi: () => Promise<AxiosResponse<WorldView[]>>;
         }>({
           fn: handleSearchModel,
           arg: {
