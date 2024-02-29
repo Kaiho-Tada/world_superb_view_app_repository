@@ -133,7 +133,7 @@ const WorldViewListPage = () => {
 
   const [itemsOffset, setItemsOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 20;
   const endOffset = itemsOffset + itemsPerPage;
   const currentViews = worldViews.slice(itemsOffset, endOffset);
   const pageCount = Math.ceil(worldViews.length / itemsPerPage);

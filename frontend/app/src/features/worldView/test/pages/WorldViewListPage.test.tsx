@@ -12,7 +12,7 @@ jest.mock("providers/WorldViewListProvider", () => ({
 }));
 
 const mockDispatch = jest.fn();
-const mockWorldViews = Array.from({ length: 30 }, (_, index) => ({
+const mockWorldViews = Array.from({ length: 60 }, (_, index) => ({
   id: index + 1,
   name: `worldView${index + 1}`,
   imageUrl: "imageUrl",
@@ -239,7 +239,7 @@ describe("ページネーションのテスト", () => {
   test("worldViewsの1ページ目が表示されていること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     render(<WorldViewList />);
-    for (let i = 1; i <= 10; i += 1) {
+    for (let i = 1; i <= 20; i += 1) {
       const worldViewElement = screen.getByText(`worldView${i}`);
       expect(worldViewElement).toBeInTheDocument();
     }
@@ -252,14 +252,14 @@ describe("ページネーションのテスト", () => {
     await act(async () => {
       await user.click(screen.getByRole("button", { name: "次のページに移動" }));
     });
-    for (let i = 11; i <= 20; i += 1) {
+    for (let i = 21; i <= 40; i += 1) {
       const worldViewElement = screen.getByText(`worldView${i}`);
       expect(worldViewElement).toBeInTheDocument();
     }
     await act(async () => {
       await user.click(screen.getByRole("button", { name: "前のページに移動" }));
     });
-    for (let i = 1; i <= 10; i += 1) {
+    for (let i = 1; i <= 20; i += 1) {
       const worldViewElement = screen.getByText(`worldView${i}`);
       expect(worldViewElement).toBeInTheDocument();
     }
@@ -272,7 +272,7 @@ describe("ページネーションのテスト", () => {
     await act(async () => {
       await user.click(screen.getByRole("button", { name: `ページ2に移動` }));
     });
-    for (let i = 11; i <= 20; i += 1) {
+    for (let i = 21; i <= 40; i += 1) {
       const worldViewElement = screen.getByText(`worldView${i}`);
       expect(worldViewElement).toBeInTheDocument();
     }
@@ -285,7 +285,7 @@ describe("ページネーションのテスト", () => {
     await act(async () => {
       await user.click(screen.getByRole("button", { name: `ページ3に移動` }));
     });
-    for (let i = 21; i <= 30; i += 1) {
+    for (let i = 41; i <= 60; i += 1) {
       const worldViewElement = screen.getByText(`worldView${i}`);
       expect(worldViewElement).toBeInTheDocument();
     }
