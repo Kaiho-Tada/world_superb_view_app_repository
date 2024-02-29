@@ -5,10 +5,7 @@ const useGetCheckedLabels = () => {
   const checkBoxItemArray = {
     categoryLabels: state.categoryCheckBoxItems,
     countryLabels: state.countryCheckBoxItems,
-    characteristicLabels: state.characteristicCheckBoxItems,
-    riskLevelLabels: state.riskLevelCheckBoxItems,
-    monthLabels: state.monthCheckBoxItems,
-    bmiLabels: state.bmiCheckBoxItems,
+    characteristicLabels: state.characteristicCheckItems,
   };
   const checkedLabelObject = Object.fromEntries(
     Object.entries(checkBoxItemArray).map(([key, checkBoxItems]) => [

@@ -1,72 +1,28 @@
 require "rails_helper"
 
 RSpec.describe Country, type: :model do
-  describe "バリデーションのテスト" do
-    it "name, code, 画像データが存在している場合、有効な状態であること" do
-      expect(build(:country)).to be_valid
-    end
-
-    context "nameカラム" do
-      it "nameがない場合、無効な状態であること" do
-        country = build(:country, name: nil)
-        country.valid?
-        expect(country.errors.full_messages).to eq ["国名を入力してください"]
-      end
-
-      it "nameは30文字以内であること" do
-        country = build(:country, name: "a" * 31)
-        country.valid?
-        expect(country.errors.full_messages).to eq ["国名は30文字以内で入力してください"]
-      end
-    end
-
-    context "codeカラム" do
-      it "codeがない場合、無効な状態であること" do
-        country = build(:country, code: nil)
-        country.valid?
-        expect(country.errors.full_messages).to eq ["コードを入力してください"]
-      end
-
-      it "codeは30文字以内であること" do
-        country = build(:country, code: "a" * 31)
-        country.valid?
-        expect(country.errors.full_messages).to eq ["コードは30文字以内で入力してください"]
-      end
-    end
-
-    context "risk_levelカラム" do
-      it "risk_levelは1字以内であること" do
-        country = build(:country, risk_level: 10)
-        country.valid?
-        expect(country.errors.full_messages).to eq ["リスクレベルは1文字以内で入力してください"]
-      end
-    end
-
-    context "regionカラム" do
-      it "regionがない場合、無効な状態であること" do
-        country = build(:country, region: nil)
-        country.valid?
-        expect(country.errors.full_messages).to eq ["地域を入力してください"]
-      end
-    end
-
-    context "portraitカラム" do
-      it "画像データがない場合、無効な状態であること" do
-        country = build(:country, portrait: nil)
-        country.valid?
-        expect(country.errors.full_messages).to eq ["画像データが存在しません"]
-      end
-    end
+  describe "association test" do
+    it { is_expected.to have_many(:world_view_countries).dependent(:destroy) }
+    it { is_expected.to have_many(:world_views).through(:world_view_countries) }
   end
 
-  describe "エイリアスのテスト" do
+  describe "validation test" do
+    subject { create(:country) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_most(30) }
+    it { is_expected.to validate_presence_of(:code) }
+    it { is_expected.to validate_length_of(:code).is_at_most(30) }
+    it { is_expected.to validate_presence_of(:region) }
+  end
+
+  describe "alias test" do
     it "parentはregionのエイリアスであること" do
-      country = Country.new(region: "Africa")
-      expect(country.parent).to eq("Africa")
+      country = Country.new(region: "アフリカ")
+      expect(country.parent).to eq("アフリカ")
     end
   end
 
-  describe "インスタンスメソッドのテスト" do
+  describe "method test" do
     let!(:country) { create(:country) }
 
     it "image_urlメソッドで生成されるurlが意図した形式であること" do
@@ -74,49 +30,53 @@ RSpec.describe Country, type: :model do
     end
   end
 
-  describe "メソッドのテスト" do
-    describe "parse_rangeメソッドのテスト" do
-      it "範囲文字列がRangeオブジェクトに変換されること" do
-        range_string1 = "10%〜20%"
-        range_string2 = "30%〜"
-        expect(Country.parse_range(range_string1)).to eq 10..20
-        expect(Country.parse_range(range_string2)).to eq 30..100
+  describe "scope test" do
+    describe ".filter_by_nameスコープのテスト" do
+      let!(:country1) { create(:country) }
+      let!(:country2) { create(:country) }
+
+      it "引数の配列内に含まれる名前のレコードが返されること" do
+        expect(Country.filter_by_name([country1.name])).to contain_exactly country1
+        expect(Country.filter_by_name([country2.name])).to contain_exactly country2
+        expect(Country.filter_by_name([country1.name, country2.name])).to  contain_exactly country1, country2
       end
-      it "負の範囲文字列がRangeオブジェクトに変換されること" do
-        range_string1 = "-10%〜-20%"
-        range_string2 = "〜-40%"
-        expect(Country.parse_range(range_string1)).to eq(-10..-20)
-        expect(Country.parse_range(range_string2)).to eq(-100..-40)
+
+      it "引数がnilである場合、レコードが全件返されること" do
+        country3 = create(:country)
+        expect(Country.filter_by_name(nil)).to contain_exactly country1, country2, country3
       end
     end
-  end
 
-  describe "スコープテスト" do
-    it "filter_by_nameスコープのテスト" do
-      country1 = create(:country, name: "アメリカ")
-      country2 = create(:country, name: "エジプト")
-      expect(Country.filter_by_name(["アメリカ"])).to include(country1)
-      expect(Country.filter_by_name(["エジプト"])).to include(country2)
-      expect(Country.filter_by_name(["アメリカ", "エジプト"])).to include(country1, country2)
+    describe ".filter_by_risk_level" do
+      let!(:country1) { create(:country, risk_level: 1) }
+      let!(:country2) { create(:country, risk_level: 2) }
+      let!(:country3) { create(:country, risk_level: 3) }
+
+      it "引数のrisk_levelであるレコードが返されること" do
+        expect(Country.filter_by_risk_level("1")).to contain_exactly country1
+        expect(Country.filter_by_risk_level("2")).to contain_exactly country2
+        expect(Country.filter_by_risk_level("3")).to contain_exactly country3
+      end
+
+      it "引数がnilの場合はレコードが全件返されること" do
+        expect(Country.filter_by_risk_level(nil)).to contain_exactly country1, country2, country3
+      end
     end
 
-    it "filter_by_risk_levelスコープのテスト" do
-      country1 = create(:country, name: "ロシア", risk_level: 4)
-      country2 = create(:country, name: "エジプト", risk_level: 3)
-      expect(Country.filter_by_risk_level(["4"])).to include(country1)
-      expect(Country.filter_by_risk_level(["3"])).to include(country2)
-      expect(Country.filter_by_risk_level(["4", "3"])).to include(country1, country2)
-    end
+    describe ".filter_by_bmi" do
+      let!(:country1) { create(:country, bmi: 5.0) }
+      let!(:country2) { create(:country, bmi: -5.0) }
 
-    it "filter_by_bmiスコープでbmiカラムが引数の範囲に含まれているCountryモデルを取得できること" do
-      country1 = create(:country, bmi: 16.3)
-      country2 = create(:country, bmi: -28.9)
-      country3 = create(:country, bmi: 36.6)
-      country4 = create(:country, bmi: -46.2)
-      expect(Country.filter_by_bmi(["10%〜20%"])).to include country1
-      expect(Country.filter_by_bmi(["-30%〜-20%"])).to include country2
-      expect(Country.filter_by_bmi(["30%〜"])).to include country3
-      expect(Country.filter_by_bmi(["〜-40%"])).to include country4
+      it "引数のbmi_rangeの範囲内のレコードが返されること" do
+        expect(Country.filter_by_bmi(["0", "10"])).to contain_exactly country1
+        expect(Country.filter_by_bmi(["-10", "0"])).to contain_exactly country2
+        expect(Country.filter_by_bmi(["-10", "10"])).to contain_exactly country1, country2
+      end
+
+      it "引数がnilである場合、レコードが全件返されること" do
+        country3 = create(:country)
+        expect(Country.filter_by_bmi(nil)).to contain_exactly country1, country2, country3
+      end
     end
   end
 end

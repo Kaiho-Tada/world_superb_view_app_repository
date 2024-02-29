@@ -7,17 +7,12 @@ const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpe
 
 const baseStyle = definePartsStyle({
   label: {
-    fontFamily: "mono",
-    textShadow: "2px 2px #000000",
     pr: 1,
   },
   control: {
     borderRadius: 0,
-    boxShadow: "2px 2px #000000",
-    _disabled: {
-      borderColor: "gray.500",
-      backgroundColor: "transparent",
-    },
+    border: "2px",
+    borderColor: "#B2B8C0",
   },
 });
 

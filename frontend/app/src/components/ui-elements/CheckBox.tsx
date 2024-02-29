@@ -1,11 +1,12 @@
-import { Box, Center, Checkbox, Spinner } from "@chakra-ui/react";
+import { Box, Checkbox } from "@chakra-ui/react";
 import { ChangeEvent, CSSProperties, FC, memo } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
+import Loading from "./Loading";
 
 type Props = {
   checkBoxItems: CheckBoxItem[];
-  loadingCheckBoxItems: boolean;
+  loadingGetCheckBoxItems: boolean;
   loadingSearchModel: boolean;
   vertical: boolean;
   checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => void;
@@ -14,7 +15,7 @@ type Props = {
 const CheckBox: FC<Props> = memo((props) => {
   const {
     checkBoxItems,
-    loadingCheckBoxItems,
+    loadingGetCheckBoxItems,
     loadingSearchModel,
     vertical,
     checkBoxItemsDispatch,
@@ -28,10 +29,8 @@ const CheckBox: FC<Props> = memo((props) => {
     ? { display: "flex", flexDirection: "column" }
     : undefined;
 
-  return loadingCheckBoxItems ? (
-    <Center h="10vh">
-      <Spinner role="status" aria-label="読み込み中" />
-    </Center>
+  return loadingGetCheckBoxItems ? (
+    <Loading />
   ) : (
     <Box style={checkboxStyle} data-testid="checkboxContainer">
       {checkBoxItems.map((checkBoxItem) => (

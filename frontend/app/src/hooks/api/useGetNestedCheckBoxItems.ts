@@ -4,7 +4,7 @@ import { NestedCheckBoxItemData } from "types/api/nestedCheckBoxItemData";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 type Props = {
-  loadingCheckBoxItemsDispatch: (payload: boolean) => void;
+  loadingGetModelDispatch: (payload: boolean) => void;
   checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
   getAllModelApi: () => Promise<AxiosResponse<NestedCheckBoxItemData[]>>;
 };
@@ -13,26 +13,27 @@ const useGetNestedCheckBoxItems = () => {
   const { showMessage } = useMessage();
 
   const handleGetNestedCheckBoxItems = async (props: Props) => {
-    const { loadingCheckBoxItemsDispatch, checkBoxItemsDispatch, getAllModelApi } = props;
-    loadingCheckBoxItemsDispatch(true);
+    const { loadingGetModelDispatch, checkBoxItemsDispatch, getAllModelApi } = props;
+    loadingGetModelDispatch(true);
     try {
       const res = await getAllModelApi();
       const models = res.data;
-      const newCategoryCheckBoxItems = models.map((model: NestedCheckBoxItemData) => ({
+      const newCheckBoxItems = models.map((model: NestedCheckBoxItemData) => ({
         label: model.name,
         parentLabel: model.parent,
         checked: false,
+        isVisible: false,
       }));
-      checkBoxItemsDispatch(newCategoryCheckBoxItems);
+      checkBoxItemsDispatch(newCheckBoxItems);
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 500) {
         showMessage({
-          title: error.response.data.error,
+          title: "データの取得に失敗しました。",
           status: "error",
         });
       }
     } finally {
-      loadingCheckBoxItemsDispatch(false);
+      loadingGetModelDispatch(false);
     }
   };
   return { handleGetNestedCheckBoxItems };

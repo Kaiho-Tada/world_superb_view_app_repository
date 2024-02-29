@@ -1,20 +1,23 @@
+import { AxiosResponse } from "axios";
 import client from "lib/client";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import useGetCheckedLabels from "../hooks/useGetCheckedLabels";
+import { WorldView } from "../types/api/worldView";
 
 const useWorldViewApi = () => {
   const { state } = useWorldViewListContext();
+  const { bmiRange, riskLevel, monthRange } = state;
   const { checkedLabelObject } = useGetCheckedLabels();
 
-  const searchWorldViewApi = () =>
+  const searchWorldViewApi = (): Promise<AxiosResponse<WorldView[]>> =>
     client.get("/world_views/search", {
       params: {
         categoryNames: checkedLabelObject.categoryLabels,
         countryNames: checkedLabelObject.countryLabels,
         characteristicNames: checkedLabelObject.characteristicLabels,
-        riskLevels: checkedLabelObject.riskLevelLabels,
-        months: checkedLabelObject.monthLabels,
-        bmiRanges: checkedLabelObject.bmiLabels,
+        riskLevel,
+        monthRange,
+        bmiRange,
         keyword: state.keyword,
         sortCriteria: state.sortCriteria,
       },

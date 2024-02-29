@@ -23,7 +23,7 @@ const useGetCheckItems = () => {
       checkItemsDispatch(newCheckItems);
     } catch (error) {
       showMessage({
-        title: "モデルの取得に失敗しました。",
+        title: "データの取得に失敗しました。",
         status: "error",
       });
     } finally {

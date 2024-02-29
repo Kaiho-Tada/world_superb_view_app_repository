@@ -1,9 +1,10 @@
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { ChangeEvent } from "react";
 
-const useSortWordView = () => {
+const useSortChange = () => {
   const { dispatch } = useWorldViewListContext();
-  const handleSortChangeWorldView = (e: ChangeEvent<HTMLSelectElement>) => {
+
+  const handleChangeSort = (e: ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     switch (value) {
       case "BMI値が低い順":
@@ -21,7 +22,7 @@ const useSortWordView = () => {
       default:
     }
   };
-  return { handleSortChangeWorldView };
+  return { handleChangeSort };
 };
 
-export default useSortWordView;
+export default useSortChange;

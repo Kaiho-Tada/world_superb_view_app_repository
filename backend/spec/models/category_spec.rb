@@ -1,54 +1,35 @@
 require "rails_helper"
 
 RSpec.describe Category, type: :model do
-  describe "バリデーションのテスト" do
-    it "name, classificationが存在する場合、有効な状態であること" do
-      expect(build(:category)).to be_valid
-    end
-
-    context "nameカラム" do
-      it "nameがない場合、無効な状態であること" do
-        category = build(:category, name: nil)
-        category.valid?
-        expect(category.errors.full_messages).to eq ["カテゴリー名を入力してください"]
-      end
-
-      it "nameは30文字以内であること" do
-        category = build(:category, name: "a" * 31)
-        category.valid?
-        expect(category.errors.full_messages).to eq ["カテゴリー名は30文字以内で入力してください"]
-      end
-    end
-
-    context "classificationカラム" do
-      it "classificationがない場合、無効な状態であること" do
-        category = build(:category, classification: nil)
-        category.valid?
-        expect(category.errors.full_messages).to eq ["分類名を入力してください"]
-      end
-
-      it "classificationは30文字以内であること" do
-        category = build(:category, classification: "a" * 31)
-        category.valid?
-        expect(category.errors.full_messages).to eq ["分類名は30文字以内で入力してください"]
-      end
-    end
+  describe "association test" do
+    it { is_expected.to have_many(:world_view_categories).dependent(:destroy) }
+    it { is_expected.to have_many(:world_views).through(:world_view_categories) }
   end
 
-  describe "エイリアスのテスト" do
+  describe "validation test" do
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_most(30) }
+    it { is_expected.to validate_presence_of(:classification) }
+    it { is_expected.to validate_length_of(:classification).is_at_most(30) }
+  end
+
+  describe "alias test" do
     it "parentはclassificationのエイリアスであること" do
-      category = Category.new(classification: "Nature")
-      expect(category.parent).to eq("Nature")
+      category = Category.new(classification: "自然")
+      expect(category.parent).to eq("自然")
     end
   end
 
-  describe "スコープテスト" do
-    it "filter_by_nameスコープのテスト" do
-      category1 = create(:category, name: "滝")
-      category2 = create(:category, name: "砂漠")
-      expect(Category.filter_by_name(["滝"])).to include(category1)
-      expect(Category.filter_by_name(["砂漠"])).to include(category2)
-      expect(Category.filter_by_name(["滝", "砂漠"])).to include(category2)
+  describe "scope test" do
+    describe ".filter_by_nameスコープのテスト" do
+      let!(:category1) { create(:category) }
+      let!(:category2) { create(:category) }
+
+      it "引数の配列内に含まれる名前のレコードが返されること" do
+        expect(Category.filter_by_name([category1.name])).to contain_exactly category1
+        expect(Category.filter_by_name([category2.name])).to contain_exactly category2
+        expect(Category.filter_by_name([category1.name, category2.name])).to contain_exactly category1, category2
+      end
     end
   end
 end

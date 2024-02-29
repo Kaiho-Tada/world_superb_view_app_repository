@@ -1,15 +1,16 @@
 import { Box, Flex, HStack, Stack, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
+import { AxiosResponse } from "axios";
 import ClearButton from "components/ui-elements/ClearButton";
 import FilterButton from "components/ui-elements/FilterButton";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
+import FilterAccordion from "components/ui-parts/FilterAccordion";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
+import SortAccordion from "components/ui-parts/SortAccordion";
 import getAllGenresApi from "features/video/api/genreApi";
 import useVideoApi from "features/video/api/videoApi";
 import SelectBoxWithIcon from "features/video/components/ui-element/SortSelectBoxWithIcon";
-import FilterAccordion from "features/video/components/ui-parts/FilterAccordion";
 import FilterAccordionPanel from "features/video/components/ui-parts/FilterAccordionPanel";
-import SortAccordion from "features/video/components/ui-parts/SortAccordion";
 import VideoList from "features/video/components/ui-parts/VideoList";
 import Movie from "features/video/types/Video";
 import useGetCheckItems from "hooks/api/useGetCheckItems";
@@ -18,6 +19,8 @@ import useDebounce from "hooks/useDebounce";
 import { useVideoListContext } from "providers/VideoListProvider";
 import { FC, useCallback, useEffect, useState } from "react";
 import CheckItem from "types/checkItem";
+import SortSelectBox from "../components/ui-element/SortSelectBox";
+import useClear from "../hooks/useClear";
 
 const VideoListPage: FC = () => {
   const { state, dispatch } = useVideoListContext();
@@ -44,7 +47,11 @@ const VideoListPage: FC = () => {
 
   useEffect(() => {
     if (shouldDebounce) {
-      handleDebounceWithArg<Movie>({
+      handleDebounceWithArg<{
+        modelDispatch: (responseData: Movie[]) => void;
+        loadingSearchModelDispatch: (payload: boolean) => void;
+        searchModelApi: () => Promise<AxiosResponse<Movie[]>>;
+      }>({
         fn: handleSearchModel,
         arg: {
           modelDispatch: movieDispatch,
@@ -105,12 +112,14 @@ const VideoListPage: FC = () => {
     .filter((checkItem) => checkItem.checked)
     .map((checkedItem) => checkedItem.label);
 
+  const { handleClear } = useClear();
+
   return (
     <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
       <FilterDrawer isOpen={isOpen} onClose={onClose}>
         <FilterAccordionPanel />
       </FilterDrawer>
-      <Flex ml="6" mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
+      <Flex mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
         {screenSize === "sm" ? (
           <HStack spacing={2} display={{ base: "none", sm: "flex" }}>
             <FilterButton onOpen={onOpen} />
@@ -119,7 +128,7 @@ const VideoListPage: FC = () => {
             state.keyword.length ||
             !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
               <Box>
-                <ClearButton loadingSearchModels={loadingSearchVideos} />
+                <ClearButton loadingSearchModels={loadingSearchVideos} handleClear={handleClear} />
               </Box>
             ) : null}
           </HStack>
@@ -130,19 +139,23 @@ const VideoListPage: FC = () => {
             {genreLabels.length ||
             state.keyword.length ||
             !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
-              <ClearButton loadingSearchModels={loadingSearchVideos} />
+              <ClearButton loadingSearchModels={loadingSearchVideos} handleClear={handleClear} />
             ) : null}
           </Stack>
         )}
       </Flex>
       <Flex>
-        <Box display={{ base: "none", md: "block" }} h="100%">
+        <Box display={{ base: "none", md: "block" }} h="100%" mr="6">
           <Stack w="250px" h="100%" spacing="3" mb="16">
-            <SortAccordion />
-            <FilterAccordion />
+            <SortAccordion>
+              <SortSelectBox />
+            </SortAccordion>
+            <FilterAccordion>
+              <FilterAccordionPanel />
+            </FilterAccordion>
           </Stack>
         </Box>
-        <Box pl="6" w="100%">
+        <Box w="100%">
           {loadingSearchVideos ? (
             <Loading />
           ) : (

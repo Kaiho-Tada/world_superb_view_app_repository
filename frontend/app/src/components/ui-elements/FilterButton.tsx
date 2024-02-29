@@ -12,17 +12,12 @@ const FilterButton: FC<Props> = memo(({ onOpen }) => (
     bg="gray.100"
     align="center"
     justify="center"
-    py="2.5"
+    py={{ base: "2", sm: "3" }}
     px={{ base: "3", sm: "4" }}
     onClick={onOpen}
   >
-    <Image
-      boxSize={{ base: "14px", sm: "16px" }}
-      src={filterIcon}
-      alt="フィルターアイコン"
-      mr="1"
-    />
-    <Text color="blue.900" textShadow="0.5px 0.5px #00008B" fontSize={{ base: "sm", sm: "md" }}>
+    <Image boxSize="16px" src={filterIcon} alt="フィルターアイコン" mr="1" />
+    <Text color="blue.900" textShadow="0.5px 0.5px #00008B" fontSize="md">
       フィルター
     </Text>
   </Flex>

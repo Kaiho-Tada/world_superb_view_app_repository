@@ -15,48 +15,30 @@ class WorldView < ApplicationRecord
   validates :name, length: { maximum: 30 }, presence: true
   validates :best_season, length: { maximum: 30 }, presence: true
 
-  scope :filter_by_category_name, lambda { |category_names|
-    return self if category_names.nil?
+  scope :filter_by_name, lambda { |names, association_name|
+    return self if names.blank?
 
-    categories = Category
-                 .all
-                 .filter_by_name(category_names)
-    category_ids = categories.map(&:id).join(",")
+    associated_records = association_name.classify.constantize.filter_by_name(names)
+    association_ids = associated_records.map(&:id).join(",")
 
-    joins(:categories).where("categories.id IN (#{category_ids})").distinct
+    if association_ids.present?
+      joins(association_name.pluralize.to_sym)
+        .where("#{association_name.pluralize}.id IN (#{association_ids})").distinct
+    else
+      none
+    end
   }
 
-  scope :filter_by_country_name, lambda { |country_names|
-    return self if country_names.nil?
+  scope :filter_by_country_risk_level, lambda { |risk_level|
+    return self if risk_level.blank?
 
-    countries = Country
-                .all
-                .filter_by_name(country_names)
+    countries = Country.filter_by_risk_level(risk_level)
     country_ids = countries&.map(&:id)&.join(",")
-
-    joins(:countries).where("countries.id IN (#{country_ids})").distinct
-  }
-
-  scope :filter_by_characteristic_name, lambda { |characteristic_names|
-    return self if characteristic_names.nil?
-
-    characteristics = Characteristic
-                      .all
-                      .filter_by_name(characteristic_names)
-    characteristic_ids = characteristics&.map(&:id)&.join(",")
-
-    joins(:characteristics).where("characteristics.id IN (#{characteristic_ids})").distinct
-  }
-
-  scope :filter_by_country_risk_level, lambda { |risk_levels|
-    return self if risk_levels.blank?
-
-    countries = Country
-                .all
-                .filter_by_risk_level(risk_levels)
-
-    country_ids = countries&.map(&:id)&.join(",")
-    joins(:countries).where("countries.id IN (#{country_ids})").distinct
+    if country_ids.present?
+      joins(:countries).where("countries.id IN (#{country_ids})").distinct
+    else
+      none
+    end
   }
 
   scope :filter_by_keyword, lambda { |keyword|
@@ -66,41 +48,43 @@ class WorldView < ApplicationRecord
       .where("world_views.name LIKE(?) or countries.name LIKE(?)", "%#{keyword}%", "%#{keyword}%").distinct
   }
 
-  scope :filter_by_month, lambda { |months|
-    return self if months.nil?
+  scope :filter_by_month, lambda { |month_range|
+    return self if month_range == ["1", "12"]
 
-    numeric_months = months.map { |month| month.gsub(/[^0-9]/, "").to_i }
+    start_value, end_value = month_range.map(&:to_i)
+    months = (start_value..end_value).to_a
     world_view_ids = WorldView.select do |world_view|
-      (extract_months_range(world_view.best_season) & numeric_months).any?
+      (extract_months_range(world_view.best_season) & months).any?
     end.pluck(:id)
     where(id: world_view_ids)
   }
 
-  scope :filter_by_country_bmi, lambda { |bmi_ranges|
-    return self if bmi_ranges.nil?
+  scope :filter_by_country_bmi, lambda { |bmi_range|
+    return self if bmi_range == ["-40", "30"]
 
-    countries = Country.all.filter_by_bmi(bmi_ranges)
+    countries = if bmi_range[0] == bmi_range[1]
+                  Country.where(bmi: bmi_range[0])
+                else
+                  Country.filter_by_bmi(bmi_range)
+                end
     country_ids = countries&.map(&:id)&.join(",")
-
-    joins(:countries).where("countries.id IN (#{country_ids})").distinct
+    if country_ids.present?
+      joins(:countries).where("countries.id IN (#{country_ids})").distinct
+    else
+      none
+    end
   }
 
-  scope :sort_by_latest, lambda {
-    order(created_at: :desc)
-  }
-
-  scope :sort_by_country_bmi, lambda {
-    joins(:countries).group("world_views.id").order("MIN(countries.bmi) ASC")
-  }
-
-  scope :sort_by_country_risk_level, lambda {
-    joins(:countries).group("world_views.id").order("MIN(countries.risk_level) ASC")
-  }
-
-  scope :sort_by_favorite_count, lambda {
-    left_joins(:world_view_favorites)
-      .group(:id)
-      .order("COUNT(world_view_favorites.id) DESC")
+  scope :sort_order_by, lambda { |sort_criteria|
+    case sort_criteria
+    when "latest"     then order(created_at: :desc)
+    when "bmi"        then joins(:countries).group("world_views.id").order("MIN(countries.bmi) ASC")
+    when "riskLevel"  then joins(:countries).group("world_views.id").order("MIN(countries.risk_level) ASC")
+    when "favorite"   then left_joins(:world_view_favorites).group(:id).order("COUNT(world_view_favorites.id) DESC")
+    when ""           then self
+    else
+      raise ArgumentError, "Invalid sort criteria: #{sort_criteria}"
+    end
   }
 
   def self.extract_months_range(input)

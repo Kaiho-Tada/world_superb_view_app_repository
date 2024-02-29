@@ -9,7 +9,7 @@ test("CheckBoxがレンダリングされていること", () => {
   render(
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: false }]}
-      loadingCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
@@ -22,7 +22,7 @@ test("checkBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされて
   render(
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: true }]}
-      loadingCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
@@ -31,24 +31,24 @@ test("checkBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされて
   expect(screen.getByRole("checkbox", { name: "ラベル" })).toBeChecked();
 });
 
-test("loadingCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
+test("loadingGetCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
   render(
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: false }]}
-      loadingCheckBoxItems
+      loadingGetCheckBoxItems
       loadingSearchModel={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
     />
   );
-  expect(screen.getByRole("status", { name: "読み込み中" })).toBeInTheDocument();
+  expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
 });
 
 test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
   render(
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: false }]}
-      loadingCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
@@ -61,7 +61,7 @@ test("verticalがtrueの場合、CheckBoxが縦並びに配置されているこ
   render(
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: false }]}
-      loadingCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       loadingSearchModel={false}
       vertical
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
@@ -83,7 +83,7 @@ test("checkbox押下でhandleChangeCheckBox関数が実行されること", asyn
   render(
     <CheckBox
       checkBoxItems={[{ label: "ラベル", checked: false }]}
-      loadingCheckBoxItems={false}
+      loadingGetCheckBoxItems={false}
       vertical={false}
       checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
       loadingSearchModel={false}

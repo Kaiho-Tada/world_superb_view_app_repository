@@ -1,5 +1,7 @@
+import { AxiosResponse } from "axios";
 import client from "lib/client";
+import Cateogry from "../types/api/category";
 
-const getAllCategoriesApi = () => client.get("/categories");
+const getAllCategoriesApi = (): Promise<AxiosResponse<Cateogry[]>> => client.get("/categories");
 
 export default getAllCategoriesApi;

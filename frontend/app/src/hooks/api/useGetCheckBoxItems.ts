@@ -4,7 +4,7 @@ import { CheckBoxItemData } from "types/api/checkBoxItemData";
 import { CheckBoxItem } from "types/checkBoxItem";
 
 type Props = {
-  loadingCheckBoxItemsDispatch: (payload: boolean) => void;
+  loadingGetModelDispatch: (payload: boolean) => void;
   checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => void;
   getAllModelApi: () => Promise<AxiosResponse<CheckBoxItemData[]>>;
 };
@@ -12,8 +12,8 @@ const useGetCheckBoxItems = () => {
   const { showMessage } = useMessage();
 
   const handleGetCheckBoxItems = async (props: Props) => {
-    const { loadingCheckBoxItemsDispatch, checkBoxItemsDispatch, getAllModelApi } = props;
-    loadingCheckBoxItemsDispatch(true);
+    const { loadingGetModelDispatch, checkBoxItemsDispatch, getAllModelApi } = props;
+    loadingGetModelDispatch(true);
     try {
       const res = await getAllModelApi();
       const models = res.data;
@@ -25,12 +25,12 @@ const useGetCheckBoxItems = () => {
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 500) {
         showMessage({
-          title: error.response.data.error,
+          title: "データの取得に失敗しました。",
           status: "error",
         });
       }
     } finally {
-      loadingCheckBoxItemsDispatch(false);
+      loadingGetModelDispatch(false);
     }
   };
   return { handleGetCheckBoxItems };

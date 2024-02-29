@@ -23,7 +23,7 @@ const SelectBoxWithIcon = () => {
         textShadow="0.5px 0.5px #00008B"
         fontSize={{ base: "sm", sm: "md" }}
         _focus={{ boxShadow: "none" }}
-        size="md"
+        size={{ base: "md", sm: "lg" }}
         _hover={{ cursor: "pointer" }}
         onChange={handleChangeSort}
         aria-label="並び替えのセレクトボックス"

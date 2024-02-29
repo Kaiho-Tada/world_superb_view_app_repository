@@ -5,6 +5,8 @@ class Characteristic < ApplicationRecord
   validates :name, length: { maximum: 30 }, presence: true
 
   scope :filter_by_name, lambda { |names|
+    return self if names.blank?
+
     where(name: [*names])
   }
 end

@@ -28,26 +28,10 @@ test("sliderが表示されていること", () => {
       max={max}
       step={step}
       handleChange={mockHandleChange}
+      rangeLabel="rangeLabel"
     />
   );
   expect(getAllByRole("slider").length).toBe(2);
-});
-
-test("デフォルト値が表示されていること", () => {
-  const { getByText } = render(
-    <FilterRangeSlider
-      value={value}
-      min={min}
-      max={max}
-      step={step}
-      handleChange={mockHandleChange}
-    />
-  );
-  expect(getByText(value[0])).toBeInTheDocument();
-  expect(getByText(value[1])).toBeInTheDocument();
-  expect(getByText(min)).toBeInTheDocument();
-  expect(getByText(max)).toBeInTheDocument();
-  expect(getByText((max - min) / 2)).toBeInTheDocument();
 });
 
 test("スライダーのクリックをトリガーにhandleChange関数が呼び出されること", async () => {
@@ -59,6 +43,7 @@ test("スライダーのクリックをトリガーにhandleChange関数が呼�
       max={max}
       step={step}
       handleChange={mockHandleChange}
+      rangeLabel="rangeLabel"
     />
   );
   const sliders = getAllByRole("slider");
@@ -66,4 +51,27 @@ test("スライダーのクリックをトリガーにhandleChange関数が呼�
     await user.click(sliders[0]);
   });
   expect(mockHandleChange).toHaveBeenCalledTimes(1);
+});
+
+test("フォーカスとアンフォーカスのイベントでisFocusedが適切に更新されること", async () => {
+  const spyOnUseState = jest.spyOn(jest.requireActual("react"), "useState");
+  const mockSetIsFocused = jest.fn();
+  spyOnUseState.mockImplementation((props) => [props, mockSetIsFocused]);
+  const user = userEvent.setup();
+  render(
+    <FilterRangeSlider
+      value={[0, 100]}
+      min={0}
+      max={200}
+      step={10}
+      handleChange={() => {}}
+      rangeLabel="Range:"
+    />
+  );
+  await act(async () => {
+    await user.tab();
+    await user.tab();
+  });
+  expect(mockSetIsFocused).toHaveBeenCalledWith(true);
+  expect(mockSetIsFocused).toHaveBeenCalledWith(false);
 });

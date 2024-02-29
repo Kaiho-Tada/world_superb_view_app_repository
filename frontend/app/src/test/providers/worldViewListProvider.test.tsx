@@ -17,6 +17,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
             label: "砂漠",
             parentLabel: "自然",
             checked: false,
+            isVisible: false,
           },
         ],
       });
@@ -27,6 +28,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
         label: "砂漠",
         parentLabel: "自然",
         checked: false,
+        isVisible: false,
       },
     ]);
   });
@@ -45,6 +47,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
             label: "アメリカ",
             parentLabel: "北米",
             checked: false,
+            isVisible: false,
           },
         ],
       });
@@ -55,6 +58,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
         label: "アメリカ",
         parentLabel: "北米",
         checked: false,
+        isVisible: false,
       },
     ]);
   });
@@ -63,11 +67,11 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.characteristicCheckBoxItems).toEqual([]);
+    expect(result.current.state.characteristicCheckItems).toEqual([]);
 
     act(() => {
       result.current.dispatch({
-        type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS",
+        type: "SET_CHARACTERISTIC_CHECK_ITEMS",
         payload: [
           {
             label: "幻想・神秘的",
@@ -77,7 +81,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
       });
     });
 
-    expect(result.current.state.characteristicCheckBoxItems).toEqual([
+    expect(result.current.state.characteristicCheckItems).toEqual([
       {
         label: "幻想・神秘的",
         checked: false,
@@ -85,140 +89,61 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
     ]);
   });
 
-  test("SET_RISK_LEVEL_CHECKBOX_ITEMSアクションがディスパッチされた際、riskLevelCheckBoxItemsが指定された値に更新されること", () => {
+  test("SET_RISK_LEVELアクションがディスパッチされた際、riskLevelが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.riskLevelCheckBoxItems).toEqual([
-      { label: "4", checked: false },
-      { label: "3", checked: false },
-      { label: "2", checked: false },
-      { label: "1", checked: false },
-      { label: "0", checked: false },
-    ]);
-
+    expect(result.current.state.riskLevel).toEqual(undefined);
     act(() => {
       result.current.dispatch({
-        type: "SET_RISK_LEVEL_CHECKBOX_ITEMS",
-        payload: [
-          { label: "4", checked: true },
-          { label: "3", checked: false },
-          { label: "2", checked: false },
-          { label: "1", checked: false },
-          { label: "0", checked: true },
-        ],
+        type: "SET_RISK_LEVEL",
+        payload: "1",
       });
     });
-
-    expect(result.current.state.riskLevelCheckBoxItems).toEqual([
-      { label: "4", checked: true },
-      { label: "3", checked: false },
-      { label: "2", checked: false },
-      { label: "1", checked: false },
-      { label: "0", checked: true },
-    ]);
+    expect(result.current.state.riskLevel).toEqual("1");
   });
+});
 
-  test("SET_MONTH_CHECKBOX_ITEMSアクションがディスパッチされた際、monthCheckBoxItemsが指定された値に更新されること", () => {
-    const { result } = renderHook(() => useWorldViewListContext(), {
-      wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
-    });
-    expect(result.current.state.monthCheckBoxItems).toEqual([
-      { label: "1月", parentLabel: "冬", checked: false },
-      { label: "2月", parentLabel: "冬", checked: false },
-      { label: "3月", parentLabel: "春", checked: false },
-      { label: "4月", parentLabel: "春", checked: false },
-      { label: "5月", parentLabel: "春", checked: false },
-      { label: "6月", parentLabel: "夏", checked: false },
-      { label: "7月", parentLabel: "夏", checked: false },
-      { label: "8月", parentLabel: "夏", checked: false },
-      { label: "9月", parentLabel: "秋", checked: false },
-      { label: "10月", parentLabel: "秋", checked: false },
-      { label: "11月", parentLabel: "秋", checked: false },
-      { label: "12月", parentLabel: "冬", checked: false },
-    ]);
-
-    act(() => {
-      result.current.dispatch({
-        type: "SET_MONTH_CHECKBOX_ITEMS",
-        payload: [
-          { label: "1月", parentLabel: "冬", checked: true },
-          { label: "2月", parentLabel: "冬", checked: false },
-          { label: "3月", parentLabel: "春", checked: false },
-          { label: "4月", parentLabel: "春", checked: false },
-          { label: "5月", parentLabel: "春", checked: false },
-          { label: "6月", parentLabel: "夏", checked: false },
-          { label: "7月", parentLabel: "夏", checked: false },
-          { label: "8月", parentLabel: "夏", checked: false },
-          { label: "9月", parentLabel: "秋", checked: false },
-          { label: "10月", parentLabel: "秋", checked: false },
-          { label: "11月", parentLabel: "秋", checked: false },
-          { label: "12月", parentLabel: "冬", checked: true },
-        ],
-      });
-    });
-
-    expect(result.current.state.monthCheckBoxItems).toEqual([
-      { label: "1月", parentLabel: "冬", checked: true },
-      { label: "2月", parentLabel: "冬", checked: false },
-      { label: "3月", parentLabel: "春", checked: false },
-      { label: "4月", parentLabel: "春", checked: false },
-      { label: "5月", parentLabel: "春", checked: false },
-      { label: "6月", parentLabel: "夏", checked: false },
-      { label: "7月", parentLabel: "夏", checked: false },
-      { label: "8月", parentLabel: "夏", checked: false },
-      { label: "9月", parentLabel: "秋", checked: false },
-      { label: "10月", parentLabel: "秋", checked: false },
-      { label: "11月", parentLabel: "秋", checked: false },
-      { label: "12月", parentLabel: "冬", checked: true },
-    ]);
+test("SET_MONTH_RANGEアクションがディスパッチされた際、monthRangeが指定された配列に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
   });
-
-  test("SET_BMI_CHECKBOX_ITEMSアクションがディスパッチされた際、bmiCheckBoxItemsが指定された値に更新されること", () => {
-    const { result } = renderHook(() => useWorldViewListContext(), {
-      wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  expect(result.current.state.monthRange).toEqual([1, 12]);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_MONTH_RANGE",
+      payload: [6, 9],
     });
-    expect(result.current.state.bmiCheckBoxItems).toEqual([
-      { label: "30%〜", checked: false },
-      { label: "20%〜30%", checked: false },
-      { label: "10%〜20%", checked: false },
-      { label: "0%〜10%", checked: false },
-      { label: "-10%〜0%", checked: false },
-      { label: "-20%〜-10%", checked: false },
-      { label: "-30%〜-20%", checked: false },
-      { label: "-40%〜-30%", checked: false },
-      { label: "〜-40%", checked: false },
-    ]);
-
-    act(() => {
-      result.current.dispatch({
-        type: "SET_BMI_CHECKBOX_ITEMS",
-        payload: [
-          { label: "30%〜", checked: true },
-          { label: "20%〜30%", checked: false },
-          { label: "10%〜20%", checked: false },
-          { label: "0%〜10%", checked: false },
-          { label: "-10%〜0%", checked: false },
-          { label: "-20%〜-10%", checked: false },
-          { label: "-30%〜-20%", checked: false },
-          { label: "-40%〜-30%", checked: false },
-          { label: "〜-40%", checked: true },
-        ],
-      });
-    });
-
-    expect(result.current.state.bmiCheckBoxItems).toEqual([
-      { label: "30%〜", checked: true },
-      { label: "20%〜30%", checked: false },
-      { label: "10%〜20%", checked: false },
-      { label: "0%〜10%", checked: false },
-      { label: "-10%〜0%", checked: false },
-      { label: "-20%〜-10%", checked: false },
-      { label: "-30%〜-20%", checked: false },
-      { label: "-40%〜-30%", checked: false },
-      { label: "〜-40%", checked: true },
-    ]);
   });
+  expect(result.current.state.monthRange).toEqual([6, 9]);
+});
+
+test("SET_BMI_RANGEアクションがディスパッチされた際、bmiRangeが指定された配列に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.bmiRange).toEqual([-40, 30]);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_BMI_RANGE",
+      payload: [10, 20],
+    });
+  });
+  expect(result.current.state.bmiRange).toEqual([10, 20]);
+});
+
+test("SET_IS_DISABLEDアクションがディスパッチされた際、isDisabledSearchButtonが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.isDisabledSearchButton).toBe(true);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_IS_DISABLED_SEARCH_BUTTON",
+      payload: false,
+    });
+  });
+  expect(result.current.state.isDisabledSearchButton).toBe(false);
 });
 
 test("SET_KEYWORDアクションがディスパッチされた際、keywordが指定された値に更新されること", () => {
@@ -248,85 +173,43 @@ describe("LOADINGアクションのテスト", () => {
     expect(result.current.state.loadingSearchWorldViews).toBe(true);
   });
 
-  test("SET_LOADING_CATEGORY_CHECKBOX_ITEMSアクションがディスパッチされた際、loadingCategoryCheckBoxItemsが指定された値に更新されること", () => {
+  test("SET_LOADING_GET_CATEGORYアクションがディスパッチされた際、loadingGetCategoryが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.loadingCategoryCheckBoxItems).toBe(false);
+    expect(result.current.state.loadingGetCategory).toBe(false);
 
     act(() => {
-      result.current.dispatch({ type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS", payload: true });
+      result.current.dispatch({ type: "SET_LOADING_GET_CATEGORY", payload: true });
     });
 
-    expect(result.current.state.loadingCategoryCheckBoxItems).toBe(true);
+    expect(result.current.state.loadingGetCategory).toBe(true);
   });
 
-  test("SET_LOADING_COUNTRY_CHECKBOX_ITEMSアクションがディスパッチされた際、loadingCountryCheckBoxItemsが指定された値に更新されること", () => {
+  test("SET_LOADING_GET_COUNTRYアクションがディスパッチされた際、loadingGetCountryが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.loadingCountryCheckBoxItems).toBe(false);
+    expect(result.current.state.loadingGetCountry).toBe(false);
 
     act(() => {
-      result.current.dispatch({ type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS", payload: true });
+      result.current.dispatch({ type: "SET_LOADING_GET_COUNTRY", payload: true });
     });
 
-    expect(result.current.state.loadingCountryCheckBoxItems).toBe(true);
+    expect(result.current.state.loadingGetCountry).toBe(true);
   });
 
-  test("SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMSアクションがディスパッチされた際、loadingCharacteristicCheckBoxItemsが指定された値に更新されること", () => {
+  test("SET_LOADING_GET_CHARACTERISTICアクションがディスパッチされた際、loadingGetCharacteristicが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.loadingCharacteristicCheckBoxItems).toBe(false);
+    expect(result.current.state.loadingGetCharacteristic).toBe(false);
 
     act(() => {
-      result.current.dispatch({ type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS", payload: true });
+      result.current.dispatch({ type: "SET_LOADING_GET_CHARACTERISTIC", payload: true });
     });
 
-    expect(result.current.state.loadingCharacteristicCheckBoxItems).toBe(true);
-  });
-});
-
-describe("FILTER_DRAWERアクションのテスト", () => {
-  test("OPEN_FILTER_DRAWERアクションの場合は、isOpenFilterDrawerがtrueにCLOSE_FILTER_DRAWERがディスパッチされた場合はfalseに更新されること", () => {
-    const { result } = renderHook(() => useWorldViewListContext(), {
-      wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
-    });
-    expect(result.current.state.isOpenFilterDrawer).toBe(false);
-
-    act(() => {
-      result.current.dispatch({ type: "OPEN_FILTER_DRAWER" });
-    });
-
-    expect(result.current.state.isOpenFilterDrawer).toBe(true);
-
-    act(() => {
-      result.current.dispatch({ type: "CLOSE_FILTER_DRAWER" });
-    });
-
-    expect(result.current.state.isOpenFilterDrawer).toBe(false);
-  });
-});
-
-describe("FILTER_ACCODIONアクションのテスト", () => {
-  test("OPEN_FILTER_ACCODIONアクションの場合は、isOpenFilterAccordionがtrueにCLOSE_FILTER_ACCODIONがディスパッチされたfalseに更新されること", () => {
-    const { result } = renderHook(() => useWorldViewListContext(), {
-      wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
-    });
-    expect(result.current.state.isOpenFilterAccordion).toBe(true);
-
-    act(() => {
-      result.current.dispatch({ type: "CLOSE_FILTER_ACCODION" });
-    });
-
-    expect(result.current.state.isOpenFilterAccordion).toBe(false);
-
-    act(() => {
-      result.current.dispatch({ type: "OPEN_FILTER_ACCODION" });
-    });
-
-    expect(result.current.state.isOpenFilterAccordion).toBe(true);
+    expect(result.current.state.loadingGetCharacteristic).toBe(true);
   });
 });
 
@@ -396,4 +279,17 @@ test("SET_SORT_CRITERIAアクションがディスパッチされた際、sortCr
   });
 
   expect(result.current.state.sortCriteria).toEqual("latest");
+});
+
+test("SET_IS_SKIP_SEARCH_APIアクションがディスパッチされた際、isSkipSearchApiが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.isSkipSearchApi).toEqual(false);
+
+  act(() => {
+    result.current.dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
+  });
+
+  expect(result.current.state.isSkipSearchApi).toEqual(true);
 });

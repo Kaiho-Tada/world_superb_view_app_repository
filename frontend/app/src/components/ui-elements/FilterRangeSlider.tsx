@@ -1,58 +1,69 @@
 import {
-  Flex,
+  Box,
   RangeSlider,
   RangeSliderFilledTrack,
   RangeSliderThumb,
   RangeSliderTrack,
-  Text,
 } from "@chakra-ui/react";
-import { FC, memo } from "react";
+import { FC, memo, useState } from "react";
 
 interface Props {
   value: number[];
   min: number;
   max: number;
   step: number;
-  handleChange: (newValue: number[]) => void;
+  handleChange: (newRange: number[]) => void;
+  rangeLabel: string;
 }
 const FilterRangeSlider: FC<Props> = memo((props) => {
-  const { value, min, max, step, handleChange } = props;
+  const { value, min, max, step, handleChange, rangeLabel } = props;
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
   return (
-    <RangeSlider
-      value={value}
-      min={min}
-      max={max}
-      step={step}
-      onChange={handleChange}
-      colorScheme="teal"
-      position="relative"
-      my="3"
-    >
-      <RangeSliderTrack>
-        <RangeSliderFilledTrack />
-      </RangeSliderTrack>
-      <RangeSliderThumb index={0}>
-        <Text position="absolute" top="-20px">
-          {value[0]}
-        </Text>
-      </RangeSliderThumb>
-      <RangeSliderThumb index={1}>
-        <Text position="absolute" top="-20px">
-          {value[1]}
-        </Text>
-      </RangeSliderThumb>
-      <Flex color="gray.400" fontSize="sm">
-        <Text position="absolute" bottom="-15px" left="-2%">
-          {min}
-        </Text>
-        <Text position="absolute" bottom="-15px" left="48%">
-          {(max - min) / 2}
-        </Text>
-        <Text position="absolute" bottom="-15px" left="96.5%">
-          {max}
-        </Text>
-      </Flex>
-    </RangeSlider>
+    <Box position="relative" width="100%">
+      <RangeSlider
+        value={value}
+        min={min}
+        max={max}
+        step={step}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        colorScheme="teal"
+        position="relative"
+        my="3"
+      >
+        <RangeSliderTrack>
+          <RangeSliderFilledTrack bg="#4FD1C5" />
+        </RangeSliderTrack>
+        <RangeSliderThumb index={0} bg="#4FD1C5" />
+        <RangeSliderThumb index={1} bg="#4FD1C5" />
+      </RangeSlider>
+      {isFocused && (
+        <Box
+          position="absolute"
+          top="-40px"
+          left="50%"
+          transform="translateX(-50%)"
+          p="2"
+          bg="gray.900"
+          color="white"
+          borderRadius="4px"
+          fontSize="sm"
+          textAlign="center"
+        >
+          {`${rangeLabel} ${value[0]} ~ ${value[1]}`}
+        </Box>
+      )}
+    </Box>
   );
 });
 

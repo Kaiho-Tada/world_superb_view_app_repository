@@ -6,7 +6,6 @@ class Country < ApplicationRecord
 
   validates :name, length: { maximum: 30 }, presence: true
   validates :code, length: { maximum: 30 }, presence: true
-  validates :risk_level, length: { maximum: 1 }
   validates :region, presence: true
 
   validate :validate_image
@@ -18,28 +17,23 @@ class Country < ApplicationRecord
   end
 
   scope :filter_by_name, lambda { |names|
+    return self if names.blank?
+
     where(name: [*names])
   }
 
-  scope :filter_by_risk_level, lambda { |risk_levels|
-    where(risk_level: [*risk_levels])
+  scope :filter_by_risk_level, lambda { |risk_level|
+    return self if risk_level.blank?
+
+    where(risk_level:)
   }
 
-  scope :filter_by_bmi, lambda { |bmi_ranges|
-    return self if bmi_ranges.nil?
+  scope :filter_by_bmi, lambda { |bmi_range|
+    return self if bmi_range.blank?
 
-    parsed_ranges = bmi_ranges.map do |bmi_range|
-      parse_range(bmi_range)
-    end
-    where(parsed_ranges.map { |range| "bmi BETWEEN #{range.begin} AND #{range.end}" }.join(" OR "))
+    start_value, end_value = bmi_range
+    where(bmi: start_value..end_value)
   }
-
-  def self.parse_range(range)
-    start_value, end_value = range.scan(/(-?\d*)%?〜(-?\d*)%?/).flatten
-    start_value = start_value.empty? ? -100 : start_value.to_i
-    end_value = end_value.empty? ? 100 : end_value.to_i
-    (start_value..end_value)
-  end
 
   private
 

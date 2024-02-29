@@ -186,6 +186,23 @@ test("Videoモデルのフィルターの値が初期値でない場合はクリ
   expect(screen.getByRole("button", { name: "クリア" })).toBeInTheDocument();
 });
 
+test("クリアボタン押下でhandleClear関数が呼び出されること", async () => {
+  const spyOnUseClear = jest.spyOn(jest.requireActual("features/video/hooks/useClear"), "default");
+  const mockHandleClear = jest.fn();
+  spyOnUseClear.mockReturnValue({ handleClear: mockHandleClear });
+  const user = userEvent.setup();
+  render(
+    <VideoListProvider>
+      <VideoListPage />
+    </VideoListProvider>
+  );
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "クリア" }));
+  });
+  expect(mockHandleClear).toHaveBeenCalledTimes(1);
+  spyOnUseClear.mockRestore();
+});
+
 test("並び替えのアコーディオンが表示されていること", () => {
   render(
     <VideoListProvider>

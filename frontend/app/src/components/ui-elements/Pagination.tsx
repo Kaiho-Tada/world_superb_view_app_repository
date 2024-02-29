@@ -25,9 +25,9 @@ const Pagination: FC<PaginationProps> = memo((props) => {
             <Button
               onClick={() => handlePageChange(currentPage - 1)}
               isDisabled={currentPage === 1}
-              bg="cyan.600"
+              bg="#000"
               color="white"
-              borderRadius="999"
+              borderRadius="5"
               aria-label="前のページに移動"
             >
               <ChevronLeftIcon />
@@ -63,9 +63,9 @@ const Pagination: FC<PaginationProps> = memo((props) => {
                   <Button
                     key={pageIndex}
                     onClick={() => handlePageChange(pageIndex)}
-                    bg={currentPage === pageIndex ? "cyan.600" : "white"}
-                    color={currentPage === pageIndex ? "white" : "cyan.600"}
-                    borderRadius="999"
+                    bg={currentPage === pageIndex ? "#000" : "white"}
+                    color={currentPage === pageIndex ? "white" : "#000"}
+                    borderRadius="5"
                     aria-label={`ページ${pageIndex}に移動`}
                   >
                     {pageIndex}
@@ -77,7 +77,7 @@ const Pagination: FC<PaginationProps> = memo((props) => {
                   <Button
                     key={pageIndex}
                     isDisabled
-                    borderRadius="999"
+                    borderRadius="5"
                     aria-label={`ページ${pageIndex}ボタンを省略記号表示にしています`}
                   >
                     ...
@@ -89,9 +89,9 @@ const Pagination: FC<PaginationProps> = memo((props) => {
             <Button
               onClick={() => handlePageChange(currentPage + 1)}
               isDisabled={currentPage === pageCount}
-              bg="cyan.600"
+              bg="#000"
               color="white"
-              borderRadius="999"
+              borderRadius="5"
               aria-label="次のページに移動"
             >
               <ChevronRightIcon />

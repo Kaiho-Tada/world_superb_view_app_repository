@@ -8,7 +8,7 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockUseToast,
 }));
 
-const mockLoadingCheckBoxItemsDispatch = jest.fn();
+const mockLoadingGetModelDispatch = jest.fn();
 const mockCheckBoxItemsDispatch = jest.fn();
 const mockGetAllModelApi = jest.fn();
 
@@ -22,18 +22,18 @@ test("handleGetCheckBoxItems関数成功時のテスト", async () => {
   const { result } = renderHook(() => useGetCheckBoxItems());
   await act(async () => {
     await result.current.handleGetCheckBoxItems({
-      loadingCheckBoxItemsDispatch: mockLoadingCheckBoxItemsDispatch,
+      loadingGetModelDispatch: mockLoadingGetModelDispatch,
       checkBoxItemsDispatch: mockCheckBoxItemsDispatch,
       getAllModelApi: mockGetAllModelApi,
     });
   });
-  expect(mockLoadingCheckBoxItemsDispatch).toHaveBeenCalledWith(true);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledWith(true);
   expect(mockCheckBoxItemsDispatch).toHaveBeenCalledWith([
     { label: "name1", checked: false },
     { label: "name2", checked: false },
   ]);
-  expect(mockLoadingCheckBoxItemsDispatch).toHaveBeenCalledWith(false);
-  expect(mockLoadingCheckBoxItemsDispatch).toHaveBeenCalledTimes(2);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledWith(false);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledTimes(2);
 });
 
 test("handleGetCheckBoxItems関数失敗時のテスト", async () => {
@@ -41,26 +41,26 @@ test("handleGetCheckBoxItems関数失敗時のテスト", async () => {
     const error = new Error();
     Object.assign(error, {
       isAxiosError: true,
-      response: { data: { error: "モデルの取得に失敗しました。" }, status: 500 },
+      response: { status: 500 },
     });
     throw error;
   });
   const { result } = renderHook(() => useGetCheckBoxItems());
   await act(async () => {
     await result.current.handleGetCheckBoxItems({
-      loadingCheckBoxItemsDispatch: mockLoadingCheckBoxItemsDispatch,
+      loadingGetModelDispatch: mockLoadingGetModelDispatch,
       checkBoxItemsDispatch: mockCheckBoxItemsDispatch,
       getAllModelApi: mockGetAllModelApi,
     });
   });
-  expect(mockLoadingCheckBoxItemsDispatch).toHaveBeenCalledWith(true);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledWith(true);
   expect(mockUseToast).toHaveBeenCalledWith({
-    title: "モデルの取得に失敗しました。",
+    title: "データの取得に失敗しました。",
     status: "error",
     position: "top",
     duration: 5000,
     isClosable: true,
   });
-  expect(mockLoadingCheckBoxItemsDispatch).toHaveBeenCalledWith(false);
-  expect(mockLoadingCheckBoxItemsDispatch).toHaveBeenCalledTimes(2);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledWith(false);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledTimes(2);
 });

@@ -6,93 +6,58 @@ import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 export type Action =
   | { type: "SET_CATEGORY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_COUNTRY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
-  | { type: "SET_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
-  | { type: "SET_RISK_LEVEL_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
-  | { type: "SET_MONTH_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
-  | { type: "SET_BMI_CHECKBOX_ITEMS"; payload: CheckBoxItem[] }
+  | { type: "SET_CHARACTERISTIC_CHECK_ITEMS"; payload: CheckBoxItem[] }
+  | { type: "SET_RISK_LEVEL"; payload: string | undefined }
+  | { type: "SET_MONTH_RANGE"; payload: number[] }
+  | { type: "SET_BMI_RANGE"; payload: number[] }
   | { type: "SET_CHECKED_CATEGORY_LABELS"; payload: string[] }
   | { type: "SET_KEYWORD"; payload: string }
   | { type: "SET_LOADING_SEARCH_WORLDVIEWS"; payload: boolean }
-  | { type: "SET_LOADING_CATEGORY_CHECKBOX_ITEMS"; payload: boolean }
-  | { type: "SET_LOADING_COUNTRY_CHECKBOX_ITEMS"; payload: boolean }
-  | { type: "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS"; payload: boolean }
-  | { type: "OPEN_FILTER_DRAWER" }
-  | { type: "CLOSE_FILTER_DRAWER" }
-  | { type: "OPEN_FILTER_ACCODION" }
-  | { type: "CLOSE_FILTER_ACCODION" }
+  | { type: "SET_LOADING_GET_CATEGORY"; payload: boolean }
+  | { type: "SET_LOADING_GET_COUNTRY"; payload: boolean }
+  | { type: "SET_LOADING_GET_CHARACTERISTIC"; payload: boolean }
   | { type: "SET_WORLD_VIEWS"; payload: WorldView[] }
   | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean }
-  | { type: "SET_SORT_CRITERIA"; payload: string };
+  | { type: "SET_SORT_CRITERIA"; payload: string }
+  | { type: "SET_IS_DISABLED_SEARCH_BUTTON"; payload: boolean }
+  | { type: "SET_IS_SKIP_SEARCH_API"; payload: boolean };
 
 type State = {
-  countryStates: string[];
-  categoryClassifications: string[];
   categoryCheckBoxItems: NestedCheckBoxItem[];
   countryCheckBoxItems: NestedCheckBoxItem[];
-  characteristicCheckBoxItems: CheckBoxItem[];
-  riskLevelCheckBoxItems: CheckBoxItem[];
-  monthCheckBoxItems: NestedCheckBoxItem[];
-  bmiCheckBoxItems: CheckBoxItem[];
+  characteristicCheckItems: CheckBoxItem[];
+  riskLevel: string | undefined;
+  monthRange: number[];
+  bmiRange: number[];
   keyword: string;
   loadingSearchWorldViews: boolean;
-  loadingCategoryCheckBoxItems: boolean;
-  loadingCountryCheckBoxItems: boolean;
-  loadingCharacteristicCheckBoxItems: boolean;
-  isOpenFilterDrawer: boolean;
-  isOpenFilterAccordion: boolean;
+  loadingGetCategory: boolean;
+  loadingGetCountry: boolean;
+  loadingGetCharacteristic: boolean;
   worldViews: Array<WorldView>;
   shouldDebounce: boolean;
   sortCriteria: string;
+  isDisabledSearchButton: boolean;
+  isSkipSearchApi: boolean;
 };
 
 const initialState: State = {
-  countryStates: ["アジア", "大洋州", "北米", "中南米", "ヨーロッパ", "中東", "アフリカ"],
-  categoryClassifications: ["自然", "人工"],
   categoryCheckBoxItems: [],
   countryCheckBoxItems: [],
-  characteristicCheckBoxItems: [],
-  riskLevelCheckBoxItems: [
-    { label: "4", checked: false },
-    { label: "3", checked: false },
-    { label: "2", checked: false },
-    { label: "1", checked: false },
-    { label: "0", checked: false },
-  ],
-  monthCheckBoxItems: [
-    { label: "1月", parentLabel: "冬", checked: false },
-    { label: "2月", parentLabel: "冬", checked: false },
-    { label: "3月", parentLabel: "春", checked: false },
-    { label: "4月", parentLabel: "春", checked: false },
-    { label: "5月", parentLabel: "春", checked: false },
-    { label: "6月", parentLabel: "夏", checked: false },
-    { label: "7月", parentLabel: "夏", checked: false },
-    { label: "8月", parentLabel: "夏", checked: false },
-    { label: "9月", parentLabel: "秋", checked: false },
-    { label: "10月", parentLabel: "秋", checked: false },
-    { label: "11月", parentLabel: "秋", checked: false },
-    { label: "12月", parentLabel: "冬", checked: false },
-  ],
-  bmiCheckBoxItems: [
-    { label: "30%〜", checked: false },
-    { label: "20%〜30%", checked: false },
-    { label: "10%〜20%", checked: false },
-    { label: "0%〜10%", checked: false },
-    { label: "-10%〜0%", checked: false },
-    { label: "-20%〜-10%", checked: false },
-    { label: "-30%〜-20%", checked: false },
-    { label: "-40%〜-30%", checked: false },
-    { label: "〜-40%", checked: false },
-  ],
+  characteristicCheckItems: [],
+  riskLevel: undefined,
+  monthRange: [1, 12],
+  bmiRange: [-40, 30],
   keyword: "",
   loadingSearchWorldViews: false,
-  loadingCategoryCheckBoxItems: false,
-  loadingCountryCheckBoxItems: false,
-  loadingCharacteristicCheckBoxItems: false,
-  isOpenFilterDrawer: false,
-  isOpenFilterAccordion: true,
+  loadingGetCategory: false,
+  loadingGetCountry: false,
+  loadingGetCharacteristic: false,
   worldViews: [],
   shouldDebounce: false,
   sortCriteria: "",
+  isDisabledSearchButton: true,
+  isSkipSearchApi: false,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -103,17 +68,17 @@ const reducer = (state: State, action: Action): State => {
     case "SET_COUNTRY_CHECKBOX_ITEMS":
       return { ...state, countryCheckBoxItems: action.payload };
 
-    case "SET_CHARACTERISTIC_CHECKBOX_ITEMS":
-      return { ...state, characteristicCheckBoxItems: action.payload };
+    case "SET_CHARACTERISTIC_CHECK_ITEMS":
+      return { ...state, characteristicCheckItems: action.payload };
 
-    case "SET_RISK_LEVEL_CHECKBOX_ITEMS":
-      return { ...state, riskLevelCheckBoxItems: action.payload };
+    case "SET_RISK_LEVEL":
+      return { ...state, riskLevel: action.payload };
 
-    case "SET_MONTH_CHECKBOX_ITEMS":
-      return { ...state, monthCheckBoxItems: action.payload };
+    case "SET_MONTH_RANGE":
+      return { ...state, monthRange: action.payload };
 
-    case "SET_BMI_CHECKBOX_ITEMS":
-      return { ...state, bmiCheckBoxItems: action.payload };
+    case "SET_BMI_RANGE":
+      return { ...state, bmiRange: action.payload };
 
     case "SET_KEYWORD":
       return { ...state, keyword: action.payload };
@@ -121,26 +86,14 @@ const reducer = (state: State, action: Action): State => {
     case "SET_LOADING_SEARCH_WORLDVIEWS":
       return { ...state, loadingSearchWorldViews: action.payload };
 
-    case "SET_LOADING_CATEGORY_CHECKBOX_ITEMS":
-      return { ...state, loadingCategoryCheckBoxItems: action.payload };
+    case "SET_LOADING_GET_CATEGORY":
+      return { ...state, loadingGetCategory: action.payload };
 
-    case "SET_LOADING_COUNTRY_CHECKBOX_ITEMS":
-      return { ...state, loadingCountryCheckBoxItems: action.payload };
+    case "SET_LOADING_GET_COUNTRY":
+      return { ...state, loadingGetCountry: action.payload };
 
-    case "SET_LOADING_CHARACTERISTIC_CHECKBOX_ITEMS":
-      return { ...state, loadingCharacteristicCheckBoxItems: action.payload };
-
-    case "OPEN_FILTER_DRAWER":
-      return { ...state, isOpenFilterDrawer: true };
-
-    case "CLOSE_FILTER_DRAWER":
-      return { ...state, isOpenFilterDrawer: false };
-
-    case "OPEN_FILTER_ACCODION":
-      return { ...state, isOpenFilterAccordion: true };
-
-    case "CLOSE_FILTER_ACCODION":
-      return { ...state, isOpenFilterAccordion: false };
+    case "SET_LOADING_GET_CHARACTERISTIC":
+      return { ...state, loadingGetCharacteristic: action.payload };
 
     case "SET_WORLD_VIEWS":
       return { ...state, worldViews: action.payload };
@@ -150,6 +103,12 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_SORT_CRITERIA":
       return { ...state, sortCriteria: action.payload };
+
+    case "SET_IS_DISABLED_SEARCH_BUTTON":
+      return { ...state, isDisabledSearchButton: action.payload };
+
+    case "SET_IS_SKIP_SEARCH_API":
+      return { ...state, isSkipSearchApi: action.payload };
 
     default:
       return state;
