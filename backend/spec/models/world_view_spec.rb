@@ -36,102 +36,106 @@ RSpec.describe WorldView, type: :model do
   end
 
   describe "scope test" do
-    describe ".filter_by_category_name" do
-      let!(:world_view1) { create(:world_view) }
-      let!(:world_view2) { create(:world_view) }
-      let!(:category1) { create(:category) }
-      let!(:category2) { create(:category) }
+    describe ".filter_by_name" do
+      context "filter_by_nameの第二引数が'category'である場合" do
+        let!(:world_view1) { create(:world_view) }
+        let!(:world_view2) { create(:world_view) }
+        let!(:category1) { create(:category) }
+        let!(:category2) { create(:category) }
 
-      before do
-        create(:world_view_category, world_view: world_view1, category: category1)
-        create(:world_view_category, world_view: world_view1, category: category2)
-        create(:world_view_category, world_view: world_view2, category: category2)
+        before do
+          create(:world_view_category, world_view: world_view1, category: category1)
+          create(:world_view_category, world_view: world_view2, category: category2)
+        end
+
+        it "第一引数の配列内に含まれる名前のCategoryモデルと関連付けされたレコードを返されること" do
+          expect(WorldView.filter_by_name([category1.name], "category")).to contain_exactly world_view1
+          expect(WorldView.filter_by_name([category2.name], "category")).to contain_exactly world_view2
+        end
+
+        it "レコードが複数のCategoryモデルと関連付けされている場合、返されるレコードが重複しないこと" do
+          create(:world_view_category, world_view: world_view1, category: category2)
+          create(:world_view_category, world_view: world_view2, category: category1)
+          result = WorldView.filter_by_name([category1.name, category2.name], "category")
+          expect(result).to contain_exactly world_view1, world_view2
+          expect(result).to eq result.distinct
+        end
+
+        it "第一引数がnilの場合、レコードが全件返されること" do
+          world_view3 = create(:world_view)
+          expect(WorldView.filter_by_name(nil, "category")).to contain_exactly world_view1, world_view2, world_view3
+        end
+
+        it "ヒットするレコードが存在しない場合、空の配列が返されること" do
+          expect(WorldView.filter_by_name(["unregistered_name"], "category")).to eq []
+        end
       end
 
-      it "引数の配列内に含まれる名前のCategoryモデルと関連付けされたレコードを返されること" do
-        expect(WorldView.filter_by_category_name([category1.name])).to contain_exactly world_view1
-        expect(WorldView.filter_by_category_name([category2.name])).to contain_exactly world_view1, world_view2
-        expect(WorldView.filter_by_category_name([category1.name, category2.name])).to contain_exactly world_view1, world_view2
+      context "filter_by_nameの第二引数が'country'である場合" do
+        let!(:world_view1) { create(:world_view) }
+        let!(:world_view2) { create(:world_view) }
+        let!(:country1) { create(:country) }
+        let!(:country2) { create(:country) }
+
+        before do
+          create(:world_view_country, world_view: world_view1, country: country1)
+          create(:world_view_country, world_view: world_view2, country: country2)
+        end
+
+        it "第一引数の配列内に含まれる名前のCountryモデルと関連付けされたレコードを返されること" do
+          expect(WorldView.filter_by_name([country1.name], "country")).to contain_exactly world_view1
+          expect(WorldView.filter_by_name([country2.name], "country")).to contain_exactly world_view2
+        end
+
+        it "レコードが複数のCountryモデルと関連付けされている場合、返されるレコードが重複しないこと" do
+          create(:world_view_country, world_view: world_view1, country: country2)
+          create(:world_view_country, world_view: world_view2, country: country1)
+          result = WorldView.filter_by_name([country1.name, country2.name], "country")
+          expect(result).to contain_exactly world_view1, world_view2
+          expect(result).to eq result.distinct
+        end
+
+        it "第一引数がnilの場合はレコードが全件返されること" do
+          world_view3 = create(:world_view)
+          expect(WorldView.filter_by_name(nil, "country")).to contain_exactly world_view1, world_view2, world_view3
+        end
+
+        it "ヒットするレコードが存在しない場合は空の配列が返されること" do
+          expect(WorldView.filter_by_name(["unregistered_name"], "country")).to eq []
+        end
       end
 
-      it "返されるレコードが重複しないこと" do
-        result = WorldView.filter_by_category_name([category1.name, category2.name])
-        expect(result).to eq result.distinct
-      end
+      context "filter_by_nameの第二引数が'characteristic'である場合" do
+        let!(:world_view1) { create(:world_view) }
+        let!(:world_view2) { create(:world_view) }
+        let!(:characteristic1) { create(:characteristic) }
+        let!(:characteristic2) { create(:characteristic) }
 
-      it "引数がnilの場合はレコードが全件返されること" do
-        world_view3 = create(:world_view)
-        expect(WorldView.filter_by_category_name(nil)).to contain_exactly world_view1, world_view2, world_view3
-      end
+        before do
+          create(:world_view_characteristic, world_view: world_view1, characteristic: characteristic1)
+          create(:world_view_characteristic, world_view: world_view2, characteristic: characteristic2)
+        end
 
-      it "ヒットするレコードが存在しない場合は空の配列が返されること" do
-        expect(WorldView.filter_by_category_name("unregistered_name")).to eq []
-      end
-    end
+        it "引数の配列内に含まれる名前のCharacteristicモデルと関連付けされたレコードを返されること" do
+          expect(WorldView.filter_by_name([characteristic1.name], "characteristic")).to contain_exactly world_view1
+          expect(WorldView.filter_by_name([characteristic2.name], "characteristic")).to contain_exactly world_view2
+        end
 
-    describe ".filter_by_country_name" do
-      let!(:world_view1) { create(:world_view) }
-      let!(:world_view2) { create(:world_view) }
-      let!(:country1) { create(:country) }
-      let!(:country2) { create(:country) }
+        it "レコードが複数のCharacteristicモデルと関連付けされている場合、返されるレコードが重複しないこと" do
+          create(:world_view_characteristic, world_view: world_view1, characteristic: characteristic2)
+          create(:world_view_characteristic, world_view: world_view2, characteristic: characteristic1)
+          result = WorldView.filter_by_name([characteristic1.name, characteristic2.name], "characteristic")
+          expect(result).to eq result.distinct
+        end
 
-      before do
-        create(:world_view_country, world_view: world_view1, country: country1)
-        create(:world_view_country, world_view: world_view1, country: country2)
-        create(:world_view_country, world_view: world_view2, country: country2)
-      end
+        it "引数がnilの場合はレコードが全件返されること" do
+          world_view3 = create(:world_view)
+          expect(WorldView.filter_by_name(nil, "characteristic")).to contain_exactly world_view1, world_view2, world_view3
+        end
 
-      it "引数の配列内に含まれる名前のCountryモデルと関連付けされたレコードを返されること" do
-        expect(WorldView.filter_by_country_name([country1.name])).to contain_exactly world_view1
-        expect(WorldView.filter_by_country_name([country2.name])).to contain_exactly world_view1, world_view2
-        expect(WorldView.filter_by_country_name([country1.name, country2.name])).to contain_exactly world_view1, world_view2
-      end
-
-      it "返されるレコードが重複しないこと" do
-        result = WorldView.filter_by_country_name([country1.name, country2.name])
-        expect(result).to eq result.distinct
-      end
-
-      it "引数がnilの場合はレコードが全件返されること" do
-        world_view3 = create(:world_view)
-        expect(WorldView.filter_by_country_name(nil)).to contain_exactly world_view1, world_view2, world_view3
-      end
-
-      it "ヒットするレコードが存在しない場合は空の配列が返されること" do
-        expect(WorldView.filter_by_country_name("unregistered_name")).to eq []
-      end
-    end
-
-    describe ".filter_by_characteristic_name" do
-      let!(:world_view1) { create(:world_view) }
-      let!(:world_view2) { create(:world_view) }
-      let!(:characteristic1) { create(:characteristic) }
-      let!(:characteristic2) { create(:characteristic) }
-
-      before do
-        create(:world_view_characteristic, world_view: world_view1, characteristic: characteristic1)
-        create(:world_view_characteristic, world_view: world_view1, characteristic: characteristic2)
-        create(:world_view_characteristic, world_view: world_view2, characteristic: characteristic2)
-      end
-
-      it "引数の配列内に含まれる名前のCharacteristicモデルと関連付けされたレコードを返されること" do
-        expect(WorldView.filter_by_characteristic_name([characteristic1.name])).to contain_exactly world_view1
-        expect(WorldView.filter_by_characteristic_name([characteristic2.name])).to contain_exactly world_view1, world_view2
-        expect(WorldView.filter_by_characteristic_name([characteristic1.name, characteristic2.name])).to contain_exactly world_view1, world_view2
-      end
-
-      it "返されるレコードが重複しないこと" do
-        result = WorldView.filter_by_characteristic_name([characteristic1.name, characteristic2.name])
-        expect(result).to eq result.distinct
-      end
-
-      it "引数がnilの場合はレコードが全件返されること" do
-        world_view3 = create(:world_view)
-        expect(WorldView.filter_by_characteristic_name(nil)).to contain_exactly world_view1, world_view2, world_view3
-      end
-
-      it "ヒットするレコードが存在しない場合は空の配列が返されること" do
-        expect(WorldView.filter_by_characteristic_name("unregistered_name")).to eq []
+        it "ヒットするレコードが存在しない場合は空の配列が返されること" do
+          expect(WorldView.filter_by_name(["unregistered_name"], "characteristic")).to eq []
+        end
       end
     end
 

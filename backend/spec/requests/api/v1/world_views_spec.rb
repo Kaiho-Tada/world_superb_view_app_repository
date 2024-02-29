@@ -21,179 +21,181 @@ RSpec.describe "Api::V1::WorldViews", type: :request do
         end
       end
 
-      describe ".filter_by_category_name" do
-        let!(:world_view1) { create(:world_view) }
-        let!(:world_view2) { create(:world_view) }
-        let!(:category1) { create(:category) }
-        let!(:category2) { create(:category) }
+      describe ".filter_by_name" do
+        context "filter_by_nameの第二引数が'category'である場合" do
+          let!(:world_view1) { create(:world_view) }
+          let!(:world_view2) { create(:world_view) }
+          let!(:category1) { create(:category) }
+          let!(:category2) { create(:category) }
 
-        before do
-          create(:world_view_category, world_view: world_view1, category: category1)
-          create(:world_view_category, world_view: world_view1, category: category2)
-          create(:world_view_category, world_view: world_view2, category: category2)
-        end
+          before do
+            create(:world_view_category, world_view: world_view1, category: category1)
+            create(:world_view_category, world_view: world_view1, category: category2)
+            create(:world_view_category, world_view: world_view2, category: category2)
+          end
 
-        context "category_namesの配列がcategory1の名前を含む場合" do
-          it "category1と関連付けされたレコードが返されること" do
-            get api_v1_world_views_search_path, params: params.merge(category_names: [category1.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response.pluck("id")).to include world_view1.id
-            expect(json_response.length).to eq(1)
+          context "category_namesの配列がcategory1の名前を含む場合" do
+            it "category1と関連付けされたレコードが返されること" do
+              get api_v1_world_views_search_path, params: params.merge(category_names: [category1.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response.pluck("id")).to include world_view1.id
+              expect(json_response.length).to eq(1)
+            end
+          end
+
+          context "category_namesの配列がcategory2の名前を含む場合" do
+            it "category2と関連付けされたレコードが返されること" do
+              get api_v1_world_views_search_path, params: params.merge(category_names: [category2.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
+              expect(json_response.length).to eq(2)
+            end
+          end
+
+          context "category_namesの配列がcategory1とcategory2の名前を含む場合" do
+            it "category1とcategory2に関連付けされたレコードが返されること" do
+              get api_v1_world_views_search_path, params: params.merge(category_names: [category1.name, category2.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
+              expect(json_response.length).to eq(2)
+            end
+
+            it "レコードが複数のCategoryモデルと関連付けされている場合、返されるレコードが重複しないこと" do
+              get api_v1_world_views_search_path, params: params.merge(category_names: [category1.name, category2.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response).to eq json_response.uniq
+            end
+          end
+
+          context "ヒットするレコードが存在しない場合" do
+            it "空の配列が返されること" do
+              get api_v1_world_views_search_path, params: params.merge(category_names: ["unregistered_name"])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response).to eq []
+            end
           end
         end
 
-        context "category_namesの配列がcategory2の名前を含む場合" do
-          it "category2と関連付けされたレコードが返されること" do
-            get api_v1_world_views_search_path, params: params.merge(category_names: [category2.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
-            expect(json_response.length).to eq(2)
+        context "filter_by_nameの第二引数が'country'である場合" do
+          let!(:world_view1) { create(:world_view) }
+          let!(:world_view2) { create(:world_view) }
+          let!(:country1) { create(:country) }
+          let!(:country2) { create(:country) }
+
+          before do
+            create(:world_view_country, world_view: world_view1, country: country1)
+            create(:world_view_country, world_view: world_view1, country: country2)
+            create(:world_view_country, world_view: world_view2, country: country2)
+          end
+
+          context "country_namesの配列がcountry1の名前を含む場合" do
+            it "country1と関連付けされたレコードが返されること" do
+              get api_v1_world_views_search_path, params: params.merge(country_names: [country1.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response.pluck("id")).to include world_view1.id
+              expect(json_response.length).to eq(1)
+            end
+          end
+
+          context "country_namesの配列がcountry2の名前を含む場合" do
+            it "country2と関連付けされたレコードが返されること" do
+              get api_v1_world_views_search_path, params: params.merge(country_names: [country2.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
+              expect(json_response.length).to eq(2)
+            end
+          end
+
+          context "country_namesの配列がcountry1とcountry2の名前を含む場合" do
+            it "country1とcountry2に関連付けされたレコードが返されること" do
+              get api_v1_world_views_search_path, params: params.merge(country_names: [country1.name, country2.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
+              expect(json_response.length).to eq(2)
+            end
+
+            it "レコードが複数のCountryモデルと関連付けされている場合、返されるレコードが重複しないこと" do
+              get api_v1_world_views_search_path, params: params.merge(country_names: [country1.name, country2.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response).to eq json_response.uniq
+            end
+          end
+
+          context "ヒットするレコードが存在しない場合" do
+            it "空の配列が返されること" do
+              get api_v1_world_views_search_path, params: params.merge(country_names: ["unregistered_name"])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response).to eq []
+            end
           end
         end
 
-        context "category_namesの配列がcategory1とcategory2の名前を含む場合" do
-          it "category1とcategory2に関連付けされたレコードが返されること" do
-            get api_v1_world_views_search_path, params: params.merge(category_names: [category1.name, category2.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
-            expect(json_response.length).to eq(2)
+        context "filter_by_nameの第二引数が'characteristic'である場合" do
+          let!(:world_view1) { create(:world_view) }
+          let!(:world_view2) { create(:world_view) }
+          let!(:characteristic1) { create(:characteristic) }
+          let!(:characteristic2) { create(:characteristic) }
+
+          before do
+            create(:world_view_characteristic, world_view: world_view1, characteristic: characteristic1)
+            create(:world_view_characteristic, world_view: world_view1, characteristic: characteristic2)
+            create(:world_view_characteristic, world_view: world_view2, characteristic: characteristic2)
           end
 
-          it "返されるレコードが重複しないこと" do
-            get api_v1_world_views_search_path, params: params.merge(category_names: [category1.name, category2.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response).to eq json_response.uniq
-          end
-        end
-
-        context "ヒットするレコードが存在しない場合" do
-          it "空の配列が返されること" do
-            get api_v1_world_views_search_path, params: params.merge(category_names: ["unregistered_name"])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response).to eq []
-          end
-        end
-      end
-
-      describe ".filter_by_country_name" do
-        let!(:world_view1) { create(:world_view) }
-        let!(:world_view2) { create(:world_view) }
-        let!(:country1) { create(:country) }
-        let!(:country2) { create(:country) }
-
-        before do
-          create(:world_view_country, world_view: world_view1, country: country1)
-          create(:world_view_country, world_view: world_view1, country: country2)
-          create(:world_view_country, world_view: world_view2, country: country2)
-        end
-
-        context "country_namesの配列がcountry1の名前を含む場合" do
-          it "country1と関連付けされたレコードが返されること" do
-            get api_v1_world_views_search_path, params: params.merge(country_names: [country1.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response.pluck("id")).to include world_view1.id
-            expect(json_response.length).to eq(1)
-          end
-        end
-
-        context "country_namesの配列がcountry2の名前を含む場合" do
-          it "country2と関連付けされたレコードが返されること" do
-            get api_v1_world_views_search_path, params: params.merge(country_names: [country2.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
-            expect(json_response.length).to eq(2)
-          end
-        end
-
-        context "country_namesの配列がcountry1とcountry2の名前を含む場合" do
-          it "country1とcountry2に関連付けされたレコードが返されること" do
-            get api_v1_world_views_search_path, params: params.merge(country_names: [country1.name, country2.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
-            expect(json_response.length).to eq(2)
+          context "characteristic_namesの配列がcharacteristic1の名前を含む場合" do
+            it "characteristic1と関連付けされたレコードが返されること" do
+              get api_v1_world_views_search_path, params: params.merge(characteristic_names: [characteristic1.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response.pluck("id")).to include world_view1.id
+              expect(json_response.length).to eq(1)
+            end
           end
 
-          it "返されるレコードが重複しないこと" do
-            get api_v1_world_views_search_path, params: params.merge(country_names: [country1.name, country2.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response).to eq json_response.uniq
-          end
-        end
-
-        context "ヒットするレコードが存在しない場合" do
-          it "空の配列が返されること" do
-            get api_v1_world_views_search_path, params: params.merge(country_names: ["unregistered_name"])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response).to eq []
-          end
-        end
-      end
-
-      describe ".filter_by_characteristic_name" do
-        let!(:world_view1) { create(:world_view) }
-        let!(:world_view2) { create(:world_view) }
-        let!(:characteristic1) { create(:characteristic) }
-        let!(:characteristic2) { create(:characteristic) }
-
-        before do
-          create(:world_view_characteristic, world_view: world_view1, characteristic: characteristic1)
-          create(:world_view_characteristic, world_view: world_view1, characteristic: characteristic2)
-          create(:world_view_characteristic, world_view: world_view2, characteristic: characteristic2)
-        end
-
-        context "characteristic_namesの配列がcharacteristic1の名前を含む場合" do
-          it "characteristic1と関連付けされたレコードが返されること" do
-            get api_v1_world_views_search_path, params: params.merge(characteristic_names: [characteristic1.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response.pluck("id")).to include world_view1.id
-            expect(json_response.length).to eq(1)
-          end
-        end
-
-        context "characteristic_namesの配列がcharacteristic2の名前を含む場合" do
-          it "characteristic2と関連付けされたレコードが返されること" do
-            get api_v1_world_views_search_path, params: params.merge(characteristic_names: [characteristic2.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
-            expect(json_response.length).to eq(2)
-          end
-        end
-
-        context "characteristic_namesの配列がcharacteristic1とcharacteristic2の名前を含む場合" do
-          it "characteristic1とcharacteristic2に関連付けされたレコードが返されること" do
-            get api_v1_world_views_search_path, params: params.merge(characteristic_names: [characteristic1.name, characteristic2.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
-            expect(json_response.length).to eq(2)
+          context "characteristic_namesの配列がcharacteristic2の名前を含む場合" do
+            it "characteristic2と関連付けされたレコードが返されること" do
+              get api_v1_world_views_search_path, params: params.merge(characteristic_names: [characteristic2.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
+              expect(json_response.length).to eq(2)
+            end
           end
 
-          it "返されるレコードが重複しないこと" do
-            get api_v1_world_views_search_path, params: params.merge(characteristic_names: [characteristic1.name, characteristic2.name])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response).to eq json_response.uniq
-          end
-        end
+          context "characteristic_namesの配列がcharacteristic1とcharacteristic2の名前を含む場合" do
+            it "characteristic1とcharacteristic2に関連付けされたレコードが返されること" do
+              get api_v1_world_views_search_path, params: params.merge(characteristic_names: [characteristic1.name, characteristic2.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response.pluck("id")).to include world_view1.id, world_view2.id
+              expect(json_response.length).to eq(2)
+            end
 
-        context "ヒットするレコードが存在しない場合" do
-          it "空の配列が返されること" do
-            get api_v1_world_views_search_path, params: params.merge(characteristic_names: ["unregistered_name"])
-            expect(response).to have_http_status(200)
-            json_response = JSON.parse(response.body)
-            expect(json_response).to eq []
+            it "レコードが複数のCharacteristicモデルと関連付けされている場合、返されるレコードが重複しないこと" do
+              get api_v1_world_views_search_path, params: params.merge(characteristic_names: [characteristic1.name, characteristic2.name])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response).to eq json_response.uniq
+            end
+          end
+
+          context "ヒットするレコードが存在しない場合" do
+            it "空の配列が返されること" do
+              get api_v1_world_views_search_path, params: params.merge(characteristic_names: ["unregistered_name"])
+              expect(response).to have_http_status(200)
+              json_response = JSON.parse(response.body)
+              expect(json_response).to eq []
+            end
           end
         end
       end

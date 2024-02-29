@@ -15,46 +15,15 @@ class WorldView < ApplicationRecord
   validates :name, length: { maximum: 30 }, presence: true
   validates :best_season, length: { maximum: 30 }, presence: true
 
-  scope :filter_by_category_name, lambda { |category_names|
-    return self if category_names.blank?
+  scope :filter_by_name, lambda { |names, association_name|
+    return self if names.blank?
 
-    categories = Category
-                 .all
-                 .filter_by_name(category_names)
-    category_ids = categories.map(&:id).join(",")
+    associated_records = association_name.classify.constantize.filter_by_name(names)
+    association_ids = associated_records.map(&:id).join(",")
 
-    if category_ids.present?
-      joins(:categories).where("categories.id IN (#{category_ids})").distinct
-    else
-      none
-    end
-  }
-
-  scope :filter_by_country_name, lambda { |country_names|
-    return self if country_names.blank?
-
-    countries = Country
-                .all
-                .filter_by_name(country_names)
-    country_ids = countries&.map(&:id)&.join(",")
-
-    if country_ids.present?
-      joins(:countries).where("countries.id IN (#{country_ids})").distinct
-    else
-      none
-    end
-  }
-
-  scope :filter_by_characteristic_name, lambda { |characteristic_names|
-    return self if characteristic_names.blank?
-
-    characteristics = Characteristic
-                      .all
-                      .filter_by_name(characteristic_names)
-    characteristic_ids = characteristics&.map(&:id)&.join(",")
-
-    if characteristic_ids.present?
-      joins(:characteristics).where("characteristics.id IN (#{characteristic_ids})").distinct
+    if association_ids.present?
+      joins(association_name.pluralize.to_sym)
+        .where("#{association_name.pluralize}.id IN (#{association_ids})").distinct
     else
       none
     end
@@ -63,9 +32,7 @@ class WorldView < ApplicationRecord
   scope :filter_by_country_risk_level, lambda { |risk_level|
     return self if risk_level.blank?
 
-    countries = Country
-                .all
-                .filter_by_risk_level(risk_level)
+    countries = Country.filter_by_risk_level(risk_level)
     country_ids = countries&.map(&:id)&.join(",")
     if country_ids.present?
       joins(:countries).where("countries.id IN (#{country_ids})").distinct
@@ -95,11 +62,11 @@ class WorldView < ApplicationRecord
   scope :filter_by_country_bmi, lambda { |bmi_range|
     return self if bmi_range == ["-40", "30"]
 
-    if bmi_range[0] == bmi_range[1]
-      countries = Country.where(bmi: bmi_range[0])
-    else
-      countries = Country.filter_by_bmi(bmi_range)
-    end
+    countries = if bmi_range[0] == bmi_range[1]
+                  Country.where(bmi: bmi_range[0])
+                else
+                  Country.filter_by_bmi(bmi_range)
+                end
     country_ids = countries&.map(&:id)&.join(",")
     if country_ids.present?
       joins(:countries).where("countries.id IN (#{country_ids})").distinct
