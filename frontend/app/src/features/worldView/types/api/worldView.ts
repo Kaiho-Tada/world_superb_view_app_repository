@@ -1,3 +1,4 @@
+import Video from "features/video/types/Video";
 import { RefCategory } from "features/worldView/types/ref/refCategory";
 import { RefCharacteristic } from "features/worldView/types/ref/refCharacteristic";
 import { RefCountry } from "features/worldView/types/ref/refCountry";
@@ -14,4 +15,5 @@ export type WorldView = {
   worldViewFavorites: Array<Favorite>;
   gifUrl: string | null;
   gifSite: string | null;
+  videos: Video[];
 };

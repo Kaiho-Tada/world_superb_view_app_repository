@@ -13,6 +13,7 @@ export type Action =
   | { type: "SET_CHECKED_CATEGORY_LABELS"; payload: string[] }
   | { type: "SET_KEYWORD"; payload: string }
   | { type: "SET_LOADING_SEARCH_WORLDVIEWS"; payload: boolean }
+  | { type: "SET_LOADING_GET_WORLDVIEWS"; payload: boolean }
   | { type: "SET_LOADING_GET_CATEGORY"; payload: boolean }
   | { type: "SET_LOADING_GET_COUNTRY"; payload: boolean }
   | { type: "SET_LOADING_GET_CHARACTERISTIC"; payload: boolean }
@@ -31,6 +32,7 @@ type State = {
   bmiRange: number[];
   keyword: string;
   loadingSearchWorldViews: boolean;
+  loadingGetWorldViews: boolean;
   loadingGetCategory: boolean;
   loadingGetCountry: boolean;
   loadingGetCharacteristic: boolean;
@@ -50,6 +52,7 @@ const initialState: State = {
   bmiRange: [-40, 30],
   keyword: "",
   loadingSearchWorldViews: false,
+  loadingGetWorldViews: false,
   loadingGetCategory: false,
   loadingGetCountry: false,
   loadingGetCharacteristic: false,
@@ -85,6 +88,9 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_LOADING_SEARCH_WORLDVIEWS":
       return { ...state, loadingSearchWorldViews: action.payload };
+
+    case "SET_LOADING_GET_WORLDVIEWS":
+      return { ...state, loadingGetWorldViews: action.payload };
 
     case "SET_LOADING_GET_CATEGORY":
       return { ...state, loadingGetCategory: action.payload };

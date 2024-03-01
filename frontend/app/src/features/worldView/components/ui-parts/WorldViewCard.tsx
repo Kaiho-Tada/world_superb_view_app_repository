@@ -1,12 +1,11 @@
 import { Box, Flex, Heading, Image, Text, useDisclosure, WrapItem } from "@chakra-ui/react";
-import FavoriteIcon from "components/ui-elements/FavoriteIcon";
-import { createFavoriteApi, deleteFavoriteApi } from "features/worldView/api/worldViewFavoriteApi";
 import RiskLevelStar from "features/worldView/components/ui-elements/RiskLevelStar";
 import WorldViewModal from "features/worldView/components/ui-elements/WorldViewModal";
 import { RefCategory } from "features/worldView/types/ref/refCategory";
 import { RefCharacteristic } from "features/worldView/types/ref/refCharacteristic";
 import { RefCountry } from "features/worldView/types/ref/refCountry";
-import { FC, memo } from "react";
+import { FC, memo, MouseEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { Favorite } from "types/favorite";
 
 type Props = {
@@ -23,18 +22,8 @@ type Props = {
 };
 
 const WorldViewCard: FC<Props> = memo((props) => {
-  const {
-    id,
-    name,
-    imgUrl,
-    bestSeason,
-    countries,
-    categories,
-    characteristics,
-    favorites,
-    gifUrl,
-    gifSite,
-  } = props;
+  const { id, name, imgUrl, bestSeason, countries, categories, characteristics, gifUrl, gifSite } =
+    props;
   const countryNames = countries.map((country) => country.name);
   const countryNameResult = countryNames.length > 1 ? countryNames.join(" ") : countryNames[0];
 
@@ -52,6 +41,8 @@ const WorldViewCard: FC<Props> = memo((props) => {
   const countryBmiResult = countryBmi.length > 1 ? countryBmi.join("% ") : countryBmi[0];
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const navigate = useNavigate();
+
   return (
     <>
       <WorldViewModal
@@ -63,13 +54,16 @@ const WorldViewCard: FC<Props> = memo((props) => {
         onClose={onClose}
       />
       <WrapItem role="listitem" w={{ sm: "100%", md: "49%" }} aria-label={`絶景一覧: ${name}`}>
-        <Box position="relative">
+        <Box>
           <Flex
             h="270px"
             bg="gray.100"
             color="blue.800"
             _hover={{ cursor: "pointer", opacity: "0.8" }}
-            onClick={onOpen}
+            onClick={(e: MouseEvent<HTMLDivElement>) => {
+              e.preventDefault();
+              navigate(`/world_views/${id}`);
+            }}
           >
             <Box w="42%">
               <Image h="100%" w="100%" src={imgUrl} alt="絶景画像" />
@@ -168,12 +162,7 @@ const WorldViewCard: FC<Props> = memo((props) => {
               </Box>
             </Box>
           </Flex>
-          <FavoriteIcon
-            selectedId={id}
-            favorites={favorites}
-            deleteFavoriteApi={deleteFavoriteApi}
-            createFavoriteApi={createFavoriteApi}
-          />
+          <Flex onClick={onOpen}>gif</Flex>
         </Box>
       </WrapItem>
     </>

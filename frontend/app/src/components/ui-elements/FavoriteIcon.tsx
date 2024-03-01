@@ -32,13 +32,8 @@ const FavoriteIcon: FC<FavoriteProps> = (props) => {
   return (
     <Image
       src={favoriteId ? likedHeartIcon : unlikedHeartIcon}
-      boxSize="20px"
-      mr="5"
-      mb="3"
+      boxSize="25px"
       alt="ハートアイコン"
-      position="absolute"
-      bottom="0"
-      right="0"
       onClick={() =>
         handleChangeFavorite({
           selectedId,

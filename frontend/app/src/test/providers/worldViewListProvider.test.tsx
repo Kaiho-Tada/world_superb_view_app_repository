@@ -173,6 +173,19 @@ describe("LOADINGアクションのテスト", () => {
     expect(result.current.state.loadingSearchWorldViews).toBe(true);
   });
 
+  test("SET_LOADING_GET_WORLDVIEWSアクションがディスパッチされた際、loadingGetWorldViewsが指定された値に更新されること", () => {
+    const { result } = renderHook(() => useWorldViewListContext(), {
+      wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+    });
+    expect(result.current.state.loadingGetWorldViews).toBe(false);
+
+    act(() => {
+      result.current.dispatch({ type: "SET_LOADING_GET_WORLDVIEWS", payload: true });
+    });
+
+    expect(result.current.state.loadingGetWorldViews).toBe(true);
+  });
+
   test("SET_LOADING_GET_CATEGORYアクションがディスパッチされた際、loadingGetCategoryが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
@@ -234,6 +247,7 @@ test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldVie
           worldViewFavorites: [],
           gifUrl: "gifUrl",
           gifSite: "gifSite",
+          videos: [],
         },
       ],
     });
@@ -251,6 +265,7 @@ test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldVie
       worldViewFavorites: [],
       gifUrl: "gifUrl",
       gifSite: "gifSite",
+      videos: [],
     },
   ]);
 });

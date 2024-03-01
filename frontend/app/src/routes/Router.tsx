@@ -4,6 +4,7 @@ import useAuthorizeLoggedInUser from "features/auth/hooks/useAuthorizeLoggedInUs
 import useAuthorizeLoggedOutUser from "features/auth/hooks/useAuthorizeLoggedOutUser";
 import useAuthorizeRegisteredUser from "features/auth/hooks/useAuthorizeRegisteredUser";
 import VideoListPage from "features/video/pages/VideoListPage";
+import WorldViewDetailPage from "features/worldView/pages/WorldViewDetailPage";
 import WorldViewListPage from "features/worldView/pages/WorldViewListPage";
 import Home from "pages/Home";
 import Login from "pages/Login";
@@ -59,6 +60,16 @@ const Router: FC = () => {
             <CommonLayout>
               <WorldViewListProvider>
                 <WorldViewListPage />
+              </WorldViewListProvider>
+            </CommonLayout>
+          }
+        />
+        <Route
+          path="/world_views/:id"
+          element={
+            <CommonLayout>
+              <WorldViewListProvider>
+                <WorldViewDetailPage />
               </WorldViewListProvider>
             </CommonLayout>
           }

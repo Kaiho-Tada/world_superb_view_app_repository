@@ -3,6 +3,12 @@ import userEvent from "@testing-library/user-event";
 import WorldViewCard from "features/worldView/components/ui-parts/WorldViewCard";
 import { act } from "react-dom/test-utils";
 
+const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
+
 const countries = [
   {
     id: 1,
@@ -272,105 +278,6 @@ test("リスクレベルがレンダリングされていること", () => {
   expect(riskLevel.length).toBe(2);
 });
 
-test("ハートアイコンが表示されていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  expect(screen.getByRole("img", { name: "ハートアイコン" })).toBeInTheDocument();
-});
-
-describe("各カードのfavorites内にcurrentUserIdと一致するuserIdを持つのオブジェクトが存在しない場合", () => {
-  test("ハートアイコン押下でcreateFavoriteApi関数が実行されること", async () => {
-    const user = userEvent.setup();
-
-    const spyOnUseAuth = jest.spyOn(jest.requireActual("providers/useAuthProvider"), "useAuth");
-    spyOnUseAuth.mockReturnValue({
-      currentUser: { id: 1 },
-    });
-    const spyOnCreateFavoriteApi = jest.spyOn(
-      jest.requireActual("features/worldView/api/worldViewFavoriteApi"),
-      "createFavoriteApi"
-    );
-    spyOnCreateFavoriteApi.mockResolvedValue(null);
-
-    await act(async () => {
-      render(
-        <WorldViewCard
-          id={1}
-          name="絶景名"
-          imgUrl="画像URL"
-          bestSeason="1月"
-          countries={countries}
-          categories={categories}
-          characteristics={characteristics}
-          favorites={[{ id: 1, userId: 2 }]}
-          gifUrl="gifUrl"
-          gifSite="gifSite"
-        />
-      );
-    });
-    await act(async () => {
-      await user.click(screen.getByRole("img", { name: "ハートアイコン" }));
-    });
-    expect(spyOnCreateFavoriteApi).toHaveBeenCalledWith(1);
-
-    spyOnCreateFavoriteApi.mockRestore();
-    spyOnUseAuth.mockRestore();
-  });
-});
-
-describe("各カードのfavorites内にcurrentUserIdと一致するuserIdを持つのオブジェクトが存在する場合", () => {
-  test("ハートアイコン押下でdeleteFavoriteApi関数が実行されること", async () => {
-    const user = userEvent.setup();
-
-    const spyOnUseAuth = jest.spyOn(jest.requireActual("providers/useAuthProvider"), "useAuth");
-    spyOnUseAuth.mockReturnValue({
-      currentUser: { id: 2 },
-    });
-
-    const spyOnDeleteFavoriteApi = jest.spyOn(
-      jest.requireActual("features/worldView/api/worldViewFavoriteApi"),
-      "deleteFavoriteApi"
-    );
-    spyOnDeleteFavoriteApi.mockResolvedValue(null);
-    await act(async () => {
-      render(
-        <WorldViewCard
-          id={1}
-          name="絶景名"
-          imgUrl="画像URL"
-          bestSeason="1月"
-          countries={countries}
-          categories={categories}
-          characteristics={characteristics}
-          favorites={[{ id: 1, userId: 2 }]}
-          gifUrl="gifUrl"
-          gifSite="gifSite"
-        />
-      );
-    });
-
-    await act(async () => {
-      await user.click(screen.getByRole("img", { name: "ハートアイコン" }));
-    });
-    expect(spyOnDeleteFavoriteApi).toHaveBeenCalledWith(1);
-
-    spyOnDeleteFavoriteApi.mockRestore();
-    spyOnUseAuth.mockRestore();
-  });
-});
-
 test("BMIの見出しがレンダリングされていること", () => {
   render(
     <WorldViewCard
@@ -408,7 +315,7 @@ test("BMI値がレンダリングされていること", () => {
   expect(screen.getByRole("heading", { name: "11.2% -26.9%" })).toBeInTheDocument();
 });
 
-test("絶景カード押下でモーダルが表示されること", async () => {
+test("絶景カード押下で絶景詳細ページに遷移すること", async () => {
   const user = userEvent.setup();
   render(
     <WorldViewCard
@@ -427,5 +334,6 @@ test("絶景カード押下でモーダルが表示されること", async () =>
   await act(async () => {
     await user.click(screen.getByRole("heading", { name: "リスクレベル" }));
   });
-  expect(screen.getByRole("dialog", { name: "絶景モーダル" })).toBeInTheDocument();
+  expect(mockNavigate).toHaveBeenCalledWith("/world_views/1");
+  expect(mockNavigate).toHaveBeenCalledTimes(1);
 });
