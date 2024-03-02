@@ -271,15 +271,12 @@ describe("SearchButtonのテスト", () => {
     expect(screen.getByRole("button", { name: "検索" })).toBeInTheDocument();
   });
 
-  test("isDisabledSearchButtonがfalseの場合、SearchButton押下でisDisabledがtrueに更新され、handleSearchModel関数が呼び出されること", async () => {
+  test("isDisabledSearchButtonがfalseの場合、SearchButton押下でisDisabledがtrueに更新され、handleGetModel関数が呼び出されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
-    const spyOnUseSearchModel = jest.spyOn(
-      jest.requireActual("hooks/api/useSearchModel"),
-      "default"
-    );
-    const mockHandleSearchModel = jest.fn();
-    spyOnUseSearchModel.mockReturnValue({
-      handleSearchModel: mockHandleSearchModel,
+    const spyOnUseGetModel = jest.spyOn(jest.requireActual("hooks/api/useGetModel"), "default");
+    const mockhandleGetModel = jest.fn();
+    spyOnUseGetModel.mockReturnValue({
+      handleGetModel: mockhandleGetModel,
     });
     const spyOnUseWorldViewApi = jest.spyOn(
       jest.requireActual("features/worldView/api/useWorldViewApi"),
@@ -297,17 +294,17 @@ describe("SearchButtonのテスト", () => {
       payload: true,
     });
     expect(mockDispatch).toHaveBeenCalledTimes(1);
-    expect(mockHandleSearchModel).toHaveBeenCalledWith({
+    expect(mockhandleGetModel).toHaveBeenCalledWith({
       modelDispatch: expect.any(Function),
       loadingSearchModelDispatch: expect.any(Function),
       searchModelApi: mockSearchWorldViewApi,
     });
-    expect(mockHandleSearchModel).toHaveBeenCalledTimes(1);
-    spyOnUseSearchModel.mockRestore();
+    expect(mockhandleGetModel).toHaveBeenCalledTimes(1);
+    spyOnUseGetModel.mockRestore();
     spyOnUseWorldViewApi.mockRestore();
   });
 
-  test("SearchButton押下でhandleSearchModel関数内でSET_WORLD_VIEWSアクションとSET_LOADING_SEARCH_WORLDVIEWSアクションがディスパッチされること", async () => {
+  test("SearchButton押下でhandleGetModel関数内でSET_WORLD_VIEWSアクションとSET_LOADING_SEARCH_WORLDVIEWSアクションがディスパッチされること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const spyOnUseWorldViewApi = jest.spyOn(
       jest.requireActual("features/worldView/api/useWorldViewApi"),

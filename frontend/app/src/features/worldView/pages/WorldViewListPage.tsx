@@ -19,8 +19,8 @@ import useClear from "features/worldView/hooks/useClear";
 import useGetCheckedLabels from "features/worldView/hooks/useGetCheckedLabels";
 import { WorldView } from "features/worldView/types/api/worldView";
 import useGetCheckBoxItems from "hooks/api/useGetCheckBoxItems";
+import useGetModel from "hooks/api/useGetModel";
 import useGetNestedCheckBoxItems from "hooks/api/useGetNestedCheckBoxItems";
-import useSearchModel from "hooks/api/useSearchModel";
 import useDebounce from "hooks/useDebounce";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { useCallback, useEffect, useState } from "react";
@@ -45,7 +45,7 @@ const WorldViewListPage = () => {
   } = state;
   const { handleGetNestedCheckBoxItems } = useGetNestedCheckBoxItems();
   const { handleGetCheckBoxItems } = useGetCheckBoxItems();
-  const { handleSearchModel } = useSearchModel();
+  const { handleGetModel } = useGetModel();
   const { handleDebounceWithArg } = useDebounce(1500);
   const { searchWorldViewApi } = useWorldViewApi();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -66,7 +66,7 @@ const WorldViewListPage = () => {
           modelDispatch: (responseData: WorldView[]) => void;
           searchModelApi: () => Promise<AxiosResponse<WorldView[]>>;
         }>({
-          fn: handleSearchModel,
+          fn: handleGetModel,
           arg: {
             loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
             modelDispatch: worldViewDispatch,
@@ -75,7 +75,7 @@ const WorldViewListPage = () => {
         });
         dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
       } else {
-        handleSearchModel<WorldView>({
+        handleGetModel<WorldView>({
           loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
           modelDispatch: worldViewDispatch,
           searchModelApi: searchWorldViewApi,

@@ -301,31 +301,28 @@ describe("コンポーネントのテスト", () => {
   });
 });
 
-describe("handleSearchModel関数のテスト", () => {
-  test("初回レンダリング時にhandleSearchModel関数が実行されること", async () => {
+describe("handleGetModel関数のテスト", () => {
+  test("初回レンダリング時にhandleGetModel関数が実行されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
 
-    // handleSearchModel関数のモック化
-    const spyOnUseSearchModel = jest.spyOn(
-      jest.requireActual("hooks/api/useSearchModel"),
-      "default"
-    );
-    const mockHandleSearchModel = jest.fn();
-    spyOnUseSearchModel.mockReturnValue({ handleSearchModel: mockHandleSearchModel });
+    // handleGetModel関数のモック化
+    const spyOnUseGetModel = jest.spyOn(jest.requireActual("hooks/api/useGetModel"), "default");
+    const mockHandleGetModel = jest.fn();
+    spyOnUseGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
     await act(async () => {
       render(<WorldViewDetailPage />);
     });
-    expect(mockHandleSearchModel).toHaveBeenCalledWith({
+    expect(mockHandleGetModel).toHaveBeenCalledWith({
       loadingSearchModelDispatch: expect.any(Function),
       modelDispatch: expect.any(Function),
       searchModelApi: mockSearchWorldViewApi,
     });
-    spyOnUseSearchModel.mockRestore();
+    spyOnUseGetModel.mockRestore();
   });
 
-  test("初回レンダリング時にhandleSearchModel関数内でSET_LOADING_GET_WORLDVIEWSアクションがディスパッチされること", async () => {
+  test("初回レンダリング時にhandleGetModel関数内でSET_LOADING_GET_WORLDVIEWSアクションがディスパッチされること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
 
@@ -342,7 +339,7 @@ describe("handleSearchModel関数のテスト", () => {
     });
   });
 
-  test("初回レンダリング時にhandleSearchModel関数内でSET_WORLD_VIEWSアクションがディスパッチされること", async () => {
+  test("初回レンダリング時にhandleGetModel関数内でSET_WORLD_VIEWSアクションがディスパッチされること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
 

@@ -7,7 +7,7 @@ import SearchButton from "components/ui-elements/SearchButton";
 import useVideoApi from "features/video/api/videoApi";
 import useClear from "features/video/hooks/useClear";
 import Video from "features/video/types/Video";
-import useSearchModel from "hooks/api/useSearchModel";
+import useGetModel from "hooks/api/useGetModel";
 import { useVideoListContext } from "providers/VideoListProvider";
 import { useCallback } from "react";
 import CheckItem from "types/checkItem";
@@ -24,7 +24,7 @@ const FilterAccordionPanel = () => {
     isDisabled,
   } = state;
   const { searchVideoApi } = useVideoApi();
-  const { handleSearchModel } = useSearchModel();
+  const { handleGetModel } = useGetModel();
 
   const genreCheckItemsDispatch = (newCheckItems: CheckItem[]) => {
     dispatch({ type: "SET_GENRE_CHECK_ITEMS", payload: newCheckItems });
@@ -57,7 +57,7 @@ const FilterAccordionPanel = () => {
     if (isDisabled === false) {
       dispatch({ type: "SET_IS_DISABLED", payload: true });
     }
-    handleSearchModel<Video>({
+    handleGetModel<Video>({
       modelDispatch: movieDispatch,
       loadingSearchModelDispatch: loadingSearchMovieDispatch,
       searchModelApi: searchVideoApi,

@@ -171,15 +171,12 @@ describe("SearchButtonのテスト", () => {
     expect(screen.getByRole("button", { name: "検索" })).toBeInTheDocument();
   });
 
-  test("isDisabledがfalseの場合、SearchButton押下でisDisabledがtrueに更新され、handleSearchModel関数が呼び出されること", async () => {
+  test("isDisabledがfalseの場合、SearchButton押下でisDisabledがtrueに更新され、handleGetModel関数が呼び出されること", async () => {
     spyOnUseVideoListContext.mockReturnValue(mockContextValue);
-    const spyOnUseSearchModel = jest.spyOn(
-      jest.requireActual("hooks/api/useSearchModel"),
-      "default"
-    );
-    const mockHandleSearchModel = jest.fn();
-    spyOnUseSearchModel.mockReturnValue({
-      handleSearchModel: mockHandleSearchModel,
+    const spyOnUseGetModel = jest.spyOn(jest.requireActual("hooks/api/useGetModel"), "default");
+    const mockHandleGetModel = jest.fn();
+    spyOnUseGetModel.mockReturnValue({
+      handleGetModel: mockHandleGetModel,
     });
     const spyOnUseVideoApi = jest.spyOn(
       jest.requireActual("features/video/api/videoApi"),
@@ -193,14 +190,14 @@ describe("SearchButtonのテスト", () => {
       await user.click(screen.getByRole("button", { name: "検索" }));
     });
     expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_DISABLED", payload: true });
-    expect(mockHandleSearchModel).toHaveBeenCalledWith({
+    expect(mockHandleGetModel).toHaveBeenCalledWith({
       modelDispatch: expect.any(Function),
       loadingSearchModelDispatch: expect.any(Function),
       searchModelApi: mockSearchVideoApi,
     });
     expect(mockDispatch).toHaveBeenCalledTimes(1);
-    expect(mockHandleSearchModel).toHaveBeenCalledTimes(1);
-    spyOnUseSearchModel.mockRestore();
+    expect(mockHandleGetModel).toHaveBeenCalledTimes(1);
+    spyOnUseGetModel.mockRestore();
     spyOnUseVideoApi.mockRestore();
   });
 });

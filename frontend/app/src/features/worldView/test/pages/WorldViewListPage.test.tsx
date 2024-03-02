@@ -67,10 +67,10 @@ const mockContextValueShouldDebounce = {
   },
 };
 
-const mockHandleSearchModel = jest.fn();
-jest.mock("hooks/api/useSearchModel", () => ({
+const mockHandleGetModel = jest.fn();
+jest.mock("hooks/api/useGetModel", () => ({
   __esModule: true,
-  default: () => ({ handleSearchModel: mockHandleSearchModel }),
+  default: () => ({ handleGetModel: mockHandleGetModel }),
 }));
 
 const mockHandleGetNestedCheckBoxItems = jest.fn();
@@ -101,8 +101,8 @@ test("shouldDebounceがtrueの場合、flaseに更新されること", () => {
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_SHOULD_DEBOUNCE", payload: false });
 });
 
-describe("handleSearchModel関数のテスト", () => {
-  test("初回レンダリング時にhandleSearchModel関数が実行されること", () => {
+describe("handleGetModel関数のテスト", () => {
+  test("初回レンダリング時にhandleGetModel関数が実行されること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const spyOnUseWorldViewApi = jest.spyOn(
       jest.requireActual("features/worldView/api/useWorldViewApi"),
@@ -112,7 +112,7 @@ describe("handleSearchModel関数のテスト", () => {
     spyOnUseWorldViewApi.mockReturnValue({ searchWorldViewApi: mockSearchWorldViewApi });
 
     render(<WorldViewList />);
-    expect(mockHandleSearchModel).toHaveBeenCalledWith({
+    expect(mockHandleGetModel).toHaveBeenCalledWith({
       loadingSearchModelDispatch: expect.any(Function),
       modelDispatch: expect.any(Function),
       searchModelApi: mockSearchWorldViewApi,

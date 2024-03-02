@@ -51,11 +51,11 @@ jest.mock("features/video/api/genreApi", () => ({
   default: jest.fn(),
 }));
 
-test("初回レンダリング時にhandleSearchModel関数が実行されること", async () => {
-  const spyOnUseSearchModel = jest.spyOn(jest.requireActual("hooks/api/useSearchModel"), "default");
-  const mockHandleSearchModel = jest.fn();
-  spyOnUseSearchModel.mockReturnValue({
-    handleSearchModel: mockHandleSearchModel,
+test("初回レンダリング時にhandleGetModel関数が実行されること", async () => {
+  const spyOnUseGetModel = jest.spyOn(jest.requireActual("hooks/api/useGetModel"), "default");
+  const mockHandleGetModel = jest.fn();
+  spyOnUseGetModel.mockReturnValue({
+    handleGetModel: mockHandleGetModel,
   });
   await act(async () => {
     render(
@@ -64,16 +64,16 @@ test("初回レンダリング時にhandleSearchModel関数が実行されるこ
       </VideoListProvider>
     );
   });
-  expect(mockHandleSearchModel).toHaveBeenCalledWith({
+  expect(mockHandleGetModel).toHaveBeenCalledWith({
     modelDispatch: expect.any(Function),
     loadingSearchModelDispatch: expect.any(Function),
     searchModelApi: mockSearchVideoApi,
   });
 
-  spyOnUseSearchModel.mockRestore();
+  spyOnUseGetModel.mockRestore();
 });
 
-test("初回レンダリング時にhandleSearchModel関数内でSET_VIDEOSアクションのdispatch関数が実行されること", async () => {
+test("初回レンダリング時にhandleGetModel関数内でSET_VIDEOSアクションのdispatch関数が実行されること", async () => {
   (mockSearchVideoApi as jest.Mock).mockReturnValue({ data: { id: 1, title: "タイトル" } });
   await act(async () => {
     render(
@@ -88,7 +88,7 @@ test("初回レンダリング時にhandleSearchModel関数内でSET_VIDEOSア�
   });
 });
 
-test("初回レンダリング時にhandleSearchModel関数内でSET_LOADING_SEARCH_VIDEOSアクションのdispatch関数が実行されること", async () => {
+test("初回レンダリング時にhandleGetModel関数内でSET_LOADING_SEARCH_VIDEOSアクションのdispatch関数が実行されること", async () => {
   await act(async () => {
     render(
       <VideoListProvider>

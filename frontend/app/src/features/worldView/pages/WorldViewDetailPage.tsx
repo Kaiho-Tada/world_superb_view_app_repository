@@ -2,7 +2,7 @@ import { Box, Flex, Heading, HStack, Image, Img, Text, Wrap, WrapItem } from "@c
 import defaultImg from "assets/default.png";
 import FavoriteIcon from "components/ui-elements/FavoriteIcon";
 import Loading from "components/ui-elements/Loading";
-import useSearchModel from "hooks/api/useSearchModel";
+import useGetModel from "hooks/api/useGetModel";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -16,7 +16,7 @@ const WorldViewDetailPage = () => {
   const params = useParams();
   const worldViewId = Number(params.id);
   const { worldViews, loadingSearchWorldViews } = state;
-  const { handleSearchModel } = useSearchModel();
+  const { handleGetModel } = useGetModel();
   const { searchWorldViewApi } = useWorldViewApi();
 
   const currentDetailView = worldViews.find((worldView) => worldView.id === worldViewId);
@@ -29,7 +29,7 @@ const WorldViewDetailPage = () => {
   };
 
   useEffect(() => {
-    handleSearchModel<WorldView>({
+    handleGetModel<WorldView>({
       loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
       modelDispatch: worldViewDispatch,
       searchModelApi: searchWorldViewApi,
