@@ -308,3 +308,42 @@ test("SET_IS_SKIP_SEARCH_APIアクションがディスパッチされた際、i
 
   expect(result.current.state.isSkipSearchApi).toEqual(true);
 });
+
+test("SET_IS_SKIP_GET_CHECK_ITEMS_APIアクションがディスパッチされた際、isSkipGetCheckItmesApiが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.isSkipGetCheckItmesApi).toEqual(false);
+
+  act(() => {
+    result.current.dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS_API", payload: true });
+  });
+
+  expect(result.current.state.isSkipGetCheckItmesApi).toEqual(true);
+});
+
+test("SET_CURRENT_PAGEアクションがディスパッチされた際、currentPageが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.currentPage).toEqual(1);
+
+  act(() => {
+    result.current.dispatch({ type: "SET_CURRENT_PAGE", payload: 4 });
+  });
+
+  expect(result.current.state.currentPage).toEqual(4);
+});
+
+test("SET_ITEMS_OFFSETアクションがディスパッチされた際、itemsOffsetが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.itemsOffset).toEqual(0);
+
+  act(() => {
+    result.current.dispatch({ type: "SET_ITEMS_OFFSET", payload: 20 });
+  });
+
+  expect(result.current.state.itemsOffset).toEqual(20);
+});

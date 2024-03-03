@@ -34,6 +34,8 @@ const WorldViewDetailPage = () => {
       modelDispatch: worldViewDispatch,
       searchModelApi: searchWorldViewApi,
     });
+    dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS_API", payload: true });
+    dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
   }, []);
 
   return loadingSearchWorldViews || !currentDetailView ? (

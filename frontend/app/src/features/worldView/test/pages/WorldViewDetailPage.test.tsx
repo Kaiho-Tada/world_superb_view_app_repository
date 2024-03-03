@@ -301,7 +301,7 @@ describe("コンポーネントのテスト", () => {
   });
 });
 
-describe("handleGetModel関数のテスト", () => {
+describe("初回レンダリング時のテスト", () => {
   test("初回レンダリング時にhandleGetModel関数が実行されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
@@ -350,6 +350,21 @@ describe("handleGetModel関数のテスト", () => {
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "SET_WORLD_VIEWS",
       payload: [{ id: 1, name: "名前" }],
+    });
+  });
+
+  test("初回レンダリング時にisSkipSearchApiとisSkipGetCheckItmesApiがtrueに更新されること", async () => {
+    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
+    (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
+
+    mockSearchWorldViewApi.mockReturnValue({ data: [{ id: 1, name: "名前" }] });
+    await act(async () => {
+      render(<WorldViewDetailPage />);
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_IS_SKIP_GET_CHECK_ITEMS_API",
+      payload: true,
     });
   });
 });

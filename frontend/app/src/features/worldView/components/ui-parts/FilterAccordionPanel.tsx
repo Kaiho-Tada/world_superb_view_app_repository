@@ -31,6 +31,8 @@ const FilterAccordionPanel = () => {
     bmiRange,
     isDisabledSearchButton,
     riskLevel,
+    currentPage,
+    itemsOffset,
   } = state;
 
   const keywordDispatch = (newKeyword: string) => {
@@ -102,6 +104,10 @@ const FilterAccordionPanel = () => {
       loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
       searchModelApi: searchWorldViewApi,
     });
+    if (currentPage !== 1 && itemsOffset !== 0) {
+      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
+      dispatch({ type: "SET_ITEMS_OFFSET", payload: 0 });
+    }
   }, [isDisabledSearchButton, searchWorldViewApi]);
 
   const isSkipSearchApiDispatch = (payload: boolean) => {

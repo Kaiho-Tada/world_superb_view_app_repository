@@ -28,6 +28,8 @@ const mockContextValue = {
     loadingGetCountry: false,
     loadingGetCharacteristic: false,
     isDisabledSeachButton: false,
+    currentPage: 1,
+    itemsOffset: 0,
   },
 };
 
@@ -62,6 +64,23 @@ const mockContextValueLoadingCharacteristic = {
     loadingGetCharacteristic: true,
   },
 };
+
+const mockContextValueNonDefaultCurrentPage = {
+  ...mockContextValue,
+  state: {
+    ...mockContextValue.state,
+    currentPage: 2,
+    itemsOffset: 20,
+  },
+};
+
+const mockSearchWorldViewApi = jest.fn();
+jest.mock("features/worldView/api/useWorldViewApi", () => ({
+  __esModule: true,
+  default: () => ({
+    searchWorldViewApi: mockSearchWorldViewApi,
+  }),
+}));
 
 describe("クリアボタンのテスト", () => {
   describe("Videoモデルのフィルター属性の値が初期値である場合", () => {
@@ -273,17 +292,13 @@ describe("SearchButtonのテスト", () => {
 
   test("isDisabledSearchButtonがfalseの場合、SearchButton押下でisDisabledがtrueに更新され、handleGetModel関数が呼び出されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
+
     const spyOnUseGetModel = jest.spyOn(jest.requireActual("hooks/api/useGetModel"), "default");
     const mockhandleGetModel = jest.fn();
     spyOnUseGetModel.mockReturnValue({
       handleGetModel: mockhandleGetModel,
     });
-    const spyOnUseWorldViewApi = jest.spyOn(
-      jest.requireActual("features/worldView/api/useWorldViewApi"),
-      "default"
-    );
-    const mockSearchWorldViewApi = jest.fn();
-    spyOnUseWorldViewApi.mockReturnValue({ searchWorldViewApi: mockSearchWorldViewApi });
+
     const user = userEvent.setup();
     render(<FilterAccordionPanel />);
     await act(async () => {
@@ -301,22 +316,15 @@ describe("SearchButtonのテスト", () => {
     });
     expect(mockhandleGetModel).toHaveBeenCalledTimes(1);
     spyOnUseGetModel.mockRestore();
-    spyOnUseWorldViewApi.mockRestore();
   });
 
   test("SearchButton押下でhandleGetModel関数内でSET_WORLD_VIEWSアクションとSET_LOADING_SEARCH_WORLDVIEWSアクションがディスパッチされること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
-    const spyOnUseWorldViewApi = jest.spyOn(
-      jest.requireActual("features/worldView/api/useWorldViewApi"),
-      "default"
-    );
-    spyOnUseWorldViewApi.mockReturnValue({
-      searchWorldViewApi: () => ({
-        data: [
-          { id: 1, name: "name1" },
-          { id: 2, name: "name2" },
-        ],
-      }),
+    mockSearchWorldViewApi.mockReturnValue({
+      data: [
+        { id: 1, name: "name1" },
+        { id: 2, name: "name2" },
+      ],
     });
 
     const user = userEvent.setup();
@@ -339,6 +347,19 @@ describe("SearchButtonのテスト", () => {
       type: "SET_LOADING_SEARCH_WORLDVIEWS",
       payload: false,
     });
-    spyOnUseWorldViewApi.mockRestore();
+  });
+
+  test("ページネーションが1ページ目ではない場合、searchButton押下でcurrentPageが1にitemsOffsetが0に更新されること", async () => {
+    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(
+      mockContextValueNonDefaultCurrentPage
+    );
+
+    const user = userEvent.setup();
+    render(<FilterAccordionPanel />);
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "検索" }));
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 1 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 0 });
   });
 });

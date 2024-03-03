@@ -21,7 +21,10 @@ export type Action =
   | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean }
   | { type: "SET_SORT_CRITERIA"; payload: string }
   | { type: "SET_IS_DISABLED_SEARCH_BUTTON"; payload: boolean }
-  | { type: "SET_IS_SKIP_SEARCH_API"; payload: boolean };
+  | { type: "SET_IS_SKIP_SEARCH_API"; payload: boolean }
+  | { type: "SET_IS_SKIP_GET_CHECK_ITEMS_API"; payload: boolean }
+  | { type: "SET_CURRENT_PAGE"; payload: number }
+  | { type: "SET_ITEMS_OFFSET"; payload: number };
 
 type State = {
   categoryCheckBoxItems: NestedCheckBoxItem[];
@@ -41,6 +44,9 @@ type State = {
   sortCriteria: string;
   isDisabledSearchButton: boolean;
   isSkipSearchApi: boolean;
+  isSkipGetCheckItmesApi: boolean;
+  currentPage: number;
+  itemsOffset: number;
 };
 
 const initialState: State = {
@@ -61,6 +67,9 @@ const initialState: State = {
   sortCriteria: "",
   isDisabledSearchButton: true,
   isSkipSearchApi: false,
+  isSkipGetCheckItmesApi: false,
+  currentPage: 1,
+  itemsOffset: 0,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -115,6 +124,15 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_IS_SKIP_SEARCH_API":
       return { ...state, isSkipSearchApi: action.payload };
+
+    case "SET_IS_SKIP_GET_CHECK_ITEMS_API":
+      return { ...state, isSkipGetCheckItmesApi: action.payload };
+
+    case "SET_CURRENT_PAGE":
+      return { ...state, currentPage: action.payload };
+
+    case "SET_ITEMS_OFFSET":
+      return { ...state, itemsOffset: action.payload };
 
     default:
       return state;
