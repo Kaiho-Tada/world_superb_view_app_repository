@@ -6,9 +6,9 @@ type Props<T> = {
   modelDispatch: (responseData: T[]) => void;
   searchModelApi: () => Promise<AxiosResponse<T[]>>;
 };
-const useSearchModel = () => {
+const useGetModel = () => {
   const { showMessage } = useMessage();
-  const handleSearchModel = async <T>(props: Props<T>) => {
+  const handleGetModel = async <T>(props: Props<T>) => {
     const { loadingSearchModelDispatch, modelDispatch, searchModelApi } = props;
     loadingSearchModelDispatch(true);
     try {
@@ -25,6 +25,6 @@ const useSearchModel = () => {
       loadingSearchModelDispatch(false);
     }
   };
-  return { handleSearchModel };
+  return { handleGetModel };
 };
-export default useSearchModel;
+export default useGetModel;

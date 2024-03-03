@@ -13,6 +13,7 @@ export type Action =
   | { type: "SET_CHECKED_CATEGORY_LABELS"; payload: string[] }
   | { type: "SET_KEYWORD"; payload: string }
   | { type: "SET_LOADING_SEARCH_WORLDVIEWS"; payload: boolean }
+  | { type: "SET_LOADING_GET_WORLDVIEWS"; payload: boolean }
   | { type: "SET_LOADING_GET_CATEGORY"; payload: boolean }
   | { type: "SET_LOADING_GET_COUNTRY"; payload: boolean }
   | { type: "SET_LOADING_GET_CHARACTERISTIC"; payload: boolean }
@@ -20,7 +21,10 @@ export type Action =
   | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean }
   | { type: "SET_SORT_CRITERIA"; payload: string }
   | { type: "SET_IS_DISABLED_SEARCH_BUTTON"; payload: boolean }
-  | { type: "SET_IS_SKIP_SEARCH_API"; payload: boolean };
+  | { type: "SET_IS_SKIP_SEARCH_API"; payload: boolean }
+  | { type: "SET_IS_SKIP_GET_CHECK_ITEMS_API"; payload: boolean }
+  | { type: "SET_CURRENT_PAGE"; payload: number }
+  | { type: "SET_ITEMS_OFFSET"; payload: number };
 
 type State = {
   categoryCheckBoxItems: NestedCheckBoxItem[];
@@ -31,6 +35,7 @@ type State = {
   bmiRange: number[];
   keyword: string;
   loadingSearchWorldViews: boolean;
+  loadingGetWorldViews: boolean;
   loadingGetCategory: boolean;
   loadingGetCountry: boolean;
   loadingGetCharacteristic: boolean;
@@ -39,6 +44,9 @@ type State = {
   sortCriteria: string;
   isDisabledSearchButton: boolean;
   isSkipSearchApi: boolean;
+  isSkipGetCheckItmesApi: boolean;
+  currentPage: number;
+  itemsOffset: number;
 };
 
 const initialState: State = {
@@ -50,6 +58,7 @@ const initialState: State = {
   bmiRange: [-40, 30],
   keyword: "",
   loadingSearchWorldViews: false,
+  loadingGetWorldViews: false,
   loadingGetCategory: false,
   loadingGetCountry: false,
   loadingGetCharacteristic: false,
@@ -58,6 +67,9 @@ const initialState: State = {
   sortCriteria: "",
   isDisabledSearchButton: true,
   isSkipSearchApi: false,
+  isSkipGetCheckItmesApi: false,
+  currentPage: 1,
+  itemsOffset: 0,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -86,6 +98,9 @@ const reducer = (state: State, action: Action): State => {
     case "SET_LOADING_SEARCH_WORLDVIEWS":
       return { ...state, loadingSearchWorldViews: action.payload };
 
+    case "SET_LOADING_GET_WORLDVIEWS":
+      return { ...state, loadingGetWorldViews: action.payload };
+
     case "SET_LOADING_GET_CATEGORY":
       return { ...state, loadingGetCategory: action.payload };
 
@@ -109,6 +124,15 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_IS_SKIP_SEARCH_API":
       return { ...state, isSkipSearchApi: action.payload };
+
+    case "SET_IS_SKIP_GET_CHECK_ITEMS_API":
+      return { ...state, isSkipGetCheckItmesApi: action.payload };
+
+    case "SET_CURRENT_PAGE":
+      return { ...state, currentPage: action.payload };
+
+    case "SET_ITEMS_OFFSET":
+      return { ...state, itemsOffset: action.payload };
 
     default:
       return state;

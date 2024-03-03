@@ -14,7 +14,7 @@ import FilterAccordionPanel from "features/video/components/ui-parts/FilterAccor
 import VideoList from "features/video/components/ui-parts/VideoList";
 import Movie from "features/video/types/Video";
 import useGetCheckItems from "hooks/api/useGetCheckItems";
-import useSearchModel from "hooks/api/useSearchModel";
+import useGetModel from "hooks/api/useGetModel";
 import useDebounce from "hooks/useDebounce";
 import { useVideoListContext } from "providers/VideoListProvider";
 import { FC, useCallback, useEffect, useState } from "react";
@@ -33,7 +33,7 @@ const VideoListPage: FC = () => {
     loadingSearchVideos,
     voteAverageRange,
   } = state;
-  const { handleSearchModel } = useSearchModel();
+  const { handleGetModel } = useGetModel();
   const { searchVideoApi } = useVideoApi();
   const { handleGetCheckItems } = useGetCheckItems();
   const { handleDebounceWithArg } = useDebounce(2000);
@@ -52,7 +52,7 @@ const VideoListPage: FC = () => {
         loadingSearchModelDispatch: (payload: boolean) => void;
         searchModelApi: () => Promise<AxiosResponse<Movie[]>>;
       }>({
-        fn: handleSearchModel,
+        fn: handleGetModel,
         arg: {
           modelDispatch: movieDispatch,
           loadingSearchModelDispatch: loadingSearchMovieDispatch,
@@ -61,7 +61,7 @@ const VideoListPage: FC = () => {
       });
       dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
     } else {
-      handleSearchModel<Movie>({
+      handleGetModel<Movie>({
         modelDispatch: movieDispatch,
         loadingSearchModelDispatch: loadingSearchMovieDispatch,
         searchModelApi: searchVideoApi,

@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import useSearchWorldView from "hooks/api/useSearchModel";
+import useGetModel from "hooks/api/useGetModel";
 
 const mockToast = jest.fn();
 jest.mock("@chakra-ui/react", () => ({
@@ -11,7 +11,7 @@ const mockLoadingSearchModelDispatch = jest.fn();
 const mockModelDispatch = jest.fn();
 const mockSearchModelApi = jest.fn();
 
-test("handleSearchWorldView成功時のテスト", async () => {
+test("handleGetModel成功時のテスト", async () => {
   mockSearchModelApi.mockResolvedValue({
     data: [
       { id: 1, name: "name1" },
@@ -19,8 +19,8 @@ test("handleSearchWorldView成功時のテスト", async () => {
     ],
   });
 
-  const { result } = renderHook(() => useSearchWorldView());
-  await result.current.handleSearchModel({
+  const { result } = renderHook(() => useGetModel());
+  await result.current.handleGetModel({
     loadingSearchModelDispatch: mockLoadingSearchModelDispatch,
     modelDispatch: mockModelDispatch,
     searchModelApi: mockSearchModelApi,
@@ -36,7 +36,7 @@ test("handleSearchWorldView成功時のテスト", async () => {
   expect(mockLoadingSearchModelDispatch).toHaveBeenCalledTimes(2);
 });
 
-test("handleSearchWorldView失敗時のテスト", async () => {
+test("handleGetModel失敗時のテスト", async () => {
   mockSearchModelApi.mockImplementation(() => {
     const error = new Error();
     Object.assign(error, {
@@ -46,8 +46,8 @@ test("handleSearchWorldView失敗時のテスト", async () => {
     throw error;
   });
 
-  const { result } = renderHook(() => useSearchWorldView());
-  await result.current.handleSearchModel({
+  const { result } = renderHook(() => useGetModel());
+  await result.current.handleGetModel({
     loadingSearchModelDispatch: mockLoadingSearchModelDispatch,
     modelDispatch: mockModelDispatch,
     searchModelApi: mockSearchModelApi,

@@ -9,7 +9,7 @@ import useWorldViewApi from "features/worldView/api/useWorldViewApi";
 import useClear from "features/worldView/hooks/useClear";
 import useGetCheckedLabels from "features/worldView/hooks/useGetCheckedLabels";
 import { WorldView } from "features/worldView/types/api/worldView";
-import useSearchModel from "hooks/api/useSearchModel";
+import useGetModel from "hooks/api/useGetModel";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { useCallback } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
@@ -31,6 +31,8 @@ const FilterAccordionPanel = () => {
     bmiRange,
     isDisabledSearchButton,
     riskLevel,
+    currentPage,
+    itemsOffset,
   } = state;
 
   const keywordDispatch = (newKeyword: string) => {
@@ -82,7 +84,7 @@ const FilterAccordionPanel = () => {
   const { handleClear } = useClear();
   const { checkedLabelObject } = useGetCheckedLabels();
 
-  const { handleSearchModel } = useSearchModel();
+  const { handleGetModel } = useGetModel();
 
   const worldViewDispatch = (responseData: WorldView[]) => {
     dispatch({ type: "SET_WORLD_VIEWS", payload: responseData });
@@ -97,11 +99,15 @@ const FilterAccordionPanel = () => {
     if (!isDisabledSearchButton) {
       dispatch({ type: "SET_IS_DISABLED_SEARCH_BUTTON", payload: true });
     }
-    handleSearchModel<WorldView>({
+    handleGetModel<WorldView>({
       modelDispatch: worldViewDispatch,
       loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
       searchModelApi: searchWorldViewApi,
     });
+    if (currentPage !== 1 && itemsOffset !== 0) {
+      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
+      dispatch({ type: "SET_ITEMS_OFFSET", payload: 0 });
+    }
   }, [isDisabledSearchButton, searchWorldViewApi]);
 
   const isSkipSearchApiDispatch = (payload: boolean) => {

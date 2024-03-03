@@ -7,6 +7,12 @@ import { act } from "react-dom/test-utils";
 window.scrollTo = jest.fn();
 global.ResizeObserver = require("resize-observer-polyfill");
 
+const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
+
 jest.mock("providers/WorldViewListProvider", () => ({
   useWorldViewListContext: jest.fn(),
 }));
@@ -42,6 +48,8 @@ const mockContextValue = {
     shouldDebounce: false,
     sortCriteria: "",
     worldViews: mockWorldViews,
+    currentPage: 1,
+    itemsOffset: 0,
   },
 };
 
@@ -61,10 +69,19 @@ const mockContextValueShouldDebounce = {
   },
 };
 
-const mockHandleSearchModel = jest.fn();
-jest.mock("hooks/api/useSearchModel", () => ({
+const mockContextValueCurrentPage2 = {
+  ...mockContextValue,
+  state: {
+    ...mockContextValue.state,
+    currentPage: 2,
+    itemsOffset: 20,
+  },
+};
+
+const mockHandleGetModel = jest.fn();
+jest.mock("hooks/api/useGetModel", () => ({
   __esModule: true,
-  default: () => ({ handleSearchModel: mockHandleSearchModel }),
+  default: () => ({ handleGetModel: mockHandleGetModel }),
 }));
 
 const mockHandleGetNestedCheckBoxItems = jest.fn();
@@ -95,8 +112,15 @@ test("shouldDebounceがtrueの場合、flaseに更新されること", () => {
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_SHOULD_DEBOUNCE", payload: false });
 });
 
-describe("handleSearchModel関数のテスト", () => {
-  test("初回レンダリング時にhandleSearchModel関数が実行されること", () => {
+test("worldViewレコードの絞り込み時に、ページネーションが1ページ目ではない場合はcurrentPageが1にitemsOffsetが0に更新されること", () => {
+  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueCurrentPage2);
+  render(<WorldViewList />);
+  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 1 });
+  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 0 });
+});
+
+describe("handleGetModel関数のテスト", () => {
+  test("初回レンダリング時にhandleGetModel関数が実行されること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const spyOnUseWorldViewApi = jest.spyOn(
       jest.requireActual("features/worldView/api/useWorldViewApi"),
@@ -106,7 +130,7 @@ describe("handleSearchModel関数のテスト", () => {
     spyOnUseWorldViewApi.mockReturnValue({ searchWorldViewApi: mockSearchWorldViewApi });
 
     render(<WorldViewList />);
-    expect(mockHandleSearchModel).toHaveBeenCalledWith({
+    expect(mockHandleGetModel).toHaveBeenCalledWith({
       loadingSearchModelDispatch: expect.any(Function),
       modelDispatch: expect.any(Function),
       searchModelApi: mockSearchWorldViewApi,
@@ -252,17 +276,19 @@ describe("ページネーションのテスト", () => {
     await act(async () => {
       await user.click(screen.getByRole("button", { name: "次のページに移動" }));
     });
-    for (let i = 21; i <= 40; i += 1) {
-      const worldViewElement = screen.getByText(`worldView${i}`);
-      expect(worldViewElement).toBeInTheDocument();
-    }
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 2 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 20 });
+  });
+
+  test("priviousボタンで前のページに戻ること", async () => {
+    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueCurrentPage2);
+    const user = userEvent.setup();
+    render(<WorldViewList />);
     await act(async () => {
       await user.click(screen.getByRole("button", { name: "前のページに移動" }));
     });
-    for (let i = 1; i <= 20; i += 1) {
-      const worldViewElement = screen.getByText(`worldView${i}`);
-      expect(worldViewElement).toBeInTheDocument();
-    }
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 1 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 0 });
   });
 
   test("2ページ目への遷移ボタン押下で2ページ目に遷移すること", async () => {
@@ -272,10 +298,8 @@ describe("ページネーションのテスト", () => {
     await act(async () => {
       await user.click(screen.getByRole("button", { name: `ページ2に移動` }));
     });
-    for (let i = 21; i <= 40; i += 1) {
-      const worldViewElement = screen.getByText(`worldView${i}`);
-      expect(worldViewElement).toBeInTheDocument();
-    }
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 2 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 20 });
   });
 
   test("3ページ目への遷移ボタン押下で3ページ目に遷移すること", async () => {
@@ -285,9 +309,7 @@ describe("ページネーションのテスト", () => {
     await act(async () => {
       await user.click(screen.getByRole("button", { name: `ページ3に移動` }));
     });
-    for (let i = 41; i <= 60; i += 1) {
-      const worldViewElement = screen.getByText(`worldView${i}`);
-      expect(worldViewElement).toBeInTheDocument();
-    }
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 3 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 40 });
   });
 });
