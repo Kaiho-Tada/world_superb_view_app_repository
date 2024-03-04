@@ -16,17 +16,17 @@ type Props = {
   name: string;
   categoryNameResult: string;
   gifUrl: string;
-  gifSite: string | null;
+  gifSite: string;
   isOpen: boolean;
   onClose: () => void;
 };
 
-const WorldViewModal: FC<Props> = memo((props) => {
+const GifModal: FC<Props> = memo((props) => {
   const { name, categoryNameResult, gifUrl, gifSite, isOpen, onClose } = props;
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg">
       <ModalOverlay />
-      <ModalContent role="dialog" aria-label="絶景モーダル">
+      <ModalContent role="dialog" aria-label="GIFモーダル">
         <ModalBody p={0}>
           <Box position="relative" h="290">
             <ModalCloseButton />
@@ -64,4 +64,4 @@ const WorldViewModal: FC<Props> = memo((props) => {
   );
 });
 
-export default WorldViewModal;
+export default GifModal;

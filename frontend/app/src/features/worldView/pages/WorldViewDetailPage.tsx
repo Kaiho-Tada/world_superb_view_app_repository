@@ -27,13 +27,15 @@ const WorldViewDetailPage = () => {
   const worldViewDispatch = (responseData: WorldView[]) => {
     dispatch({ type: "SET_WORLD_VIEWS", payload: responseData });
   };
-
-  useEffect(() => {
+  const handleGetWorldView = () => {
     handleGetModel<WorldView>({
       loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
       modelDispatch: worldViewDispatch,
       searchModelApi: searchWorldViewApi,
     });
+  };
+  useEffect(() => {
+    handleGetWorldView();
     dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS_API", payload: true });
     dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
   }, []);
@@ -83,6 +85,7 @@ const WorldViewDetailPage = () => {
                   favorites={currentDetailView.worldViewFavorites}
                   deleteFavoriteApi={deleteFavoriteApi}
                   createFavoriteApi={createFavoriteApi}
+                  handleGetModel={handleGetWorldView}
                 />
               </Box>
             </Box>

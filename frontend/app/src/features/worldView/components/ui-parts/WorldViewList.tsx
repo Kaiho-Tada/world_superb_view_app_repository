@@ -21,7 +21,7 @@ const WorldViewList: FC<Props> = memo(({ currentViews }) => (
         categories={worldView.categories}
         characteristics={worldView.characteristics}
         favorites={worldView.worldViewFavorites}
-        gifUrl={worldView.gifUrl || worldView.imgUrl || defaultImg}
+        gifUrl={worldView.gifUrl || null}
         gifSite={worldView.gifSite || null}
       />
     ))}

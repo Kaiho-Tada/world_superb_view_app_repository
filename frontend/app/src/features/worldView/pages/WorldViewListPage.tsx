@@ -143,7 +143,7 @@ const WorldViewListPage = () => {
     }
   }, []);
 
-  const itemsPerPage = 20;
+  const itemsPerPage = 40;
   const endOffset = itemsOffset + itemsPerPage;
   const currentViews = worldViews.slice(itemsOffset, endOffset);
   const pageCount = Math.ceil(worldViews.length / itemsPerPage);
