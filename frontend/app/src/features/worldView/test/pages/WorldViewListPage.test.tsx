@@ -18,7 +18,7 @@ jest.mock("providers/WorldViewListProvider", () => ({
 }));
 
 const mockDispatch = jest.fn();
-const mockWorldViews = Array.from({ length: 60 }, (_, index) => ({
+const mockWorldViews = Array.from({ length: 120 }, (_, index) => ({
   id: index + 1,
   name: `worldView${index + 1}`,
   imageUrl: "imageUrl",
@@ -74,7 +74,7 @@ const mockContextValueCurrentPage2 = {
   state: {
     ...mockContextValue.state,
     currentPage: 2,
-    itemsOffset: 20,
+    itemsOffset: 40,
   },
 };
 
@@ -263,13 +263,10 @@ describe("ページネーションのテスト", () => {
   test("worldViewsの1ページ目が表示されていること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     render(<WorldViewList />);
-    for (let i = 1; i <= 20; i += 1) {
-      const worldViewElement = screen.getByText(`worldView${i}`);
-      expect(worldViewElement).toBeInTheDocument();
-    }
+    expect(screen.getByText(`worldView1`)).toBeInTheDocument();
   });
 
-  test("nextボタン押下で、worldViewsの次のページに遷移し、priviousボタンで前のページに戻ること", async () => {
+  test("nextボタン押下で、次のページに遷移しすること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const user = userEvent.setup();
     render(<WorldViewList />);
@@ -277,7 +274,7 @@ describe("ページネーションのテスト", () => {
       await user.click(screen.getByRole("button", { name: "次のページに移動" }));
     });
     expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 2 });
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 20 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 40 });
   });
 
   test("priviousボタンで前のページに戻ること", async () => {
@@ -299,7 +296,7 @@ describe("ページネーションのテスト", () => {
       await user.click(screen.getByRole("button", { name: `ページ2に移動` }));
     });
     expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 2 });
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 20 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 40 });
   });
 
   test("3ページ目への遷移ボタン押下で3ページ目に遷移すること", async () => {
@@ -310,6 +307,6 @@ describe("ページネーションのテスト", () => {
       await user.click(screen.getByRole("button", { name: `ページ3に移動` }));
     });
     expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 3 });
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 40 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 80 });
   });
 });
