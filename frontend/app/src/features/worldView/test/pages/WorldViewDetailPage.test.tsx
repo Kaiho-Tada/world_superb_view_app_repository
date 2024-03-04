@@ -82,6 +82,28 @@ describe("コンポーネントのテスト", () => {
       expect(screen.getByRole("img", { name: "ハートアイコン" })).toBeInTheDocument();
     });
 
+    test("ハートアイコン押下でhandleGetModel関数が実行されること", async () => {
+      (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
+      (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
+
+      // handleGetModel関数のモック化
+      const spyOnUseGetModel = jest.spyOn(jest.requireActual("hooks/api/useGetModel"), "default");
+      const mockHandleGetModel = jest.fn();
+      spyOnUseGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
+
+      const user = userEvent.setup();
+      render(<WorldViewDetailPage />);
+      await act(async () => {
+        await user.click(screen.getByRole("img", { name: "ハートアイコン" }));
+      });
+      expect(mockHandleGetModel).toHaveBeenCalledWith({
+        loadingSearchModelDispatch: expect.any(Function),
+        modelDispatch: expect.any(Function),
+        searchModelApi: mockSearchWorldViewApi,
+      });
+      spyOnUseGetModel.mockRestore();
+    });
+
     describe("詳細レコードのfavortiesにcurrentUserのidと一致するuserIdカラムを持つfavoriteレコードが存在する場合", () => {
       test("ハートアイコン押下でdeleteFavoriteApi関数が実行されること", async () => {
         (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);

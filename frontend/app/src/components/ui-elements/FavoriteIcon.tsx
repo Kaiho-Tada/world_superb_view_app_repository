@@ -12,10 +12,11 @@ type FavoriteProps = {
   favorites: Array<Favorite>;
   deleteFavoriteApi: (favoriteId: number) => Promise<AxiosResponse<void>>;
   createFavoriteApi: (selectedId: number) => Promise<AxiosResponse<Favorite>>;
+  handleGetModel: () => void;
 };
 
 const FavoriteIcon: FC<FavoriteProps> = (props) => {
-  const { selectedId, favorites, deleteFavoriteApi, createFavoriteApi } = props;
+  const { selectedId, favorites, deleteFavoriteApi, createFavoriteApi, handleGetModel } = props;
   const { currentUser } = useAuth();
   const [favoriteId, setFavoriteId] = useState<number | null>(null);
   const { handleChangeFavorite } = useHandleChangeFavorite();
@@ -34,15 +35,16 @@ const FavoriteIcon: FC<FavoriteProps> = (props) => {
       src={favoriteId ? likedHeartIcon : unlikedHeartIcon}
       boxSize="25px"
       alt="ハートアイコン"
-      onClick={() =>
+      onClick={() => {
         handleChangeFavorite({
           selectedId,
           favoriteId,
           setFavoriteId,
           deleteFavoriteApi,
           createFavoriteApi,
-        })
-      }
+        });
+        handleGetModel();
+      }}
       cursor="pointer"
     />
   );
