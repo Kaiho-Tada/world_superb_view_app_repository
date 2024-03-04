@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import WorldViewModal from "features/worldView/components/ui-elements/WorldViewModal";
+import WorldViewModal from "features/worldView/components/ui-elements/GifModal";
 import { act } from "react-dom/test-utils";
 
 const viewName = "デットフレイ";

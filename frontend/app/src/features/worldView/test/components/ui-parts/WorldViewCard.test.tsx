@@ -67,7 +67,8 @@ const favorites = [
     worldViewId: 1,
   },
 ];
-test("絶景画像がレンダリングされていること", () => {
+
+test("レコードの画像が表示されていること", () => {
   render(
     <WorldViewCard
       id={1}
@@ -82,11 +83,10 @@ test("絶景画像がレンダリングされていること", () => {
       gifSite="gifSite"
     />
   );
-  const SuperbViewImage = screen.getByRole("img", { name: "絶景画像" });
-  expect(SuperbViewImage).toBeInTheDocument();
+  expect(screen.getByRole("img", { name: "絶景画像" })).toBeInTheDocument();
 });
 
-test("絶景名がレンダリングされていること", () => {
+test("レコード名が表示されていること", () => {
   render(
     <WorldViewCard
       id={1}
@@ -101,11 +101,10 @@ test("絶景名がレンダリングされていること", () => {
       gifSite="gifSite"
     />
   );
-  const SuperbViewName = screen.getByRole("heading", { name: "絶景名" });
-  expect(SuperbViewName).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "絶景名" })).toBeInTheDocument();
 });
 
-test("絶景の概要がレンダリングされていること", () => {
+test("レコードの国名が表示されていること", () => {
   render(
     <WorldViewCard
       id={1}
@@ -120,199 +119,65 @@ test("絶景の概要がレンダリングされていること", () => {
       gifSite="gifSite"
     />
   );
-  const SuperbViewDescription = screen.getByRole("heading", {
-    name: "ナイアガラは、北アメリカ大陸にある三つの滝から成る大瀑布で、その壮大な景観と迫力ある水量が特徴です。観光名所として知られ、アメリカとカナダの国境に位置しています。",
+  expect(screen.getByText("countryName1 countryName2")).toBeInTheDocument();
+});
+
+test("レコードの国名が表示されていること", () => {
+  render(
+    <WorldViewCard
+      id={1}
+      name="絶景名"
+      imgUrl="画像URL"
+      bestSeason="1月"
+      countries={countries}
+      categories={categories}
+      characteristics={characteristics}
+      favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
+    />
+  );
+  expect(screen.getByText("countryName1 countryName2")).toBeInTheDocument();
+});
+
+test("GIFボタンが表示されていること", () => {
+  render(
+    <WorldViewCard
+      id={1}
+      name="絶景名"
+      imgUrl="画像URL"
+      bestSeason="1月"
+      countries={countries}
+      categories={categories}
+      characteristics={characteristics}
+      favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
+    />
+  );
+  expect(screen.getByRole("button", { name: "GIF" })).toBeInTheDocument();
+});
+
+test("GIFボタン押下でGIFモーダルが表示されること", async () => {
+  const user = userEvent.setup();
+  render(
+    <WorldViewCard
+      id={1}
+      name="絶景名"
+      imgUrl="画像URL"
+      bestSeason="1月"
+      countries={countries}
+      categories={categories}
+      characteristics={characteristics}
+      favorites={favorites}
+      gifUrl="gifUrl"
+      gifSite="gifSite"
+    />
+  );
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "GIF" }));
   });
-  expect(SuperbViewDescription).toBeInTheDocument();
-});
-
-test("国名の見出しがレンダリングされていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  const BestSeasonHeading = screen.getByRole("heading", { name: "国名" });
-  expect(BestSeasonHeading).toBeInTheDocument();
-});
-
-test("国名がレンダリングされていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  const BestSeasonHeading = screen.getByRole("heading", { name: "countryName1 countryName2" });
-  expect(BestSeasonHeading).toBeInTheDocument();
-});
-
-test("カテゴリーの見出しがレンダリングされていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  const CategoryHeading = screen.getByRole("heading", { name: "カテゴリー" });
-  expect(CategoryHeading).toBeInTheDocument();
-});
-
-test("カテゴリー名がレンダリングされていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  const CategoryHeading = screen.getByRole("heading", { name: "categoryName1 categoryName2" });
-  expect(CategoryHeading).toBeInTheDocument();
-});
-
-test("ベストシーズンの見出しがレンダリングされていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  const BestSeasonHeading = screen.getByRole("heading", { name: "ベストシーズン" });
-  expect(BestSeasonHeading).toBeInTheDocument();
-});
-
-test("ベストシーズンがレンダリングされていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  const BestSeason = screen.getByRole("heading", { name: "1月" });
-  expect(BestSeason).toBeInTheDocument();
-});
-
-test("リスクレベルの見出しがレンダリングされていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  const riskLevelHeading = screen.getByRole("heading", { name: "リスクレベル" });
-  expect(riskLevelHeading).toBeInTheDocument();
-});
-
-test("リスクレベルがレンダリングされていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  const riskLevel = screen.getAllByRole("img", { name: "リスクレベル" });
-  expect(riskLevel.length).toBe(2);
-});
-
-test("BMIの見出しがレンダリングされていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  const BestSeasonHeading = screen.getByRole("heading", { name: "BMI" });
-  expect(BestSeasonHeading).toBeInTheDocument();
-});
-
-test("BMI値がレンダリングされていること", () => {
-  render(
-    <WorldViewCard
-      id={1}
-      name="絶景名"
-      imgUrl="画像URL"
-      bestSeason="1月"
-      countries={countries}
-      categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
-      gifUrl="gifUrl"
-      gifSite="gifSite"
-    />
-  );
-  expect(screen.getByRole("heading", { name: "11.2% -26.9%" })).toBeInTheDocument();
+  expect(screen.getByRole("dialog", { name: "GIFモーダル" })).toBeInTheDocument();
 });
 
 test("絶景カード押下で絶景詳細ページに遷移すること", async () => {
@@ -332,7 +197,7 @@ test("絶景カード押下で絶景詳細ページに遷移すること", async
     />
   );
   await act(async () => {
-    await user.click(screen.getByRole("heading", { name: "リスクレベル" }));
+    await user.click(screen.getByRole("listitem", { name: "絶景一覧: 絶景名" }));
   });
   expect(mockNavigate).toHaveBeenCalledWith("/world_views/1");
   expect(mockNavigate).toHaveBeenCalledTimes(1);
