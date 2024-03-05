@@ -4,8 +4,8 @@ import FavoriteIcon from "components/ui-elements/FavoriteIcon";
 import Loading from "components/ui-elements/Loading";
 import useGetModel from "hooks/api/useGetModel";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { MouseEvent, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import useWorldViewApi from "../api/useWorldViewApi";
 import { createFavoriteApi, deleteFavoriteApi } from "../api/worldViewFavoriteApi";
 import RiskLevelStar from "../components/ui-elements/RiskLevelStar";
@@ -18,6 +18,7 @@ const WorldViewDetailPage = () => {
   const { worldViews, loadingSearchWorldViews } = state;
   const { handleGetModel } = useGetModel();
   const { searchWorldViewApi } = useWorldViewApi();
+  const navigate = useNavigate();
 
   const currentDetailView = worldViews.find((worldView) => worldView.id === worldViewId);
 
@@ -201,6 +202,10 @@ const WorldViewDetailPage = () => {
               alignItems="stretch"
               justifyItems="stretch"
               w="190px"
+              onClick={(e: MouseEvent<HTMLElement>) => {
+                e.preventDefault();
+                navigate(`/videos/${video.id}`);
+              }}
               _hover={{ cursor: "pointer", opacity: "0.8" }}
             >
               <Box>

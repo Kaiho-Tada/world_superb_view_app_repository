@@ -2,7 +2,11 @@ class Api::V1::VideosController < ApplicationController
   def search
     sorted_video = video_sort(Video)
     filtered_video = video_filter(sorted_video)
-    render json: filtered_video.as_json(except: %i[created_at updated_at])
+    render json: filtered_video.preload(:genres, :world_views, world_views: [:countries])
+                               .as_json(except: %i[created_at updated_at],
+                                        include: [{ genres: { only: %i[id name] } },
+                                                  { world_views: { only: %i[id name img_url],
+                                                                   include: { countries: { only: [:id, :name] } } } }])
   end
 
   private

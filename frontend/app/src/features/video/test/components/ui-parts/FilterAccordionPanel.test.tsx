@@ -23,6 +23,8 @@ const mockContextValue = {
     keyword: "",
     voteAverageRange: [0, 10],
     isDisabled: false,
+    currentPage: 1,
+    itemsOffset: 0,
   },
 };
 
@@ -49,6 +51,23 @@ const mockContextValueDisabled = {
     isDisabled: true,
   },
 };
+
+const mockContextValueCurrentPage2 = {
+  ...mockContextValue,
+  state: {
+    ...mockContextValue.state,
+    currentPage: 2,
+    itemsOffset: 30,
+  },
+};
+
+const mockSearchVideoApi = jest.fn();
+jest.mock("features/video/api/videoApi", () => ({
+  __esModule: true,
+  default: () => ({
+    searchVideoApi: mockSearchVideoApi,
+  }),
+}));
 
 describe("クリアボタンのテスト", () => {
   describe("Videoモデルのフィルター属性の値が初期値の場合", () => {
@@ -178,12 +197,7 @@ describe("SearchButtonのテスト", () => {
     spyOnUseGetModel.mockReturnValue({
       handleGetModel: mockHandleGetModel,
     });
-    const spyOnUseVideoApi = jest.spyOn(
-      jest.requireActual("features/video/api/videoApi"),
-      "default"
-    );
-    const mockSearchVideoApi = jest.fn();
-    spyOnUseVideoApi.mockReturnValue({ searchVideoApi: mockSearchVideoApi });
+
     const user = userEvent.setup();
     render(<FilterAccordionPanel />);
     await act(async () => {
@@ -198,6 +212,17 @@ describe("SearchButtonのテスト", () => {
     expect(mockDispatch).toHaveBeenCalledTimes(1);
     expect(mockHandleGetModel).toHaveBeenCalledTimes(1);
     spyOnUseGetModel.mockRestore();
-    spyOnUseVideoApi.mockRestore();
+  });
+
+  test("ページネーションが1ページ目ではない場合、searchButton押下でcurrentPageが1にitemsOffsetが0に更新されること", async () => {
+    spyOnUseVideoListContext.mockReturnValue(mockContextValueCurrentPage2);
+
+    const user = userEvent.setup();
+    render(<FilterAccordionPanel />);
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "検索" }));
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 1 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 0 });
   });
 });

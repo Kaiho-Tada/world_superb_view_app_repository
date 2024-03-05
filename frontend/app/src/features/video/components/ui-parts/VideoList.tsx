@@ -12,6 +12,7 @@ const VideoList: FC<Props> = (props) => {
       {currentVideos.map((currentVideo: Video) => (
         <MovieCard
           key={currentVideo.id}
+          id={currentVideo.id}
           title={currentVideo.title}
           posterPath={currentVideo.posterPath}
           releaseDate={currentVideo.releaseDate}

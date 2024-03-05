@@ -7,6 +7,11 @@ test("SET_VIDEOSアクションがディスパッチされた際、moviesが指�
     wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
   });
   expect(result.current.state.videos).toEqual([]);
+
+  const mockWorldViews = [
+    { id: 1, name: "name", imgUrl: "imgUrl", countries: [{ id: 1, name: "name" }] },
+  ];
+  const mockGenres = [{ id: 1, name: "name" }];
   act(() => {
     result.current.dispatch({
       type: "SET_VIDEOS",
@@ -16,9 +21,11 @@ test("SET_VIDEOSアクションがディスパッチされた際、moviesが指�
           title: "タイトル",
           posterPath: "posterPath",
           popularity: 6,
-          vote_average: 7,
+          voteAverage: 7,
           releaseDate: "releaseDate",
           overview: "overview",
+          worldViews: mockWorldViews,
+          genres: mockGenres,
         },
       ],
     });
@@ -29,9 +36,11 @@ test("SET_VIDEOSアクションがディスパッチされた際、moviesが指�
       title: "タイトル",
       posterPath: "posterPath",
       popularity: 6,
-      vote_average: 7,
+      voteAverage: 7,
       releaseDate: "releaseDate",
       overview: "overview",
+      worldViews: mockWorldViews,
+      genres: mockGenres,
     },
   ]);
 });
@@ -132,4 +141,32 @@ test("SET_IS_DISABLEDアクションがディスパッチされた際、isDisabl
     });
   });
   expect(result.current.state.isDisabled).toBe(false);
+});
+
+test("SET_CURRENT_PAGEアクションがディスパッチされた際、currentPageが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.currentPage).toBe(1);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_CURRENT_PAGE",
+      payload: 2,
+    });
+  });
+  expect(result.current.state.currentPage).toBe(2);
+});
+
+test("SET_ITEMS_OFFSETアクションがディスパッチされた際、itemsOffsetが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.itemsOffset).toBe(0);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_ITEMS_OFFSET",
+      payload: 30,
+    });
+  });
+  expect(result.current.state.itemsOffset).toBe(30);
 });

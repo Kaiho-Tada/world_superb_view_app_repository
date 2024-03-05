@@ -3,6 +3,7 @@ import useAuthorizeAdminUser from "features/auth/hooks/useAuthorizeAdminUser";
 import useAuthorizeLoggedInUser from "features/auth/hooks/useAuthorizeLoggedInUser";
 import useAuthorizeLoggedOutUser from "features/auth/hooks/useAuthorizeLoggedOutUser";
 import useAuthorizeRegisteredUser from "features/auth/hooks/useAuthorizeRegisteredUser";
+import VideoDetailPage from "features/video/pages/VideoDetailPage";
 import VideoListPage from "features/video/pages/VideoListPage";
 import WorldViewDetailPage from "features/worldView/pages/WorldViewDetailPage";
 import WorldViewListPage from "features/worldView/pages/WorldViewListPage";
@@ -80,6 +81,16 @@ const Router: FC = () => {
             <CommonLayout>
               <VideoListProvider>
                 <VideoListPage />
+              </VideoListProvider>
+            </CommonLayout>
+          }
+        />
+        <Route
+          path="/videos/:id"
+          element={
+            <CommonLayout>
+              <VideoListProvider>
+                <VideoDetailPage />
               </VideoListProvider>
             </CommonLayout>
           }

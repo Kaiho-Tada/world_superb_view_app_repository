@@ -61,7 +61,10 @@ RSpec.describe "Api::V1::Videos", type: :request do
         it "Videoレコードが全件取得できること" do
           expect(response).to have_http_status(200)
           json = JSON.parse(response.body)
-          expected_json = videos.as_json(except: %i[created_at updated_at])
+          expected_json = videos.as_json(except: %i[created_at updated_at],
+                                         include: [{ genres: { only: %i[id name] } },
+                                                   { world_views: { only: %i[id name img_url],
+                                                                    include: { countries: { only: [:id, :name] } } } }])
           expect(json).to eq expected_json
           expect(json.length).to eq 5
         end

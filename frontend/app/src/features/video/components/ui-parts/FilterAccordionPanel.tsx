@@ -22,6 +22,8 @@ const FilterAccordionPanel = () => {
     keyword,
     voteAverageRange,
     isDisabled,
+    currentPage,
+    itemsOffset,
   } = state;
   const { searchVideoApi } = useVideoApi();
   const { handleGetModel } = useGetModel();
@@ -62,7 +64,11 @@ const FilterAccordionPanel = () => {
       loadingSearchModelDispatch: loadingSearchMovieDispatch,
       searchModelApi: searchVideoApi,
     });
-  }, [isDisabled]);
+    if (currentPage !== 1 && itemsOffset !== 0) {
+      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
+      dispatch({ type: "SET_ITEMS_OFFSET", payload: 0 });
+    }
+  }, [isDisabled, searchVideoApi]);
 
   const genreLabels = genreCheckItems
     .filter((checkItem) => checkItem.checked)
