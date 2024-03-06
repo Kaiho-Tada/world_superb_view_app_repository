@@ -93,8 +93,8 @@ const VideoListPage: FC = () => {
     if (!isSkipGetCheckItems) {
       handleGetCheckItems({
         checkItemsDispatch: genreCheckItemsDispatch,
-        loadingModelDispatch: loadingGetGenresDispatch,
-        fetchModelApi: getAllGenresApi,
+        loadingGetModelDispatch: loadingGetGenresDispatch,
+        getModelApi: getAllGenresApi,
       });
     } else {
       dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: false });

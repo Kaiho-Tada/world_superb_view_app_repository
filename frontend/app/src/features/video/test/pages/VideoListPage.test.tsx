@@ -202,8 +202,8 @@ test("初回レンダリング時にhandleGetCheckItems関数が実行される�
   });
   expect(mockHandleGetCheckItems).toHaveBeenCalledWith({
     checkItemsDispatch: expect.any(Function),
-    loadingModelDispatch: expect.any(Function),
-    fetchModelApi: mockGetAllGenresApi,
+    loadingGetModelDispatch: expect.any(Function),
+    getModelApi: mockGetAllGenresApi,
   });
 
   spyOnUseGetCheckItems.mockRestore();

@@ -4,17 +4,17 @@ import CheckItem from "types/checkItem";
 
 type Props = {
   checkItemsDispatch: (newCheckItem: CheckItem[]) => void;
-  loadingModelDispatch: (payload: boolean) => void;
-  fetchModelApi: () => Promise<AxiosResponse<{ id: number; name: string }[]>>;
+  loadingGetModelDispatch: (payload: boolean) => void;
+  getModelApi: () => Promise<AxiosResponse<{ id: number; name: string }[]>>;
 };
 
 const useGetCheckItems = () => {
   const { showMessage } = useMessage();
   const handleGetCheckItems = async (props: Props) => {
-    const { checkItemsDispatch, loadingModelDispatch, fetchModelApi } = props;
-    loadingModelDispatch(true);
+    const { checkItemsDispatch, loadingGetModelDispatch, getModelApi } = props;
+    loadingGetModelDispatch(true);
     try {
-      const res = await fetchModelApi();
+      const res = await getModelApi();
       const models = res.data;
       const newCheckItems = models.map((model) => ({
         label: model.name,
@@ -27,7 +27,7 @@ const useGetCheckItems = () => {
         status: "error",
       });
     } finally {
-      loadingModelDispatch(false);
+      loadingGetModelDispatch(false);
     }
   };
   return { handleGetCheckItems };

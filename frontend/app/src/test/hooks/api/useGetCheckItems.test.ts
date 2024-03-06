@@ -23,8 +23,8 @@ test("handleGetCheckItems関数成功時のテスト", async () => {
   await act(async () => {
     await result.current.handleGetCheckItems({
       checkItemsDispatch: mockCheckItemsDispatch,
-      loadingModelDispatch: mockLoadingModelDispatch,
-      fetchModelApi: mockFetchModelApi,
+      loadingGetModelDispatch: mockLoadingModelDispatch,
+      getModelApi: mockFetchModelApi,
     });
   });
   expect(mockLoadingModelDispatch).toHaveBeenCalledWith(true);
@@ -49,8 +49,8 @@ test("handleGetCheckItems関数失敗時のテスト", async () => {
   await act(async () => {
     await result.current.handleGetCheckItems({
       checkItemsDispatch: mockCheckItemsDispatch,
-      loadingModelDispatch: mockLoadingModelDispatch,
-      fetchModelApi: mockFetchModelApi,
+      loadingGetModelDispatch: mockLoadingModelDispatch,
+      getModelApi: mockFetchModelApi,
     });
   });
   expect(mockLoadingModelDispatch).toHaveBeenCalledWith(true);

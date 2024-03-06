@@ -175,9 +175,9 @@ describe("handleGetCheckItems関数のテスト", () => {
     );
     render(<WorldViewList />);
     expect(mockHandleGetCheckItems).toHaveBeenCalledWith({
-      loadingModelDispatch: expect.any(Function),
+      loadingGetModelDispatch: expect.any(Function),
       checkItemsDispatch: expect.any(Function),
-      fetchModelApi: spyOnGetAllCharacteristicsApi,
+      getModelApi: spyOnGetAllCharacteristicsApi,
     });
   });
 });

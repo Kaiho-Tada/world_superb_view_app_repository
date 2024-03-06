@@ -134,9 +134,9 @@ const WorldViewListPage = () => {
         getAllModelApi: getAllCountriesApi,
       });
       handleGetCheckItems({
-        loadingModelDispatch: loadingGetCharacteristicDispatch,
+        loadingGetModelDispatch: loadingGetCharacteristicDispatch,
         checkItemsDispatch: characteristicCheckItemsDispatch,
-        fetchModelApi: getAllCharacteristicsApi,
+        getModelApi: getAllCharacteristicsApi,
       });
     } else {
       dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS_API", payload: false });
