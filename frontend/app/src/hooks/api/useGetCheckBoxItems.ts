@@ -1,12 +1,11 @@
 import { AxiosResponse, isAxiosError } from "axios";
 import useMessage from "hooks/useMessage";
-import { CheckBoxItemData } from "types/api/checkBoxItemData";
 import { CheckBoxItem } from "types/checkBoxItem";
 
 type Props = {
   loadingGetModelDispatch: (payload: boolean) => void;
   checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => void;
-  getAllModelApi: () => Promise<AxiosResponse<CheckBoxItemData[]>>;
+  getAllModelApi: () => Promise<AxiosResponse<{ name: string }[]>>;
 };
 const useGetCheckBoxItems = () => {
   const { showMessage } = useMessage();
@@ -17,7 +16,7 @@ const useGetCheckBoxItems = () => {
     try {
       const res = await getAllModelApi();
       const models = res.data;
-      const newCheckBoxItems = models.map((model: CheckBoxItemData) => ({
+      const newCheckBoxItems = models.map((model: { name: string }) => ({
         label: model.name,
         checked: false,
       }));
