@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
-import { CheckBoxItem } from "../types/checkBoxItem";
+import CheckItem from "types/checkItem";
 
-const handleChangeCheckBox = <T extends CheckBoxItem[]>({
+const handleChangeCheckBox = <T extends CheckItem[]>({
   e,
   checkBoxItems,
   checkBoxItemsDispatch,
