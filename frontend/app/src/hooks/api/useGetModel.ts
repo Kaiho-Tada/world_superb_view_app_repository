@@ -2,17 +2,17 @@ import { AxiosResponse, isAxiosError } from "axios";
 import useMessage from "hooks/useMessage";
 
 type Props<T> = {
-  loadingSearchModelDispatch: (payload: boolean) => void;
+  loadingGetModelDispatch: (payload: boolean) => void;
   modelDispatch: (responseData: T[]) => void;
-  searchModelApi: () => Promise<AxiosResponse<T[]>>;
+  getModelApi: () => Promise<AxiosResponse<T[]>>;
 };
 const useGetModel = () => {
   const { showMessage } = useMessage();
   const handleGetModel = async <T>(props: Props<T>) => {
-    const { loadingSearchModelDispatch, modelDispatch, searchModelApi } = props;
-    loadingSearchModelDispatch(true);
+    const { loadingGetModelDispatch, modelDispatch, getModelApi } = props;
+    loadingGetModelDispatch(true);
     try {
-      const response = await searchModelApi();
+      const response = await getModelApi();
       modelDispatch(response.data);
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 500) {
@@ -22,7 +22,7 @@ const useGetModel = () => {
         });
       }
     } finally {
-      loadingSearchModelDispatch(false);
+      loadingGetModelDispatch(false);
     }
   };
   return { handleGetModel };

@@ -309,8 +309,8 @@ describe("SearchButtonのテスト", () => {
     expect(mockDispatch).toHaveBeenCalledTimes(1);
     expect(mockhandleGetModel).toHaveBeenCalledWith({
       modelDispatch: expect.any(Function),
-      loadingSearchModelDispatch: expect.any(Function),
-      searchModelApi: mockSearchWorldViewApi,
+      loadingGetModelDispatch: expect.any(Function),
+      getModelApi: mockSearchWorldViewApi,
     });
     expect(mockhandleGetModel).toHaveBeenCalledTimes(1);
     spyOnUseGetModel.mockRestore();

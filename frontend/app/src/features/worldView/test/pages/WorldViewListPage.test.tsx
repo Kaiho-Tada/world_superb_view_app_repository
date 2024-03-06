@@ -131,9 +131,9 @@ describe("handleGetModel関数のテスト", () => {
 
     render(<WorldViewList />);
     expect(mockHandleGetModel).toHaveBeenCalledWith({
-      loadingSearchModelDispatch: expect.any(Function),
+      loadingGetModelDispatch: expect.any(Function),
       modelDispatch: expect.any(Function),
-      searchModelApi: mockSearchWorldViewApi,
+      getModelApi: mockSearchWorldViewApi,
     });
 
     spyOnUseWorldViewApi.mockRestore();

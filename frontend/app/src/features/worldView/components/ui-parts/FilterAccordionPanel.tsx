@@ -101,8 +101,8 @@ const FilterAccordionPanel = () => {
     }
     handleGetModel<WorldView>({
       modelDispatch: worldViewDispatch,
-      loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
-      searchModelApi: searchWorldViewApi,
+      loadingGetModelDispatch: loadingSearchWorldViewDispatch,
+      getModelApi: searchWorldViewApi,
     });
     if (currentPage !== 1 && itemsOffset !== 0) {
       dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });

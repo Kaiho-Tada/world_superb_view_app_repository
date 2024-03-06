@@ -54,22 +54,22 @@ const VideoListPage: FC = () => {
       if (shouldDebounce) {
         handleDebounceWithArg<{
           modelDispatch: (responseData: Movie[]) => void;
-          loadingSearchModelDispatch: (payload: boolean) => void;
-          searchModelApi: () => Promise<AxiosResponse<Movie[]>>;
+          loadingGetModelDispatch: (payload: boolean) => void;
+          getModelApi: () => Promise<AxiosResponse<Movie[]>>;
         }>({
           fn: handleGetModel,
           arg: {
             modelDispatch: movieDispatch,
-            loadingSearchModelDispatch: loadingSearchMovieDispatch,
-            searchModelApi: searchVideoApi,
+            loadingGetModelDispatch: loadingSearchMovieDispatch,
+            getModelApi: searchVideoApi,
           },
         });
         dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
       } else {
         handleGetModel<Movie>({
           modelDispatch: movieDispatch,
-          loadingSearchModelDispatch: loadingSearchMovieDispatch,
-          searchModelApi: searchVideoApi,
+          loadingGetModelDispatch: loadingSearchMovieDispatch,
+          getModelApi: searchVideoApi,
         });
       }
       if (currentPage !== 1 && itemsOffset !== 0) {

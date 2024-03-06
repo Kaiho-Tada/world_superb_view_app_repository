@@ -99,9 +99,9 @@ describe("コンポーネントのテスト", () => {
         await user.click(screen.getByRole("img", { name: "ハートアイコン" }));
       });
       expect(mockHandleGetModel).toHaveBeenCalledWith({
-        loadingSearchModelDispatch: expect.any(Function),
+        loadingGetModelDispatch: expect.any(Function),
         modelDispatch: expect.any(Function),
-        searchModelApi: mockSearchWorldViewApi,
+        getModelApi: mockSearchWorldViewApi,
       });
       spyOnUseGetModel.mockRestore();
     });
@@ -349,9 +349,9 @@ describe("初回レンダリング時のテスト", () => {
       render(<WorldViewDetailPage />);
     });
     expect(mockHandleGetModel).toHaveBeenCalledWith({
-      loadingSearchModelDispatch: expect.any(Function),
+      loadingGetModelDispatch: expect.any(Function),
       modelDispatch: expect.any(Function),
-      searchModelApi: mockSearchWorldViewApi,
+      getModelApi: mockSearchWorldViewApi,
     });
     spyOnUseGetModel.mockRestore();
   });

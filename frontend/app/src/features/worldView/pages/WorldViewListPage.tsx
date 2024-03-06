@@ -65,23 +65,23 @@ const WorldViewListPage = () => {
     if (!isSkipSearchApi) {
       if (shouldDebounce) {
         handleDebounceWithArg<{
-          loadingSearchModelDispatch: (payload: boolean) => void;
+          loadingGetModelDispatch: (payload: boolean) => void;
           modelDispatch: (responseData: WorldView[]) => void;
-          searchModelApi: () => Promise<AxiosResponse<WorldView[]>>;
+          getModelApi: () => Promise<AxiosResponse<WorldView[]>>;
         }>({
           fn: handleGetModel,
           arg: {
-            loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
+            loadingGetModelDispatch: loadingSearchWorldViewDispatch,
             modelDispatch: worldViewDispatch,
-            searchModelApi: searchWorldViewApi,
+            getModelApi: searchWorldViewApi,
           },
         });
         dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
       } else {
         handleGetModel<WorldView>({
-          loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
+          loadingGetModelDispatch: loadingSearchWorldViewDispatch,
           modelDispatch: worldViewDispatch,
-          searchModelApi: searchWorldViewApi,
+          getModelApi: searchWorldViewApi,
         });
       }
       if (currentPage !== 1 && itemsOffset !== 0) {

@@ -61,8 +61,8 @@ const FilterAccordionPanel = () => {
     }
     handleGetModel<Video>({
       modelDispatch: movieDispatch,
-      loadingSearchModelDispatch: loadingSearchMovieDispatch,
-      searchModelApi: searchVideoApi,
+      loadingGetModelDispatch: loadingSearchMovieDispatch,
+      getModelApi: searchVideoApi,
     });
     if (currentPage !== 1 && itemsOffset !== 0) {
       dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
