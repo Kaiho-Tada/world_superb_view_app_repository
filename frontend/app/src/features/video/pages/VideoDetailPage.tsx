@@ -28,8 +28,8 @@ const VideoDetailPage = () => {
   useEffect(() => {
     handleGetModel<Video>({
       modelDispatch: movieDispatch,
-      loadingSearchModelDispatch: loadingSearchMovieDispatch,
-      searchModelApi: searchVideoApi,
+      loadingGetModelDispatch: loadingSearchMovieDispatch,
+      getModelApi: searchVideoApi,
     });
     dispatch({ type: "SET_IS_SKIP_SEARCH_VIDEO", payload: true });
     dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: true });

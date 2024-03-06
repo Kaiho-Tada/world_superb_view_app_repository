@@ -1,43 +1,44 @@
 import { Box, Center, Checkbox, Spinner } from "@chakra-ui/react";
 import { ChangeEvent, FC, memo } from "react";
-import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import { NestedCheckItem } from "types/nestedCheckItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
 import handleChangeParentCheckBox from "utils/handleChangeParentCheckBox";
 import handleChangeVisibility from "utils/handleChangeVisibility";
-import handleGetNestedCheckBoxInfo from "utils/handleGetNestedCheckBoxInfo";
+import handleGetNestedCheckItemInfo from "utils/handleGetNestedCheckItemInfo";
 
 type Props = {
-  checkBoxItems: NestedCheckBoxItem[];
-  loadingGetCheckBoxItems: boolean;
+  checkItems: NestedCheckItem[];
+  loadingGetCheckItems: boolean;
   loadingSearchModel: boolean;
-  checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
+  checkItemsDispatch: (newCheckBoxItems: NestedCheckItem[]) => void;
   isSkipSearchApiDispatch: (payload: boolean) => void;
 };
 
 const NestedCheckBox: FC<Props> = memo((props) => {
   const {
-    checkBoxItems,
+    checkItems,
+    loadingGetCheckItems,
     loadingSearchModel,
-    loadingGetCheckBoxItems,
-    checkBoxItemsDispatch,
+    checkItemsDispatch,
     isSkipSearchApiDispatch,
   } = props;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeCheckBox<NestedCheckBoxItem[]>({ e, checkBoxItems, checkBoxItemsDispatch });
+    handleChangeCheckBox<NestedCheckItem[]>({ e, checkItems, checkItemsDispatch });
   };
 
   const handleChangeParent = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeParentCheckBox({ e, checkBoxItems, checkBoxItemsDispatch });
+    handleChangeParentCheckBox({ e, checkItems, checkItemsDispatch });
   };
 
   const handleToggleVisibility = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeVisibility({ e, checkBoxItems, checkBoxItemsDispatch });
+    handleChangeVisibility({ e, checkItems, checkItemsDispatch });
     isSkipSearchApiDispatch(true);
   };
 
-  const checkBoxInfo = handleGetNestedCheckBoxInfo({ checkBoxItems });
-  return loadingGetCheckBoxItems ? (
+  const checkBoxInfo = handleGetNestedCheckItemInfo({ checkItems });
+
+  return loadingGetCheckItems ? (
     <Center h="10vh">
       <Spinner role="status" aria-label="読み込み中" />
     </Center>
@@ -66,19 +67,19 @@ const NestedCheckBox: FC<Props> = memo((props) => {
             >
               全て
             </Checkbox>
-            {checkBoxItems.map((checkBoxItem) =>
-              checkBoxItem.parentLabel === information.parentLabel ? (
+            {checkItems.map((checkItem) =>
+              checkItem.parentLabel === information.parentLabel ? (
                 <Checkbox
-                  key={checkBoxItem.label}
+                  key={checkItem.label}
                   size="md"
                   colorScheme="teal"
-                  isChecked={checkBoxItem.checked}
-                  value={checkBoxItem.label}
+                  isChecked={checkItem.checked}
+                  value={checkItem.label}
                   onChange={handleChange}
                   isDisabled={loadingSearchModel}
-                  style={{ display: checkBoxItem.isVisible ? "inline-flex" : "none" }}
+                  style={{ display: checkItem.isVisible ? "inline-flex" : "none" }}
                 >
-                  {checkBoxItem.label}
+                  {checkItem.label}
                 </Checkbox>
               ) : null
             )}

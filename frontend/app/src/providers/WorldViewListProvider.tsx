@@ -1,11 +1,11 @@
 import { WorldView } from "features/worldView/types/api/worldView";
 import { createContext, Dispatch, FC, ReactNode, useContext, useMemo, useReducer } from "react";
 import CheckItem from "types/checkItem";
-import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import { NestedCheckItem } from "types/nestedCheckItem";
 
 export type Action =
-  | { type: "SET_CATEGORY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
-  | { type: "SET_COUNTRY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
+  | { type: "SET_CATEGORY_CHECK_ITEMS"; payload: NestedCheckItem[] }
+  | { type: "SET_COUNTRY_CHECK_ITEMS"; payload: NestedCheckItem[] }
   | { type: "SET_CHARACTERISTIC_CHECK_ITEMS"; payload: CheckItem[] }
   | { type: "SET_RISK_LEVEL"; payload: string | undefined }
   | { type: "SET_MONTH_RANGE"; payload: number[] }
@@ -27,8 +27,8 @@ export type Action =
   | { type: "SET_ITEMS_OFFSET"; payload: number };
 
 type State = {
-  categoryCheckBoxItems: NestedCheckBoxItem[];
-  countryCheckBoxItems: NestedCheckBoxItem[];
+  categoryCheckItems: NestedCheckItem[];
+  countryCheckItems: NestedCheckItem[];
   characteristicCheckItems: CheckItem[];
   riskLevel: string | undefined;
   monthRange: number[];
@@ -50,8 +50,8 @@ type State = {
 };
 
 const initialState: State = {
-  categoryCheckBoxItems: [],
-  countryCheckBoxItems: [],
+  categoryCheckItems: [],
+  countryCheckItems: [],
   characteristicCheckItems: [],
   riskLevel: undefined,
   monthRange: [1, 12],
@@ -74,11 +74,11 @@ const initialState: State = {
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case "SET_CATEGORY_CHECKBOX_ITEMS":
-      return { ...state, categoryCheckBoxItems: action.payload };
+    case "SET_CATEGORY_CHECK_ITEMS":
+      return { ...state, categoryCheckItems: action.payload };
 
-    case "SET_COUNTRY_CHECKBOX_ITEMS":
-      return { ...state, countryCheckBoxItems: action.payload };
+    case "SET_COUNTRY_CHECK_ITEMS":
+      return { ...state, countryCheckItems: action.payload };
 
     case "SET_CHARACTERISTIC_CHECK_ITEMS":
       return { ...state, characteristicCheckItems: action.payload };

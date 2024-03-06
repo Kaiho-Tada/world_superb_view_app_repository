@@ -9,7 +9,7 @@ type Props = {
   deleteFavoriteApi: (favoriteId: number) => Promise<AxiosResponse<void>>;
   createFavoriteApi: (selectedId: number) => Promise<AxiosResponse<Favorite>>;
 };
-const useHandleChangeFavorite = () => {
+const useChangeFavorite = () => {
   const { showMessage } = useMessage();
   const handleChangeFavorite = async (props: Props) => {
     const { selectedId, favoriteId, setFavoriteId, deleteFavoriteApi, createFavoriteApi } = props;
@@ -42,4 +42,4 @@ const useHandleChangeFavorite = () => {
   return { handleChangeFavorite };
 };
 
-export default useHandleChangeFavorite;
+export default useChangeFavorite;

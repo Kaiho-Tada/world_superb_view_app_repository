@@ -2,16 +2,16 @@ import { renderHook } from "@testing-library/react";
 import { useWorldViewListContext, WorldViewListProvider } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
-describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
-  test("SET_CATEGORY_CHECKBOX_ITEMSアクションがディスパッチされた際、categoryCheckBoxItemsが指定された値に更新されること", () => {
+describe("SET_CHECK_ITEMSアクションのテスト", () => {
+  test("SET_CATEGORY_CHECK_ITEMSアクションがディスパッチされた際、categoryCheckItemsが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.categoryCheckBoxItems).toEqual([]);
+    expect(result.current.state.categoryCheckItems).toEqual([]);
 
     act(() => {
       result.current.dispatch({
-        type: "SET_CATEGORY_CHECKBOX_ITEMS",
+        type: "SET_CATEGORY_CHECK_ITEMS",
         payload: [
           {
             label: "砂漠",
@@ -23,7 +23,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
       });
     });
 
-    expect(result.current.state.categoryCheckBoxItems).toEqual([
+    expect(result.current.state.categoryCheckItems).toEqual([
       {
         label: "砂漠",
         parentLabel: "自然",
@@ -33,15 +33,15 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
     ]);
   });
 
-  test("SET_COUNTRY_CHECKBOX_ITEMSアクションがディスパッチされた際、countryCheckBoxItemsが指定された値に更新されること", () => {
+  test("SET_COUNTRY_CHECK_ITEMSアクションがディスパッチされた際、countryCheckItemsが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });
-    expect(result.current.state.countryCheckBoxItems).toEqual([]);
+    expect(result.current.state.countryCheckItems).toEqual([]);
 
     act(() => {
       result.current.dispatch({
-        type: "SET_COUNTRY_CHECKBOX_ITEMS",
+        type: "SET_COUNTRY_CHECK_ITEMS",
         payload: [
           {
             label: "アメリカ",
@@ -53,7 +53,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
       });
     });
 
-    expect(result.current.state.countryCheckBoxItems).toEqual([
+    expect(result.current.state.countryCheckItems).toEqual([
       {
         label: "アメリカ",
         parentLabel: "北米",
@@ -63,7 +63,7 @@ describe("SET_CHECKBOX_ITEMSアクションのテスト", () => {
     ]);
   });
 
-  test("SET_CHARACTERISTIC_CHECKBOX_ITEMSアクションがディスパッチされた際、characteristicCheckBoxItemsが指定された値に更新されること", () => {
+  test("SET_CHARACTERISTIC_CHECK_ITEMSアクションがディスパッチされた際、characteristicCheckItemsが指定された値に更新されること", () => {
     const { result } = renderHook(() => useWorldViewListContext(), {
       wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
     });

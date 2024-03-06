@@ -206,8 +206,8 @@ describe("SearchButtonのテスト", () => {
     expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_DISABLED", payload: true });
     expect(mockHandleGetModel).toHaveBeenCalledWith({
       modelDispatch: expect.any(Function),
-      loadingSearchModelDispatch: expect.any(Function),
-      searchModelApi: mockSearchVideoApi,
+      loadingGetModelDispatch: expect.any(Function),
+      getModelApi: mockSearchVideoApi,
     });
     expect(mockDispatch).toHaveBeenCalledTimes(1);
     expect(mockHandleGetModel).toHaveBeenCalledTimes(1);

@@ -1,49 +1,44 @@
 import { Box, Checkbox } from "@chakra-ui/react";
 import { ChangeEvent, CSSProperties, FC, memo } from "react";
-import { CheckBoxItem } from "types/checkBoxItem";
+import CheckItem from "types/checkItem";
 import handleChangeCheckBox from "utils/handleChangeCheckBox";
 import Loading from "./Loading";
 
 type Props = {
-  checkBoxItems: CheckBoxItem[];
-  loadingGetCheckBoxItems: boolean;
+  checkItems: CheckItem[];
+  loadingGetCheckItems: boolean;
   loadingSearchModel: boolean;
   vertical: boolean;
-  checkBoxItemsDispatch: (newCheckBoxItems: CheckBoxItem[]) => void;
+  checkItemsDispatch: (newCheckItems: CheckItem[]) => void;
 };
 
 const CheckBox: FC<Props> = memo((props) => {
-  const {
-    checkBoxItems,
-    loadingGetCheckBoxItems,
-    loadingSearchModel,
-    vertical,
-    checkBoxItemsDispatch,
-  } = props;
+  const { checkItems, loadingGetCheckItems, loadingSearchModel, vertical, checkItemsDispatch } =
+    props;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChangeCheckBox({ checkBoxItems, checkBoxItemsDispatch, e });
+    handleChangeCheckBox({ checkItems, checkItemsDispatch, e });
   };
 
   const checkboxStyle: CSSProperties | undefined = vertical
     ? { display: "flex", flexDirection: "column" }
     : undefined;
 
-  return loadingGetCheckBoxItems ? (
+  return loadingGetCheckItems ? (
     <Loading />
   ) : (
     <Box style={checkboxStyle} data-testid="checkboxContainer">
-      {checkBoxItems.map((checkBoxItem) => (
+      {checkItems.map((checkItem) => (
         <Checkbox
-          key={checkBoxItem.label}
+          key={checkItem.label}
           size="md"
           colorScheme="teal"
-          isChecked={checkBoxItem.checked}
-          value={checkBoxItem.label}
+          isChecked={checkItem.checked}
+          value={checkItem.label}
           onChange={handleChange}
           isDisabled={loadingSearchModel}
         >
-          {checkBoxItem.label}
+          {checkItem.label}
         </Checkbox>
       ))}
     </Box>

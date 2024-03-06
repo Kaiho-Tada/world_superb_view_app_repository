@@ -32,8 +32,8 @@ const mockWorldViews = Array.from({ length: 120 }, (_, index) => ({
 const mockContextValue = {
   dispatch: mockDispatch,
   state: {
-    categoryCheckBoxItems: [],
-    countryCheckBoxItems: [],
+    categoryCheckItems: [],
+    countryCheckItems: [],
     characteristicCheckItems: [],
     riskLevel: undefined,
     monthRange: [1, 12],
@@ -84,19 +84,19 @@ jest.mock("hooks/api/useGetModel", () => ({
   default: () => ({ handleGetModel: mockHandleGetModel }),
 }));
 
-const mockHandleGetNestedCheckBoxItems = jest.fn();
-jest.mock("hooks/api/useGetNestedCheckBoxItems", () => ({
+const mockHandleGetNestedCheckItems = jest.fn();
+jest.mock("hooks/api/useGetNestedCheckItems", () => ({
   __esModule: true,
   default: () => ({
-    handleGetNestedCheckBoxItems: mockHandleGetNestedCheckBoxItems,
+    handleGetNestedCheckItems: mockHandleGetNestedCheckItems,
   }),
 }));
 
-const mockHandleGetCheckBoxItems = jest.fn();
-jest.mock("hooks/api/useGetCheckBoxItems", () => ({
+const mockHandleGetCheckItems = jest.fn();
+jest.mock("hooks/api/useGetCheckItems", () => ({
   __esModule: true,
   default: () => ({
-    handleGetCheckBoxItems: mockHandleGetCheckBoxItems,
+    handleGetCheckItems: mockHandleGetCheckItems,
   }),
 }));
 
@@ -131,17 +131,17 @@ describe("handleGetModel関数のテスト", () => {
 
     render(<WorldViewList />);
     expect(mockHandleGetModel).toHaveBeenCalledWith({
-      loadingSearchModelDispatch: expect.any(Function),
+      loadingGetModelDispatch: expect.any(Function),
       modelDispatch: expect.any(Function),
-      searchModelApi: mockSearchWorldViewApi,
+      getModelApi: mockSearchWorldViewApi,
     });
 
     spyOnUseWorldViewApi.mockRestore();
   });
 });
 
-describe("handleGetNestedCheckBoxItems関数のテスト", () => {
-  test("初回レンダリング時にhandleGetNestedCheckBoxItems関数が2回実行されること", () => {
+describe("handleGetNestedCheckItems関数のテスト", () => {
+  test("初回レンダリング時にhandleGetNestedCheckItems関数が2回実行されること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const spyOnGetAllCategoriesApi = jest.spyOn(
       jest.requireActual("features/worldView/api/categoryApi"),
@@ -152,32 +152,32 @@ describe("handleGetNestedCheckBoxItems関数のテスト", () => {
       "default"
     );
     render(<WorldViewList />);
-    expect(mockHandleGetNestedCheckBoxItems).toHaveBeenCalledWith({
+    expect(mockHandleGetNestedCheckItems).toHaveBeenCalledWith({
       loadingGetModelDispatch: expect.any(Function),
-      checkBoxItemsDispatch: expect.any(Function),
+      checkItemsDispatch: expect.any(Function),
       getAllModelApi: spyOnGetAllCategoriesApi,
     });
-    expect(mockHandleGetNestedCheckBoxItems).toHaveBeenCalledWith({
+    expect(mockHandleGetNestedCheckItems).toHaveBeenCalledWith({
       loadingGetModelDispatch: expect.any(Function),
-      checkBoxItemsDispatch: expect.any(Function),
+      checkItemsDispatch: expect.any(Function),
       getAllModelApi: spyOnCountryApi,
     });
-    expect(mockHandleGetNestedCheckBoxItems).toHaveBeenCalledTimes(2);
+    expect(mockHandleGetNestedCheckItems).toHaveBeenCalledTimes(2);
   });
 });
 
-describe("handleGetCheckBoxItems関数のテスト", () => {
-  test("初回レンダリング時にhandleGetCheckBoxItems関数が実行されること", () => {
+describe("handleGetCheckItems関数のテスト", () => {
+  test("初回レンダリング時にhandleGetCheckItems関数が実行されること", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const spyOnGetAllCharacteristicsApi = jest.spyOn(
       jest.requireActual("features/worldView/api/characteristicApi"),
       "default"
     );
     render(<WorldViewList />);
-    expect(mockHandleGetCheckBoxItems).toHaveBeenCalledWith({
+    expect(mockHandleGetCheckItems).toHaveBeenCalledWith({
       loadingGetModelDispatch: expect.any(Function),
-      checkBoxItemsDispatch: expect.any(Function),
-      getAllModelApi: spyOnGetAllCharacteristicsApi,
+      checkItemsDispatch: expect.any(Function),
+      getModelApi: spyOnGetAllCharacteristicsApi,
     });
   });
 });
@@ -188,7 +188,7 @@ test("FilterButtonがレンダリングされていること", () => {
   expect(screen.getByRole("button", { name: "フィルター" })).toBeInTheDocument();
 });
 
-test("並べ替えのSelectBoxがレンダリングされていること", () => {
+test("並べ替えのSelectがレンダリングされていること", () => {
   (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
   render(<WorldViewList />);
   expect(screen.getByRole("combobox", { name: "並び替えオプションの選択" })).toBeInTheDocument();

@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import useHandleChangeFavorite from "hooks/api/useHandleChangeFavorite";
+import useHandleChangeFavorite from "hooks/api/useChangeFavorite";
 
 const mockUseToast = jest.fn();
 jest.mock("@chakra-ui/react", () => ({

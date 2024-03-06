@@ -2,15 +2,15 @@ import { useWorldViewListContext } from "providers/WorldViewListProvider";
 
 const useGetCheckedLabels = () => {
   const { state } = useWorldViewListContext();
-  const checkBoxItemArray = {
-    categoryLabels: state.categoryCheckBoxItems,
-    countryLabels: state.countryCheckBoxItems,
+  const checkItemArray = {
+    categoryLabels: state.categoryCheckItems,
+    countryLabels: state.countryCheckItems,
     characteristicLabels: state.characteristicCheckItems,
   };
   const checkedLabelObject = Object.fromEntries(
-    Object.entries(checkBoxItemArray).map(([key, checkBoxItems]) => [
+    Object.entries(checkItemArray).map(([key, checkItems]) => [
       key,
-      checkBoxItems.filter((item) => item.checked).map((item) => item.label),
+      checkItems.filter((item) => item.checked).map((item) => item.label),
     ])
   );
   return { checkedLabelObject };

@@ -7,12 +7,12 @@ jest.mock("@chakra-ui/react", () => ({
   useToast: () => mockToast,
 }));
 
-const mockLoadingSearchModelDispatch = jest.fn();
+const mockLoadingGetModelDispatch = jest.fn();
 const mockModelDispatch = jest.fn();
-const mockSearchModelApi = jest.fn();
+const mockGetModelApi = jest.fn();
 
 test("handleGetModel成功時のテスト", async () => {
-  mockSearchModelApi.mockResolvedValue({
+  mockGetModelApi.mockResolvedValue({
     data: [
       { id: 1, name: "name1" },
       { id: 2, name: "name2" },
@@ -21,23 +21,23 @@ test("handleGetModel成功時のテスト", async () => {
 
   const { result } = renderHook(() => useGetModel());
   await result.current.handleGetModel({
-    loadingSearchModelDispatch: mockLoadingSearchModelDispatch,
+    loadingGetModelDispatch: mockLoadingGetModelDispatch,
     modelDispatch: mockModelDispatch,
-    searchModelApi: mockSearchModelApi,
+    getModelApi: mockGetModelApi,
   });
 
-  expect(mockLoadingSearchModelDispatch).toHaveBeenCalledWith(true);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledWith(true);
   expect(mockModelDispatch).toHaveBeenCalledWith([
     { id: 1, name: "name1" },
     { id: 2, name: "name2" },
   ]);
   expect(mockModelDispatch).toHaveBeenCalledTimes(1);
-  expect(mockLoadingSearchModelDispatch).toHaveBeenCalledWith(false);
-  expect(mockLoadingSearchModelDispatch).toHaveBeenCalledTimes(2);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledWith(false);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledTimes(2);
 });
 
 test("handleGetModel失敗時のテスト", async () => {
-  mockSearchModelApi.mockImplementation(() => {
+  mockGetModelApi.mockImplementation(() => {
     const error = new Error();
     Object.assign(error, {
       isAxiosError: true,
@@ -48,12 +48,12 @@ test("handleGetModel失敗時のテスト", async () => {
 
   const { result } = renderHook(() => useGetModel());
   await result.current.handleGetModel({
-    loadingSearchModelDispatch: mockLoadingSearchModelDispatch,
+    loadingGetModelDispatch: mockLoadingGetModelDispatch,
     modelDispatch: mockModelDispatch,
-    searchModelApi: mockSearchModelApi,
+    getModelApi: mockGetModelApi,
   });
 
-  expect(mockLoadingSearchModelDispatch).toHaveBeenCalledWith(true);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledWith(true);
   expect(mockToast).toHaveBeenCalledWith({
     title: "データの取得に失敗しました。",
     status: "error",
@@ -62,6 +62,6 @@ test("handleGetModel失敗時のテスト", async () => {
     isClosable: true,
   });
   expect(mockToast).toHaveBeenCalledTimes(1);
-  expect(mockLoadingSearchModelDispatch).toHaveBeenCalledWith(false);
-  expect(mockLoadingSearchModelDispatch).toHaveBeenCalledTimes(2);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledWith(false);
+  expect(mockLoadingGetModelDispatch).toHaveBeenCalledTimes(2);
 });

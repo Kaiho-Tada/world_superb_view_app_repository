@@ -3,42 +3,42 @@ import userEvent from "@testing-library/user-event";
 import CheckBox from "components/ui-elements/CheckBox";
 import { act } from "react-dom/test-utils";
 
-const mockCheckBoxItemsDispatch = jest.fn();
+const mockCheckItemsDispatch = jest.fn();
 
 test("CheckBoxがレンダリングされていること", () => {
   render(
     <CheckBox
-      checkBoxItems={[{ label: "ラベル", checked: false }]}
-      loadingGetCheckBoxItems={false}
+      checkItems={[{ label: "ラベル", checked: false }]}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
       vertical={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "ラベル" })).toBeInTheDocument();
 });
 
-test("checkBoxItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
+test("checkItemsのcheckedがtrueの場合、CheckBoxがチェックされていること", () => {
   render(
     <CheckBox
-      checkBoxItems={[{ label: "ラベル", checked: true }]}
-      loadingGetCheckBoxItems={false}
+      checkItems={[{ label: "ラベル", checked: true }]}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
       vertical={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "ラベル" })).toBeChecked();
 });
 
-test("loadingGetCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
+test("loadingGetCheckItemsがtrueの場合、スピナーが表示されていること", () => {
   render(
     <CheckBox
-      checkBoxItems={[{ label: "ラベル", checked: false }]}
-      loadingGetCheckBoxItems
+      checkItems={[{ label: "ラベル", checked: false }]}
+      loadingGetCheckItems
       loadingSearchModel={false}
       vertical={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
     />
   );
   expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
@@ -47,11 +47,11 @@ test("loadingGetCheckBoxItemsがtrueの場合、スピナーが表示されて�
 test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになっていること", () => {
   render(
     <CheckBox
-      checkBoxItems={[{ label: "ラベル", checked: false }]}
-      loadingGetCheckBoxItems={false}
+      checkItems={[{ label: "ラベル", checked: false }]}
+      loadingGetCheckItems={false}
       loadingSearchModel
       vertical={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "ラベル" })).toBeDisabled();
@@ -60,11 +60,11 @@ test("loadingSearchWorldViewsがtrueの場合、CheckBoxがdisabledになって�
 test("verticalがtrueの場合、CheckBoxが縦並びに配置されていること", () => {
   render(
     <CheckBox
-      checkBoxItems={[{ label: "ラベル", checked: false }]}
-      loadingGetCheckBoxItems={false}
+      checkItems={[{ label: "ラベル", checked: false }]}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
       vertical
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
     />
   );
   expect(screen.getByTestId("checkboxContainer")).toHaveStyle({
@@ -82,10 +82,10 @@ test("checkbox押下でhandleChangeCheckBox関数が実行されること", asyn
   const user = userEvent.setup();
   render(
     <CheckBox
-      checkBoxItems={[{ label: "ラベル", checked: false }]}
-      loadingGetCheckBoxItems={false}
+      checkItems={[{ label: "ラベル", checked: false }]}
+      loadingGetCheckItems={false}
       vertical={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       loadingSearchModel={false}
     />
   );
@@ -95,7 +95,7 @@ test("checkbox押下でhandleChangeCheckBox関数が実行されること", asyn
 
   expect(spyOnHandleChangeCheckBox).toHaveBeenCalledWith({
     e: expect.objectContaining({ target: expect.objectContaining({ value: "ラベル" }) }),
-    checkBoxItems: [{ label: "ラベル", checked: false }],
-    checkBoxItemsDispatch: mockCheckBoxItemsDispatch,
+    checkItems: [{ label: "ラベル", checked: false }],
+    checkItemsDispatch: mockCheckItemsDispatch,
   });
 });

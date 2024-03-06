@@ -263,9 +263,9 @@ describe("初回レンダリング時のテスト", () => {
       render(<VideoDetailPage />);
     });
     expect(mockHandleGetModel).toHaveBeenCalledWith({
-      loadingSearchModelDispatch: expect.any(Function),
+      loadingGetModelDispatch: expect.any(Function),
       modelDispatch: expect.any(Function),
-      searchModelApi: mockSearchVideoApi,
+      getModelApi: mockSearchVideoApi,
     });
     spyOnUseGetModel.mockRestore();
   });

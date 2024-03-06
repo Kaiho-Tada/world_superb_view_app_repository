@@ -30,9 +30,9 @@ const WorldViewDetailPage = () => {
   };
   const handleGetWorldView = () => {
     handleGetModel<WorldView>({
-      loadingSearchModelDispatch: loadingSearchWorldViewDispatch,
+      loadingGetModelDispatch: loadingSearchWorldViewDispatch,
       modelDispatch: worldViewDispatch,
-      searchModelApi: searchWorldViewApi,
+      getModelApi: searchWorldViewApi,
     });
   };
   useEffect(() => {

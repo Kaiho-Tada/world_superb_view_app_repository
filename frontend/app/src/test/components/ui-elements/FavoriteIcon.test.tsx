@@ -44,12 +44,12 @@ test("ハートアイコンがレンダリングされていること", () => {
 
 test("ハートアイコン押下でhandleChangeFavorite関数が実行されること", async () => {
   const user = userEvent.setup();
-  const spyOnUseHandleChangeFavorite = jest.spyOn(
-    jest.requireActual("hooks/api/useHandleChangeFavorite"),
+  const spyOnUseChangeFavorite = jest.spyOn(
+    jest.requireActual("hooks/api/useChangeFavorite"),
     "default"
   );
   const mockHandleChangeFavorite = jest.fn();
-  spyOnUseHandleChangeFavorite.mockReturnValue({
+  spyOnUseChangeFavorite.mockReturnValue({
     handleChangeFavorite: mockHandleChangeFavorite,
   });
   await act(async () => {
@@ -74,7 +74,7 @@ test("ハートアイコン押下でhandleChangeFavorite関数が実行される
     createFavoriteApi: mockCreateFavoriteApi,
   });
 
-  spyOnUseHandleChangeFavorite.mockRestore();
+  spyOnUseChangeFavorite.mockRestore();
 });
 
 test("ハートアイコン押下でhandleGetModel関数が実行されること", async () => {
