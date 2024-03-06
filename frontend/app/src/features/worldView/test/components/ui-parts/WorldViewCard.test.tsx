@@ -40,12 +40,10 @@ const categories = [
   {
     id: 1,
     name: "categoryName1",
-    classification: "自然",
   },
   {
     id: 2,
     name: "categoryName2",
-    classification: "人工",
   },
 ];
 

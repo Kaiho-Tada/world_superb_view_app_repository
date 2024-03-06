@@ -1,7 +1,7 @@
 import { Box, Heading, Image, Stack, Text, useDisclosure, WrapItem } from "@chakra-ui/react";
-import { RefCategory } from "features/worldView/types/ref/refCategory";
-import { RefCharacteristic } from "features/worldView/types/ref/refCharacteristic";
-import { RefCountry } from "features/worldView/types/ref/refCountry";
+import { Category } from "features/worldView/types/api/category";
+import { Characteristic } from "features/worldView/types/api/characteristic";
+import { Country } from "features/worldView/types/api/country";
 import { FC, memo, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Favorite } from "types/favorite";
@@ -12,9 +12,9 @@ type Props = {
   name: string;
   imgUrl: string;
   bestSeason: string;
-  countries: Array<RefCountry>;
-  categories: Array<RefCategory>;
-  characteristics: Array<RefCharacteristic>;
+  countries: Omit<Country, "parent">[];
+  categories: Omit<Category, "parent">[];
+  characteristics: Characteristic[];
   favorites: Array<Favorite>;
   gifUrl: string | null;
   gifSite: string | null;

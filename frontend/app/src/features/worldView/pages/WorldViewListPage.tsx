@@ -26,6 +26,8 @@ import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { useCallback, useEffect } from "react";
 import { CheckBoxItem } from "types/checkBoxItem";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import { Category } from "../types/api/category";
+import { Country } from "../types/api/country";
 
 const WorldViewListPage = () => {
   const { state, dispatch } = useWorldViewListContext();
@@ -123,12 +125,12 @@ const WorldViewListPage = () => {
   };
   useEffect(() => {
     if (!isSkipGetCheckItmesApi) {
-      handleGetNestedCheckBoxItems({
+      handleGetNestedCheckBoxItems<Category>({
         loadingGetModelDispatch: loadingGetCategoryDispatch,
         checkBoxItemsDispatch: categoryCheckBoxItemsDispatch,
         getAllModelApi: getAllCategoriesApi,
       });
-      handleGetNestedCheckBoxItems({
+      handleGetNestedCheckBoxItems<Pick<Country, "id" | "name" | "parent">>({
         loadingGetModelDispatch: loadingGetCountryDispatch,
         checkBoxItemsDispatch: countryCheckBoxItemsDispatch,
         getAllModelApi: getAllCountriesApi,
