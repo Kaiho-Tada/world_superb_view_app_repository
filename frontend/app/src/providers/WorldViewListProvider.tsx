@@ -1,12 +1,12 @@
 import { WorldView } from "features/worldView/types/api/worldView";
 import { createContext, Dispatch, FC, ReactNode, useContext, useMemo, useReducer } from "react";
-import { CheckBoxItem } from "types/checkBoxItem";
+import CheckItem from "types/checkItem";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 export type Action =
   | { type: "SET_CATEGORY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
   | { type: "SET_COUNTRY_CHECKBOX_ITEMS"; payload: NestedCheckBoxItem[] }
-  | { type: "SET_CHARACTERISTIC_CHECK_ITEMS"; payload: CheckBoxItem[] }
+  | { type: "SET_CHARACTERISTIC_CHECK_ITEMS"; payload: CheckItem[] }
   | { type: "SET_RISK_LEVEL"; payload: string | undefined }
   | { type: "SET_MONTH_RANGE"; payload: number[] }
   | { type: "SET_BMI_RANGE"; payload: number[] }
@@ -29,7 +29,7 @@ export type Action =
 type State = {
   categoryCheckBoxItems: NestedCheckBoxItem[];
   countryCheckBoxItems: NestedCheckBoxItem[];
-  characteristicCheckItems: CheckBoxItem[];
+  characteristicCheckItems: CheckItem[];
   riskLevel: string | undefined;
   monthRange: number[];
   bmiRange: number[];

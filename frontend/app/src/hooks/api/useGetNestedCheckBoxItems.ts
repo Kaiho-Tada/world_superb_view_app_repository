@@ -1,12 +1,11 @@
 import { AxiosResponse, isAxiosError } from "axios";
 import useMessage from "hooks/useMessage";
-import { NestedCheckBoxItemData } from "types/api/nestedCheckBoxItemData";
 import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
 
 type Props = {
   loadingGetModelDispatch: (payload: boolean) => void;
   checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
-  getAllModelApi: () => Promise<AxiosResponse<NestedCheckBoxItemData[]>>;
+  getAllModelApi: () => Promise<AxiosResponse<{ name: string; parent: string }[]>>;
 };
 
 const useGetNestedCheckBoxItems = () => {
@@ -18,7 +17,7 @@ const useGetNestedCheckBoxItems = () => {
     try {
       const res = await getAllModelApi();
       const models = res.data;
-      const newCheckBoxItems = models.map((model: NestedCheckBoxItemData) => ({
+      const newCheckBoxItems = models.map((model) => ({
         label: model.name,
         parentLabel: model.parent,
         checked: false,

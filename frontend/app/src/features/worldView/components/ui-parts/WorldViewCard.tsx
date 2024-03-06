@@ -1,24 +1,19 @@
 import { Box, Heading, Image, Stack, Text, useDisclosure, WrapItem } from "@chakra-ui/react";
-import { RefCategory } from "features/worldView/types/ref/refCategory";
-import { RefCharacteristic } from "features/worldView/types/ref/refCharacteristic";
-import { RefCountry } from "features/worldView/types/ref/refCountry";
+import { Category } from "features/worldView/types/api/category";
+import { Country } from "features/worldView/types/api/country";
 import { FC, memo, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Favorite } from "types/favorite";
 import GifModal from "../ui-elements/GifModal";
 
-type Props = {
+interface Props {
   id: number;
   name: string;
   imgUrl: string;
-  bestSeason: string;
-  countries: Array<RefCountry>;
-  categories: Array<RefCategory>;
-  characteristics: Array<RefCharacteristic>;
-  favorites: Array<Favorite>;
+  countries: Pick<Country, "name">[];
+  categories: Pick<Category, "name">[];
   gifUrl: string | null;
   gifSite: string | null;
-};
+}
 
 const WorldViewCard: FC<Props> = memo((props) => {
   const { id, name, imgUrl, countries, categories, gifUrl, gifSite } = props;

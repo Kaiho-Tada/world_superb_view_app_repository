@@ -1,7 +1,7 @@
 import Video from "features/video/types/Video";
-import { RefCategory } from "features/worldView/types/ref/refCategory";
-import { RefCharacteristic } from "features/worldView/types/ref/refCharacteristic";
-import { RefCountry } from "features/worldView/types/ref/refCountry";
+import { Category } from "features/worldView/types/api/category";
+import { Characteristic } from "features/worldView/types/api/characteristic";
+import { Country } from "features/worldView/types/api/country";
 import { Favorite } from "types/favorite";
 
 export type WorldView = {
@@ -9,10 +9,10 @@ export type WorldView = {
   name: string;
   imgUrl: string | null;
   bestSeason: string;
-  countries: Array<RefCountry>;
-  categories: Array<RefCategory>;
-  characteristics: Array<RefCharacteristic>;
-  worldViewFavorites: Array<Favorite>;
+  countries: Omit<Country, "parent">[];
+  categories: Omit<Category, "parent">[];
+  characteristics: Characteristic[];
+  worldViewFavorites: Favorite[];
   gifUrl: string | null;
   gifSite: string | null;
   videos: Video[];
