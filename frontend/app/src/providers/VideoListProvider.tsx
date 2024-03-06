@@ -11,7 +11,11 @@ export type Action =
   | { type: "SET_KEYWORD"; payload: string }
   | { type: "SET_SHOULD_DEBOUNCE"; payload: boolean }
   | { type: "SET_VOTE_AVERAGE_RENGE"; payload: number[] }
-  | { type: "SET_IS_DISABLED"; payload: boolean };
+  | { type: "SET_IS_DISABLED"; payload: boolean }
+  | { type: "SET_CURRENT_PAGE"; payload: number }
+  | { type: "SET_ITEMS_OFFSET"; payload: number }
+  | { type: "SET_IS_SKIP_SEARCH_VIDEO"; payload: boolean }
+  | { type: "SET_IS_SKIP_GET_CHECK_ITEMS"; payload: boolean };
 
 type State = {
   videos: Video[];
@@ -23,6 +27,10 @@ type State = {
   shouldDebounce: boolean;
   voteAverageRange: number[];
   isDisabled: boolean;
+  currentPage: number;
+  itemsOffset: number;
+  isSkipSearchVideo: boolean;
+  isSkipGetCheckItems: boolean;
 };
 
 const initialState: State = {
@@ -35,6 +43,10 @@ const initialState: State = {
   shouldDebounce: false,
   voteAverageRange: [0, 10],
   isDisabled: true,
+  currentPage: 1,
+  itemsOffset: 0,
+  isSkipSearchVideo: false,
+  isSkipGetCheckItems: false,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -65,6 +77,18 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_IS_DISABLED":
       return { ...state, isDisabled: action.payload };
+
+    case "SET_CURRENT_PAGE":
+      return { ...state, currentPage: action.payload };
+
+    case "SET_ITEMS_OFFSET":
+      return { ...state, itemsOffset: action.payload };
+
+    case "SET_IS_SKIP_SEARCH_VIDEO":
+      return { ...state, isSkipSearchVideo: action.payload };
+
+    case "SET_IS_SKIP_GET_CHECK_ITEMS":
+      return { ...state, isSkipGetCheckItems: action.payload };
 
     default:
       return state;

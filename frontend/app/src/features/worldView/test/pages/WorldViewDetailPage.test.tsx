@@ -5,6 +5,13 @@ import { useWorldViewListContext as mockUseWorldViewListContext } from "provider
 import { act } from "react-dom/test-utils";
 import { useParams as mockUseParams } from "react-router-dom";
 
+const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+  useParams: jest.fn(),
+}));
+
 jest.mock("providers/WorldViewListProvider", () => ({
   useWorldViewListContext: jest.fn(),
 }));
@@ -41,11 +48,6 @@ const mockContextValueLoadingWorldView = {
     loadingSearchWorldViews: true,
   },
 };
-
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useParams: jest.fn(),
-}));
 
 // searchWorldViewApi関数のモック化
 const mockSearchWorldViewApi = jest.fn();
@@ -228,20 +230,25 @@ describe("コンポーネントのテスト", () => {
       expect(riskLevelIcon.length).toBe(1);
     });
 
-    test("idが1のレコードが舞台となった作品の名前が表示されていること", () => {
+    test("idが1のレコードが舞台となった作品のリストカードが表示されていること", () => {
       (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
       (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
 
       render(<WorldViewDetailPage />);
-      expect(screen.getByText("video1")).toBeInTheDocument();
+      expect(screen.getByRole("listitem", { name: "ビデオ一覧: video1" })).toBeInTheDocument();
     });
 
-    test("idが1のレコードが舞台となった作品のリリース日が表示されていること", () => {
+    test("作品のリストカード押下で作品の詳細ページに遷移すること", async () => {
       (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
       (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
 
+      const user = userEvent.setup();
       render(<WorldViewDetailPage />);
-      expect(screen.getByText("1 - 1")).toBeInTheDocument();
+      await act(async () => {
+        await user.click(screen.getByRole("listitem", { name: "ビデオ一覧: video1" }));
+      });
+      expect(mockNavigate).toHaveBeenCalledWith("/videos/1");
+      expect(mockNavigate).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -305,20 +312,25 @@ describe("コンポーネントのテスト", () => {
       expect(riskLevelIcon.length).toBe(2);
     });
 
-    test("idが2のレコードが舞台となった作品の名前が表示されていること", () => {
+    test("idが2のレコードが舞台となった作品のリストカードが表示されていること", () => {
       (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
       (mockUseParams as jest.Mock).mockReturnValue({ id: "2" });
 
       render(<WorldViewDetailPage />);
-      expect(screen.getByText("video2")).toBeInTheDocument();
+      expect(screen.getByRole("listitem", { name: "ビデオ一覧: video2" })).toBeInTheDocument();
     });
 
-    test("idが2のレコードが舞台となった作品のリリース日が表示されていること", () => {
+    test("作品のリストカード押下で作品の詳細ページに遷移すること", async () => {
       (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
       (mockUseParams as jest.Mock).mockReturnValue({ id: "2" });
 
+      const user = userEvent.setup();
       render(<WorldViewDetailPage />);
-      expect(screen.getByText("2 - 2")).toBeInTheDocument();
+      await act(async () => {
+        await user.click(screen.getByRole("listitem", { name: "ビデオ一覧: video2" }));
+      });
+      expect(mockNavigate).toHaveBeenCalledWith("/videos/2");
+      expect(mockNavigate).toHaveBeenCalledTimes(1);
     });
   });
 });

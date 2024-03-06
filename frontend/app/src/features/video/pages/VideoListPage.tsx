@@ -17,7 +17,7 @@ import useGetCheckItems from "hooks/api/useGetCheckItems";
 import useGetModel from "hooks/api/useGetModel";
 import useDebounce from "hooks/useDebounce";
 import { useVideoListContext } from "providers/VideoListProvider";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect } from "react";
 import CheckItem from "types/checkItem";
 import SortSelectBox from "../components/ui-element/SortSelectBox";
 import useClear from "../hooks/useClear";
@@ -32,6 +32,10 @@ const VideoListPage: FC = () => {
     shouldDebounce,
     loadingSearchVideos,
     voteAverageRange,
+    currentPage,
+    itemsOffset,
+    isSkipSearchVideo,
+    isSkipGetCheckItems,
   } = state;
   const { handleGetModel } = useGetModel();
   const { searchVideoApi } = useVideoApi();
@@ -46,26 +50,34 @@ const VideoListPage: FC = () => {
   };
 
   useEffect(() => {
-    if (shouldDebounce) {
-      handleDebounceWithArg<{
-        modelDispatch: (responseData: Movie[]) => void;
-        loadingSearchModelDispatch: (payload: boolean) => void;
-        searchModelApi: () => Promise<AxiosResponse<Movie[]>>;
-      }>({
-        fn: handleGetModel,
-        arg: {
+    if (!isSkipSearchVideo) {
+      if (shouldDebounce) {
+        handleDebounceWithArg<{
+          modelDispatch: (responseData: Movie[]) => void;
+          loadingSearchModelDispatch: (payload: boolean) => void;
+          searchModelApi: () => Promise<AxiosResponse<Movie[]>>;
+        }>({
+          fn: handleGetModel,
+          arg: {
+            modelDispatch: movieDispatch,
+            loadingSearchModelDispatch: loadingSearchMovieDispatch,
+            searchModelApi: searchVideoApi,
+          },
+        });
+        dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
+      } else {
+        handleGetModel<Movie>({
           modelDispatch: movieDispatch,
           loadingSearchModelDispatch: loadingSearchMovieDispatch,
           searchModelApi: searchVideoApi,
-        },
-      });
-      dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
+        });
+      }
+      if (currentPage !== 1 && itemsOffset !== 0) {
+        dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
+        dispatch({ type: "SET_ITEMS_OFFSET", payload: 0 });
+      }
     } else {
-      handleGetModel<Movie>({
-        modelDispatch: movieDispatch,
-        loadingSearchModelDispatch: loadingSearchMovieDispatch,
-        searchModelApi: searchVideoApi,
-      });
+      dispatch({ type: "SET_IS_SKIP_SEARCH_VIDEO", payload: false });
     }
   }, [sortCriteria, genreCheckItems, keyword]);
 
@@ -78,32 +90,29 @@ const VideoListPage: FC = () => {
   };
 
   useEffect(() => {
-    handleGetCheckItems({
-      checkItemsDispatch: genreCheckItemsDispatch,
-      loadingModelDispatch: loadingGetGenresDispatch,
-      fetchModelApi: getAllGenresApi,
-    });
+    if (!isSkipGetCheckItems) {
+      handleGetCheckItems({
+        checkItemsDispatch: genreCheckItemsDispatch,
+        loadingModelDispatch: loadingGetGenresDispatch,
+        fetchModelApi: getAllGenresApi,
+      });
+    } else {
+      dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: false });
+    }
   }, []);
 
-  const [itemsOffset, setItemsOffset] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 30;
   const endOffset = itemsOffset + itemsPerPage;
   const currentVideos = videos.slice(itemsOffset, endOffset);
   const pageCount = Math.ceil(videos.length / itemsPerPage);
   const handlePageChange = useCallback(
     (newPage: number) => {
-      setCurrentPage(newPage);
+      dispatch({ type: "SET_CURRENT_PAGE", payload: newPage });
       const newOffset = (newPage - 1) * itemsPerPage;
-      setItemsOffset(newOffset);
+      dispatch({ type: "SET_ITEMS_OFFSET", payload: newOffset });
     },
     [itemsPerPage]
   );
-
-  useEffect(() => {
-    setItemsOffset(0);
-    setCurrentPage(1);
-  }, [videos]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const screenSize = useBreakpointValue({ sm: "sm" });

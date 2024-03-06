@@ -1,9 +1,12 @@
 import { Box, Heading, Img, Stack, Text, WrapItem } from "@chakra-ui/react";
 import Video from "features/video/types/Video";
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
-const VideoCard: FC<Pick<Video, "title" | "posterPath" | "releaseDate">> = (props) => {
-  const { title, posterPath, releaseDate } = props;
+const VideoCard: FC<Pick<Video, "id" | "title" | "posterPath" | "releaseDate">> = (props) => {
+  const { id, title, posterPath, releaseDate } = props;
+  const navigate = useNavigate();
+
   return (
     <WrapItem
       role="listitem"
@@ -11,6 +14,11 @@ const VideoCard: FC<Pick<Video, "title" | "posterPath" | "releaseDate">> = (prop
       display="flex"
       alignItems="stretch"
       w={{ base: "120px", sm: "160px", md: "180px" }}
+      onClick={(e: MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+        navigate(`/videos/${id}`);
+      }}
+      _hover={{ cursor: "pointer", opacity: "0.8" }}
     >
       <Box bg="white" shadow="md" color="black">
         <Img
