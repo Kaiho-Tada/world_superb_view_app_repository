@@ -9,62 +9,8 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockNavigate,
 }));
 
-const countries = [
-  {
-    id: 1,
-    name: "countryName1",
-    code: "0012",
-    riskLevel: 1,
-    bmi: 11.2,
-    state: {
-      id: 1,
-      name: "stateName1",
-      code: "10",
-    },
-  },
-  {
-    id: 2,
-    name: "countryName2",
-    code: "0014",
-    riskLevel: 2,
-    bmi: -26.9,
-    state: {
-      id: 1,
-      name: "stateName1",
-      code: "10",
-    },
-  },
-];
-
-const categories = [
-  {
-    id: 1,
-    name: "categoryName1",
-  },
-  {
-    id: 2,
-    name: "categoryName2",
-  },
-];
-
-const characteristics = [
-  {
-    id: 1,
-    name: "characteristicName1",
-  },
-  {
-    id: 2,
-    name: "characteristicName2",
-  },
-];
-
-const favorites = [
-  {
-    id: 1,
-    userId: 1,
-    worldViewId: 1,
-  },
-];
+const countries = [{ name: "countryName1" }, { name: "countryName2" }];
+const categories = [{ name: "categoryName1" }, { name: "categoryName2" }];
 
 test("レコードの画像が表示されていること", () => {
   render(
@@ -72,11 +18,8 @@ test("レコードの画像が表示されていること", () => {
       id={1}
       name="絶景名"
       imgUrl="画像URL"
-      bestSeason="1月"
       countries={countries}
       categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
       gifUrl="gifUrl"
       gifSite="gifSite"
     />
@@ -90,11 +33,8 @@ test("レコード名が表示されていること", () => {
       id={1}
       name="絶景名"
       imgUrl="画像URL"
-      bestSeason="1月"
       countries={countries}
       categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
       gifUrl="gifUrl"
       gifSite="gifSite"
     />
@@ -108,11 +48,8 @@ test("レコードの国名が表示されていること", () => {
       id={1}
       name="絶景名"
       imgUrl="画像URL"
-      bestSeason="1月"
       countries={countries}
       categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
       gifUrl="gifUrl"
       gifSite="gifSite"
     />
@@ -126,11 +63,8 @@ test("レコードの国名が表示されていること", () => {
       id={1}
       name="絶景名"
       imgUrl="画像URL"
-      bestSeason="1月"
       countries={countries}
       categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
       gifUrl="gifUrl"
       gifSite="gifSite"
     />
@@ -144,11 +78,8 @@ test("GIFボタンが表示されていること", () => {
       id={1}
       name="絶景名"
       imgUrl="画像URL"
-      bestSeason="1月"
       countries={countries}
       categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
       gifUrl="gifUrl"
       gifSite="gifSite"
     />
@@ -163,11 +94,8 @@ test("GIFボタン押下でGIFモーダルが表示されること", async () =>
       id={1}
       name="絶景名"
       imgUrl="画像URL"
-      bestSeason="1月"
       countries={countries}
       categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
       gifUrl="gifUrl"
       gifSite="gifSite"
     />
@@ -185,11 +113,8 @@ test("絶景カード押下で絶景詳細ページに遷移すること", async
       id={1}
       name="絶景名"
       imgUrl="画像URL"
-      bestSeason="1月"
       countries={countries}
       categories={categories}
-      characteristics={characteristics}
-      favorites={favorites}
       gifUrl="gifUrl"
       gifSite="gifSite"
     />

@@ -15,12 +15,9 @@ const WorldViewList: FC<Props> = memo(({ currentViews }) => (
         key={worldView.id}
         id={worldView.id}
         name={worldView.name}
-        imgUrl={worldView.imgUrl ? worldView.imgUrl : defaultImg}
-        bestSeason={worldView.bestSeason}
+        imgUrl={worldView.imgUrl || defaultImg}
         countries={worldView.countries}
         categories={worldView.categories}
-        characteristics={worldView.characteristics}
-        favorites={worldView.worldViewFavorites}
         gifUrl={worldView.gifUrl || null}
         gifSite={worldView.gifSite || null}
       />
