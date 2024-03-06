@@ -8,8 +8,8 @@ jest.mock("providers/WorldViewListProvider", () => ({
   useWorldViewListContext: () => ({
     dispatch: mockDispatch,
     state: {
-      categoryCheckBoxItems: [{ label: "城", classification: "人工", checked: true }],
-      countryCheckBoxItems: [{ label: "ペルー", stateName: "中南米", checked: true }],
+      categoryCheckItems: [{ label: "城", classification: "人工", checked: true }],
+      countryCheckItems: [{ label: "ペルー", stateName: "中南米", checked: true }],
       characteristicCheckItems: [{ label: "幻想・神秘的", checked: true }],
       riskLevel: "4",
       monthRange: [6, 9],
@@ -18,38 +18,38 @@ jest.mock("providers/WorldViewListProvider", () => ({
   }),
 }));
 
-describe("handleClearCheckBox関数のテスト", () => {
-  test("handleClearCheckBox関数が実行されること", () => {
-    const spyOnHandleClearCheckBox = jest.spyOn(
-      jest.requireActual("utils/handleClearCheckBox"),
+describe("handleClearCheckItem関数のテスト", () => {
+  test("handleClearCheckItem関数が実行されること", () => {
+    const spyOnHandleClearCheckItem = jest.spyOn(
+      jest.requireActual("utils/handleClearCheckItem"),
       "default"
     );
     const { result } = renderHook(() => useClear());
     result.current.handleClear();
-    expect(spyOnHandleClearCheckBox).toHaveBeenCalledWith({
-      checkBoxItems: [{ label: "城", classification: "人工", checked: true }],
-      checkBoxItemsDispatch: expect.any(Function),
+    expect(spyOnHandleClearCheckItem).toHaveBeenCalledWith({
+      checkItems: [{ label: "城", classification: "人工", checked: true }],
+      checkItemsDispatch: expect.any(Function),
     });
-    expect(spyOnHandleClearCheckBox).toHaveBeenCalledWith({
-      checkBoxItems: [{ label: "ペルー", stateName: "中南米", checked: true }],
-      checkBoxItemsDispatch: expect.any(Function),
+    expect(spyOnHandleClearCheckItem).toHaveBeenCalledWith({
+      checkItems: [{ label: "ペルー", stateName: "中南米", checked: true }],
+      checkItemsDispatch: expect.any(Function),
     });
-    expect(spyOnHandleClearCheckBox).toHaveBeenCalledWith({
-      checkBoxItems: [{ label: "幻想・神秘的", checked: true }],
-      checkBoxItemsDispatch: expect.any(Function),
+    expect(spyOnHandleClearCheckItem).toHaveBeenCalledWith({
+      checkItems: [{ label: "幻想・神秘的", checked: true }],
+      checkItemsDispatch: expect.any(Function),
     });
-    spyOnHandleClearCheckBox.mockRestore();
+    spyOnHandleClearCheckItem.mockRestore();
   });
 
-  test("handleClearCheckBox関数内でcheckBoxItemsをクリアするdispatchが実行されること", () => {
+  test("handleClearCheckItem関数内でcheckItemsをクリアするdispatchが実行されること", () => {
     const { result } = renderHook(() => useClear());
     result.current.handleClear();
     expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_CATEGORY_CHECKBOX_ITEMS",
+      type: "SET_CATEGORY_CHECK_ITEMS",
       payload: [{ label: "城", classification: "人工", checked: false }],
     });
     expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_COUNTRY_CHECKBOX_ITEMS",
+      type: "SET_COUNTRY_CHECK_ITEMS",
       payload: [{ label: "ペルー", stateName: "中南米", checked: false }],
     });
     expect(mockDispatch).toHaveBeenCalledWith({

@@ -18,14 +18,14 @@ import WorldViewList from "features/worldView/components/ui-parts/WorldViewList"
 import useClear from "features/worldView/hooks/useClear";
 import useGetCheckedLabels from "features/worldView/hooks/useGetCheckedLabels";
 import { WorldView } from "features/worldView/types/api/worldView";
-import useGetCheckBoxItems from "hooks/api/useGetCheckBoxItems";
+import useGetCheckItems from "hooks/api/useGetCheckItems";
 import useGetModel from "hooks/api/useGetModel";
-import useGetNestedCheckBoxItems from "hooks/api/useGetNestedCheckBoxItems";
+import useGetNestedCheckItems from "hooks/api/useGetNestedCheckItems";
 import useDebounce from "hooks/useDebounce";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { useCallback, useEffect } from "react";
-import { CheckBoxItem } from "types/checkBoxItem";
-import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import CheckItem from "types/checkItem";
+import { NestedCheckItem } from "types/nestedCheckItem";
 
 const WorldViewListPage = () => {
   const { state, dispatch } = useWorldViewListContext();
@@ -37,8 +37,8 @@ const WorldViewListPage = () => {
     monthRange,
     isSkipSearchApi,
     shouldDebounce,
-    categoryCheckBoxItems,
-    countryCheckBoxItems,
+    categoryCheckItems,
+    countryCheckItems,
     characteristicCheckItems,
     sortCriteria,
     worldViews,
@@ -46,8 +46,8 @@ const WorldViewListPage = () => {
     itemsOffset,
     isSkipGetCheckItmesApi,
   } = state;
-  const { handleGetNestedCheckBoxItems } = useGetNestedCheckBoxItems();
-  const { handleGetCheckBoxItems } = useGetCheckBoxItems();
+  const { handleGetNestedCheckItems } = useGetNestedCheckItems();
+  const { handleGetCheckItems } = useGetCheckItems();
   const { handleGetModel } = useGetModel();
   const { handleDebounceWithArg } = useDebounce(1500);
   const { searchWorldViewApi } = useWorldViewApi();
@@ -92,8 +92,8 @@ const WorldViewListPage = () => {
       dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: false });
     }
   }, [
-    categoryCheckBoxItems,
-    countryCheckBoxItems,
+    categoryCheckItems,
+    countryCheckItems,
     characteristicCheckItems,
     riskLevel,
     keyword,
@@ -103,40 +103,40 @@ const WorldViewListPage = () => {
   const loadingGetCategoryDispatch = (payload: boolean) => {
     dispatch({ type: "SET_LOADING_GET_CATEGORY", payload });
   };
-  const categoryCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
-    dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  const categoryCheckItemsDispatch = (newCheckItems: NestedCheckItem[]) => {
+    dispatch({ type: "SET_CATEGORY_CHECK_ITEMS", payload: newCheckItems });
   };
   const loadingGetCountryDispatch = (payload: boolean) => {
     dispatch({ type: "SET_LOADING_GET_COUNTRY", payload });
   };
-  const countryCheckBoxItemsDispatch = (newCheckBoxItems: NestedCheckBoxItem[]) => {
-    dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+  const countryCheckItemsDispatch = (newCheckItems: NestedCheckItem[]) => {
+    dispatch({ type: "SET_COUNTRY_CHECK_ITEMS", payload: newCheckItems });
   };
   const loadingGetCharacteristicDispatch = (payload: boolean) => {
     dispatch({ type: "SET_LOADING_GET_CHARACTERISTIC", payload });
   };
-  const characteristicCheckBoxItemsDispatch = (newCheckBoxItems: CheckBoxItem[]) => {
+  const characteristicCheckItemsDispatch = (newCheckItems: CheckItem[]) => {
     dispatch({
       type: "SET_CHARACTERISTIC_CHECK_ITEMS",
-      payload: newCheckBoxItems,
+      payload: newCheckItems,
     });
   };
   useEffect(() => {
     if (!isSkipGetCheckItmesApi) {
-      handleGetNestedCheckBoxItems({
+      handleGetNestedCheckItems({
         loadingGetModelDispatch: loadingGetCategoryDispatch,
-        checkBoxItemsDispatch: categoryCheckBoxItemsDispatch,
+        checkItemsDispatch: categoryCheckItemsDispatch,
         getAllModelApi: getAllCategoriesApi,
       });
-      handleGetNestedCheckBoxItems({
+      handleGetNestedCheckItems({
         loadingGetModelDispatch: loadingGetCountryDispatch,
-        checkBoxItemsDispatch: countryCheckBoxItemsDispatch,
+        checkItemsDispatch: countryCheckItemsDispatch,
         getAllModelApi: getAllCountriesApi,
       });
-      handleGetCheckBoxItems({
-        loadingGetModelDispatch: loadingGetCharacteristicDispatch,
-        checkBoxItemsDispatch: characteristicCheckBoxItemsDispatch,
-        getAllModelApi: getAllCharacteristicsApi,
+      handleGetCheckItems({
+        loadingModelDispatch: loadingGetCharacteristicDispatch,
+        checkItemsDispatch: characteristicCheckItemsDispatch,
+        fetchModelApi: getAllCharacteristicsApi,
       });
     } else {
       dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS_API", payload: false });

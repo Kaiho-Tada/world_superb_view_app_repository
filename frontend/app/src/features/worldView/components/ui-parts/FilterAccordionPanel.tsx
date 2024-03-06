@@ -12,8 +12,8 @@ import { WorldView } from "features/worldView/types/api/worldView";
 import useGetModel from "hooks/api/useGetModel";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { useCallback } from "react";
-import { CheckBoxItem } from "types/checkBoxItem";
-import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import CheckItem from "types/checkItem";
+import { NestedCheckItem } from "types/nestedCheckItem";
 import RiskLevelCheckBox from "../ui-elements/RiskLevelRadioButton";
 
 const FilterAccordionPanel = () => {
@@ -21,9 +21,9 @@ const FilterAccordionPanel = () => {
   const {
     keyword,
     loadingSearchWorldViews,
-    categoryCheckBoxItems,
+    categoryCheckItems,
     loadingGetCategory,
-    countryCheckBoxItems,
+    countryCheckItems,
     loadingGetCountry,
     characteristicCheckItems,
     loadingGetCharacteristic,
@@ -42,7 +42,7 @@ const FilterAccordionPanel = () => {
     dispatch({ type: "SET_SHOULD_DEBOUNCE", payload });
   };
 
-  const characteristicCheckItemsDispatch = useCallback((newCheckItems: CheckBoxItem[]) => {
+  const characteristicCheckItemsDispatch = useCallback((newCheckItems: CheckItem[]) => {
     dispatch({
       type: "SET_CHARACTERISTIC_CHECK_ITEMS",
       payload: newCheckItems,
@@ -59,15 +59,15 @@ const FilterAccordionPanel = () => {
     [isDisabledSearchButton]
   );
 
-  const categoryCheckBoxItemsDispatch = useCallback((newCheckBoxItems: NestedCheckBoxItem[]) => {
+  const categoryCheckItemsDispatch = useCallback((newCheckBoxItems: NestedCheckItem[]) => {
     dispatch({
-      type: "SET_CATEGORY_CHECKBOX_ITEMS",
+      type: "SET_CATEGORY_CHECK_ITEMS",
       payload: newCheckBoxItems,
     });
   }, []);
-  const countryCheckBoxItemsDispatch = useCallback((newCheckBoxItems: NestedCheckBoxItem[]) => {
+  const countryCheckItemsDispatch = useCallback((newCheckBoxItems: NestedCheckItem[]) => {
     dispatch({
-      type: "SET_COUNTRY_CHECKBOX_ITEMS",
+      type: "SET_COUNTRY_CHECK_ITEMS",
       payload: newCheckBoxItems,
     });
   }, []);
@@ -146,10 +146,10 @@ const FilterAccordionPanel = () => {
             カテゴリー
           </Text>
           <NestedCheckBox
-            checkBoxItems={categoryCheckBoxItems}
-            loadingGetCheckBoxItems={loadingGetCategory}
+            checkItems={categoryCheckItems}
+            loadingGetCheckItems={loadingGetCategory}
             loadingSearchModel={loadingSearchWorldViews}
-            checkBoxItemsDispatch={categoryCheckBoxItemsDispatch}
+            checkItemsDispatch={categoryCheckItemsDispatch}
             isSkipSearchApiDispatch={isSkipSearchApiDispatch}
           />
         </Box>
@@ -159,10 +159,10 @@ const FilterAccordionPanel = () => {
             地域
           </Text>
           <NestedCheckBox
-            checkBoxItems={countryCheckBoxItems}
-            loadingGetCheckBoxItems={loadingGetCountry}
+            checkItems={countryCheckItems}
+            loadingGetCheckItems={loadingGetCountry}
             loadingSearchModel={loadingSearchWorldViews}
-            checkBoxItemsDispatch={countryCheckBoxItemsDispatch}
+            checkItemsDispatch={countryCheckItemsDispatch}
             isSkipSearchApiDispatch={isSkipSearchApiDispatch}
           />
         </Box>

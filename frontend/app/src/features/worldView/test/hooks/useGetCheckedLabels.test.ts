@@ -3,8 +3,8 @@ import useGetCheckedLabels from "features/worldView/hooks/useGetCheckedLabels";
 jest.mock("providers/WorldViewListProvider", () => ({
   useWorldViewListContext: () => ({
     state: {
-      categoryCheckBoxItems: [{ label: "遺跡", checked: true }],
-      countryCheckBoxItems: [{ label: "中国", checked: true }],
+      categoryCheckItems: [{ label: "遺跡", checked: true }],
+      countryCheckItems: [{ label: "中国", checked: true }],
       characteristicCheckItems: [{ label: "歴史・文化的", checked: true }],
     },
   }),

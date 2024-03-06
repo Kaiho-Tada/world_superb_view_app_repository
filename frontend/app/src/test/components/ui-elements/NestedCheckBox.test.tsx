@@ -3,19 +3,19 @@ import userEvent from "@testing-library/user-event";
 import NestedCheckBox from "components/ui-elements/NestedCheckBox";
 import { act } from "react-dom/test-utils";
 
-const mockCheckBoxItemsDispatch = jest.fn();
+const mockCheckItemsDispatch = jest.fn();
 const isSkipSearchApiDispatch = jest.fn();
 
-test("loadingGetCheckBoxItemsがtrueの場合、スピナーが表示されていること", () => {
+test("loadingGetCheckItemsがtrueの場合、スピナーが表示されていること", () => {
   render(
     <NestedCheckBox
-      checkBoxItems={[
+      checkItems={[
         { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: false },
         { label: "ラベル2", parentLabel: "親ラベルB", checked: false, isVisible: false },
       ]}
-      loadingGetCheckBoxItems
+      loadingGetCheckItems
       loadingSearchModel={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );
@@ -25,13 +25,13 @@ test("loadingGetCheckBoxItemsがtrueの場合、スピナーが表示されて�
 test("表示切り替えのCheckBoxがレンダリングされていること", () => {
   render(
     <NestedCheckBox
-      checkBoxItems={[
+      checkItems={[
         { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: false },
         { label: "ラベル2", parentLabel: "親ラベルB", checked: false, isVisible: false },
       ]}
-      loadingGetCheckBoxItems={false}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );
@@ -47,12 +47,12 @@ test("表示切り替えのCheckBox押下でhandleToggleVisibility関数が呼�
   const user = userEvent.setup();
   render(
     <NestedCheckBox
-      checkBoxItems={[
+      checkItems={[
         { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: false },
       ]}
-      loadingGetCheckBoxItems={false}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );
@@ -63,24 +63,22 @@ test("表示切り替えのCheckBox押下でhandleToggleVisibility関数が呼�
     e: expect.objectContaining({
       target: expect.objectContaining({ value: "親ラベルA", checked: false }),
     }),
-    checkBoxItems: [
-      { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: false },
-    ],
-    checkBoxItemsDispatch: mockCheckBoxItemsDispatch,
+    checkItems: [{ label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: false }],
+    checkItemsDispatch: mockCheckItemsDispatch,
   });
   SpyOnHandleToggleVisibility.mockRestore();
 });
 
-test("checkBoxItemsのisVisibleがtrueの場合、CheckBoxが表示されていること", () => {
+test("checktemsのisVisibleがtrueの場合、CheckBoxが表示されていること", () => {
   render(
     <NestedCheckBox
-      checkBoxItems={[
+      checkItems={[
         { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: true },
         { label: "ラベル2", parentLabel: "親ラベルA", checked: false, isVisible: false },
       ]}
-      loadingGetCheckBoxItems={false}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );
@@ -88,16 +86,16 @@ test("checkBoxItemsのisVisibleがtrueの場合、CheckBoxが表示されてい�
   expect(screen.queryByRole("checkbox", { name: "ラベル2" })).not.toBeInTheDocument();
 });
 
-test("checkBoxItemsのcheckedがtrueの場合、CheckBoxがcheckされていること", () => {
+test("checkItemsのcheckedがtrueの場合、CheckBoxがcheckされていること", () => {
   render(
     <NestedCheckBox
-      checkBoxItems={[
+      checkItems={[
         { label: "ラベル1", parentLabel: "親ラベルA", checked: true, isVisible: true },
         { label: "ラベル2", parentLabel: "親ラベルA", checked: false, isVisible: true },
       ]}
-      loadingGetCheckBoxItems={false}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );
@@ -113,12 +111,10 @@ test("CheckBox押下でhandleChangeCheckBox関数が呼び出されること", a
   const user = userEvent.setup();
   render(
     <NestedCheckBox
-      checkBoxItems={[
-        { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: true },
-      ]}
-      loadingGetCheckBoxItems={false}
+      checkItems={[{ label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: true }]}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );
@@ -129,40 +125,38 @@ test("CheckBox押下でhandleChangeCheckBox関数が呼び出されること", a
     e: expect.objectContaining({
       target: expect.objectContaining({ value: "ラベル1", checked: false }),
     }),
-    checkBoxItems: [
-      { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: true },
-    ],
-    checkBoxItemsDispatch: mockCheckBoxItemsDispatch,
+    checkItems: [{ label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: true }],
+    checkItemsDispatch: mockCheckItemsDispatch,
   });
   spyOnHandleChangeCheckBox.mockRestore();
 });
 
-test("全てのcheckBoxItemsのisVisibleがtrueの場合、parentCheckBoxが表示されていること", () => {
+test("全てのcheckItemsのisVisibleがtrueの場合、parentCheckBoxが表示されていること", () => {
   render(
     <NestedCheckBox
-      checkBoxItems={[
+      checkItems={[
         { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: true },
         { label: "ラベル2", parentLabel: "親ラベルA", checked: false, isVisible: true },
       ]}
-      loadingGetCheckBoxItems={false}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );
   expect(screen.getByRole("checkbox", { name: "全て" })).toBeInTheDocument();
 });
 
-test("全てのcheckBoxItemsのcheckedがtrueの場合、parentCheckBoxがチェックされていること", () => {
+test("全てのcheckItemsのcheckedがtrueの場合、parentCheckBoxがチェックされていること", () => {
   render(
     <NestedCheckBox
-      checkBoxItems={[
+      checkItems={[
         { label: "ラベル1", parentLabel: "親ラベルA", checked: true, isVisible: true },
         { label: "ラベル2", parentLabel: "親ラベルA", checked: true, isVisible: true },
       ]}
-      loadingGetCheckBoxItems={false}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );
@@ -177,13 +171,13 @@ test("parentCheckBox押下でhandleChangeParentCheckBox関数が呼び出され�
   const user = userEvent.setup();
   render(
     <NestedCheckBox
-      checkBoxItems={[
+      checkItems={[
         { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: true },
         { label: "ラベル2", parentLabel: "親ラベルA", checked: false, isVisible: true },
       ]}
-      loadingGetCheckBoxItems={false}
+      loadingGetCheckItems={false}
       loadingSearchModel={false}
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );
@@ -194,11 +188,11 @@ test("parentCheckBox押下でhandleChangeParentCheckBox関数が呼び出され�
     e: expect.objectContaining({
       target: expect.objectContaining({ value: "親ラベルA", checked: false }),
     }),
-    checkBoxItems: [
+    checkItems: [
       { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: true },
       { label: "ラベル2", parentLabel: "親ラベルA", checked: false, isVisible: true },
     ],
-    checkBoxItemsDispatch: mockCheckBoxItemsDispatch,
+    checkItemsDispatch: mockCheckItemsDispatch,
   });
   spyOnHandleChangeParentCheckBox.mockRestore();
 });
@@ -206,13 +200,13 @@ test("parentCheckBox押下でhandleChangeParentCheckBox関数が呼び出され�
 test("loadingSearchModelがtrueの場合、CheckBoxがdisabledになっていること", () => {
   render(
     <NestedCheckBox
-      checkBoxItems={[
+      checkItems={[
         { label: "ラベル1", parentLabel: "親ラベルA", checked: false, isVisible: true },
         { label: "ラベル2", parentLabel: "親ラベルA", checked: false, isVisible: true },
       ]}
-      loadingGetCheckBoxItems={false}
+      loadingGetCheckItems={false}
       loadingSearchModel
-      checkBoxItemsDispatch={mockCheckBoxItemsDispatch}
+      checkItemsDispatch={mockCheckItemsDispatch}
       isSkipSearchApiDispatch={isSkipSearchApiDispatch}
     />
   );

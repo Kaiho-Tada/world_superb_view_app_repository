@@ -3,20 +3,20 @@ import CheckItem from "types/checkItem";
 
 const handleChangeCheckBox = <T extends CheckItem[]>({
   e,
-  checkBoxItems,
-  checkBoxItemsDispatch,
+  checkItems,
+  checkItemsDispatch,
 }: {
   e: ChangeEvent<HTMLInputElement>;
-  checkBoxItems: T;
-  checkBoxItemsDispatch: (newCheckBoxItems: T) => void;
+  checkItems: T;
+  checkItemsDispatch: (newCheckBoxItems: T) => void;
 }) => {
-  const newCheckBoxItems = checkBoxItems.map((originalCheckBoxItem) => {
-    const checkBoxItem = { ...originalCheckBoxItem };
-    if (checkBoxItem.label === e.target.value) {
-      checkBoxItem.checked = !checkBoxItem.checked;
+  const newCheckItems = checkItems.map((originalCheckItem) => {
+    const checkItem = { ...originalCheckItem };
+    if (checkItem.label === e.target.value) {
+      checkItem.checked = !checkItem.checked;
     }
-    return checkBoxItem;
+    return checkItem;
   });
-  checkBoxItemsDispatch(newCheckBoxItems as T);
+  checkItemsDispatch(newCheckItems as T);
 };
 export default handleChangeCheckBox;

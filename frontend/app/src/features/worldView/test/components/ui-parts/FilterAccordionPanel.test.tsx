@@ -14,10 +14,8 @@ const mockDispatch = jest.fn();
 const mockContextValue = {
   dispatch: mockDispatch,
   state: {
-    categoryCheckBoxItems: [{ label: "滝", parentLabel: "自然", checked: false, isVisible: true }],
-    countryCheckBoxItems: [
-      { label: "中国", parentLabel: "アジア", checked: false, isVisible: true },
-    ],
+    categoryCheckItems: [{ label: "滝", parentLabel: "自然", checked: false, isVisible: true }],
+    countryCheckItems: [{ label: "中国", parentLabel: "アジア", checked: false, isVisible: true }],
     characteristicCheckItems: [{ label: "幻想・神秘的", checked: false }],
     riskLevel: undefined,
     monthRange: [1, 12],
@@ -96,7 +94,7 @@ describe("クリアボタンのテスト", () => {
       ...mockContextValue,
       state: {
         ...mockContextValue.state,
-        categoryCheckBoxItems: [{ label: "滝", parentLabel: "自然", checked: true }],
+        categoryCheckItems: [{ label: "滝", parentLabel: "自然", checked: true }],
       },
     };
 
@@ -186,7 +184,7 @@ describe("カテゴリーのCheckBoxのテスト", () => {
       await user.click(screen.getByRole("checkbox", { name: "自然" }));
     });
     expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_CATEGORY_CHECKBOX_ITEMS",
+      type: "SET_CATEGORY_CHECK_ITEMS",
       payload: [{ label: "滝", parentLabel: "自然", checked: false, isVisible: false }],
     });
     expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
@@ -222,7 +220,7 @@ describe("地域のCheckBoxのテスト", () => {
       await user.click(screen.getByRole("checkbox", { name: "アジア" }));
     });
     expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_COUNTRY_CHECKBOX_ITEMS",
+      type: "SET_COUNTRY_CHECK_ITEMS",
       payload: [{ label: "中国", parentLabel: "アジア", checked: false, isVisible: false }],
     });
     expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_SKIP_SEARCH_API", payload: true });

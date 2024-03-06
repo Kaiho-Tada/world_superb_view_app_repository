@@ -9,8 +9,8 @@ mockAxios.onGet("/world_views/search").reply(200, [{ id: 1, name: "万里の長�
 jest.mock("providers/WorldViewListProvider", () => ({
   useWorldViewListContext: () => ({
     state: {
-      categoryCheckBoxItems: [{ label: "遺跡", checked: true }],
-      countryCheckBoxItems: [{ label: "中国", checked: true }],
+      categoryCheckItems: [{ label: "遺跡", checked: true }],
+      countryCheckItems: [{ label: "中国", checked: true }],
       characteristicCheckItems: [{ label: "歴史・文化的", checked: true }],
       riskLevel: "4",
       monthRange: [1, 12],

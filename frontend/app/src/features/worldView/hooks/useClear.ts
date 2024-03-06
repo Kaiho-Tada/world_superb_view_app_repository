@@ -1,34 +1,34 @@
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { CheckBoxItem } from "types/checkBoxItem";
-import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
-import handleClearCheckBox from "utils/handleClearCheckBox";
+import CheckItem from "types/checkItem";
+import { NestedCheckItem } from "types/nestedCheckItem";
+import handleClearCheckItem from "utils/handleClearCheckItem";
 
 const useClear = () => {
   const { state, dispatch } = useWorldViewListContext();
   const { bmiRange, riskLevel, monthRange } = state;
 
   const handleClear = () => {
-    handleClearCheckBox({
-      checkBoxItems: state.characteristicCheckItems,
-      checkBoxItemsDispatch: (clearedCheckBoxItems: CheckBoxItem[]) => {
+    handleClearCheckItem({
+      checkItems: state.characteristicCheckItems,
+      checkItemsDispatch: (clearedCheckItems: CheckItem[]) => {
         dispatch({
           type: "SET_CHARACTERISTIC_CHECK_ITEMS",
-          payload: clearedCheckBoxItems,
+          payload: clearedCheckItems,
         });
       },
     });
 
-    handleClearCheckBox<NestedCheckBoxItem>({
-      checkBoxItems: state.categoryCheckBoxItems,
-      checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => {
-        dispatch({ type: "SET_CATEGORY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+    handleClearCheckItem<NestedCheckItem>({
+      checkItems: state.categoryCheckItems,
+      checkItemsDispatch: (newCheckItems: NestedCheckItem[]) => {
+        dispatch({ type: "SET_CATEGORY_CHECK_ITEMS", payload: newCheckItems });
       },
     });
 
-    handleClearCheckBox<NestedCheckBoxItem>({
-      checkBoxItems: state.countryCheckBoxItems,
-      checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => {
-        dispatch({ type: "SET_COUNTRY_CHECKBOX_ITEMS", payload: newCheckBoxItems });
+    handleClearCheckItem<NestedCheckItem>({
+      checkItems: state.countryCheckItems,
+      checkItemsDispatch: (newCheckItems: NestedCheckItem[]) => {
+        dispatch({ type: "SET_COUNTRY_CHECK_ITEMS", payload: newCheckItems });
       },
     });
 

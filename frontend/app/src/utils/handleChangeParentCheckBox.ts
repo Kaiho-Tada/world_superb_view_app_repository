@@ -1,22 +1,22 @@
 import { ChangeEvent } from "react";
-import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import { NestedCheckItem } from "types/nestedCheckItem";
 
 const handleChangeParentCheckBox = ({
   e,
-  checkBoxItems,
-  checkBoxItemsDispatch,
+  checkItems,
+  checkItemsDispatch,
 }: {
   e: ChangeEvent<HTMLInputElement>;
-  checkBoxItems: NestedCheckBoxItem[];
-  checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
+  checkItems: NestedCheckItem[];
+  checkItemsDispatch: (newCheckBoxItems: NestedCheckItem[]) => void;
 }) => {
-  const newCheckBoxItems = checkBoxItems.map((originalCheckBoxItem) => {
-    const checkBoxItem = { ...originalCheckBoxItem };
-    if (e.target.value === checkBoxItem.parentLabel) {
-      checkBoxItem.checked = e.target.checked;
+  const newCheckItems = checkItems.map((originalCheckItem: NestedCheckItem) => {
+    const checkItem = { ...originalCheckItem };
+    if (e.target.value === checkItem.parentLabel) {
+      checkItem.checked = e.target.checked;
     }
-    return checkBoxItem;
+    return checkItem;
   });
-  checkBoxItemsDispatch(newCheckBoxItems);
+  checkItemsDispatch(newCheckItems);
 };
 export default handleChangeParentCheckBox;

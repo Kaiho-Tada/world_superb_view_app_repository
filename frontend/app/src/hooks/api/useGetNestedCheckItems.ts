@@ -1,29 +1,29 @@
 import { AxiosResponse, isAxiosError } from "axios";
 import useMessage from "hooks/useMessage";
-import { NestedCheckBoxItem } from "types/nestedCheckBoxItem";
+import { NestedCheckItem } from "types/nestedCheckItem";
 
 type Props = {
   loadingGetModelDispatch: (payload: boolean) => void;
-  checkBoxItemsDispatch: (newCheckBoxItems: NestedCheckBoxItem[]) => void;
+  checkItemsDispatch: (newCheckItems: NestedCheckItem[]) => void;
   getAllModelApi: () => Promise<AxiosResponse<{ name: string; parent: string }[]>>;
 };
 
-const useGetNestedCheckBoxItems = () => {
+const useGetNestedCheckItems = () => {
   const { showMessage } = useMessage();
 
-  const handleGetNestedCheckBoxItems = async (props: Props) => {
-    const { loadingGetModelDispatch, checkBoxItemsDispatch, getAllModelApi } = props;
+  const handleGetNestedCheckItems = async (props: Props) => {
+    const { loadingGetModelDispatch, checkItemsDispatch, getAllModelApi } = props;
     loadingGetModelDispatch(true);
     try {
       const res = await getAllModelApi();
       const models = res.data;
-      const newCheckBoxItems = models.map((model) => ({
+      const newCheckItems = models.map((model) => ({
         label: model.name,
         parentLabel: model.parent,
         checked: false,
         isVisible: false,
       }));
-      checkBoxItemsDispatch(newCheckBoxItems);
+      checkItemsDispatch(newCheckItems);
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 500) {
         showMessage({
@@ -35,7 +35,7 @@ const useGetNestedCheckBoxItems = () => {
       loadingGetModelDispatch(false);
     }
   };
-  return { handleGetNestedCheckBoxItems };
+  return { handleGetNestedCheckItems };
 };
 
-export default useGetNestedCheckBoxItems;
+export default useGetNestedCheckItems;
