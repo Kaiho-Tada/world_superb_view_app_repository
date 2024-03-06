@@ -34,6 +34,8 @@ const VideoListPage: FC = () => {
     voteAverageRange,
     currentPage,
     itemsOffset,
+    isSkipSearchVideo,
+    isSkipGetCheckItems,
   } = state;
   const { handleGetModel } = useGetModel();
   const { searchVideoApi } = useVideoApi();
@@ -48,30 +50,34 @@ const VideoListPage: FC = () => {
   };
 
   useEffect(() => {
-    if (shouldDebounce) {
-      handleDebounceWithArg<{
-        modelDispatch: (responseData: Movie[]) => void;
-        loadingSearchModelDispatch: (payload: boolean) => void;
-        searchModelApi: () => Promise<AxiosResponse<Movie[]>>;
-      }>({
-        fn: handleGetModel,
-        arg: {
+    if (!isSkipSearchVideo) {
+      if (shouldDebounce) {
+        handleDebounceWithArg<{
+          modelDispatch: (responseData: Movie[]) => void;
+          loadingSearchModelDispatch: (payload: boolean) => void;
+          searchModelApi: () => Promise<AxiosResponse<Movie[]>>;
+        }>({
+          fn: handleGetModel,
+          arg: {
+            modelDispatch: movieDispatch,
+            loadingSearchModelDispatch: loadingSearchMovieDispatch,
+            searchModelApi: searchVideoApi,
+          },
+        });
+        dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
+      } else {
+        handleGetModel<Movie>({
           modelDispatch: movieDispatch,
           loadingSearchModelDispatch: loadingSearchMovieDispatch,
           searchModelApi: searchVideoApi,
-        },
-      });
-      dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
+        });
+      }
+      if (currentPage !== 1 && itemsOffset !== 0) {
+        dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
+        dispatch({ type: "SET_ITEMS_OFFSET", payload: 0 });
+      }
     } else {
-      handleGetModel<Movie>({
-        modelDispatch: movieDispatch,
-        loadingSearchModelDispatch: loadingSearchMovieDispatch,
-        searchModelApi: searchVideoApi,
-      });
-    }
-    if (currentPage !== 1 && itemsOffset !== 0) {
-      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
-      dispatch({ type: "SET_ITEMS_OFFSET", payload: 0 });
+      dispatch({ type: "SET_IS_SKIP_SEARCH_VIDEO", payload: false });
     }
   }, [sortCriteria, genreCheckItems, keyword]);
 
@@ -84,11 +90,15 @@ const VideoListPage: FC = () => {
   };
 
   useEffect(() => {
-    handleGetCheckItems({
-      checkItemsDispatch: genreCheckItemsDispatch,
-      loadingModelDispatch: loadingGetGenresDispatch,
-      fetchModelApi: getAllGenresApi,
-    });
+    if (!isSkipGetCheckItems) {
+      handleGetCheckItems({
+        checkItemsDispatch: genreCheckItemsDispatch,
+        loadingModelDispatch: loadingGetGenresDispatch,
+        fetchModelApi: getAllGenresApi,
+      });
+    } else {
+      dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: false });
+    }
   }, []);
 
   const itemsPerPage = 30;

@@ -31,6 +31,8 @@ const VideoDetailPage = () => {
       loadingSearchModelDispatch: loadingSearchMovieDispatch,
       searchModelApi: searchVideoApi,
     });
+    dispatch({ type: "SET_IS_SKIP_SEARCH_VIDEO", payload: true });
+    dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: true });
   }, []);
 
   return loadingSearchVideos || !currentDetailVideo ? (

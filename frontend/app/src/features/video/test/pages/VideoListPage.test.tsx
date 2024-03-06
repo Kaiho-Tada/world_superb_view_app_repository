@@ -60,6 +60,24 @@ const mockContextValue = {
     voteAverageRange: [0, 10],
     currentPage: 1,
     itemsOffset: 0,
+    isSkipSearchVideo: false,
+    isSkipGetCheckItems: false,
+  },
+};
+
+const mockContextvalueSkipSearchVideo = {
+  ...mockContextValue,
+  state: {
+    ...mockContextValue.state,
+    isSkipSearchVideo: true,
+  },
+};
+
+const mockContextvalueSkipGetCheckItems = {
+  ...mockContextValue,
+  state: {
+    ...mockContextValue.state,
+    isSkipGetCheckItems: true,
   },
 };
 
@@ -84,6 +102,25 @@ jest.mock("features/video/api/genreApi", () => ({
   __esModule: true,
   default: jest.fn(),
 }));
+
+test("isSkipSearchVideoがtrueの場合、handleGetModel関数が実行されず、falseに更新されること", () => {
+  (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextvalueSkipSearchVideo);
+
+  // handleGetModel関数をモック化
+  const spyOnUseGetModel = jest.spyOn(jest.requireActual("hooks/api/useGetModel"), "default");
+  const mockHandleGetModel = jest.fn();
+  spyOnUseGetModel.mockReturnValue({
+    handleGetModel: mockHandleGetModel,
+  });
+
+  render(<VideoListPage />);
+  expect(mockHandleGetModel).not.toHaveBeenCalled();
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_IS_SKIP_SEARCH_VIDEO",
+    payload: false,
+  });
+  spyOnUseGetModel.mockRestore();
+});
 
 test("Videoレコードの絞り込み時に、ページネーションが1ページ目ではない場合はcurrentPageが1にitemsOffsetが0に更新されること", () => {
   (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValueCurrentPage2);
@@ -130,6 +167,26 @@ test("初回レンダリング時にhandleGetModel関数内でSET_LOADING_SEARCH
   });
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_LOADING_SEARCH_VIDEOS", payload: true });
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_LOADING_SEARCH_VIDEOS", payload: false });
+});
+
+test("isSkipGetCheckItemsがtrueの場合、handleGetCheckItems関数が実行されず、falseに更新されること", () => {
+  (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextvalueSkipGetCheckItems);
+
+  // handleGetCheckItems関数をモック化
+  const spyOnUseGetCheckItems = jest.spyOn(
+    jest.requireActual("hooks/api/useGetCheckItems"),
+    "default"
+  );
+  const mockHandleGetCheckItems = jest.fn();
+  spyOnUseGetCheckItems.mockReturnValue({ handleGetCheckItems: mockHandleGetCheckItems });
+
+  render(<VideoListPage />);
+  expect(mockHandleGetCheckItems).not.toHaveBeenCalled();
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_IS_SKIP_GET_CHECK_ITEMS",
+    payload: false,
+  });
+  spyOnUseGetCheckItems.mockRestore();
 });
 
 test("初回レンダリング時にhandleGetCheckItems関数が実行されること", async () => {

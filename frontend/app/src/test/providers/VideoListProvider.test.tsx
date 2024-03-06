@@ -170,3 +170,31 @@ test("SET_ITEMS_OFFSETアクションがディスパッチされた際、itemsOf
   });
   expect(result.current.state.itemsOffset).toBe(30);
 });
+
+test("SET_IS_SKIP_SEARCH_VIDEOアクションがディスパッチされた際、isSkipSearchVideoが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.isSkipSearchVideo).toBe(false);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_IS_SKIP_SEARCH_VIDEO",
+      payload: true,
+    });
+  });
+  expect(result.current.state.isSkipSearchVideo).toBe(true);
+});
+
+test("SET_IS_SKIP_GET_CHECK_ITEMSアクションがディスパッチされた際、isSkipGetCheckItemsが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.isSkipGetCheckItems).toBe(false);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_IS_SKIP_GET_CHECK_ITEMS",
+      payload: true,
+    });
+  });
+  expect(result.current.state.isSkipGetCheckItems).toBe(true);
+});

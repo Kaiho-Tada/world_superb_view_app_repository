@@ -301,4 +301,21 @@ describe("初回レンダリング時のテスト", () => {
       payload: [{ id: 1, title: "タイトル" }],
     });
   });
+
+  test("初回レンダリング時にisSkipSearchVideoとisSkipGetCheckItmesがtrueに更新されること", async () => {
+    (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
+    (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
+
+    await act(async () => {
+      render(<VideoDetailPage />);
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_IS_SKIP_SEARCH_VIDEO",
+      payload: true,
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_IS_SKIP_GET_CHECK_ITEMS",
+      payload: true,
+    });
+  });
 });
