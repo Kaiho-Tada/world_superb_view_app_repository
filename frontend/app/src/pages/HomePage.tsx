@@ -1,5 +1,5 @@
 import Map from "features/map/components/ui-parts/Map";
 
-const Home = () => <Map />;
+const HomePage = () => <Map />;
 
-export default Home;
+export default HomePage;

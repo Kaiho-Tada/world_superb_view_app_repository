@@ -7,7 +7,7 @@ import VideoDetailPage from "features/video/pages/VideoDetailPage";
 import VideoListPage from "features/video/pages/VideoListPage";
 import WorldViewDetailPage from "features/worldView/pages/WorldViewDetailPage";
 import WorldViewListPage from "features/worldView/pages/WorldViewListPage";
-import Home from "pages/Home";
+import HomePage from "pages/HomePage";
 import Login from "pages/Login";
 import Profile from "pages/Profile";
 import SignUp from "pages/SignUp";
@@ -119,7 +119,7 @@ const Router: FC = () => {
         element={
           <CommonLayout>
             <WorldViewListProvider>
-              <Home />
+              <HomePage />
             </WorldViewListProvider>
           </CommonLayout>
         }
