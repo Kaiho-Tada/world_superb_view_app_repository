@@ -248,6 +248,8 @@ test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldVie
           gifUrl: "gifUrl",
           gifSite: "gifSite",
           videos: [],
+          latitude: 0,
+          longitude: 0,
         },
       ],
     });
@@ -266,6 +268,8 @@ test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldVie
       gifUrl: "gifUrl",
       gifSite: "gifSite",
       videos: [],
+      latitude: 0,
+      longitude: 0,
     },
   ]);
 });

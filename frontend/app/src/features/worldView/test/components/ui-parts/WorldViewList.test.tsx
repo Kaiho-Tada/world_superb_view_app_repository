@@ -19,6 +19,8 @@ const mockWorldViews = Array.from({ length: 10 }, (_, index) => ({
   gifUrl: "gifUrl",
   gifSite: "gifSite",
   videos: [],
+  latitude: 10,
+  longitude: 10,
 }));
 
 test("絶景一覧が表示されていること", () => {

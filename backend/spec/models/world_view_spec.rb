@@ -19,6 +19,8 @@ RSpec.describe WorldView, type: :model do
     it { should validate_length_of(:name).is_at_most(30) }
     it { should validate_presence_of(:best_season) }
     it { should validate_length_of(:best_season).is_at_most(30) }
+    it { should validate_presence_of(:latitude) }
+    it { should validate_presence_of(:longitude) }
   end
 
   describe "method test" do

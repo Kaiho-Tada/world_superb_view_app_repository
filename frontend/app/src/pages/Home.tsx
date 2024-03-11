@@ -1,5 +1,5 @@
-import { memo } from "react";
+import Map from "features/map/components/ui-parts/Map";
 
-const Home = memo(() => <div>Homeページ</div>);
-Home.displayName = "Home";
+const Home = () => <Map />;
+
 export default Home;

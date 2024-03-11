@@ -118,7 +118,9 @@ const Router: FC = () => {
         path="/home"
         element={
           <CommonLayout>
-            <Home />
+            <WorldViewListProvider>
+              <Home />
+            </WorldViewListProvider>
           </CommonLayout>
         }
       />
