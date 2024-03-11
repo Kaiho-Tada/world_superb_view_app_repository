@@ -110,8 +110,8 @@ const FilterAccordionPanel = () => {
     }
   }, [isDisabledSearchButton, searchWorldViewApi]);
 
-  const isSkipSearchApiDispatch = (payload: boolean) => {
-    dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload });
+  const isSkipSearchWorldViewsDispatch = (payload: boolean) => {
+    dispatch({ type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS", payload });
   };
 
   return (
@@ -150,7 +150,7 @@ const FilterAccordionPanel = () => {
             loadingGetCheckItems={loadingGetCategory}
             loadingSearchModel={loadingSearchWorldViews}
             checkItemsDispatch={categoryCheckItemsDispatch}
-            isSkipSearchApiDispatch={isSkipSearchApiDispatch}
+            isSkipSearchApiDispatch={isSkipSearchWorldViewsDispatch}
           />
         </Box>
         <Divider borderColor="#C2C8D0" />
@@ -163,7 +163,7 @@ const FilterAccordionPanel = () => {
             loadingGetCheckItems={loadingGetCountry}
             loadingSearchModel={loadingSearchWorldViews}
             checkItemsDispatch={countryCheckItemsDispatch}
-            isSkipSearchApiDispatch={isSkipSearchApiDispatch}
+            isSkipSearchApiDispatch={isSkipSearchWorldViewsDispatch}
           />
         </Box>
         <Divider borderColor="#C2C8D0" />

@@ -34,9 +34,9 @@ const Map = () => {
     riskLevel,
     keyword,
     sortCriteria,
-    isSkipSearchApi,
+    isSkipSearchWorldViews,
     shouldDebounce,
-    isSkipGetCheckItmesApi,
+    isSkipGetCheckItmes,
   } = state;
   const { handleGetModel } = useGetModel();
   const { handleDebounceWithArg } = useDebounce(1500);
@@ -54,7 +54,7 @@ const Map = () => {
     dispatch({ type: "SET_WORLD_VIEWS", payload: responseData });
   };
   useEffect(() => {
-    if (!isSkipSearchApi) {
+    if (!isSkipSearchWorldViews) {
       if (shouldDebounce) {
         handleDebounceWithArg<{
           loadingGetModelDispatch: (payload: boolean) => void;
@@ -77,7 +77,7 @@ const Map = () => {
         });
       }
     } else {
-      dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: false });
+      dispatch({ type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS", payload: false });
     }
   }, [
     categoryCheckItems,
@@ -110,7 +110,7 @@ const Map = () => {
     });
   };
   useEffect(() => {
-    if (!isSkipGetCheckItmesApi) {
+    if (!isSkipGetCheckItmes) {
       handleGetNestedCheckItems({
         loadingGetModelDispatch: loadingGetCategoryDispatch,
         checkItemsDispatch: categoryCheckItemsDispatch,
@@ -127,7 +127,7 @@ const Map = () => {
         getModelApi: getAllCharacteristicsApi,
       });
     } else {
-      dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS_API", payload: false });
+      dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: false });
     }
   }, []);
 

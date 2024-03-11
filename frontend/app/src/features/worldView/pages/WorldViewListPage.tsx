@@ -35,7 +35,7 @@ const WorldViewListPage = () => {
     riskLevel,
     bmiRange,
     monthRange,
-    isSkipSearchApi,
+    isSkipSearchWorldViews,
     shouldDebounce,
     categoryCheckItems,
     countryCheckItems,
@@ -44,7 +44,7 @@ const WorldViewListPage = () => {
     worldViews,
     currentPage,
     itemsOffset,
-    isSkipGetCheckItmesApi,
+    isSkipGetCheckItmes,
   } = state;
   const { handleGetNestedCheckItems } = useGetNestedCheckItems();
   const { handleGetCheckItems } = useGetCheckItems();
@@ -62,7 +62,7 @@ const WorldViewListPage = () => {
     dispatch({ type: "SET_WORLD_VIEWS", payload: responseData });
   };
   useEffect(() => {
-    if (!isSkipSearchApi) {
+    if (!isSkipSearchWorldViews) {
       if (shouldDebounce) {
         handleDebounceWithArg<{
           loadingGetModelDispatch: (payload: boolean) => void;
@@ -89,7 +89,7 @@ const WorldViewListPage = () => {
         dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
       }
     } else {
-      dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: false });
+      dispatch({ type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS", payload: false });
     }
   }, [
     categoryCheckItems,
@@ -122,7 +122,7 @@ const WorldViewListPage = () => {
     });
   };
   useEffect(() => {
-    if (!isSkipGetCheckItmesApi) {
+    if (!isSkipGetCheckItmes) {
       handleGetNestedCheckItems({
         loadingGetModelDispatch: loadingGetCategoryDispatch,
         checkItemsDispatch: categoryCheckItemsDispatch,
@@ -139,7 +139,7 @@ const WorldViewListPage = () => {
         getModelApi: getAllCharacteristicsApi,
       });
     } else {
-      dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS_API", payload: false });
+      dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: false });
     }
   }, []);
 

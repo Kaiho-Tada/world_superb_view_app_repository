@@ -176,7 +176,7 @@ describe("カテゴリーのCheckBoxのテスト", () => {
     expect(screen.getByRole("checkbox", { name: "滝" })).toBeDisabled();
   });
 
-  test("表示切り替えのCheckBox押下でpropsのcategoryCheckBoxItemsDispatch関数とisSkipSearchApiDispatchが実行されること", async () => {
+  test("表示切り替えのCheckBox押下でpropsのcategoryCheckBoxItemsDispatch関数とisSkipSearchWorldViewsDispatchが実行されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const user = userEvent.setup();
     render(<FilterAccordionPanel />);
@@ -187,7 +187,10 @@ describe("カテゴリーのCheckBoxのテスト", () => {
       type: "SET_CATEGORY_CHECK_ITEMS",
       payload: [{ label: "滝", parentLabel: "自然", checked: false, isVisible: false }],
     });
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS",
+      payload: true,
+    });
   });
 });
 
@@ -212,7 +215,7 @@ describe("地域のCheckBoxのテスト", () => {
     expect(screen.getByRole("checkbox", { name: "中国" })).toBeDisabled();
   });
 
-  test("表示切り替えのCheckBox押下でpropsのcountryCheckBoxItemsDispatch関数とisSkipSearchApiDispatchが実行されること", async () => {
+  test("表示切り替えのCheckBox押下でpropsのcountryCheckBoxItemsDispatch関数とisSkipSearchWorldViewsDispatchが実行されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     const user = userEvent.setup();
     render(<FilterAccordionPanel />);
@@ -223,7 +226,10 @@ describe("地域のCheckBoxのテスト", () => {
       type: "SET_COUNTRY_CHECK_ITEMS",
       payload: [{ label: "中国", parentLabel: "アジア", checked: false, isVisible: false }],
     });
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS",
+      payload: true,
+    });
   });
 });
 

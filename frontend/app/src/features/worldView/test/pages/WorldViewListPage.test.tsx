@@ -44,7 +44,7 @@ const mockContextValue = {
     loadingGetCountry: false,
     loadingGetCharacteristic: false,
     isDisabledSeachButton: false,
-    isSkipSearchApi: false,
+    isSkipSearchWorldViews: false,
     shouldDebounce: false,
     sortCriteria: "",
     worldViews: mockWorldViews,
@@ -57,7 +57,7 @@ const mockContextValueIsSkipSearchApi = {
   ...mockContextValue,
   state: {
     ...mockContextValue.state,
-    isSkipSearchApi: true,
+    isSkipSearchWorldViews: true,
   },
 };
 
@@ -100,10 +100,13 @@ jest.mock("hooks/api/useGetCheckItems", () => ({
   }),
 }));
 
-test("isSkipSearchApiがtrueの場合、falseに更新されること", () => {
+test("isSkipSearchWorldViewsがtrueの場合、falseに更新されること", () => {
   (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueIsSkipSearchApi);
   render(<WorldViewList />);
-  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_SKIP_SEARCH_API", payload: false });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS",
+    payload: false,
+  });
 });
 
 test("shouldDebounceがtrueの場合、flaseに更新されること", () => {

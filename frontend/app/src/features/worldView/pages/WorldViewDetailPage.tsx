@@ -37,8 +37,8 @@ const WorldViewDetailPage = () => {
   };
   useEffect(() => {
     handleGetWorldView();
-    dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS_API", payload: true });
-    dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
+    dispatch({ type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS", payload: true });
+    dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: true });
   }, []);
 
   return loadingSearchWorldViews || !currentDetailView ? (

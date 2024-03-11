@@ -46,17 +46,17 @@ const mockContextValue = {
     keyword: "",
     riskLevel: 0,
     sortCriteria: "",
-    isSkipSearchApi: false,
+    isSkipSearchWorldViews: false,
     shouldDebounce: false,
-    isSkipGetCheckItmesApi: false,
+    isSkipGetCheckItmes: false,
   },
 };
 
-const mockContextValueIsSkipSearchApi = {
+const mockContextValueIsSkipSearchWorldViews = {
   ...mockContextValue,
   state: {
     ...mockContextValue.state,
-    isSkipSearchApi: true,
+    isSkipSearchWorldViews: true,
   },
 };
 
@@ -72,7 +72,7 @@ const mockContextValueSkipGetCheckItems = {
   ...mockContextValue,
   state: {
     ...mockContextValue.state,
-    isSkipGetCheckItmesApi: true,
+    isSkipGetCheckItmes: true,
   },
 };
 
@@ -97,10 +97,15 @@ jest.mock("features/worldView/api/characteristicApi", () => ({
   default: jest.fn(),
 }));
 
-test("isSkipSearchApiがtrueの場合、falseに更新されること", () => {
-  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueIsSkipSearchApi);
+test("isSkipSearchWorldViewsがtrueの場合、falseに更新されること", () => {
+  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(
+    mockContextValueIsSkipSearchWorldViews
+  );
   render(<Map />);
-  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_SKIP_SEARCH_API", payload: false });
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS",
+    payload: false,
+  });
 });
 
 test("shouldDebounceがtrueの場合、flaseに更新されること", () => {
@@ -163,13 +168,13 @@ describe("handleGetModel関数のテスト", () => {
 });
 
 describe("handleGetNestedCheckItems関数のテスト", () => {
-  test("isSkipGetCheckItmesApiがtrueの場合、falseに更新されること", async () => {
+  test("isSkipGetCheckItmesがtrueの場合、falseに更新されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueSkipGetCheckItems);
     await act(async () => {
       render(<Map />);
     });
     expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_IS_SKIP_GET_CHECK_ITEMS_API",
+      type: "SET_IS_SKIP_GET_CHECK_ITEMS",
       payload: false,
     });
   });
