@@ -12,8 +12,6 @@ import Login from "pages/Login";
 import Profile from "pages/Profile";
 import SignUp from "pages/SignUp";
 import UserManagementPage from "pages/UserManagementPage";
-import { VideoListProvider } from "providers/VideoListProvider";
-import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import AuthorizationRoute from "./AuthorizationRoute";
@@ -59,9 +57,7 @@ const Router: FC = () => {
           path="/world_views"
           element={
             <CommonLayout>
-              <WorldViewListProvider>
-                <WorldViewListPage />
-              </WorldViewListProvider>
+              <WorldViewListPage />
             </CommonLayout>
           }
         />
@@ -69,9 +65,7 @@ const Router: FC = () => {
           path="/world_views/:id"
           element={
             <CommonLayout>
-              <WorldViewListProvider>
-                <WorldViewDetailPage />
-              </WorldViewListProvider>
+              <WorldViewDetailPage />
             </CommonLayout>
           }
         />
@@ -79,9 +73,7 @@ const Router: FC = () => {
           path="/videos"
           element={
             <CommonLayout>
-              <VideoListProvider>
-                <VideoListPage />
-              </VideoListProvider>
+              <VideoListPage />
             </CommonLayout>
           }
         />
@@ -89,9 +81,7 @@ const Router: FC = () => {
           path="/videos/:id"
           element={
             <CommonLayout>
-              <VideoListProvider>
-                <VideoDetailPage />
-              </VideoListProvider>
+              <VideoDetailPage />
             </CommonLayout>
           }
         />
@@ -118,9 +108,7 @@ const Router: FC = () => {
         path="/home"
         element={
           <CommonLayout>
-            <WorldViewListProvider>
-              <HomePage />
-            </WorldViewListProvider>
+            <HomePage />
           </CommonLayout>
         }
       />

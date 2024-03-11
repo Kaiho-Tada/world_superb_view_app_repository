@@ -1,6 +1,8 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import useGetCurrentUser from "features/auth/hooks/useGetCurrentUser";
 import { useAuth } from "providers/useAuthProvider";
+import { VideoListProvider } from "providers/VideoListProvider";
+import { WorldViewListProvider } from "providers/WorldViewListProvider";
 import { FC, useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import Router from "routes/Router";
@@ -15,9 +17,13 @@ const App: FC = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <BrowserRouter>
-        <Router />
-      </BrowserRouter>
+      <WorldViewListProvider>
+        <VideoListProvider>
+          <BrowserRouter>
+            <Router />
+          </BrowserRouter>
+        </VideoListProvider>
+      </WorldViewListProvider>
     </ChakraProvider>
   );
 };
