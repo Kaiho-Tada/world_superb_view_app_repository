@@ -23,5 +23,5 @@ test("ImageOverlayが表示されていること", () => {
       <ZoomDependentImageOverlay latlong={latlong} url={defaultImg} />
     </MapContainer>
   );
-  expect(screen.getByRole("img", { name: "絶景画像" })).toBeInTheDocument();
+  expect(screen.getByRole("img")).toBeInTheDocument();
 });

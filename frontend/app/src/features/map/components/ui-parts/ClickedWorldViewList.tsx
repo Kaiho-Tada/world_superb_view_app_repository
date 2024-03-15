@@ -1,20 +1,18 @@
 import { Box, Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import defaultImg from "assets/default.png";
-import { WorldView } from "features/worldView/types/api/worldView";
 import "leaflet/dist/leaflet.css";
+import { useMapContext } from "providers/MapProvider";
 import { MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
-const WorldViewList = ({
-  clickedViews,
-}: {
-  clickedViews: Pick<WorldView, "id" | "name" | "imgUrl" | "countries">[] | undefined;
-}) => {
+const ClickedWorldViewList = () => {
   const navigate = useNavigate();
+  const { state } = useMapContext();
+  const { clickedWorldViews } = state;
 
-  return clickedViews ? (
+  return clickedWorldViews ? (
     <Wrap role="list" aria-label="絶景一覧" px="6" py="3">
-      {clickedViews.map((view) => (
+      {clickedWorldViews.map((view) => (
         <WrapItem
           role="listitem"
           aria-label={`絶景一覧: ${view.name}`}
@@ -63,4 +61,4 @@ const WorldViewList = ({
   ) : null;
 };
 
-export default WorldViewList;
+export default ClickedWorldViewList;

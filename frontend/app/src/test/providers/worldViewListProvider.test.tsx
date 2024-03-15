@@ -351,3 +351,16 @@ test("SET_ITEMS_OFFSETアクションがディスパッチされた際、itemsOf
 
   expect(result.current.state.itemsOffset).toEqual(20);
 });
+
+test("SET_IS_VISIT_DETAIL_PAGEアクションがディスパッチされた際、isVisitedDetailPageが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.isVisitedDetailPage).toBe(false);
+
+  act(() => {
+    result.current.dispatch({ type: "SET_IS_VISIT_DETAIL_PAGE", payload: true });
+  });
+
+  expect(result.current.state.isVisitedDetailPage).toBe(true);
+});

@@ -13,6 +13,8 @@ type Video = {
     name: string;
     imgUrl: string;
     countries: { id: number; name: string }[];
+    latitude: number;
+    longitude: number;
   }[];
   genres: Genre[];
 };

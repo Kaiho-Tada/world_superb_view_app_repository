@@ -4,14 +4,14 @@ import FavoriteIcon from "components/ui-elements/FavoriteIcon";
 import Loading from "components/ui-elements/Loading";
 import useGetModel from "hooks/api/useGetModel";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { MouseEvent, useEffect } from "react";
+import { FC, MouseEvent, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useWorldViewApi from "../api/useWorldViewApi";
 import { createFavoriteApi, deleteFavoriteApi } from "../api/worldViewFavoriteApi";
 import RiskLevelStar from "../components/ui-elements/RiskLevelStar";
 import { WorldView } from "../types/api/worldView";
 
-const WorldViewDetailPage = () => {
+const WorldViewDetailPage: FC = () => {
   const { state, dispatch } = useWorldViewListContext();
   const params = useParams();
   const worldViewId = Number(params.id);
@@ -37,8 +37,7 @@ const WorldViewDetailPage = () => {
   };
   useEffect(() => {
     handleGetWorldView();
-    dispatch({ type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS", payload: true });
-    dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: true });
+    dispatch({ type: "SET_IS_VISIT_DETAIL_PAGE", payload: true });
   }, []);
 
   return loadingSearchWorldViews || !currentDetailView ? (

@@ -18,7 +18,7 @@ const ZoomDependentImageOverlay = ({ latlong, url }: { latlong: number[]; url: s
     },
   });
 
-  return <ImageOverlay bounds={bounds} url={url} alt="絶景画像" />;
+  return <ImageOverlay bounds={bounds} url={url} />;
 };
 
 export default ZoomDependentImageOverlay;
