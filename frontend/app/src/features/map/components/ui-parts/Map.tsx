@@ -3,7 +3,7 @@ import ClickWorldViewHandler from "features/map/components/ui-elements/ClickWorl
 import ClickedWorldViewList from "features/map/components/ui-parts/ClickedWorldViewList";
 import "leaflet/dist/leaflet.css";
 import { useMapContext } from "providers/MapProvider";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import ClickVideoHandler from "../ui-elements/ClickVideoHandler";
 import MapRadioButton from "../ui-elements/MapRadioButton";
 import MenuButton from "../ui-elements/MenuButton";
@@ -61,10 +61,26 @@ const Map = () => {
           zIndex: 0,
         }}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        <LayersControl position="bottomleft">
+          <LayersControl.BaseLayer checked name="デフォルト">
+            <TileLayer
+              attribution='© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name="詳細">
+            <TileLayer
+              attribution="<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院</a>"
+              url="https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png"
+            />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name="航空写真">
+            <TileLayer
+              attribution="Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            />
+          </LayersControl.BaseLayer>
+        </LayersControl>
         {visibleValue === "worldView" ? <WorldViewImageOverlays /> : <VideoImageOverlays />}
         <ClickWorldViewHandler />
         <ClickVideoHandler />
