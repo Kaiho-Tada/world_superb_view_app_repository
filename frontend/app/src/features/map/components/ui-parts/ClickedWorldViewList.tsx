@@ -11,7 +11,7 @@ const ClickedWorldViewList = () => {
   const { clickedWorldViews } = state;
 
   return clickedWorldViews ? (
-    <Wrap role="list" aria-label="絶景一覧" px="6" py="3">
+    <Wrap role="list" aria-label="絶景一覧">
       {clickedWorldViews.map((view) => (
         <WrapItem
           role="listitem"

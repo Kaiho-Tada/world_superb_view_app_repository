@@ -9,7 +9,7 @@ const ClickedVideoList = () => {
   const { clickedVideos } = state;
 
   return clickedVideos ? (
-    <Wrap role="list" aria-label="ビデオ一覧" px="6" py="3">
+    <Wrap role="list" aria-label="ビデオ一覧">
       {clickedVideos.map((video) => (
         <WrapItem
           key={video.id}

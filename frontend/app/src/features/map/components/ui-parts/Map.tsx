@@ -47,12 +47,15 @@ const Map = () => {
       </Box>
       <WorldViewFilterDrawer isOpen={isOpenWorldView} onClose={onCloseWorldView} />
       <VideoFilterDrawer isOpen={isOpenVideo} onClose={onCloseVideo} />
+      <Box style={{ position: "absolute", zIndex: 1, left: "1%", bottom: "1%" }}>
+        {visibleValue === "worldView" ? <ClickedWorldViewList /> : <ClickedVideoList />}
+      </Box>
       <MapContainer
         center={[30, 0]}
         zoom={2}
         scrollWheelZoom={false}
         style={{
-          height: "65vh",
+          height: "92vh",
           width: "100%",
           position: "relative",
           zIndex: 0,
@@ -66,7 +69,6 @@ const Map = () => {
         <ClickWorldViewHandler />
         <ClickVideoHandler />
       </MapContainer>
-      {visibleValue === "worldView" ? <ClickedWorldViewList /> : <ClickedVideoList />}
     </Box>
   );
 };
