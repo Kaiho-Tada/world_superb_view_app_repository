@@ -15,6 +15,7 @@ jest.mock("lib/client", () => ({
 const mockWorldViews = Array.from({ length: 10 }, (_, index) => ({
   id: index + 1,
   imgUrl: "画像URL",
+  countries: [{ id: index + 1, name: `country${index + 1}`, riskLevel: 1, bmi: 1 }],
   latitude: 0,
   longitude: 0,
 }));
@@ -83,23 +84,53 @@ jest.mock("providers/MapProvider", () => ({
 const mockContextValue = {
   state: {
     visibleValue: "",
+    selectedValue: "",
   },
 };
 const mockContextValueWorldView = {
   state: {
-    visibleValue: "worldView",
+    selectedValue: "worldView",
   },
 };
 const mockContextValueVideo = {
   state: {
-    visibleValue: "video",
+    selectedValue: "video",
   },
 };
-
-test("MapRadioButtonが表示されていること", () => {
+const mockContextValueWorldViewMarker = {
+  state: {
+    selectedValue: "worldView",
+    visibleValue: "marker",
+  },
+};
+const mockContextValueWorldViewImage = {
+  state: {
+    selectedValue: "worldView",
+    visibleValue: "image",
+  },
+};
+const mockContextValueVideoMarker = {
+  state: {
+    selectedValue: "video",
+    visibleValue: "marker",
+  },
+};
+const mockContextValueVideoImage = {
+  state: {
+    selectedValue: "video",
+    visibleValue: "image",
+  },
+};
+test("VisibleRadioが表示されていること", () => {
   (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
   render(<Map />);
-  expect(screen.getByRole("radiogroup"));
+  expect(screen.getByRole("radiogroup", { name: "表示するコンテンツの選択" }));
+});
+
+test("SelectedRadioが表示されていること", () => {
+  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+  render(<Map />);
+  expect(screen.getByRole("radiogroup", { name: "検索するコンテンツの選択" }));
 });
 
 test("MenuButtonが表示されていること", () => {
@@ -130,30 +161,50 @@ test("ズームアウトボタンが表示されていること", () => {
   expect(screen.getByRole("button", { name: "Zoom out" }));
 });
 
-describe("visibleValueが'worldView'の場合", () => {
+describe("selectedValueが'worldView'の場合", () => {
   test("WorldViewFilterSearchBoxが表示されていること", () => {
     (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldView);
     render(<Map />);
     expect(screen.getByPlaceholderText("絶景名または国名で絞り込み")).toBeInTheDocument();
   });
 
-  test("WorldViewImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
-    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldView);
-    render(<Map />);
-    expect(screen.getAllByRole("img").length).toBe(12);
+  describe("visibleValueが'marker'の場合", () => {
+    test("WorldViewMarkerがレコードの数だけ地図上に表示されていること", () => {
+      (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldViewMarker);
+      render(<Map />);
+      expect(screen.getAllByRole("button", { name: "Marker" }).length).toBe(10);
+    });
+  });
+
+  describe("visibleValueが'image'の場合", () => {
+    test("WorldViewImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
+      (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldViewImage);
+      render(<Map />);
+      expect(screen.getAllByRole("img").length).toBe(12);
+    });
   });
 });
 
-describe("visibleValueが'video'の場合", () => {
+describe("selectedValueが'video'の場合", () => {
   test("WorldViewFilterSearchBoxが表示されていること", () => {
     (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideo);
     render(<Map />);
     expect(screen.getByPlaceholderText("作品名で絞り込み")).toBeInTheDocument();
   });
 
-  test("VideoImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
-    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideo);
-    render(<Map />);
-    expect(screen.getAllByRole("img").length).toBe(13);
+  describe("visibleValueが'marker'の場合", () => {
+    test("VideoMarkerがレコードの数だけ地図上に表示されていること", () => {
+      (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoMarker);
+      render(<Map />);
+      expect(screen.getAllByRole("button", { name: "Marker" }).length).toBe(11);
+    });
+  });
+
+  describe("visibleValueが'image'の場合", () => {
+    test("VideoImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
+      (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoImage);
+      render(<Map />);
+      expect(screen.getAllByRole("img").length).toBe(13);
+    });
   });
 });

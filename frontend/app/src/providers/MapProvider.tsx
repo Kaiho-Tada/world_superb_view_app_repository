@@ -13,7 +13,8 @@ export type Action =
       type: "SET_CLICKED_VIDEOS";
       payload: Pick<Video, "id" | "title" | "posterPath" | "releaseDate">[] | null;
     }
-  | { type: "SET_VISIBLE_VALUE"; payload: string };
+  | { type: "SET_VISIBLE_VALUE"; payload: string }
+  | { type: "SET_SELECTED_VALUE"; payload: string };
 
 type State = {
   clickedWorldViews:
@@ -21,12 +22,14 @@ type State = {
     | null;
   clickedVideos: Pick<Video, "id" | "title" | "posterPath" | "releaseDate">[] | null;
   visibleValue: string;
+  selectedValue: string;
 };
 
 const initialState: State = {
   clickedWorldViews: null,
   clickedVideos: null,
-  visibleValue: "worldView",
+  visibleValue: "marker",
+  selectedValue: "worldView",
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -39,6 +42,10 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_VISIBLE_VALUE":
       return { ...state, visibleValue: action.payload };
+
+    case "SET_SELECTED_VALUE":
+      return { ...state, selectedValue: action.payload };
+
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { useMapContext } from "providers/MapProvider";
 
-const MapRadioButton = () => {
+const VisibleRadio = () => {
   const { state, dispatch } = useMapContext();
   const { visibleValue } = state;
 
@@ -10,13 +10,19 @@ const MapRadioButton = () => {
   };
 
   return (
-    <RadioGroup onChange={setVisibleValue} value={visibleValue} colorScheme="teal" size="sm">
+    <RadioGroup
+      aria-label="表示するコンテンツの選択"
+      onChange={setVisibleValue}
+      value={visibleValue}
+      colorScheme="teal"
+      size="sm"
+    >
       <Stack spacing="0">
-        <Radio value="worldView">世界の舞台を表示</Radio>
-        <Radio value="video">TV・映画作品を表示</Radio>
+        <Radio value="marker">マーカーを表示</Radio>
+        <Radio value="image">画像を表示</Radio>
       </Stack>
     </RadioGroup>
   );
 };
 
-export default MapRadioButton;
+export default VisibleRadio;

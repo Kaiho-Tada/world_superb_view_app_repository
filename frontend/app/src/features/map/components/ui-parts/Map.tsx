@@ -1,23 +1,29 @@
-import { Box, useDisclosure } from "@chakra-ui/react";
+import { Box, Divider, useDisclosure } from "@chakra-ui/react";
 import ClickWorldViewHandler from "features/map/components/ui-elements/ClickWorldViewHandler";
 import ClickedWorldViewList from "features/map/components/ui-parts/ClickedWorldViewList";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useMapContext } from "providers/MapProvider";
 import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import ClickVideoHandler from "../ui-elements/ClickVideoHandler";
-import MapRadioButton from "../ui-elements/MapRadioButton";
+import VideoMarker from "../ui-elements/marker/VideoMarker";
+import WorldViewMarker from "../ui-elements/marker/WorldViewMarker";
 import MenuButton from "../ui-elements/MenuButton";
+import SelectedRadio from "../ui-elements/SlectedRadio";
 import VideoFilterSearchBox from "../ui-elements/VideoFilterSearchBox";
 import VideoImageOverlays from "../ui-elements/VideoImageOverlays";
+import VisibleRadio from "../ui-elements/VisibleRadio";
 import WorldViewFilterSearchBox from "../ui-elements/WorldViewFilterSearchBox";
 import WorldViewImageOverlays from "../ui-elements/WorldViewImageOverlays";
 import ClickedVideoList from "./ClickedVideoList";
 import VideoFilterDrawer from "./VideoFilterDrawer";
 import WorldViewFilterDrawer from "./WorldViewFilterDrawer";
 
+L.Icon.Default.imagePath = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/";
+
 const Map = () => {
   const { state } = useMapContext();
-  const { visibleValue } = state;
+  const { visibleValue, selectedValue } = state;
   const {
     isOpen: isOpenWorldView,
     onOpen: onOpenWorldView,
@@ -28,11 +34,10 @@ const Map = () => {
   return (
     <Box bg="white" style={{ position: "relative" }}>
       <Box style={{ position: "absolute", zIndex: 1, left: "33%", width: "30%" }} mt="3">
-        {visibleValue === "worldView" ? <WorldViewFilterSearchBox /> : <VideoFilterSearchBox />}
+        {selectedValue === "worldView" ? <WorldViewFilterSearchBox /> : <VideoFilterSearchBox />}
       </Box>
       <Box
-        style={{ position: "absolute", zIndex: 1, left: "1%" }}
-        mt="20"
+        style={{ position: "absolute", zIndex: 1, top: "11%", left: "1%" }}
         bg="#FFF"
         color="gray.600"
         py="2"
@@ -40,15 +45,18 @@ const Map = () => {
         borderRadius="3px"
         border="1px solid #000"
       >
-        <MapRadioButton />
+        <VisibleRadio />
+        <Divider my={2} borderColor="#A0A6B0" />
+        <SelectedRadio />
       </Box>
       <Box style={{ position: "absolute", zIndex: 1, right: "1%" }} mt="1">
-        <MenuButton onOpen={visibleValue === "worldView" ? onOpenWorldView : onOpenVideo} />
+        <MenuButton onOpen={selectedValue === "worldView" ? onOpenWorldView : onOpenVideo} />
       </Box>
       <WorldViewFilterDrawer isOpen={isOpenWorldView} onClose={onCloseWorldView} />
       <VideoFilterDrawer isOpen={isOpenVideo} onClose={onCloseVideo} />
       <Box style={{ position: "absolute", zIndex: 1, left: "1%", bottom: "1%" }}>
-        {visibleValue === "worldView" ? <ClickedWorldViewList /> : <ClickedVideoList />}
+        {visibleValue === "image" && selectedValue === "worldView" && <ClickedWorldViewList />}
+        {visibleValue === "image" && selectedValue === "video" && <ClickedVideoList />}
       </Box>
       <MapContainer
         center={[30, 0]}
@@ -81,7 +89,10 @@ const Map = () => {
             />
           </LayersControl.BaseLayer>
         </LayersControl>
-        {visibleValue === "worldView" ? <WorldViewImageOverlays /> : <VideoImageOverlays />}
+        {visibleValue === "marker" && selectedValue === "worldView" && <WorldViewMarker />}
+        {visibleValue === "marker" && selectedValue === "video" && <VideoMarker />}
+        {visibleValue === "image" && selectedValue === "worldView" && <WorldViewImageOverlays />}
+        {visibleValue === "image" && selectedValue === "video" && <VideoImageOverlays />}
         <ClickWorldViewHandler />
         <ClickVideoHandler />
       </MapContainer>

@@ -1,0 +1,14 @@
+.leaflet-popup-content {
+  margin: 0;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  background: none;
+}
+
+.leaflet-popup-content p {
+  margin: 0;
+}

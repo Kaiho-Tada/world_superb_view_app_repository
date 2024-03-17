@@ -47,9 +47,20 @@ test("SET_VISIBLE_VALUEアクションがディスパッチされた際、visibl
   const { result } = renderHook(() => useMapContext(), {
     wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
   });
-  expect(result.current.state.visibleValue).toEqual("worldView");
+  expect(result.current.state.visibleValue).toEqual("marker");
   act(() => {
-    result.current.dispatch({ type: "SET_VISIBLE_VALUE", payload: "video" });
+    result.current.dispatch({ type: "SET_VISIBLE_VALUE", payload: "image" });
   });
-  expect(result.current.state.visibleValue).toEqual("video");
+  expect(result.current.state.visibleValue).toEqual("image");
+});
+
+test("SET_SELECTED_VALUEアクションがディスパッチされた際、selectedValueが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.selectedValue).toEqual("worldView");
+  act(() => {
+    result.current.dispatch({ type: "SET_SELECTED_VALUE", payload: "video" });
+  });
+  expect(result.current.state.selectedValue).toEqual("video");
 });
