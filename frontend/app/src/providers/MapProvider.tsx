@@ -14,7 +14,8 @@ export type Action =
       payload: Pick<Video, "id" | "title" | "posterPath" | "releaseDate">[] | null;
     }
   | { type: "SET_VISIBLE_VALUE"; payload: string }
-  | { type: "SET_SELECTED_VALUE"; payload: string };
+  | { type: "SET_SELECTED_VALUE"; payload: string }
+  | { type: "SET_LAYER_VALUE"; payload: string };
 
 type State = {
   clickedWorldViews:
@@ -23,6 +24,7 @@ type State = {
   clickedVideos: Pick<Video, "id" | "title" | "posterPath" | "releaseDate">[] | null;
   visibleValue: string;
   selectedValue: string;
+  layerValue: string;
 };
 
 const initialState: State = {
@@ -30,6 +32,7 @@ const initialState: State = {
   clickedVideos: null,
   visibleValue: "marker",
   selectedValue: "worldView",
+  layerValue: "aerialShot",
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -45,6 +48,9 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_SELECTED_VALUE":
       return { ...state, selectedValue: action.payload };
+
+    case "SET_LAYER_VALUE":
+      return { ...state, layerValue: action.payload };
 
     default:
       return state;

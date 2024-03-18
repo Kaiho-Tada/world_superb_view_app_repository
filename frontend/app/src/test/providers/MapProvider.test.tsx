@@ -64,3 +64,14 @@ test("SET_SELECTED_VALUEアクションがディスパッチされた際、selec
   });
   expect(result.current.state.selectedValue).toEqual("video");
 });
+
+test("SET_LAYER_VALUEアクションがディスパッチされた際、layerValueが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.layerValue).toEqual("aerialShot");
+  act(() => {
+    result.current.dispatch({ type: "SET_LAYER_VALUE", payload: "simple" });
+  });
+  expect(result.current.state.layerValue).toEqual("simple");
+});

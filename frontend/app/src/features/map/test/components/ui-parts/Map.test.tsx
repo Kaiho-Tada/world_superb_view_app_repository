@@ -81,46 +81,62 @@ jest.mock("providers/MapProvider", () => ({
   useMapContext: jest.fn(),
 }));
 
+const mockMapDispatch = jest.fn();
 const mockContextValue = {
+  dispatch: mockMapDispatch,
   state: {
     visibleValue: "",
     selectedValue: "",
+    layerValue: "",
   },
 };
 const mockContextValueWorldView = {
+  ...mockContextValue,
   state: {
+    ...mockContextValue.state,
     selectedValue: "worldView",
   },
 };
 const mockContextValueVideo = {
+  ...mockContextValue,
   state: {
+    ...mockContextValue.state,
     selectedValue: "video",
   },
 };
 const mockContextValueWorldViewMarker = {
+  ...mockContextValue,
   state: {
+    ...mockContextValue.state,
     selectedValue: "worldView",
     visibleValue: "marker",
   },
 };
 const mockContextValueWorldViewImage = {
+  ...mockContextValue,
   state: {
+    ...mockContextValue.state,
     selectedValue: "worldView",
     visibleValue: "image",
   },
 };
 const mockContextValueVideoMarker = {
+  ...mockContextValue,
   state: {
+    ...mockContextValue.state,
     selectedValue: "video",
     visibleValue: "marker",
   },
 };
 const mockContextValueVideoImage = {
+  ...mockContextValue,
   state: {
+    ...mockContextValue.state,
     selectedValue: "video",
     visibleValue: "image",
   },
 };
+
 test("VisibleRadioが表示されていること", () => {
   (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
   render(<Map />);
@@ -161,6 +177,57 @@ test("ズームアウトボタンが表示されていること", () => {
   expect(screen.getByRole("button", { name: "Zoom out" }));
 });
 
+test("シンプルのradioが表示されていること", () => {
+  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+  render(<Map />);
+  expect(screen.getByRole("radio", { name: "シンプル" })).toBeInTheDocument();
+});
+
+test("シンプルのradio押下でlayerValueが'simple'に更新されること", async () => {
+  const user = userEvent.setup();
+  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+  render(<Map />);
+  await act(async () => {
+    await user.click(screen.getByRole("radio", { name: "シンプル" }));
+  });
+  expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "simple" });
+  expect(mockMapDispatch).toHaveBeenCalledTimes(1);
+});
+
+test("詳細のradioが表示されていること", () => {
+  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+  render(<Map />);
+  expect(screen.getByRole("radio", { name: "詳細" })).toBeInTheDocument();
+});
+
+test("詳細のradio押下でlayerValueが'detail'に更新されること", async () => {
+  const user = userEvent.setup();
+  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+  render(<Map />);
+  await act(async () => {
+    await user.click(screen.getByRole("radio", { name: "詳細" }));
+  });
+  expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "detail" });
+  expect(mockMapDispatch).toHaveBeenCalledTimes(1);
+});
+
+test("航空写真のradioが表示されていること", () => {
+  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+  render(<Map />);
+  expect(screen.getByRole("radio", { name: "航空写真" })).toBeInTheDocument();
+});
+
+test("航空写真のradio押下でlayerValueが'aerialShot'に更新されること", async () => {
+  const user = userEvent.setup();
+  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+  render(<Map />);
+  await act(async () => {
+    await user.click(screen.getByRole("radio", { name: "航空写真" }));
+  });
+  expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "aerialShot" });
+  expect(mockMapDispatch).toHaveBeenCalledTimes(1);
+});
+
 describe("selectedValueが'worldView'の場合", () => {
   test("WorldViewFilterSearchBoxが表示されていること", () => {
     (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldView);
@@ -180,7 +247,7 @@ describe("selectedValueが'worldView'の場合", () => {
     test("WorldViewImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
       (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldViewImage);
       render(<Map />);
-      expect(screen.getAllByRole("img").length).toBe(12);
+      expect(screen.getAllByRole("img").length).toBe(10);
     });
   });
 });
@@ -204,7 +271,7 @@ describe("selectedValueが'video'の場合", () => {
     test("VideoImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
       (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoImage);
       render(<Map />);
-      expect(screen.getAllByRole("img").length).toBe(13);
+      expect(screen.getAllByRole("img").length).toBe(11);
     });
   });
 });

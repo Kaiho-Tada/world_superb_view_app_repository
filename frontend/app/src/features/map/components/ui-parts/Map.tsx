@@ -22,8 +22,8 @@ import WorldViewFilterDrawer from "./WorldViewFilterDrawer";
 L.Icon.Default.imagePath = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/";
 
 const Map = () => {
-  const { state } = useMapContext();
-  const { visibleValue, selectedValue } = state;
+  const { state, dispatch } = useMapContext();
+  const { visibleValue, selectedValue, layerValue } = state;
   const {
     isOpen: isOpenWorldView,
     onOpen: onOpenWorldView,
@@ -70,22 +70,37 @@ const Map = () => {
         }}
       >
         <LayersControl position="bottomleft">
-          <LayersControl.BaseLayer checked name="デフォルト">
+          <LayersControl.BaseLayer checked={layerValue === "simple"} name="シンプル">
             <TileLayer
               attribution='© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              eventHandlers={{
+                add: () => {
+                  dispatch({ type: "SET_LAYER_VALUE", payload: "simple" });
+                },
+              }}
             />
           </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name="詳細">
+          <LayersControl.BaseLayer checked={layerValue === "detail"} name="詳細">
             <TileLayer
               attribution="<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院</a>"
               url="https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png"
+              eventHandlers={{
+                add: () => {
+                  dispatch({ type: "SET_LAYER_VALUE", payload: "detail" });
+                },
+              }}
             />
           </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name="航空写真">
+          <LayersControl.BaseLayer checked={layerValue === "aerialShot"} name="航空写真">
             <TileLayer
               attribution="Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
               url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+              eventHandlers={{
+                add: () => {
+                  dispatch({ type: "SET_LAYER_VALUE", payload: "aerialShot" });
+                },
+              }}
             />
           </LayersControl.BaseLayer>
         </LayersControl>
