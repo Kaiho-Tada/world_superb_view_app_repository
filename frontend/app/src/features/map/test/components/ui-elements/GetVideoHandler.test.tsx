@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import ClickVideoHandler from "features/map/components/ui-elements/ClickVideoHandler";
+import GetVideoHandler from "features/map/components/ui-parts/GetVideoHandler";
 import { useVideoListContext as mockUseVideoListContext } from "providers/VideoListProvider";
 import { act } from "react-dom/test-utils";
 
@@ -72,7 +72,7 @@ describe("初回レンダリング時のテスト", () => {
     spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
     await act(async () => {
-      render(<ClickVideoHandler />);
+      render(<GetVideoHandler />);
     });
     expect(mockHandleGetModel).not.toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalledWith({
@@ -94,7 +94,7 @@ describe("初回レンダリング時のテスト", () => {
     spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
     await act(async () => {
-      render(<ClickVideoHandler />);
+      render(<GetVideoHandler />);
     });
     expect(mockHandleGetModel).not.toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalledWith({
@@ -117,7 +117,7 @@ describe("初回レンダリング時のテスト", () => {
       spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
       await act(async () => {
-        render(<ClickVideoHandler />);
+        render(<GetVideoHandler />);
       });
       expect(mockHandleGetModel).toHaveBeenCalledWith({
         loadingGetModelDispatch: expect.any(Function),
@@ -133,7 +133,7 @@ describe("初回レンダリング時のテスト", () => {
       mockSearchVideoApi.mockReturnValue({ data: [{ id: 1, name: "name" }] });
 
       await act(async () => {
-        render(<ClickVideoHandler />);
+        render(<GetVideoHandler />);
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_VIDEOS",
@@ -145,7 +145,7 @@ describe("初回レンダリング時のテスト", () => {
       (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
 
       await act(async () => {
-        render(<ClickVideoHandler />);
+        render(<GetVideoHandler />);
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_LOADING_SEARCH_VIDEOS",

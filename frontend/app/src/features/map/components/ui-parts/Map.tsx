@@ -16,6 +16,8 @@ import VisibleRadio from "../ui-elements/VisibleRadio";
 import WorldViewFilterSearchBox from "../ui-elements/WorldViewFilterSearchBox";
 import WorldViewImageOverlays from "../ui-elements/WorldViewImageOverlays";
 import ClickedVideoList from "./ClickedVideoList";
+import GetVideoHandler from "./GetVideoHandler";
+import GetWorldViewHandler from "./GetWorldViewHandler";
 import VideoFilterDrawer from "./VideoFilterDrawer";
 import WorldViewFilterDrawer from "./WorldViewFilterDrawer";
 
@@ -108,8 +110,14 @@ const Map = () => {
         {visibleValue === "marker" && selectedValue === "video" && <VideoMarker />}
         {visibleValue === "image" && selectedValue === "worldView" && <WorldViewImageOverlays />}
         {visibleValue === "image" && selectedValue === "video" && <VideoImageOverlays />}
-        <ClickWorldViewHandler />
-        <ClickVideoHandler />
+        <GetWorldViewHandler />
+        <GetVideoHandler />
+        {visibleValue === "image" && (
+          <>
+            <ClickWorldViewHandler />
+            <ClickVideoHandler />
+          </>
+        )}
       </MapContainer>
     </Box>
   );

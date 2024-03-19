@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import ClickWorldViewHandler from "features/map/components/ui-elements/ClickWorldViewHandler";
+import GetWorldViewHandler from "features/map/components/ui-parts/GetWorldViewHandler";
 import { useWorldViewListContext as mockUseWorldViewListContext } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
@@ -91,7 +91,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
     const mockHandleGetModel = jest.fn();
     spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
-    render(<ClickWorldViewHandler />);
+    render(<GetWorldViewHandler />);
     expect(mockHandleGetModel).not.toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS",
@@ -111,7 +111,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
     const mockHandleGetModel = jest.fn();
     spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
-    render(<ClickWorldViewHandler />);
+    render(<GetWorldViewHandler />);
     expect(mockHandleGetModel).not.toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "SET_SHOULD_DEBOUNCE",
@@ -133,7 +133,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
       spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
       await act(async () => {
-        render(<ClickWorldViewHandler />);
+        render(<GetWorldViewHandler />);
       });
       expect(mockHandleGetModel).toHaveBeenCalledWith({
         loadingGetModelDispatch: expect.any(Function),
@@ -148,7 +148,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
       mockSearchWorldViewApi.mockReturnValue({ data: [{ id: 1, name: "name" }] });
 
       await act(async () => {
-        render(<ClickWorldViewHandler />);
+        render(<GetWorldViewHandler />);
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_WORLD_VIEWS",
@@ -160,7 +160,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
       (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
 
       await act(async () => {
-        render(<ClickWorldViewHandler />);
+        render(<GetWorldViewHandler />);
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_LOADING_SEARCH_WORLDVIEWS",
