@@ -1,5 +1,6 @@
 import Video from "features/video/types/Video";
 import { WorldView } from "features/worldView/types/api/worldView";
+import { LatLngExpression } from "leaflet";
 import { createContext, Dispatch, FC, ReactNode, useContext, useMemo, useReducer } from "react";
 
 export type Action =
@@ -15,7 +16,9 @@ export type Action =
     }
   | { type: "SET_VISIBLE_VALUE"; payload: string }
   | { type: "SET_SELECTED_VALUE"; payload: string }
-  | { type: "SET_LAYER_VALUE"; payload: string };
+  | { type: "SET_LAYER_VALUE"; payload: string }
+  | { type: "SET_MAP_CENTER"; payload: LatLngExpression }
+  | { type: "SET_ZOOM"; payload: number };
 
 type State = {
   clickedWorldViews:
@@ -25,6 +28,8 @@ type State = {
   visibleValue: string;
   selectedValue: string;
   layerValue: string;
+  mapCenter: LatLngExpression;
+  zoom: number;
 };
 
 const initialState: State = {
@@ -33,6 +38,8 @@ const initialState: State = {
   visibleValue: "marker",
   selectedValue: "worldView",
   layerValue: "aerialShot",
+  mapCenter: [30, 0],
+  zoom: 2,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -51,6 +58,12 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_LAYER_VALUE":
       return { ...state, layerValue: action.payload };
+
+    case "SET_MAP_CENTER":
+      return { ...state, mapCenter: action.payload };
+
+    case "SET_ZOOM":
+      return { ...state, zoom: action.payload };
 
     default:
       return state;

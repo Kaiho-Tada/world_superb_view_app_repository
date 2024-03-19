@@ -15,6 +15,7 @@ import VideoImageOverlays from "../ui-elements/VideoImageOverlays";
 import VisibleRadio from "../ui-elements/VisibleRadio";
 import WorldViewFilterSearchBox from "../ui-elements/WorldViewFilterSearchBox";
 import WorldViewImageOverlays from "../ui-elements/WorldViewImageOverlays";
+import ZoomLayersControlHandler from "../ui-elements/ZoomLayersControlHandler";
 import ClickedVideoList from "./ClickedVideoList";
 import GetVideoHandler from "./GetVideoHandler";
 import GetWorldViewHandler from "./GetWorldViewHandler";
@@ -25,7 +26,7 @@ L.Icon.Default.imagePath = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1
 
 const Map = () => {
   const { state, dispatch } = useMapContext();
-  const { visibleValue, selectedValue, layerValue } = state;
+  const { visibleValue, selectedValue, layerValue, mapCenter, zoom } = state;
   const {
     isOpen: isOpenWorldView,
     onOpen: onOpenWorldView,
@@ -61,8 +62,8 @@ const Map = () => {
         {visibleValue === "image" && selectedValue === "video" && <ClickedVideoList />}
       </Box>
       <MapContainer
-        center={[30, 0]}
-        zoom={2}
+        center={mapCenter}
+        zoom={zoom}
         scrollWheelZoom={false}
         style={{
           height: "92vh",
@@ -118,6 +119,7 @@ const Map = () => {
             <ClickVideoHandler />
           </>
         )}
+        <ZoomLayersControlHandler />
       </MapContainer>
     </Box>
   );

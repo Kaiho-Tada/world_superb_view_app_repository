@@ -13,13 +13,15 @@ jest.mock("react-router-dom", () => ({
 }));
 
 const id = 1;
+const latitude = 25.1097;
+const longitude = 121.846;
 const mockVideos = [
   {
     id,
     title: `title${id}`,
     posterPath: `posterPath${id}`,
     releaseDate: `releaseDate${id}`,
-    worldViews: [{ id, latitude: 0, longitude: 0 }],
+    worldViews: [{ id, latitude, longitude }],
   },
 ];
 
@@ -27,6 +29,14 @@ jest.mock("providers/VideoListProvider", () => ({
   ...jest.requireActual("providers/VideoListProvider"),
   useVideoListContext: () => ({
     state: { videos: mockVideos },
+  }),
+}));
+
+const mockMapDispatch = jest.fn();
+jest.mock("providers/MapProvider", () => ({
+  ...jest.requireActual("providers/MapProvider"),
+  useMapContext: () => ({
+    dispatch: mockMapDispatch,
   }),
 }));
 
@@ -42,6 +52,28 @@ test("マーカーが表示されていること", () => {
     </MapContainer>
   );
   expect(screen.getByRole("button", { name: "Marker" })).toBeInTheDocument();
+});
+
+test("マーカー押下でMapの中心座標がクリック地点の座標に更新されること", async () => {
+  const user = userEvent.setup();
+  render(
+    <MapContainer
+      center={[0, 0]}
+      zoom={2}
+      scrollWheelZoom={false}
+      style={{ height: "65vh", width: "100%" }}
+    >
+      <VideoMarker />
+    </MapContainer>
+  );
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "Marker" }));
+  });
+  expect(mockMapDispatch).toHaveBeenCalledWith({
+    type: "SET_MAP_CENTER",
+    payload: { lat: latitude, lng: longitude },
+  });
+  expect(mockMapDispatch).toHaveBeenCalledTimes(1);
 });
 
 test("マーカー押下でpopupにVideoカードが表示されること", async () => {

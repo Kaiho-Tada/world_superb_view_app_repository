@@ -88,6 +88,8 @@ const mockContextValue = {
     visibleValue: "",
     selectedValue: "",
     layerValue: "",
+    mapCenter: [30, 0],
+    zoom: 2,
   },
 };
 const mockContextValueWorldView = {

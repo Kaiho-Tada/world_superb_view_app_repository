@@ -75,3 +75,36 @@ test("SET_LAYER_VALUEアクションがディスパッチされた際、layerVal
   });
   expect(result.current.state.layerValue).toEqual("simple");
 });
+
+test("SET_LAYER_VALUEアクションがディスパッチされた際、layerValueが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.layerValue).toEqual("aerialShot");
+  act(() => {
+    result.current.dispatch({ type: "SET_LAYER_VALUE", payload: "simple" });
+  });
+  expect(result.current.state.layerValue).toEqual("simple");
+});
+
+test("SET_MAP_CENTERアクションがディスパッチされた際、mapCenterが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.mapCenter).toEqual([30, 0]);
+  act(() => {
+    result.current.dispatch({ type: "SET_MAP_CENTER", payload: [100, 1000] });
+  });
+  expect(result.current.state.mapCenter).toEqual([100, 1000]);
+});
+
+test("SET_ZOOMアクションがディスパッチされた際、zoomが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.zoom).toEqual(2);
+  act(() => {
+    result.current.dispatch({ type: "SET_ZOOM", payload: 10 });
+  });
+  expect(result.current.state.zoom).toEqual(10);
+});

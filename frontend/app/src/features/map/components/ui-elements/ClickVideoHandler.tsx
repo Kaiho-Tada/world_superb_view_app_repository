@@ -10,6 +10,7 @@ const ClickVideoHandler = () => {
   useMapEvents({
     click(e) {
       const clickedLatLng = e.latlng;
+      mapDispatch({ type: "SET_MAP_CENTER", payload: clickedLatLng });
 
       const clickedVideos = videos.filter((video) => {
         const worldViewsAtClickedLatLng = video.worldViews.filter((worldView) => {

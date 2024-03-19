@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import defaultImg from "assets/default.png";
+import { useMapContext } from "providers/MapProvider";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { MouseEvent } from "react";
 import { Marker, Popup } from "react-leaflet";
@@ -10,11 +11,21 @@ const WorldViewMarker = () => {
   const { state } = useWorldViewListContext();
   const { worldViews } = state;
   const navigate = useNavigate();
+  const { dispatch: mapDispatch } = useMapContext();
 
   return (
     <>
       {worldViews.map((worldView) => (
-        <Marker key={worldView.id} position={[worldView.latitude, worldView.longitude]}>
+        <Marker
+          key={worldView.id}
+          position={[worldView.latitude, worldView.longitude]}
+          eventHandlers={{
+            click: (e) => {
+              const clickedLatLng = e.latlng;
+              mapDispatch({ type: "SET_MAP_CENTER", payload: clickedLatLng });
+            },
+          }}
+        >
           <Popup closeButton={false}>
             <Box
               key={worldView.id}

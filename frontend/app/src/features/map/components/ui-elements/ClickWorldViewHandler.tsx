@@ -10,6 +10,7 @@ const ClickWorldViewHandler = () => {
   useMapEvents({
     click(e) {
       const clickedLatLng = e.latlng;
+      mapDispatch({ type: "SET_MAP_CENTER", payload: clickedLatLng });
       const nearbyWorldViews = worldViews?.filter((v) => {
         const latDiff = Math.abs(v.latitude - clickedLatLng.lat);
         const lngDiff = Math.abs(v.longitude - clickedLatLng.lng);
