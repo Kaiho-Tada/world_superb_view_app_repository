@@ -211,20 +211,20 @@ test("詳細のradio押下でlayerValueが'detail'に更新されること", asy
   expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "detail" });
 });
 
-test("航空写真のradioが表示されていること", () => {
+test("衛星写真のradioが表示されていること", () => {
   (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
   render(<Map />);
-  expect(screen.getByRole("radio", { name: "航空写真" })).toBeInTheDocument();
+  expect(screen.getByRole("radio", { name: "衛星写真" })).toBeInTheDocument();
 });
 
-test("航空写真のradio押下でlayerValueが'aerialShot'に更新されること", async () => {
+test("衛星写真のradio押下でlayerValueが'satellite'に更新されること", async () => {
   const user = userEvent.setup();
   (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
   render(<Map />);
   await act(async () => {
-    await user.click(screen.getByRole("radio", { name: "航空写真" }));
+    await user.click(screen.getByRole("radio", { name: "衛星写真" }));
   });
-  expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "aerialShot" });
+  expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "satellite" });
 });
 
 describe("selectedValueが'worldView'の場合", () => {

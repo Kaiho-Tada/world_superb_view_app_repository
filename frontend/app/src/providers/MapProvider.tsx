@@ -48,7 +48,7 @@ const initialState: State = {
   clickedVideos: null,
   visibleValue: "marker",
   selectedValue: "worldView",
-  layerValue: "aerialShot",
+  layerValue: "satellite",
   mapCenter: [30, 0],
   zoom: 2,
   clickedWorldView: null,

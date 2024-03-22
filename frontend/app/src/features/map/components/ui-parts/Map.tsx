@@ -106,13 +106,13 @@ const Map = () => {
               }}
             />
           </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer checked={layerValue === "aerialShot"} name="航空写真">
+          <LayersControl.BaseLayer checked={layerValue === "satellite"} name="衛星写真">
             <TileLayer
               attribution="Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
               url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
               eventHandlers={{
                 add: () => {
-                  dispatch({ type: "SET_LAYER_VALUE", payload: "aerialShot" });
+                  dispatch({ type: "SET_LAYER_VALUE", payload: "satellite" });
                 },
               }}
             />

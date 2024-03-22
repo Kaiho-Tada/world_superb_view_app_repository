@@ -69,18 +69,7 @@ test("SET_LAYER_VALUEアクションがディスパッチされた際、layerVal
   const { result } = renderHook(() => useMapContext(), {
     wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
   });
-  expect(result.current.state.layerValue).toEqual("aerialShot");
-  act(() => {
-    result.current.dispatch({ type: "SET_LAYER_VALUE", payload: "simple" });
-  });
-  expect(result.current.state.layerValue).toEqual("simple");
-});
-
-test("SET_LAYER_VALUEアクションがディスパッチされた際、layerValueが指定された値に更新されること", () => {
-  const { result } = renderHook(() => useMapContext(), {
-    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
-  });
-  expect(result.current.state.layerValue).toEqual("aerialShot");
+  expect(result.current.state.layerValue).toEqual("satellite");
   act(() => {
     result.current.dispatch({ type: "SET_LAYER_VALUE", payload: "simple" });
   });
