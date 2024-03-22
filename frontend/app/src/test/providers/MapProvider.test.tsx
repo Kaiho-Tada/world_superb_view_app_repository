@@ -108,3 +108,23 @@ test("SET_ZOOMアクションがディスパッチされた際、zoomが指定�
   });
   expect(result.current.state.zoom).toEqual(10);
 });
+
+test("SET_CLICKED_WORLD_VIEWアクションがディスパッチされた際、clickedWorldViewが指定された値に更新されること", () => {
+  const mockClickedWorldView = {
+    id: 1,
+    name: `worldView1`,
+    imgUrl: "画像URL",
+    countries: [{ id: 1, name: `country1`, riskLevel: 1, bmi: 1 }],
+    latitude: 0,
+    longitude: 0,
+  };
+
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.clickedWorldView).toEqual(null);
+  act(() => {
+    result.current.dispatch({ type: "SET_CLICKED_WORLD_VIEW", payload: mockClickedWorldView });
+  });
+  expect(result.current.state.clickedWorldView).toEqual(mockClickedWorldView);
+});

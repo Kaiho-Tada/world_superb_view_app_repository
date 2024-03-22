@@ -55,7 +55,7 @@ test("マーカーが表示されていること", () => {
   expect(screen.getByRole("button", { name: "Marker" })).toBeInTheDocument();
 });
 
-test("マーカー押下でMapの中心座標がクリック地点の座標に更新されること", async () => {
+test("マーカー押下でMapの中心座標がクリック地点の座標に更新され、clickedWorldViewがマーカーが参照しているWorldViewに更新されること", async () => {
   const user = userEvent.setup();
   render(
     <MapContainer
@@ -74,7 +74,11 @@ test("マーカー押下でMapの中心座標がクリック地点の座標に�
     type: "SET_MAP_CENTER",
     payload: { lat: latitude, lng: longitude },
   });
-  expect(mockMapDispatch).toHaveBeenCalledTimes(1);
+  expect(mockMapDispatch).toHaveBeenCalledWith({
+    type: "SET_CLICKED_WORLD_VIEW",
+    payload: mockWorldViews[0],
+  });
+  expect(mockMapDispatch).toHaveBeenCalledTimes(2);
 });
 
 test("マーカー押下でpopupにWorldViewカードが表示されること", async () => {

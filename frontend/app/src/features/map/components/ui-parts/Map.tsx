@@ -4,11 +4,14 @@ import ClickedWorldViewList from "features/map/components/ui-parts/ClickedWorldV
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useMapContext } from "providers/MapProvider";
+import { useEffect } from "react";
 import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
+import ClickHandler from "../ui-elements/ClickHandler";
 import ClickVideoHandler from "../ui-elements/ClickVideoHandler";
 import VideoMarker from "../ui-elements/marker/VideoMarker";
 import WorldViewMarker from "../ui-elements/marker/WorldViewMarker";
 import MenuButton from "../ui-elements/MenuButton";
+import PanoramaModalOpener from "../ui-elements/PanoramaModalOpener";
 import SelectedRadio from "../ui-elements/SlectedRadio";
 import VideoFilterSearchBox from "../ui-elements/VideoFilterSearchBox";
 import VideoImageOverlays from "../ui-elements/VideoImageOverlays";
@@ -34,8 +37,16 @@ const Map = () => {
   } = useDisclosure();
   const { isOpen: isOpenVideo, onOpen: onOpenVideo, onClose: onCloseVideo } = useDisclosure();
 
+  useEffect(() => {
+    dispatch({
+      type: "SET_CLICKED_WORLD_VIEW",
+      payload: null,
+    });
+  }, [visibleValue, selectedValue]);
+
   return (
     <Box bg="white" style={{ position: "relative" }}>
+      <PanoramaModalOpener />
       <Box style={{ position: "absolute", zIndex: 1, left: "33%", width: "30%" }} mt="3">
         {selectedValue === "worldView" ? <WorldViewFilterSearchBox /> : <VideoFilterSearchBox />}
       </Box>
@@ -119,6 +130,7 @@ const Map = () => {
             <ClickVideoHandler />
           </>
         )}
+        <ClickHandler />
         <ZoomLayersControlHandler />
       </MapContainer>
     </Box>

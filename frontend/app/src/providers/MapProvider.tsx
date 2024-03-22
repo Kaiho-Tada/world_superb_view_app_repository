@@ -18,7 +18,14 @@ export type Action =
   | { type: "SET_SELECTED_VALUE"; payload: string }
   | { type: "SET_LAYER_VALUE"; payload: string }
   | { type: "SET_MAP_CENTER"; payload: LatLngExpression }
-  | { type: "SET_ZOOM"; payload: number };
+  | { type: "SET_ZOOM"; payload: number }
+  | {
+      type: "SET_CLICKED_WORLD_VIEW";
+      payload: Pick<
+        WorldView,
+        "id" | "name" | "imgUrl" | "countries" | "latitude" | "longitude"
+      > | null;
+    };
 
 type State = {
   clickedWorldViews:
@@ -30,6 +37,10 @@ type State = {
   layerValue: string;
   mapCenter: LatLngExpression;
   zoom: number;
+  clickedWorldView: Pick<
+    WorldView,
+    "id" | "name" | "imgUrl" | "countries" | "latitude" | "longitude"
+  > | null;
 };
 
 const initialState: State = {
@@ -40,6 +51,7 @@ const initialState: State = {
   layerValue: "aerialShot",
   mapCenter: [30, 0],
   zoom: 2,
+  clickedWorldView: null,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -64,6 +76,9 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_ZOOM":
       return { ...state, zoom: action.payload };
+
+    case "SET_CLICKED_WORLD_VIEW":
+      return { ...state, clickedWorldView: action.payload };
 
     default:
       return state;

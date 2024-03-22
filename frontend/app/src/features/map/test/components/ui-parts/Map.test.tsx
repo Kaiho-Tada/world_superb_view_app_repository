@@ -193,7 +193,6 @@ test("シンプルのradio押下でlayerValueが'simple'に更新されること
     await user.click(screen.getByRole("radio", { name: "シンプル" }));
   });
   expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "simple" });
-  expect(mockMapDispatch).toHaveBeenCalledTimes(1);
 });
 
 test("詳細のradioが表示されていること", () => {
@@ -210,7 +209,6 @@ test("詳細のradio押下でlayerValueが'detail'に更新されること", asy
     await user.click(screen.getByRole("radio", { name: "詳細" }));
   });
   expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "detail" });
-  expect(mockMapDispatch).toHaveBeenCalledTimes(1);
 });
 
 test("航空写真のradioが表示されていること", () => {
@@ -227,7 +225,6 @@ test("航空写真のradio押下でlayerValueが'aerialShot'に更新される�
     await user.click(screen.getByRole("radio", { name: "航空写真" }));
   });
   expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "aerialShot" });
-  expect(mockMapDispatch).toHaveBeenCalledTimes(1);
 });
 
 describe("selectedValueが'worldView'の場合", () => {
@@ -274,6 +271,45 @@ describe("selectedValueが'video'の場合", () => {
       (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoImage);
       render(<Map />);
       expect(screen.getAllByRole("img").length).toBe(11);
+    });
+  });
+});
+
+describe("useEfectのテスト", () => {
+  test("初回レンダリング時にclickedWorldViewがnullに更新されること", async () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    await act(async () => {
+      render(<Map />);
+    });
+    expect(mockMapDispatch).toHaveBeenCalledWith({
+      type: "SET_CLICKED_WORLD_VIEW",
+      payload: null,
+    });
+  });
+
+  test("visibleValue更新時にclickedWorldViewがnullに更新されること", async () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    const user = userEvent.setup();
+    render(<Map />);
+    await act(async () => {
+      await user.click(screen.getByRole("radio", { name: "マーカーを表示" }));
+    });
+    expect(mockMapDispatch).toHaveBeenCalledWith({
+      type: "SET_CLICKED_WORLD_VIEW",
+      payload: null,
+    });
+  });
+
+  test("selectedValue更新時にclickedWorldViewがnullに更新されること", async () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    const user = userEvent.setup();
+    render(<Map />);
+    await act(async () => {
+      await user.click(screen.getByRole("radio", { name: "世界の舞台を探す" }));
+    });
+    expect(mockMapDispatch).toHaveBeenCalledWith({
+      type: "SET_CLICKED_WORLD_VIEW",
+      payload: null,
     });
   });
 });

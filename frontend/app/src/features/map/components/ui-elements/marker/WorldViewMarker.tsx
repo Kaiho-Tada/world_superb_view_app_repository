@@ -23,6 +23,10 @@ const WorldViewMarker = () => {
             click: (e) => {
               const clickedLatLng = e.latlng;
               mapDispatch({ type: "SET_MAP_CENTER", payload: clickedLatLng });
+              mapDispatch({
+                type: "SET_CLICKED_WORLD_VIEW",
+                payload: worldView,
+              });
             },
           }}
         >
