@@ -13,6 +13,7 @@ test("サーチボックスがレンダリングされていること", () => {
       loadingSearchModels={false}
       keywordDispatch={mockkeywordDispatch}
       shouldDebounceDispatch={mockShouldDebounceDispatch}
+      placeholder=""
     />
   );
   expect(screen.getByRole("searchbox")).toBeInTheDocument();
@@ -25,6 +26,7 @@ test("テキストボックスがレンダリングされていること", () =>
       loadingSearchModels={false}
       keywordDispatch={mockkeywordDispatch}
       shouldDebounceDispatch={mockShouldDebounceDispatch}
+      placeholder=""
     />
   );
   expect(screen.getByRole("textbox")).toBeInTheDocument();
@@ -37,9 +39,23 @@ test("loadingSearchModelsがtrueの場合、テキストボックスが非活性
       loadingSearchModels
       keywordDispatch={mockkeywordDispatch}
       shouldDebounceDispatch={mockShouldDebounceDispatch}
+      placeholder=""
     />
   );
   expect(screen.getByRole("textbox")).toBeDisabled();
+});
+
+test("引数のplaceholderが表示されていること", () => {
+  render(
+    <FilterSearchBox
+      keyword=""
+      loadingSearchModels
+      keywordDispatch={mockkeywordDispatch}
+      shouldDebounceDispatch={mockShouldDebounceDispatch}
+      placeholder="placeholder"
+    />
+  );
+  expect(screen.getByPlaceholderText("placeholder")).toBeInTheDocument();
 });
 
 test("テキストボックスの入力をトリガーにkeywordが更新されること", async () => {
@@ -50,6 +66,7 @@ test("テキストボックスの入力をトリガーにkeywordが更新され�
       loadingSearchModels={false}
       keywordDispatch={mockkeywordDispatch}
       shouldDebounceDispatch={mockShouldDebounceDispatch}
+      placeholder=""
     />
   );
   await act(async () => {
@@ -68,6 +85,7 @@ test("キーワード更新の際にshouldDebounceがtrueに更新されるこ�
       loadingSearchModels={false}
       keywordDispatch={mockkeywordDispatch}
       shouldDebounceDispatch={mockShouldDebounceDispatch}
+      placeholder=""
     />
   );
   await act(async () => {
@@ -85,6 +103,7 @@ test("クリアボタンがレンダリングされていること", () => {
       loadingSearchModels={false}
       keywordDispatch={mockkeywordDispatch}
       shouldDebounceDispatch={mockShouldDebounceDispatch}
+      placeholder=""
     />
   );
   expect(screen.getByRole("img", { name: "クリアボタン" })).toBeInTheDocument();
@@ -97,6 +116,7 @@ test("loadingSearchModelsがtrueの場合、クリアボタンが非活性にな
       loadingSearchModels
       keywordDispatch={mockkeywordDispatch}
       shouldDebounceDispatch={mockShouldDebounceDispatch}
+      placeholder=""
     />
   );
   expect(screen.getByRole("img", { name: "クリアボタン" })).toHaveStyle({ pointerEvents: "none" });
@@ -110,6 +130,7 @@ test("クリアボタン押下でテキストボックスの文字がリセッ�
       loadingSearchModels={false}
       keywordDispatch={mockkeywordDispatch}
       shouldDebounceDispatch={mockShouldDebounceDispatch}
+      placeholder=""
     />
   );
   await act(async () => {

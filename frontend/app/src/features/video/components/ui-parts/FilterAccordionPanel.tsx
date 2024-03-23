@@ -96,6 +96,7 @@ const FilterAccordionPanel = () => {
             loadingSearchModels={loadingSearchVideos}
             keywordDispatch={keywordDispatch}
             shouldDebounceDispatch={shouldDebounceDispatch}
+            placeholder="作品名で絞り込み"
           />
         </Box>
         <Divider borderColor="#C2C8D0" />

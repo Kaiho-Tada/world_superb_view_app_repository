@@ -7,9 +7,11 @@ interface Props {
   loadingSearchModels: boolean;
   keywordDispatch: (newKeyword: string) => void;
   shouldDebounceDispatch: (payload: boolean) => void;
+  placeholder: string;
 }
 const FilterSearchBox: FC<Props> = memo((props) => {
-  const { keyword, loadingSearchModels, keywordDispatch, shouldDebounceDispatch } = props;
+  const { keyword, loadingSearchModels, keywordDispatch, shouldDebounceDispatch, placeholder } =
+    props;
   const handleChangeKeyword = (e: ChangeEvent<HTMLInputElement>) => {
     keywordDispatch(e.target.value);
     shouldDebounceDispatch(true);
@@ -28,7 +30,7 @@ const FilterSearchBox: FC<Props> = memo((props) => {
     >
       <Input
         type="text"
-        placeholder="キーワードで絞り込み"
+        placeholder={placeholder}
         color="black"
         size="sm"
         border="none"

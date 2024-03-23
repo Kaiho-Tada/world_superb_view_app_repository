@@ -138,6 +138,7 @@ const FilterAccordionPanel = () => {
             loadingSearchModels={loadingSearchWorldViews}
             keywordDispatch={keywordDispatch}
             shouldDebounceDispatch={shouldDebounceDispatch}
+            placeholder="絶景名または国名で絞り込み"
           />
         </Box>
         <Divider borderColor="#C2C8D0" />
