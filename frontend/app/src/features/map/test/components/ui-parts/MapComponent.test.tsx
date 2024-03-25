@@ -94,52 +94,6 @@ const mockContextValue = {
     isDirectionMap: false,
   },
 };
-const mockContextValueWorldView = {
-  ...mockContextValue,
-  state: {
-    ...mockContextValue.state,
-    selectedValue: "worldView",
-  },
-};
-const mockContextValueVideo = {
-  ...mockContextValue,
-  state: {
-    ...mockContextValue.state,
-    selectedValue: "video",
-  },
-};
-const mockContextValueWorldViewMarker = {
-  ...mockContextValue,
-  state: {
-    ...mockContextValue.state,
-    selectedValue: "worldView",
-    visibleValue: "marker",
-  },
-};
-const mockContextValueWorldViewImage = {
-  ...mockContextValue,
-  state: {
-    ...mockContextValue.state,
-    selectedValue: "worldView",
-    visibleValue: "image",
-  },
-};
-const mockContextValueVideoMarker = {
-  ...mockContextValue,
-  state: {
-    ...mockContextValue.state,
-    selectedValue: "video",
-    visibleValue: "marker",
-  },
-};
-const mockContextValueVideoImage = {
-  ...mockContextValue,
-  state: {
-    ...mockContextValue.state,
-    selectedValue: "video",
-    visibleValue: "image",
-  },
-};
 
 describe("isDirectionMapがfalseの場合", () => {
   test("マップ操作パネルが表示されていること", () => {
@@ -156,7 +110,7 @@ describe("isDirectionMapがfalseの場合", () => {
 
   test("MenuButtonボタン押下でfilterDrawerが表示されること", async () => {
     const user = userEvent.setup();
-    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldView);
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
     render(<MapComponent />);
     await act(async () => {
       await user.click(screen.getByRole("button", { name: "メニューボタン" }));
@@ -226,6 +180,13 @@ describe("isDirectionMapがfalseの場合", () => {
 
   describe("selectedValueが'worldView'の場合", () => {
     test("WorldViewFilterSearchBoxが表示されていること", () => {
+      const mockContextValueWorldView = {
+        ...mockContextValue,
+        state: {
+          ...mockContextValue.state,
+          selectedValue: "worldView",
+        },
+      };
       (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldView);
       render(<MapComponent />);
       expect(screen.getByPlaceholderText("絶景名または国名で絞り込み")).toBeInTheDocument();
@@ -233,6 +194,14 @@ describe("isDirectionMapがfalseの場合", () => {
 
     describe("visibleValueが'marker'の場合", () => {
       test("WorldViewMarkerがレコードの数だけ地図上に表示されていること", () => {
+        const mockContextValueWorldViewMarker = {
+          ...mockContextValue,
+          state: {
+            ...mockContextValue.state,
+            selectedValue: "worldView",
+            visibleValue: "marker",
+          },
+        };
         (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldViewMarker);
         render(<MapComponent />);
         expect(screen.getAllByRole("button", { name: "Marker" }).length).toBe(10);
@@ -241,6 +210,14 @@ describe("isDirectionMapがfalseの場合", () => {
 
     describe("visibleValueが'image'の場合", () => {
       test("WorldViewImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
+        const mockContextValueWorldViewImage = {
+          ...mockContextValue,
+          state: {
+            ...mockContextValue.state,
+            selectedValue: "worldView",
+            visibleValue: "image",
+          },
+        };
         (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldViewImage);
         render(<MapComponent />);
         expect(screen.getAllByRole("img").length).toBe(10);
@@ -250,6 +227,13 @@ describe("isDirectionMapがfalseの場合", () => {
 
   describe("selectedValueが'video'の場合", () => {
     test("WorldViewFilterSearchBoxが表示されていること", () => {
+      const mockContextValueVideo = {
+        ...mockContextValue,
+        state: {
+          ...mockContextValue.state,
+          selectedValue: "video",
+        },
+      };
       (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideo);
       render(<MapComponent />);
       expect(screen.getByPlaceholderText("作品名で絞り込み")).toBeInTheDocument();
@@ -257,6 +241,14 @@ describe("isDirectionMapがfalseの場合", () => {
 
     describe("visibleValueが'marker'の場合", () => {
       test("VideoMarkerがレコードの数だけ地図上に表示されていること", () => {
+        const mockContextValueVideoMarker = {
+          ...mockContextValue,
+          state: {
+            ...mockContextValue.state,
+            selectedValue: "video",
+            visibleValue: "marker",
+          },
+        };
         (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoMarker);
         render(<MapComponent />);
         expect(screen.getAllByRole("button", { name: "Marker" }).length).toBe(11);
@@ -265,6 +257,14 @@ describe("isDirectionMapがfalseの場合", () => {
 
     describe("visibleValueが'image'の場合", () => {
       test("VideoImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
+        const mockContextValueVideoImage = {
+          ...mockContextValue,
+          state: {
+            ...mockContextValue.state,
+            selectedValue: "video",
+            visibleValue: "image",
+          },
+        };
         (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoImage);
         render(<MapComponent />);
         expect(screen.getAllByRole("img").length).toBe(11);
