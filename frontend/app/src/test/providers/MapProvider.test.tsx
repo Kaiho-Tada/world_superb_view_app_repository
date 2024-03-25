@@ -161,3 +161,14 @@ test("SET_IS_DIRECTION_MAPアクションがディスパッチされた際、isD
   });
   expect(result.current.state.isDirectionMap).toEqual(true);
 });
+
+test("SET_IS_HOVERED_MAP_CONTROL_ICONアクションがディスパッチされた際、isHoveredMapControlIconが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.isHoveredMapControlIcon).toEqual(false);
+  act(() => {
+    result.current.dispatch({ type: "SET_IS_HOVERED_MAP_CONTROL_ICON", payload: true });
+  });
+  expect(result.current.state.isHoveredMapControlIcon).toEqual(true);
+});

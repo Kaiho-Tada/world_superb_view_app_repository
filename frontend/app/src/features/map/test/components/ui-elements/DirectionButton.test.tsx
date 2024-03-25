@@ -34,7 +34,7 @@ test("departureAirportとdestination画初期値の場合はDirectionButtonが�
   });
 });
 
-test("DirectionButton押下でisDirectionMapがtrueに更新されること", async () => {
+test("DirectionButton押下でisDirectionMapがtrueにisHoveredMapControlIconがfalseに更新されること", async () => {
   (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
   const user = userEvent.setup();
   render(<DirectionButton />);
@@ -42,5 +42,9 @@ test("DirectionButton押下でisDirectionMapがtrueに更新されること", as
     await user.click(screen.getByRole("button", { name: "経路を表示" }));
   });
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_DIRECTION_MAP", payload: true });
-  expect(mockDispatch).toHaveBeenCalledTimes(1);
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "SET_IS_HOVERED_MAP_CONTROL_ICON",
+    payload: false,
+  });
+  expect(mockDispatch).toHaveBeenCalledTimes(2);
 });

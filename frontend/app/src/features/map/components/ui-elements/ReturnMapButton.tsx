@@ -18,7 +18,7 @@ const ReturnMapButton = () => {
       bg="gray.100"
       color="#000"
       py="3"
-      px="8"
+      px={{ base: "4", sm: "8" }}
       onClick={() => {
         dispatch({ type: "SET_IS_DIRECTION_MAP", payload: false });
       }}

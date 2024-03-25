@@ -18,6 +18,7 @@ const DirectionButton = () => {
         px="4"
         onClick={() => {
           dispatch({ type: "SET_IS_DIRECTION_MAP", payload: true });
+          dispatch({ type: "SET_IS_HOVERED_MAP_CONTROL_ICON", payload: false });
         }}
         _hover={{ cursor: "pointer", opacity: 0.8 }}
         opacity={departureAirport && destination ? 1 : 0.6}

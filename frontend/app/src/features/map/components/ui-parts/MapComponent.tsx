@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import ClickHandler from "../ui-elements/ClickHandler";
 import ClickVideoHandler from "../ui-elements/ClickVideoHandler";
+import MapControlIcon from "../ui-elements/MapControlIcon";
 import VideoMarker from "../ui-elements/marker/VideoMarker";
 import WorldViewMarker from "../ui-elements/marker/WorldViewMarker";
 import MenuButton from "../ui-elements/MenuButton";
@@ -68,7 +69,8 @@ const MapComponent = () => {
             zIndex={1}
             left="50%"
             transform="translateX(-50%)"
-            width="400px"
+            display={{ base: "none", sm: "block" }}
+            width={{ sm: "300px", md: "400px" }}
             mt="4"
           >
             {selectedValue === "worldView" ? (
@@ -77,6 +79,7 @@ const MapComponent = () => {
               <VideoFilterSearchBox />
             )}
           </Box>
+          <MapControlIcon />
           <MapControlPanel />
           <Box style={{ position: "absolute", zIndex: 1, right: "1%" }} mt="1">
             <MenuButton onOpen={selectedValue === "worldView" ? onOpenWorldView : onOpenVideo} />

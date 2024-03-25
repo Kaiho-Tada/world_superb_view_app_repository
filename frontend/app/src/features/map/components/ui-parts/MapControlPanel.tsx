@@ -1,4 +1,4 @@
-import { Box, Divider, Stack } from "@chakra-ui/react";
+import { Box, Divider, Stack, useBreakpointValue } from "@chakra-ui/react";
 import "leaflet/dist/leaflet.css";
 import { useMapContext } from "providers/MapProvider";
 import DepartureAirportSelect from "../ui-elements/DepartureAirportSelect";
@@ -8,14 +8,16 @@ import SelectedRadio from "../ui-elements/SlectedRadio";
 import VisibleRadio from "../ui-elements/VisibleRadio";
 
 const MapControlPanel = () => {
-  const { state } = useMapContext();
-  const { visibleValue, selectedValue } = state;
+  const { state, dispatch } = useMapContext();
+  const { visibleValue, selectedValue, isHoveredMapControlIcon } = state;
+  const screenSize = useBreakpointValue({ sm: "sm" });
 
-  return (
+  return isHoveredMapControlIcon || screenSize === "sm" ? (
     <Box
       role="region"
       aria-label="マップ操作パネル"
-      style={{ position: "absolute", zIndex: 1 }}
+      position="absolute"
+      zIndex={1}
       bg="#FFF"
       color="gray.600"
       p="3"
@@ -24,6 +26,7 @@ const MapControlPanel = () => {
       w="200px"
       mt="85px"
       ml="10px"
+      onMouseLeave={() => dispatch({ type: "SET_IS_HOVERED_MAP_CONTROL_ICON", payload: false })}
     >
       <VisibleRadio />
       <Divider my={2} borderColor="#A0A6B0" />
@@ -39,7 +42,7 @@ const MapControlPanel = () => {
         </>
       )}
     </Box>
-  );
+  ) : null;
 };
 
 export default MapControlPanel;

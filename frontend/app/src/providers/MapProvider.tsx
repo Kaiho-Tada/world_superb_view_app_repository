@@ -29,7 +29,8 @@ export type Action =
   | { type: "SET_DEPARTURE_AIRPORT"; payload: string | undefined }
   | { type: "SET_DESTINATION"; payload: string }
   | { type: "SET_DESTINATION_LATLONG"; payload: number[] }
-  | { type: "SET_IS_DIRECTION_MAP"; payload: boolean };
+  | { type: "SET_IS_DIRECTION_MAP"; payload: boolean }
+  | { type: "SET_IS_HOVERED_MAP_CONTROL_ICON"; payload: boolean };
 
 type State = {
   clickedWorldViews:
@@ -49,6 +50,7 @@ type State = {
   destination: string;
   destinationLatlong: number[];
   isDirectionMap: boolean;
+  isHoveredMapControlIcon: boolean;
 };
 
 const initialState: State = {
@@ -64,6 +66,7 @@ const initialState: State = {
   destination: "",
   destinationLatlong: [],
   isDirectionMap: false,
+  isHoveredMapControlIcon: false,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -103,6 +106,9 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_IS_DIRECTION_MAP":
       return { ...state, isDirectionMap: action.payload };
+
+    case "SET_IS_HOVERED_MAP_CONTROL_ICON":
+      return { ...state, isHoveredMapControlIcon: action.payload };
 
     default:
       return state;

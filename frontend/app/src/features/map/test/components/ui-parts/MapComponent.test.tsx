@@ -6,6 +6,11 @@ import { act } from "react-dom/test-utils";
 
 global.ResizeObserver = require("resize-observer-polyfill");
 
+jest.mock("@chakra-ui/react", () => ({
+  ...jest.requireActual("@chakra-ui/react"),
+  useBreakpointValue: () => "sm",
+}));
+
 // filterDrawerのOpen時に呼びだされるapiclient関数をモック化
 jest.mock("lib/client", () => ({
   __esModule: true,
@@ -96,6 +101,18 @@ const mockContextValue = {
 };
 
 describe("isDirectionMapがfalseの場合", () => {
+  test("マップ操作アイコンが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<MapComponent />);
+    expect(screen.getByRole("img", { name: "マップ操作アイコン" })).toBeInTheDocument();
+  });
+
+  test("マップ操作パネルが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<MapComponent />);
+    expect(screen.getByRole("region", { name: "マップ操作パネル" })).toBeInTheDocument();
+  });
+
   test("マップ操作パネルが表示されていること", () => {
     (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
     render(<MapComponent />);
@@ -220,7 +237,7 @@ describe("isDirectionMapがfalseの場合", () => {
         };
         (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldViewImage);
         render(<MapComponent />);
-        expect(screen.getAllByRole("img").length).toBe(10);
+        expect(screen.getAllByRole("img").length).toBe(11);
       });
     });
   });
@@ -267,7 +284,7 @@ describe("isDirectionMapがfalseの場合", () => {
         };
         (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoImage);
         render(<MapComponent />);
-        expect(screen.getAllByRole("img").length).toBe(11);
+        expect(screen.getAllByRole("img").length).toBe(12);
       });
     });
   });
