@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import PanoramaModal from "features/map/components/ui-elements/PanoramaModal";
 import { useMapContext as mockUseMapContext } from "providers/MapProvider";
+import { act } from "react-dom/test-utils";
 
 jest.mock("providers/MapProvider", () => ({
   useMapContext: jest.fn(),
@@ -49,4 +51,20 @@ test("clickedWorldViewが存在し、isOpenがtrueの場合PanoramaModalが表�
   (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
   render(<PanoramaModal isOpen onClose={mockOnClose} />);
   expect(screen.getByRole("dialog")).toBeInTheDocument();
+});
+
+test("閉じるボタンが表示されていること", async () => {
+  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+  render(<PanoramaModal isOpen onClose={mockOnClose} />);
+  expect(screen.getByRole("button", { name: "Close" })).toBeInTheDocument();
+});
+
+test("閉じるボタン押下でモーダルが閉じること", async () => {
+  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+  const user = userEvent.setup();
+  render(<PanoramaModal isOpen onClose={mockOnClose} />);
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "Close" }));
+  });
+  expect(mockOnClose).toBeCalled();
 });

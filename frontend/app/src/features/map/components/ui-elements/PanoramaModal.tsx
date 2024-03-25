@@ -1,4 +1,4 @@
-import { Modal, ModalBody, ModalContent, ModalOverlay } from "@chakra-ui/react";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay } from "@chakra-ui/react";
 import { useMapContext } from "providers/MapProvider";
 import { FC } from "react";
 
@@ -16,7 +16,8 @@ const PanoramaModal: FC<Props> = ({ isOpen, onClose }) => {
     clickedWorldView && (
       <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent position="relative">
+          <ModalCloseButton position="absolute" top="15%" right="0%" mr="10px" size="lg" />
           <ModalBody p={0}>
             <iframe
               title="ストリートビュー"
