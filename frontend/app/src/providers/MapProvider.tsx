@@ -25,7 +25,11 @@ export type Action =
         WorldView,
         "id" | "name" | "imgUrl" | "countries" | "latitude" | "longitude"
       > | null;
-    };
+    }
+  | { type: "SET_DEPARTURE_AIRPORT"; payload: string | undefined }
+  | { type: "SET_DESTINATION"; payload: string }
+  | { type: "SET_DESTINATION_LATLONG"; payload: number[] }
+  | { type: "SET_IS_DIRECTION_MAP"; payload: boolean };
 
 type State = {
   clickedWorldViews:
@@ -41,6 +45,10 @@ type State = {
     WorldView,
     "id" | "name" | "imgUrl" | "countries" | "latitude" | "longitude"
   > | null;
+  departureAirport: string | undefined;
+  destination: string;
+  destinationLatlong: number[];
+  isDirectionMap: boolean;
 };
 
 const initialState: State = {
@@ -52,6 +60,10 @@ const initialState: State = {
   mapCenter: [30, 0],
   zoom: 2,
   clickedWorldView: null,
+  departureAirport: undefined,
+  destination: "",
+  destinationLatlong: [],
+  isDirectionMap: false,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -79,6 +91,18 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_CLICKED_WORLD_VIEW":
       return { ...state, clickedWorldView: action.payload };
+
+    case "SET_DEPARTURE_AIRPORT":
+      return { ...state, departureAirport: action.payload };
+
+    case "SET_DESTINATION":
+      return { ...state, destination: action.payload };
+
+    case "SET_DESTINATION_LATLONG":
+      return { ...state, destinationLatlong: action.payload };
+
+    case "SET_IS_DIRECTION_MAP":
+      return { ...state, isDirectionMap: action.payload };
 
     default:
       return state;

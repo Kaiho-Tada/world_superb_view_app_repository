@@ -117,3 +117,47 @@ test("SET_CLICKED_WORLD_VIEWアクションがディスパッチされた際、c
   });
   expect(result.current.state.clickedWorldView).toEqual(mockClickedWorldView);
 });
+
+test("SET_DEPARTURE_AIRPORTアクションがディスパッチされた際、departureAirportが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.departureAirport).toEqual(undefined);
+  act(() => {
+    result.current.dispatch({ type: "SET_DEPARTURE_AIRPORT", payload: "羽田空港" });
+  });
+  expect(result.current.state.departureAirport).toEqual("羽田空港");
+});
+
+test("SET_DESTINATIONアクションがディスパッチされた際、destinationが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.destination).toEqual("");
+  act(() => {
+    result.current.dispatch({ type: "SET_DESTINATION", payload: "ウユニ塩湖" });
+  });
+  expect(result.current.state.destination).toEqual("ウユニ塩湖");
+});
+
+test("SET_DESTINATION_LATLONGアクションがディスパッチされた際、destinationLatlongが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.destinationLatlong).toEqual([]);
+  act(() => {
+    result.current.dispatch({ type: "SET_DESTINATION_LATLONG", payload: [0.0, 0.0] });
+  });
+  expect(result.current.state.destinationLatlong).toEqual([0.0, 0.0]);
+});
+
+test("SET_IS_DIRECTION_MAPアクションがディスパッチされた際、isDirectionMapが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useMapContext(), {
+    wrapper: ({ children }) => <MapProvider>{children}</MapProvider>,
+  });
+  expect(result.current.state.isDirectionMap).toEqual(false);
+  act(() => {
+    result.current.dispatch({ type: "SET_IS_DIRECTION_MAP", payload: true });
+  });
+  expect(result.current.state.isDirectionMap).toEqual(true);
+});

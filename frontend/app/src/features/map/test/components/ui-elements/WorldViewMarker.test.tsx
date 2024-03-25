@@ -78,7 +78,31 @@ test("マーカー押下でMapの中心座標がクリック地点の座標に�
     type: "SET_CLICKED_WORLD_VIEW",
     payload: mockWorldViews[0],
   });
-  expect(mockMapDispatch).toHaveBeenCalledTimes(2);
+});
+
+test("マーカー押下でdestinationがマーカーが参照しているWorldViewの名前にdestinationLatlongが緯度経度に更新されること", async () => {
+  const user = userEvent.setup();
+  render(
+    <MapContainer
+      center={[0, 0]}
+      zoom={2}
+      scrollWheelZoom={false}
+      style={{ height: "65vh", width: "100%" }}
+    >
+      <WorldViewMarker />
+    </MapContainer>
+  );
+  await act(async () => {
+    await user.click(screen.getByRole("button", { name: "Marker" }));
+  });
+  expect(mockMapDispatch).toHaveBeenCalledWith({
+    type: "SET_DESTINATION",
+    payload: mockWorldViews[0].name,
+  });
+  expect(mockMapDispatch).toHaveBeenCalledWith({
+    type: "SET_DESTINATION_LATLONG",
+    payload: [mockWorldViews[0].latitude, mockWorldViews[0].longitude],
+  });
 });
 
 test("マーカー押下でpopupにWorldViewカードが表示されること", async () => {

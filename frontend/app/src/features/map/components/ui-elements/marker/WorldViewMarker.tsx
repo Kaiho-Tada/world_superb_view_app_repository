@@ -27,6 +27,14 @@ const WorldViewMarker = () => {
                 type: "SET_CLICKED_WORLD_VIEW",
                 payload: worldView,
               });
+              mapDispatch({
+                type: "SET_DESTINATION",
+                payload: worldView.name,
+              });
+              mapDispatch({
+                type: "SET_DESTINATION_LATLONG",
+                payload: [worldView.latitude, worldView.longitude],
+              });
             },
           }}
         >

@@ -90,6 +90,8 @@ const mockContextValue = {
     layerValue: "",
     mapCenter: [30, 0],
     zoom: 2,
+    destinationLatlong: [0, 0],
+    isDirectionMap: false,
   },
 };
 const mockContextValueWorldView = {
@@ -139,144 +141,161 @@ const mockContextValueVideoImage = {
   },
 };
 
-test("VisibleRadioが表示されていること", () => {
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  expect(screen.getByRole("radiogroup", { name: "表示するコンテンツの選択" }));
-});
-
-test("SelectedRadioが表示されていること", () => {
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  expect(screen.getByRole("radiogroup", { name: "検索するコンテンツの選択" }));
-});
-
-test("MenuButtonが表示されていること", () => {
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  expect(screen.getByRole("button", { name: "メニューボタン" })).toBeInTheDocument();
-});
-
-test("MenuButtonボタン押下でfilterDrawerが表示されること", async () => {
-  const user = userEvent.setup();
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldView);
-  render(<Map />);
-  await act(async () => {
-    await user.click(screen.getByRole("button", { name: "メニューボタン" }));
+describe("isDirectionMapがfalseの場合", () => {
+  test("VisibleRadioが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    expect(screen.getByRole("radiogroup", { name: "表示するコンテンツの選択" }));
   });
-  expect(screen.getByRole("dialog")).toBeInTheDocument();
-});
 
-test("ズームボタンが表示されていること", () => {
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  expect(screen.getByRole("button", { name: "Zoom in" }));
-});
-
-test("ズームアウトボタンが表示されていること", () => {
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  expect(screen.getByRole("button", { name: "Zoom out" }));
-});
-
-test("シンプルのradioが表示されていること", () => {
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  expect(screen.getByRole("radio", { name: "シンプル" })).toBeInTheDocument();
-});
-
-test("シンプルのradio押下でlayerValueが'simple'に更新されること", async () => {
-  const user = userEvent.setup();
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  await act(async () => {
-    await user.click(screen.getByRole("radio", { name: "シンプル" }));
+  test("SelectedRadioが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    expect(screen.getByRole("radiogroup", { name: "検索するコンテンツの選択" }));
   });
-  expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "simple" });
-});
 
-test("詳細のradioが表示されていること", () => {
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  expect(screen.getByRole("radio", { name: "詳細" })).toBeInTheDocument();
-});
-
-test("詳細のradio押下でlayerValueが'detail'に更新されること", async () => {
-  const user = userEvent.setup();
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  await act(async () => {
-    await user.click(screen.getByRole("radio", { name: "詳細" }));
+  test("MenuButtonが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    expect(screen.getByRole("button", { name: "メニューボタン" })).toBeInTheDocument();
   });
-  expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "detail" });
-});
 
-test("衛星写真のradioが表示されていること", () => {
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  expect(screen.getByRole("radio", { name: "衛星写真" })).toBeInTheDocument();
-});
-
-test("衛星写真のradio押下でlayerValueが'satellite'に更新されること", async () => {
-  const user = userEvent.setup();
-  (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<Map />);
-  await act(async () => {
-    await user.click(screen.getByRole("radio", { name: "衛星写真" }));
-  });
-  expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "satellite" });
-});
-
-describe("selectedValueが'worldView'の場合", () => {
-  test("WorldViewFilterSearchBoxが表示されていること", () => {
+  test("MenuButtonボタン押下でfilterDrawerが表示されること", async () => {
+    const user = userEvent.setup();
     (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldView);
     render(<Map />);
-    expect(screen.getByPlaceholderText("絶景名または国名で絞り込み")).toBeInTheDocument();
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: "メニューボタン" }));
+    });
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
-  describe("visibleValueが'marker'の場合", () => {
-    test("WorldViewMarkerがレコードの数だけ地図上に表示されていること", () => {
-      (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldViewMarker);
+  test("ズームボタンが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    expect(screen.getByRole("button", { name: "Zoom in" }));
+  });
+
+  test("ズームアウトボタンが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    expect(screen.getByRole("button", { name: "Zoom out" }));
+  });
+
+  test("シンプルのradioが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    expect(screen.getByRole("radio", { name: "シンプル" })).toBeInTheDocument();
+  });
+
+  test("シンプルのradio押下でlayerValueが'simple'に更新されること", async () => {
+    const user = userEvent.setup();
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    await act(async () => {
+      await user.click(screen.getByRole("radio", { name: "シンプル" }));
+    });
+    expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "simple" });
+  });
+
+  test("詳細のradioが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    expect(screen.getByRole("radio", { name: "詳細" })).toBeInTheDocument();
+  });
+
+  test("詳細のradio押下でlayerValueが'detail'に更新されること", async () => {
+    const user = userEvent.setup();
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    await act(async () => {
+      await user.click(screen.getByRole("radio", { name: "詳細" }));
+    });
+    expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "detail" });
+  });
+
+  test("衛星写真のradioが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    expect(screen.getByRole("radio", { name: "衛星写真" })).toBeInTheDocument();
+  });
+
+  test("衛星写真のradio押下でlayerValueが'satellite'に更新されること", async () => {
+    const user = userEvent.setup();
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
+    render(<Map />);
+    await act(async () => {
+      await user.click(screen.getByRole("radio", { name: "衛星写真" }));
+    });
+    expect(mockMapDispatch).toHaveBeenCalledWith({ type: "SET_LAYER_VALUE", payload: "satellite" });
+  });
+
+  describe("selectedValueが'worldView'の場合", () => {
+    test("WorldViewFilterSearchBoxが表示されていること", () => {
+      (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldView);
       render(<Map />);
-      expect(screen.getAllByRole("button", { name: "Marker" }).length).toBe(10);
+      expect(screen.getByPlaceholderText("絶景名または国名で絞り込み")).toBeInTheDocument();
+    });
+
+    describe("visibleValueが'marker'の場合", () => {
+      test("WorldViewMarkerがレコードの数だけ地図上に表示されていること", () => {
+        (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldViewMarker);
+        render(<Map />);
+        expect(screen.getAllByRole("button", { name: "Marker" }).length).toBe(10);
+      });
+    });
+
+    describe("visibleValueが'image'の場合", () => {
+      test("WorldViewImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
+        (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldViewImage);
+        render(<Map />);
+        expect(screen.getAllByRole("img").length).toBe(10);
+      });
     });
   });
 
-  describe("visibleValueが'image'の場合", () => {
-    test("WorldViewImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
-      (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueWorldViewImage);
+  describe("selectedValueが'video'の場合", () => {
+    test("WorldViewFilterSearchBoxが表示されていること", () => {
+      (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideo);
       render(<Map />);
-      expect(screen.getAllByRole("img").length).toBe(10);
+      expect(screen.getByPlaceholderText("作品名で絞り込み")).toBeInTheDocument();
+    });
+
+    describe("visibleValueが'marker'の場合", () => {
+      test("VideoMarkerがレコードの数だけ地図上に表示されていること", () => {
+        (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoMarker);
+        render(<Map />);
+        expect(screen.getAllByRole("button", { name: "Marker" }).length).toBe(11);
+      });
+    });
+
+    describe("visibleValueが'image'の場合", () => {
+      test("VideoImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
+        (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoImage);
+        render(<Map />);
+        expect(screen.getAllByRole("img").length).toBe(11);
+      });
     });
   });
 });
 
-describe("selectedValueが'video'の場合", () => {
-  test("WorldViewFilterSearchBoxが表示されていること", () => {
-    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideo);
+describe("isDirectionMapがtrueの場合", () => {
+  const mockContextValueIsDirectionMap = {
+    ...mockContextValue,
+    state: {
+      ...mockContextValue.state,
+      isDirectionMap: true,
+    },
+  };
+  test("ReturnMapButtonが表示されていること", () => {
+    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueIsDirectionMap);
     render(<Map />);
-    expect(screen.getByPlaceholderText("作品名で絞り込み")).toBeInTheDocument();
-  });
-
-  describe("visibleValueが'marker'の場合", () => {
-    test("VideoMarkerがレコードの数だけ地図上に表示されていること", () => {
-      (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoMarker);
-      render(<Map />);
-      expect(screen.getAllByRole("button", { name: "Marker" }).length).toBe(11);
-    });
-  });
-
-  describe("visibleValueが'image'の場合", () => {
-    test("VideoImageOverlaysがレコードの数だけ地図上に表示されていること", () => {
-      (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValueVideoImage);
-      render(<Map />);
-      expect(screen.getAllByRole("img").length).toBe(11);
-    });
+    expect(screen.getByRole("button", { name: "マップに戻る" })).toBeInTheDocument();
   });
 });
 
 describe("useEfectのテスト", () => {
-  test("初回レンダリング時にclickedWorldViewがnullに更新されること", async () => {
+  test("初回レンダリング時にclickedWorldView,destination,destinationLatlongが初期値に更新されること", async () => {
     (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
     await act(async () => {
       render(<Map />);
@@ -285,9 +304,17 @@ describe("useEfectのテスト", () => {
       type: "SET_CLICKED_WORLD_VIEW",
       payload: null,
     });
+    expect(mockMapDispatch).toHaveBeenCalledWith({
+      type: "SET_CLICKED_WORLD_VIEW",
+      payload: null,
+    });
+    expect(mockMapDispatch).toHaveBeenCalledWith({
+      type: "SET_DESTINATION_LATLONG",
+      payload: [],
+    });
   });
 
-  test("visibleValue更新時にclickedWorldViewがnullに更新されること", async () => {
+  test("visibleValue更新時にclickedWorldView,destination,destinationLatlongが初期値に更新されること", async () => {
     (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
     const user = userEvent.setup();
     render(<Map />);
@@ -298,9 +325,17 @@ describe("useEfectのテスト", () => {
       type: "SET_CLICKED_WORLD_VIEW",
       payload: null,
     });
+    expect(mockMapDispatch).toHaveBeenCalledWith({
+      type: "SET_CLICKED_WORLD_VIEW",
+      payload: null,
+    });
+    expect(mockMapDispatch).toHaveBeenCalledWith({
+      type: "SET_DESTINATION_LATLONG",
+      payload: [],
+    });
   });
 
-  test("selectedValue更新時にclickedWorldViewがnullに更新されること", async () => {
+  test("selectedValue更新時にclickedWorldView,destination,destinationLatlongが初期値に更新されること", async () => {
     (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
     const user = userEvent.setup();
     render(<Map />);
@@ -310,6 +345,14 @@ describe("useEfectのテスト", () => {
     expect(mockMapDispatch).toHaveBeenCalledWith({
       type: "SET_CLICKED_WORLD_VIEW",
       payload: null,
+    });
+    expect(mockMapDispatch).toHaveBeenCalledWith({
+      type: "SET_CLICKED_WORLD_VIEW",
+      payload: null,
+    });
+    expect(mockMapDispatch).toHaveBeenCalledWith({
+      type: "SET_DESTINATION_LATLONG",
+      payload: [],
     });
   });
 });
