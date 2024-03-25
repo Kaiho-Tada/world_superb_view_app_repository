@@ -19,7 +19,8 @@ const PanoramaModalOpener = () => {
           color="#000"
           position="absolute"
           zIndex={1}
-          left="40%"
+          left="50%"
+          transform="translateX(-50%)"
           bottom="5%"
           borderRadius="10px"
           border="1px solid #000"

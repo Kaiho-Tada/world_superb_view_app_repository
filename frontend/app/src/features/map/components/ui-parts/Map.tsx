@@ -67,7 +67,14 @@ const Map = () => {
         </>
       ) : (
         <>
-          <Box style={{ position: "absolute", zIndex: 1, left: "36%", width: "30%" }} mt="4">
+          <Box
+            position="absolute"
+            zIndex={1}
+            left="50%"
+            transform="translateX(-50%)"
+            width="400px"
+            mt="4"
+          >
             {selectedValue === "worldView" ? (
               <WorldViewFilterSearchBox />
             ) : (
