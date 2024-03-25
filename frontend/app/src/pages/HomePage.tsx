@@ -1,5 +1,5 @@
-import Map from "features/map/components/ui-parts/Map";
+import MapComponent from "features/map/components/ui-parts/MapComponent";
 
-const HomePage = () => <Map />;
+const HomePage = () => <MapComponent />;
 
 export default HomePage;

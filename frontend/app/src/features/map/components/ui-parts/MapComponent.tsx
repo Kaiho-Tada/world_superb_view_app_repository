@@ -28,7 +28,7 @@ import WorldViewFilterDrawer from "./WorldViewFilterDrawer";
 
 L.Icon.Default.imagePath = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/";
 
-const Map = () => {
+const MapComponent = () => {
   const { state, dispatch } = useMapContext();
   const { visibleValue, selectedValue, layerValue, mapCenter, zoom, isDirectionMap } = state;
   const {
@@ -156,4 +156,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default MapComponent;
