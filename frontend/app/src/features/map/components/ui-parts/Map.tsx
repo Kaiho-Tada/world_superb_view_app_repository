@@ -1,4 +1,4 @@
-import { Box, Divider, Stack, useDisclosure } from "@chakra-ui/react";
+import { Box, useDisclosure } from "@chakra-ui/react";
 import ClickWorldViewHandler from "features/map/components/ui-elements/ClickWorldViewHandler";
 import DirectionMapContainer from "features/map/components/ui-elements/DirectionMapContainer";
 import ClickedWorldViewList from "features/map/components/ui-parts/ClickedWorldViewList";
@@ -9,24 +9,20 @@ import { useEffect } from "react";
 import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import ClickHandler from "../ui-elements/ClickHandler";
 import ClickVideoHandler from "../ui-elements/ClickVideoHandler";
-import DepartureAirportSelect from "../ui-elements/DepartureAirportSelect";
-import DestinationInput from "../ui-elements/DestinationInput";
-import DirectionButton from "../ui-elements/DirectionButton";
 import VideoMarker from "../ui-elements/marker/VideoMarker";
 import WorldViewMarker from "../ui-elements/marker/WorldViewMarker";
 import MenuButton from "../ui-elements/MenuButton";
 import PanoramaModalOpener from "../ui-elements/PanoramaModalOpener";
 import ReturnMapButton from "../ui-elements/ReturnMapButton";
-import SelectedRadio from "../ui-elements/SlectedRadio";
 import VideoFilterSearchBox from "../ui-elements/VideoFilterSearchBox";
 import VideoImageOverlays from "../ui-elements/VideoImageOverlays";
-import VisibleRadio from "../ui-elements/VisibleRadio";
 import WorldViewFilterSearchBox from "../ui-elements/WorldViewFilterSearchBox";
 import WorldViewImageOverlays from "../ui-elements/WorldViewImageOverlays";
 import ZoomLayersControlHandler from "../ui-elements/ZoomLayersControlHandler";
 import ClickedVideoList from "./ClickedVideoList";
 import GetVideoHandler from "./GetVideoHandler";
 import GetWorldViewHandler from "./GetWorldViewHandler";
+import MapControlPanel from "./MapControlPanel";
 import VideoFilterDrawer from "./VideoFilterDrawer";
 import WorldViewFilterDrawer from "./WorldViewFilterDrawer";
 
@@ -81,31 +77,7 @@ const Map = () => {
               <VideoFilterSearchBox />
             )}
           </Box>
-          <Box
-            style={{ position: "absolute", zIndex: 1 }}
-            bg="#FFF"
-            color="gray.600"
-            p="3"
-            borderRadius="3px"
-            border="1px solid #000"
-            w="200px"
-            mt="85px"
-            ml="10px"
-          >
-            <VisibleRadio />
-            <Divider my={2} borderColor="#A0A6B0" />
-            <SelectedRadio />
-            {visibleValue === "marker" && selectedValue === "worldView" && (
-              <>
-                <Divider my={2} borderColor="#A0A6B0" />
-                <Stack spacing="2">
-                  <DepartureAirportSelect />
-                  <DestinationInput />
-                  <DirectionButton />
-                </Stack>
-              </>
-            )}
-          </Box>
+          <MapControlPanel />
           <Box style={{ position: "absolute", zIndex: 1, right: "1%" }} mt="1">
             <MenuButton onOpen={selectedValue === "worldView" ? onOpenWorldView : onOpenVideo} />
           </Box>

@@ -142,16 +142,10 @@ const mockContextValueVideoImage = {
 };
 
 describe("isDirectionMapがfalseの場合", () => {
-  test("VisibleRadioが表示されていること", () => {
+  test("マップ操作パネルが表示されていること", () => {
     (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
     render(<Map />);
-    expect(screen.getByRole("radiogroup", { name: "表示するコンテンツの選択" }));
-  });
-
-  test("SelectedRadioが表示されていること", () => {
-    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-    render(<Map />);
-    expect(screen.getByRole("radiogroup", { name: "検索するコンテンツの選択" }));
+    expect(screen.getByRole("region", { name: "マップ操作パネル" })).toBeInTheDocument();
   });
 
   test("MenuButtonが表示されていること", () => {
