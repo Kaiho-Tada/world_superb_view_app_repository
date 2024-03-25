@@ -14,7 +14,7 @@ const VisibleRadio = () => {
       aria-label="表示するコンテンツの選択"
       onChange={setVisibleValue}
       value={visibleValue}
-      colorScheme="teal"
+      colorScheme="blue"
       size="sm"
     >
       <Stack spacing="0">

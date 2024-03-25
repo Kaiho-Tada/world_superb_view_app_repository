@@ -14,7 +14,7 @@ const SelectedRadio = () => {
       aria-label="検索するコンテンツの選択"
       onChange={setSelectedValue}
       value={selectedValue}
-      colorScheme="teal"
+      colorScheme="blue"
       size="sm"
     >
       <Stack spacing="0">
