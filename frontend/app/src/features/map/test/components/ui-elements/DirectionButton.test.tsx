@@ -29,7 +29,7 @@ test("departureAirportとdestination画初期値の場合はDirectionButtonが�
   (mockUseMapContext as jest.Mock).mockReturnValue(InitialMockContextValue);
   render(<DirectionButton />);
   expect(screen.getByRole("button", { name: "経路を表示" })).toHaveStyle({
-    opacity: 0.6,
+    opacity: 0.8,
     pointerEvents: "none",
   });
 });
