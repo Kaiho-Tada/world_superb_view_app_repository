@@ -20,6 +20,7 @@ const mockVideos = Array.from({ length: 10 }, (_, index) => {
     releaseDate: `releaseDate${id}`,
     status: true,
     overview: `overview${id}`,
+    isMovie: false,
     worldViews: [
       {
         id: 1,

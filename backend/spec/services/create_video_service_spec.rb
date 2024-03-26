@@ -18,6 +18,8 @@ RSpec.describe CreateVideoService do
           vote_average: 10,
           release_date: "2012-04-25",
           overview: "overview",
+          budget: 0,
+          revenue: 0,
           genres: [{ id: 1, name: "genre1" }, { id: 2, name: "genre2" }]
         }.to_json
       end
@@ -34,6 +36,8 @@ RSpec.describe CreateVideoService do
         expect(new_video.vote_average).to eq 10
         expect(new_video.release_date).to eq "2012-04-25"
         expect(new_video.overview).to eq "overview"
+        expect(new_video.budget).to eq 0
+        expect(new_video.revenue).to eq 0
         expect(new_video.is_movie).to eq true
         expect(new_video.genres).to eq [genre1, genre2]
       end

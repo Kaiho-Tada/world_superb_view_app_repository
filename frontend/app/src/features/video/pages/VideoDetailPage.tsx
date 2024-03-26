@@ -80,6 +80,17 @@ const VideoDetailPage = () => {
                     ({new Date(currentDetailVideo.releaseDate).getFullYear()})
                   </span>
                 </Heading>
+                {currentDetailVideo.isMovie && (
+                  <Text fontSize="lg" mt="2px">
+                    {currentDetailVideo.releaseDate}・
+                    {(() => {
+                      const genreNames = currentDetailVideo.genres.map((genre) => genre.name);
+                      const genreNameResult =
+                        genreNames.length > 1 ? genreNames.join(", ") : genreNames[0];
+                      return genreNameResult;
+                    })()}
+                  </Text>
+                )}
               </Box>
               <Box mb={{ base: 6, lg: 10 }}>
                 <Text fontSize="lg" fontWeight="bold" pb="2">
@@ -94,19 +105,21 @@ const VideoDetailPage = () => {
                 w={{ base: "80%", sm: "90%", md: "90%" }}
                 flexWrap="wrap"
               >
-                <Flex align="center" flexDirection="column">
-                  <Text fontSize="md" fontWeight="bold">
-                    ジャンル
-                  </Text>
-                  <Text fontSize="sm">
-                    {(() => {
-                      const genreNames = currentDetailVideo.genres.map((genre) => genre.name);
-                      const genreNameResult =
-                        genreNames.length > 1 ? genreNames.join(", ") : genreNames[0];
-                      return genreNameResult;
-                    })()}
-                  </Text>
-                </Flex>
+                {!currentDetailVideo.isMovie && (
+                  <Flex align="center" flexDirection="column">
+                    <Text fontSize="md" fontWeight="bold">
+                      ジャンル
+                    </Text>
+                    <Text fontSize="sm">
+                      {(() => {
+                        const genreNames = currentDetailVideo.genres.map((genre) => genre.name);
+                        const genreNameResult =
+                          genreNames.length > 1 ? genreNames.join(", ") : genreNames[0];
+                        return genreNameResult;
+                      })()}
+                    </Text>
+                  </Flex>
+                )}
                 <Flex align="center" flexDirection="column">
                   <Text fontSize="md" fontWeight="bold">
                     公開日
@@ -125,6 +138,24 @@ const VideoDetailPage = () => {
                   </Text>
                   <Text fontSize="sm">{currentDetailVideo.popularity}</Text>
                 </Flex>
+                {currentDetailVideo.isMovie &&
+                  currentDetailVideo.budget &&
+                  currentDetailVideo.revenue && (
+                    <>
+                      <Flex align="center" flexDirection="column">
+                        <Text fontSize="md" fontWeight="bold">
+                          予算
+                        </Text>
+                        <Text fontSize="sm">{currentDetailVideo.budget.toLocaleString()}</Text>
+                      </Flex>
+                      <Flex align="center" flexDirection="column">
+                        <Text fontSize="md" fontWeight="bold">
+                          収益
+                        </Text>
+                        <Text fontSize="sm">{currentDetailVideo.revenue.toLocaleString()}</Text>
+                      </Flex>
+                    </>
+                  )}
               </HStack>
             </Box>
           </HStack>

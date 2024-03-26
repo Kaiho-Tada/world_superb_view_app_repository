@@ -16,24 +16,30 @@ jest.mock("providers/VideoListProvider", () => ({
   useVideoListContext: jest.fn(),
 }));
 
-const mockVideos = Array.from({ length: 3 }, (_, index) => ({
-  id: index + 1,
-  title: `title${index + 1}`,
-  posterPath: `posterPath${index + 1}`,
-  popularity: 7.6,
-  voteAverage: 8.3,
-  releaseDate: `2019-04-24`,
-  overview: `overview${index + 1}`,
-  worldViews: [
-    {
-      id: index + 1,
-      name: `worldView${index + 1}`,
-      imgUrl: "imgUrl",
-      countries: [{ id: index + 1, name: `country${index + 1}` }],
-    },
-  ],
-  genres: [{ id: index + 1, name: `genre${index + 1}` }],
-}));
+const mockVideos = Array.from({ length: 3 }, (_, index) => {
+  const id = index + 1;
+  return {
+    id,
+    title: `title${id}`,
+    posterPath: `posterPath${id}`,
+    popularity: 7.6,
+    voteAverage: 8.3,
+    releaseDate: `2019-04-24`,
+    overview: `overview${id}`,
+    budget: 100,
+    revenue: 200,
+    isMovie: id === 1,
+    worldViews: [
+      {
+        id,
+        name: `worldView${id}`,
+        imgUrl: "imgUrl",
+        countries: [{ id, name: `country${id}` }],
+      },
+    ],
+    genres: [{ id, name: `genre${id}` }],
+  };
+});
 
 const mockDispatch = jest.fn();
 const mockContextValue = {
@@ -78,7 +84,7 @@ describe("コンポーネントのテスト", () => {
     expect(screen.getByRole("img", { name: "loadingアイコン" })).toBeInTheDocument();
   });
 
-  describe("params.idが1の場合", () => {
+  describe("params.idが1(movie)の場合", () => {
     test("idが1のレコードの画像が表示されていること", () => {
       (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
       (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
@@ -101,20 +107,20 @@ describe("コンポーネントのテスト", () => {
       );
     });
 
+    test("idが1のレコードの公開日とジャンルが表示されていること", () => {
+      (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
+      (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
+
+      render(<VideoDetailPage />);
+      expect(screen.getByText(`${mockVideos[0].releaseDate}・genre1`)).toBeInTheDocument();
+    });
+
     test("idが1のレコードの概要が表示されていること", () => {
       (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
       (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
 
       render(<VideoDetailPage />);
       expect(screen.getByText(mockVideos[0].overview)).toBeInTheDocument();
-    });
-
-    test("idが1のレコードのジャンルが表示されていること", () => {
-      (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
-      (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
-
-      render(<VideoDetailPage />);
-      expect(screen.getByText("genre1")).toBeInTheDocument();
     });
 
     test("idが1のレコードの公開日が表示されていること", () => {
@@ -141,6 +147,22 @@ describe("コンポーネントのテスト", () => {
       expect(screen.getByText(mockVideos[0].popularity)).toBeInTheDocument();
     });
 
+    test("idが1のレコードの予算が表示されていること", () => {
+      (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
+      (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
+
+      render(<VideoDetailPage />);
+      expect(screen.getByText(mockVideos[0].budget)).toBeInTheDocument();
+    });
+
+    test("idが1のレコードの収益が表示されていること", () => {
+      (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
+      (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
+
+      render(<VideoDetailPage />);
+      expect(screen.getByText(mockVideos[0].revenue)).toBeInTheDocument();
+    });
+
     test("idが1のレコードの舞台となった場所のリストカードが表示されていること", () => {
       (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
       (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
@@ -163,7 +185,7 @@ describe("コンポーネントのテスト", () => {
     });
   });
 
-  describe("params.idが2の場合", () => {
+  describe("params.idが2(tv)の場合", () => {
     test("idが2のレコードの画像が表示されていること", () => {
       (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
       (mockUseParams as jest.Mock).mockReturnValue({ id: "2" });
@@ -224,6 +246,22 @@ describe("コンポーネントのテスト", () => {
 
       render(<VideoDetailPage />);
       expect(screen.getByText(mockVideos[1].popularity)).toBeInTheDocument();
+    });
+
+    test("idが2のレコードの予算が表示されていないこと", () => {
+      (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
+      (mockUseParams as jest.Mock).mockReturnValue({ id: "2" });
+
+      render(<VideoDetailPage />);
+      expect(screen.queryByText(mockVideos[0].budget)).not.toBeInTheDocument();
+    });
+
+    test("idが2のレコードの収益が表示されていないこと", () => {
+      (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
+      (mockUseParams as jest.Mock).mockReturnValue({ id: "2" });
+
+      render(<VideoDetailPage />);
+      expect(screen.queryByText(mockVideos[0].revenue)).not.toBeInTheDocument();
     });
 
     test("idが2のレコードの舞台となった場所のリストカードが表示されていること", () => {

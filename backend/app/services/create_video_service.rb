@@ -40,6 +40,8 @@ class CreateVideoService
       vote_average: json["vote_average"],
       release_date: json[type == "movie" ? "release_date" : "first_air_date"],
       overview: json["overview"],
+      budget: json["budget"],
+      revenue: json["revenue"],
       is_movie: (type == "movie"),
       genres:
     }
