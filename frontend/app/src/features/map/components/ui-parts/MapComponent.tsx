@@ -59,6 +59,8 @@ const MapComponent = () => {
 
   return (
     <Box bg="white" style={{ position: "relative" }}>
+      <GetWorldViewHandler />
+      <GetVideoHandler />
       <GetWorldViewFilterModelsHandler />
       <GetVideoFilterModelsHandler />
       <PanoramaModalOpener />
@@ -151,8 +153,6 @@ const MapComponent = () => {
               <WorldViewImageOverlays />
             )}
             {visibleValue === "image" && selectedValue === "video" && <VideoImageOverlays />}
-            <GetWorldViewHandler />
-            <GetVideoHandler />
             {visibleValue === "image" && (
               <>
                 <ClickWorldViewHandler />
