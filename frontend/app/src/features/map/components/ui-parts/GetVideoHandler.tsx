@@ -38,7 +38,7 @@ const GetVideoHandler: FC = () => {
     videoDispatch({ type: "SET_IS_SKIP_SEARCH_VIDEO", payload: false });
   }, [keyword, genreCheckItems]);
 
-  return <div>GetVideoHandler</div>;
+  return null;
 };
 
 export default GetVideoHandler;
