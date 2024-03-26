@@ -6,6 +6,14 @@ import { MapContainer } from "react-leaflet";
 
 window.scrollTo = jest.fn();
 
+const latitude = 25.1097;
+const longitude = 121.846;
+const mockUseMap = { getCenter: () => ({ lat: latitude, lng: longitude }) };
+jest.mock("react-leaflet", () => ({
+  ...jest.requireActual("react-leaflet"),
+  useMap: () => mockUseMap,
+}));
+
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -13,16 +21,14 @@ jest.mock("react-router-dom", () => ({
 }));
 
 const id = 1;
-const latitude = 25.1097;
-const longitude = 121.846;
 const mockWorldViews = [
   {
     id,
     name: `worldView${id}`,
     imgUrl: "画像URL",
     countries: [{ id, name: `country${id}`, riskLevel: 1, bmi: 1 }],
-    latitude,
-    longitude,
+    latitude: 0,
+    longitude: 0,
   },
 ];
 
@@ -55,7 +61,7 @@ test("マーカーが表示されていること", () => {
   expect(screen.getByRole("button", { name: "Marker" })).toBeInTheDocument();
 });
 
-test("マーカー押下でMapの中心座標がクリック地点の座標に更新され、clickedWorldViewがマーカーが参照しているWorldViewに更新されること", async () => {
+test("マーカー押下でMapの中心座標が現在の地点の座標に更新され、clickedWorldViewがマーカーが参照しているWorldViewに更新されること", async () => {
   const user = userEvent.setup();
   render(
     <MapContainer

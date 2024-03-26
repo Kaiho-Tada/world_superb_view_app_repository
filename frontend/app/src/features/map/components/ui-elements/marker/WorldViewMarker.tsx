@@ -3,11 +3,12 @@ import defaultImg from "assets/default.png";
 import { useMapContext } from "providers/MapProvider";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { MouseEvent } from "react";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Popup, useMap } from "react-leaflet";
 import { useNavigate } from "react-router-dom";
 import "./popupStyles.css";
 
 const WorldViewMarker = () => {
+  const map = useMap();
   const { state } = useWorldViewListContext();
   const { worldViews } = state;
   const navigate = useNavigate();
@@ -20,9 +21,9 @@ const WorldViewMarker = () => {
           key={worldView.id}
           position={[worldView.latitude, worldView.longitude]}
           eventHandlers={{
-            click: (e) => {
-              const clickedLatLng = e.latlng;
-              mapDispatch({ type: "SET_MAP_CENTER", payload: clickedLatLng });
+            click: () => {
+              const center = map.getCenter();
+              mapDispatch({ type: "SET_MAP_CENTER", payload: center });
               mapDispatch({
                 type: "SET_CLICKED_WORLD_VIEW",
                 payload: worldView,

@@ -2,10 +2,11 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { useMapContext } from "providers/MapProvider";
 import { useVideoListContext } from "providers/VideoListProvider";
 import { MouseEvent } from "react";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Popup, useMap } from "react-leaflet";
 import { useNavigate } from "react-router-dom";
 
 const VideoMarker = () => {
+  const map = useMap();
   const { state } = useVideoListContext();
   const { videos } = state;
   const navigate = useNavigate();
@@ -19,9 +20,9 @@ const VideoMarker = () => {
             key={worldView.id}
             position={[worldView.latitude, worldView.longitude]}
             eventHandlers={{
-              click: (e) => {
-                const clickedLatLng = e.latlng;
-                mapDispatch({ type: "SET_MAP_CENTER", payload: clickedLatLng });
+              click: () => {
+                const center = map.getCenter();
+                mapDispatch({ type: "SET_MAP_CENTER", payload: center });
               },
             }}
           >
