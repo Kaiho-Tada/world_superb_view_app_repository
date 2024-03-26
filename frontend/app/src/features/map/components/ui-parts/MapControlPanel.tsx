@@ -28,9 +28,9 @@ const MapControlPanel = () => {
       ml="10px"
       onMouseLeave={() => dispatch({ type: "SET_IS_HOVERED_MAP_CONTROL_ICON", payload: false })}
     >
-      <VisibleRadio />
-      <Divider my={2} borderColor="#A0A6B0" />
       <SelectedRadio />
+      <Divider my={2} borderColor="#A0A6B0" />
+      <VisibleRadio />
       {visibleValue === "marker" && selectedValue === "worldView" && (
         <>
           <Divider my={2} borderColor="#A0A6B0" />
