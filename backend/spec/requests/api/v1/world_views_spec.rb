@@ -1,6 +1,23 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::WorldViews", type: :request do
+  describe "GET api/v1/world_views" do
+    let!(:world_view1) { create(:world_view) }
+    let!(:world_view2) { create(:world_view) }
+    let!(:world_view3) { create(:world_view) }
+
+    before do
+      get api_v1_world_views_path
+    end
+
+    it "レコードが全件返されること" do
+      expect(response).to have_http_status(200)
+      json_response = JSON.parse(response.body)
+      expect(json_response.pluck("id")).to include world_view1.id, world_view2.id, world_view3.id
+      expect(json_response.length).to eq(3)
+    end
+  end
+
   describe "GET api/v1/world_views/search" do
     params = { month_range: ["1", "12"], bmi_range: ["-40", "30"], keyword: "", sort_criteria: "" }
     describe "#world_view_filter" do

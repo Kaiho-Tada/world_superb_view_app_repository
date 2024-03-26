@@ -12,10 +12,10 @@ const FilterSearchBox: FC = () => {
   const handleClearKeyword = () => dispatch({ type: "SET_KEYWORD", payload: "" });
 
   return (
-    <Flex align="center" bg="white" borderRadius="5px" px="11px" py="5px" role="searchbox">
+    <Flex align="center" bg="white" borderRadius="20px" px="11px" py="5px" role="searchbox">
       <Input
         type="text"
-        placeholder="絶景名または国名で検索"
+        placeholder="絶景名または国名で絞り込み"
         aria-label="テキストボックス"
         color="black"
         size="sm"

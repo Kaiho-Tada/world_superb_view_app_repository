@@ -26,6 +26,8 @@ const mockVideos = Array.from({ length: 10 }, (_, index) => {
         name: "name",
         imgUrl: "",
         countries: [{ id: 1, name: "name" }],
+        latitude: 0,
+        longitude: 0,
       },
     ],
     genres: [{ id, name: `genre${id}` }],

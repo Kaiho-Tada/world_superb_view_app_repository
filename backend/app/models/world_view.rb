@@ -14,6 +14,8 @@ class WorldView < ApplicationRecord
 
   validates :name, length: { maximum: 30 }, presence: true
   validates :best_season, length: { maximum: 30 }, presence: true
+  validates :latitude, presence: true
+  validates :longitude, presence: true
 
   scope :filter_by_name, lambda { |names, association_name|
     return self if names.blank?

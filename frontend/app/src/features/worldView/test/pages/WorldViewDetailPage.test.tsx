@@ -387,17 +387,15 @@ describe("初回レンダリング時のテスト", () => {
     });
   });
 
-  test("初回レンダリング時にisSkipSearchApiとisSkipGetCheckItmesApiがtrueに更新されること", async () => {
+  test("初回レンダリング時にisVisitDetailPageがtrueに更新されること", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
     (mockUseParams as jest.Mock).mockReturnValue({ id: "1" });
 
-    mockSearchWorldViewApi.mockReturnValue({ data: [{ id: 1, name: "名前" }] });
     await act(async () => {
       render(<WorldViewDetailPage />);
     });
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
     expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_IS_SKIP_GET_CHECK_ITEMS_API",
+      type: "SET_IS_VISIT_DETAIL_PAGE",
       payload: true,
     });
   });

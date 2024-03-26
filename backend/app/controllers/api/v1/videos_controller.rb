@@ -5,7 +5,7 @@ class Api::V1::VideosController < ApplicationController
     render json: filtered_video.preload(:genres, :world_views, world_views: [:countries])
                                .as_json(except: %i[created_at updated_at],
                                         include: [{ genres: { only: %i[id name] } },
-                                                  { world_views: { only: %i[id name img_url],
+                                                  { world_views: { only: %i[id name img_url latitude longitude],
                                                                    include: { countries: { only: [:id, :name] } } } }])
   end
 

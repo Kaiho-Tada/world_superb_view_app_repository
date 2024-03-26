@@ -9,7 +9,14 @@ test("SET_VIDEOSアクションがディスパッチされた際、moviesが指�
   expect(result.current.state.videos).toEqual([]);
 
   const mockWorldViews = [
-    { id: 1, name: "name", imgUrl: "imgUrl", countries: [{ id: 1, name: "name" }] },
+    {
+      id: 1,
+      name: "name",
+      imgUrl: "imgUrl",
+      countries: [{ id: 1, name: "name" }],
+      latitude: 0,
+      longitude: 0,
+    },
   ];
   const mockGenres = [{ id: 1, name: "name" }];
   act(() => {
@@ -197,4 +204,18 @@ test("SET_IS_SKIP_GET_CHECK_ITEMSアクションがディスパッチされた�
     });
   });
   expect(result.current.state.isSkipGetCheckItems).toBe(true);
+});
+
+test("SET_IS_VISIT_DETAIL_PAGEアクションがディスパッチされた際、isVisitedDetailPageが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useVideoListContext(), {
+    wrapper: ({ children }) => <VideoListProvider>{children}</VideoListProvider>,
+  });
+  expect(result.current.state.isVisitedDetailPage).toBe(false);
+  act(() => {
+    result.current.dispatch({
+      type: "SET_IS_VISIT_DETAIL_PAGE",
+      payload: true,
+    });
+  });
+  expect(result.current.state.isVisitedDetailPage).toBe(true);
 });

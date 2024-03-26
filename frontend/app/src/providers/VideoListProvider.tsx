@@ -15,7 +15,8 @@ export type Action =
   | { type: "SET_CURRENT_PAGE"; payload: number }
   | { type: "SET_ITEMS_OFFSET"; payload: number }
   | { type: "SET_IS_SKIP_SEARCH_VIDEO"; payload: boolean }
-  | { type: "SET_IS_SKIP_GET_CHECK_ITEMS"; payload: boolean };
+  | { type: "SET_IS_SKIP_GET_CHECK_ITEMS"; payload: boolean }
+  | { type: "SET_IS_VISIT_DETAIL_PAGE"; payload: boolean };
 
 type State = {
   videos: Video[];
@@ -31,6 +32,7 @@ type State = {
   itemsOffset: number;
   isSkipSearchVideo: boolean;
   isSkipGetCheckItems: boolean;
+  isVisitedDetailPage: boolean;
 };
 
 const initialState: State = {
@@ -47,6 +49,7 @@ const initialState: State = {
   itemsOffset: 0,
   isSkipSearchVideo: false,
   isSkipGetCheckItems: false,
+  isVisitedDetailPage: false,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -89,6 +92,9 @@ const reducer = (state: State, action: Action): State => {
 
     case "SET_IS_SKIP_GET_CHECK_ITEMS":
       return { ...state, isSkipGetCheckItems: action.payload };
+
+    case "SET_IS_VISIT_DETAIL_PAGE":
+      return { ...state, isVisitedDetailPage: action.payload };
 
     default:
       return state;

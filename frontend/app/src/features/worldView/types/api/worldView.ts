@@ -16,4 +16,6 @@ export type WorldView = {
   gifUrl: string | null;
   gifSite: string | null;
   videos: Video[];
+  latitude: number;
+  longitude: number;
 };

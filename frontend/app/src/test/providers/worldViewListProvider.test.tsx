@@ -248,6 +248,8 @@ test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldVie
           gifUrl: "gifUrl",
           gifSite: "gifSite",
           videos: [],
+          latitude: 0,
+          longitude: 0,
         },
       ],
     });
@@ -266,6 +268,8 @@ test("SET_WORLD_VIEWSアクションがディスパッチされた際、worldVie
       gifUrl: "gifUrl",
       gifSite: "gifSite",
       videos: [],
+      latitude: 0,
+      longitude: 0,
     },
   ]);
 });
@@ -296,30 +300,30 @@ test("SET_SORT_CRITERIAアクションがディスパッチされた際、sortCr
   expect(result.current.state.sortCriteria).toEqual("latest");
 });
 
-test("SET_IS_SKIP_SEARCH_APIアクションがディスパッチされた際、isSkipSearchApiが指定された値に更新されること", () => {
+test("SET_IS_SKIP_SEARCH_WORLD_VIEWSアクションがディスパッチされた際、isSkipSearchWorldViewsが指定された値に更新されること", () => {
   const { result } = renderHook(() => useWorldViewListContext(), {
     wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
   });
-  expect(result.current.state.isSkipSearchApi).toEqual(false);
+  expect(result.current.state.isSkipSearchWorldViews).toEqual(false);
 
   act(() => {
-    result.current.dispatch({ type: "SET_IS_SKIP_SEARCH_API", payload: true });
+    result.current.dispatch({ type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS", payload: true });
   });
 
-  expect(result.current.state.isSkipSearchApi).toEqual(true);
+  expect(result.current.state.isSkipSearchWorldViews).toEqual(true);
 });
 
-test("SET_IS_SKIP_GET_CHECK_ITEMS_APIアクションがディスパッチされた際、isSkipGetCheckItmesApiが指定された値に更新されること", () => {
+test("SET_IS_SKIP_GET_CHECK_ITEMSアクションがディスパッチされた際、isSkipGetCheckItmesが指定された値に更新されること", () => {
   const { result } = renderHook(() => useWorldViewListContext(), {
     wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
   });
-  expect(result.current.state.isSkipGetCheckItmesApi).toEqual(false);
+  expect(result.current.state.isSkipGetCheckItmes).toEqual(false);
 
   act(() => {
-    result.current.dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS_API", payload: true });
+    result.current.dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: true });
   });
 
-  expect(result.current.state.isSkipGetCheckItmesApi).toEqual(true);
+  expect(result.current.state.isSkipGetCheckItmes).toEqual(true);
 });
 
 test("SET_CURRENT_PAGEアクションがディスパッチされた際、currentPageが指定された値に更新されること", () => {
@@ -346,4 +350,17 @@ test("SET_ITEMS_OFFSETアクションがディスパッチされた際、itemsOf
   });
 
   expect(result.current.state.itemsOffset).toEqual(20);
+});
+
+test("SET_IS_VISIT_DETAIL_PAGEアクションがディスパッチされた際、isVisitedDetailPageが指定された値に更新されること", () => {
+  const { result } = renderHook(() => useWorldViewListContext(), {
+    wrapper: ({ children }) => <WorldViewListProvider>{children}</WorldViewListProvider>,
+  });
+  expect(result.current.state.isVisitedDetailPage).toBe(false);
+
+  act(() => {
+    result.current.dispatch({ type: "SET_IS_VISIT_DETAIL_PAGE", payload: true });
+  });
+
+  expect(result.current.state.isVisitedDetailPage).toBe(true);
 });
