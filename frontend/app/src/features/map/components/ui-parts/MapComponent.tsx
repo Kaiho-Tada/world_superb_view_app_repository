@@ -1,7 +1,10 @@
 import { Box, useDisclosure } from "@chakra-ui/react";
+import FilterDrawer from "components/ui-parts/FilterDrawer";
 import ClickWorldViewHandler from "features/map/components/ui-elements/ClickWorldViewHandler";
 import DirectionMapContainer from "features/map/components/ui-elements/DirectionMapContainer";
 import ClickedWorldViewList from "features/map/components/ui-parts/ClickedWorldViewList";
+import VideoFilterAccordionPanel from "features/video/components/ui-parts/FilterAccordionPanel";
+import WorldViewFilterAccordionPanel from "features/worldView/components/ui-parts/FilterAccordionPanel";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useMapContext } from "providers/MapProvider";
@@ -9,6 +12,8 @@ import { useEffect } from "react";
 import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import ClickHandler from "../ui-elements/ClickHandler";
 import ClickVideoHandler from "../ui-elements/ClickVideoHandler";
+import GetVideoFilterModelsHandler from "../ui-elements/GetVideoFilterModelsHandler";
+import GetWorldViewFilterModelsHandler from "../ui-elements/GetWorldViewFilterModelsHandler";
 import MapControlIcon from "../ui-elements/MapControlIcon";
 import VideoMarker from "../ui-elements/marker/VideoMarker";
 import WorldViewMarker from "../ui-elements/marker/WorldViewMarker";
@@ -24,8 +29,6 @@ import ClickedVideoList from "./ClickedVideoList";
 import GetVideoHandler from "./GetVideoHandler";
 import GetWorldViewHandler from "./GetWorldViewHandler";
 import MapControlPanel from "./MapControlPanel";
-import VideoFilterDrawer from "./VideoFilterDrawer";
-import WorldViewFilterDrawer from "./WorldViewFilterDrawer";
 
 L.Icon.Default.imagePath = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/";
 
@@ -56,6 +59,8 @@ const MapComponent = () => {
 
   return (
     <Box bg="white" style={{ position: "relative" }}>
+      <GetWorldViewFilterModelsHandler />
+      <GetVideoFilterModelsHandler />
       <PanoramaModalOpener />
       {isDirectionMap ? (
         <>
@@ -84,8 +89,12 @@ const MapComponent = () => {
           <Box style={{ position: "absolute", zIndex: 1, right: "1%" }} mt="1">
             <MenuButton onOpen={selectedValue === "worldView" ? onOpenWorldView : onOpenVideo} />
           </Box>
-          <WorldViewFilterDrawer isOpen={isOpenWorldView} onClose={onCloseWorldView} />
-          <VideoFilterDrawer isOpen={isOpenVideo} onClose={onCloseVideo} />
+          <FilterDrawer isOpen={isOpenWorldView} onClose={onCloseWorldView}>
+            <WorldViewFilterAccordionPanel />
+          </FilterDrawer>
+          <FilterDrawer isOpen={isOpenVideo} onClose={onCloseVideo}>
+            <VideoFilterAccordionPanel />
+          </FilterDrawer>
           <Box style={{ position: "absolute", zIndex: 1, left: "1%", bottom: "1%" }}>
             {visibleValue === "image" && selectedValue === "worldView" && <ClickedWorldViewList />}
             {visibleValue === "image" && selectedValue === "video" && <ClickedVideoList />}

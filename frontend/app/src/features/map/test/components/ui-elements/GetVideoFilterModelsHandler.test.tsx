@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import VideoFilterDrawer from "features/map/components/ui-parts/VideoFilterDrawer";
+import { render } from "@testing-library/react";
+import GetVideoFilterModelsHandler from "features/map/components/ui-elements/GetVideoFilterModelsHandler";
 import mockGetAllGenresApi from "features/video/api/genreApi";
 import { useVideoListContext as mockUseVideoListContext } from "providers/VideoListProvider";
 import { act } from "react-dom/test-utils";
@@ -15,12 +15,6 @@ jest.mock("providers/VideoListProvider", () => ({
 const mockContextValue = {
   dispatch: mockDispatch,
   state: {
-    genreCheckItems: [
-      { label: "ラベルA", checked: false },
-      { label: "ラベルB", checked: false },
-    ],
-    keyword: "",
-    voteAverageRange: [0, 10],
     isSkipGetCheckItems: false,
     isVisitedDetailPage: false,
   },
@@ -47,18 +41,6 @@ jest.mock("features/video/api/genreApi", () => ({
   default: jest.fn(),
 }));
 
-test("FilterDrawerがレンダリングされていること", () => {
-  (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<VideoFilterDrawer isOpen onClose={jest.fn()} />);
-  expect(screen.getByRole("dialog")).toBeInTheDocument();
-});
-
-test("isOpenがfalseの場合、FilterDrawerが非表示であること", () => {
-  (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
-  render(<VideoFilterDrawer isOpen={false} onClose={jest.fn()} />);
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-});
-
 describe("初回レンダリング時のテスト", () => {
   test("isSkipGetCheckItmesがtrueの場合、falseに更新され、handleGetCheckItemsが呼び出されないこと", async () => {
     (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValueSkipGetCheckItems);
@@ -74,7 +56,7 @@ describe("初回レンダリング時のテスト", () => {
     });
 
     await act(async () => {
-      render(<VideoFilterDrawer isOpen onClose={jest.fn()} />);
+      render(<GetVideoFilterModelsHandler />);
     });
     expect(mockHandleGetCheckItems).not.toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalledWith({
@@ -108,7 +90,7 @@ describe("初回レンダリング時のテスト", () => {
     });
 
     await act(async () => {
-      render(<VideoFilterDrawer isOpen onClose={jest.fn()} />);
+      render(<GetVideoFilterModelsHandler />);
     });
     expect(mockHandleGetCheckItems).not.toHaveBeenCalled();
     expect(mockHandleGetNestedCheckItems).not.toHaveBeenCalled();
@@ -135,7 +117,7 @@ describe("初回レンダリング時のテスト", () => {
       });
 
       await act(async () => {
-        render(<VideoFilterDrawer isOpen onClose={jest.fn()} />);
+        render(<GetVideoFilterModelsHandler />);
       });
       expect(mockHandleGetCheckItems).toHaveBeenCalledWith({
         loadingGetModelDispatch: expect.any(Function),
@@ -149,7 +131,7 @@ describe("初回レンダリング時のテスト", () => {
       (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
 
       await act(async () => {
-        render(<VideoFilterDrawer isOpen onClose={jest.fn()} />);
+        render(<GetVideoFilterModelsHandler />);
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_LOADING_GET_GENRES",
@@ -168,7 +150,7 @@ describe("初回レンダリング時のテスト", () => {
       });
 
       await act(async () => {
-        render(<VideoFilterDrawer isOpen onClose={jest.fn()} />);
+        render(<GetVideoFilterModelsHandler />);
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_GENRE_CHECK_ITEMS",

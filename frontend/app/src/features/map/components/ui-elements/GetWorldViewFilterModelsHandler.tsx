@@ -1,21 +1,15 @@
-import FilterDrawer from "components/ui-parts/FilterDrawer";
 import getAllCategoriesApi from "features/worldView/api/categoryApi";
 import getAllCharacteristicsApi from "features/worldView/api/characteristicApi";
 import getAllCountriesApi from "features/worldView/api/countryApi";
-import FilterAccordionPanel from "features/worldView/components/ui-parts/FilterAccordionPanel";
 import useGetCheckItems from "hooks/api/useGetCheckItems";
 import useGetNestedCheckItems from "hooks/api/useGetNestedCheckItems";
 import "leaflet/dist/leaflet.css";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import CheckItem from "types/checkItem";
 import { NestedCheckItem } from "types/nestedCheckItem";
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
-const WorldViewFilterDrawer: FC<Props> = ({ isOpen, onClose }) => {
+const GetWorldViewFilterModelsHandler = () => {
   const { state, dispatch } = useWorldViewListContext();
   const { isSkipGetCheckItmes, isVisitedDetailPage } = state;
   const { handleGetCheckItems } = useGetCheckItems();
@@ -68,11 +62,7 @@ const WorldViewFilterDrawer: FC<Props> = ({ isOpen, onClose }) => {
     }
   }, []);
 
-  return (
-    <FilterDrawer isOpen={isOpen} onClose={onClose}>
-      <FilterAccordionPanel />
-    </FilterDrawer>
-  );
+  return null;
 };
 
-export default WorldViewFilterDrawer;
+export default GetWorldViewFilterModelsHandler;
