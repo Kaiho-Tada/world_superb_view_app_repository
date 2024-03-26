@@ -113,12 +113,6 @@ describe("isDirectionMapがfalseの場合", () => {
     expect(screen.getByRole("region", { name: "マップ操作パネル" })).toBeInTheDocument();
   });
 
-  test("マップ操作パネルが表示されていること", () => {
-    (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
-    render(<MapComponent />);
-    expect(screen.getByRole("region", { name: "マップ操作パネル" })).toBeInTheDocument();
-  });
-
   test("MenuButtonが表示されていること", () => {
     (mockUseMapContext as jest.Mock).mockReturnValue(mockContextValue);
     render(<MapComponent />);
