@@ -21,15 +21,11 @@ const mockDispatch = jest.fn();
 const mockContextValue = {
   dispatch: mockDispatch,
   state: {
-    videos: [],
     isSkipSearchVideo: false,
-    keyword: "",
-    genreCheckItems: [],
+    isVisitedDetailPage: false,
     shouldDebounce: false,
-    sortCriteria: "",
     currentPage: 1,
     itemsOffset: 0,
-    isVisitedDetailPage: false,
   },
 };
 
