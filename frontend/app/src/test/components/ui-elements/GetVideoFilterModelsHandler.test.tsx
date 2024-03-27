@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import GetVideoFilterModelsHandler from "features/map/components/ui-elements/GetVideoFilterModelsHandler";
+import GetVideoFilterModelsHandler from "components/ui-elements/GetVideoFilterModelsHandler";
 import mockGetAllGenresApi from "features/video/api/genreApi";
 import { useVideoListContext as mockUseVideoListContext } from "providers/VideoListProvider";
 import { act } from "react-dom/test-utils";
