@@ -16,36 +16,6 @@ RSpec.describe Video, type: :model do
     it { is_expected.to validate_presence_of :release_date }
   end
 
-  describe ".sort_by_popularity" do
-    let!(:video1) { create(:video, popularity: 1) }
-    let!(:video2) { create(:video, popularity: 2) }
-    let!(:video3) { create(:video, popularity: 3) }
-
-    it "popularityが高い順にレコードが取得されること" do
-      expect(Video.sort_by_popularity).to eq [video3, video2, video1]
-    end
-  end
-
-  describe ".sort_by_vote_average" do
-    let!(:video1) { create(:video, vote_average: 1) }
-    let!(:video2) { create(:video, vote_average: 2) }
-    let!(:video3) { create(:video, vote_average: 3) }
-
-    it "vote_averageが高い順にレコードが取得されること" do
-      expect(Video.sort_by_vote_average).to eq [video3, video2, video1]
-    end
-  end
-
-  describe ".sort_by_release_date" do
-    let!(:video1) { create(:video, release_date: 3.days.ago) }
-    let!(:video2) { create(:video, release_date: 2.days.ago) }
-    let!(:video3) { create(:video, release_date: 1.day.ago) }
-
-    it "release_dateが遅い順にレコードが取得されること" do
-      expect(Video.sort_by_release_date).to eq [video3, video2, video1]
-    end
-  end
-
   describe ".filter_by_genre" do
     let!(:video1) { create(:video) }
     let!(:video2) { create(:video) }
@@ -98,6 +68,56 @@ RSpec.describe Video, type: :model do
     it "引数のvote_average_rangeが空配列の場合、全てのレコードが返されること" do
       video3 = create(:video)
       expect(Video.filter_by_vote_average([])).to include video1, video2, video3
+    end
+  end
+
+  describe ".order_by" do
+    context "引数が'popularity'の場合" do
+      let!(:video1) { create(:video, popularity: 1) }
+      let!(:video2) { create(:video, popularity: 2) }
+      let!(:video3) { create(:video, popularity: 3) }
+
+      it "popularityが高い順にレコードが取得されること" do
+        expect(Video.order_by("popularity")).to eq [video3, video2, video1]
+      end
+    end
+
+    context "引数が'voteAverage'の場合" do
+      let!(:video1) { create(:video, vote_average: 1) }
+      let!(:video2) { create(:video, vote_average: 2) }
+      let!(:video3) { create(:video, vote_average: 3) }
+
+      it "vote_averageが高い順にレコードが取得されること" do
+        expect(Video.order_by("voteAverage")).to eq [video3, video2, video1]
+      end
+    end
+
+    context "引数が'releaseDate'の場合" do
+      let!(:video1) { create(:video, release_date: 3.days.ago) }
+      let!(:video2) { create(:video, release_date: 2.days.ago) }
+      let!(:video3) { create(:video, release_date: 1.day.ago) }
+
+      it "release_dateが遅い順にレコードが取得されること" do
+        expect(Video.order_by("releaseDate")).to eq [video3, video2, video1]
+      end
+    end
+
+    context "引数が空文字の場合" do
+      let!(:video1) {  create(:video) }
+      let!(:video2) {  create(:video) }
+      let!(:video3) {  create(:video) }
+
+      it "全てのレコードが処理されずに返されること" do
+        expect(Video.order_by("")).to eq [video1, video2, video3]
+      end
+    end
+
+    context "引数が不正な場合" do
+      it "ArgumentErrorが発生すること" do
+        expect do
+          Video.order_by("invalid_sort_criteria")
+        end.to raise_error(ArgumentError, "Invalid sort criteria: invalid_sort_criteria")
+      end
     end
   end
 end

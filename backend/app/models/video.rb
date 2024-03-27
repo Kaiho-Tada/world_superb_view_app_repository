@@ -10,18 +10,6 @@ class Video < ApplicationRecord
   validates :vote_average, presence: true
   validates :release_date, presence: true
 
-  scope :sort_by_popularity, lambda {
-    order(popularity: :desc)
-  }
-
-  scope :sort_by_vote_average, lambda {
-    order(vote_average: :desc)
-  }
-
-  scope :sort_by_release_date, lambda {
-    order(release_date: :desc)
-  }
-
   scope :filter_by_genre, lambda { |genre_labels|
     return self if genre_labels.blank?
 
@@ -41,5 +29,16 @@ class Video < ApplicationRecord
 
     start_value, end_value = vote_average_range
     where(vote_average: start_value..end_value)
+  }
+
+  scope :order_by, lambda { |sort_criteria|
+    case sort_criteria
+    when "popularity"     then order(popularity: :desc)
+    when "voteAverage"    then order(vote_average: :desc)
+    when "releaseDate"    then order(release_date: :desc)
+    when ""               then self
+    else
+      raise ArgumentError, "Invalid sort criteria: #{sort_criteria}"
+    end
   }
 end

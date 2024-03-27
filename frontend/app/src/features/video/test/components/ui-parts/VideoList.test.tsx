@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import MovieList from "features/video/components/ui-parts/VideoList";
+import VideoList from "features/video/components/ui-parts/VideoList";
 
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -20,6 +20,7 @@ const mockVideos = Array.from({ length: 10 }, (_, index) => {
     releaseDate: `releaseDate${id}`,
     status: true,
     overview: `overview${id}`,
+    isMovie: false,
     worldViews: [
       {
         id: 1,
@@ -35,12 +36,12 @@ const mockVideos = Array.from({ length: 10 }, (_, index) => {
 });
 
 test("映画一覧が表示されていること", () => {
-  render(<MovieList currentVideos={mockVideos} />);
+  render(<VideoList currentVideos={mockVideos} />);
   expect(screen.getByRole("list", { name: "ビデオ一覧" }));
 });
 
 test("リスト内にmovieのlistitemが表示されていること", async () => {
-  render(<MovieList currentVideos={mockVideos} />);
+  render(<VideoList currentVideos={mockVideos} />);
   const listItem = screen.getAllByRole("listitem");
   expect(listItem.length).toBe(10);
 });

@@ -1,4 +1,6 @@
 import { Box, useDisclosure } from "@chakra-ui/react";
+import GetVideoFilterModelsHandler from "components/ui-elements/GetVideoFilterModelsHandler";
+import GetVideoHandler from "components/ui-elements/GetVideoHandler";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
 import ClickWorldViewHandler from "features/map/components/ui-elements/ClickWorldViewHandler";
 import DirectionMapContainer from "features/map/components/ui-elements/DirectionMapContainer";
@@ -12,7 +14,6 @@ import { useEffect } from "react";
 import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import ClickHandler from "../ui-elements/ClickHandler";
 import ClickVideoHandler from "../ui-elements/ClickVideoHandler";
-import GetVideoFilterModelsHandler from "../ui-elements/GetVideoFilterModelsHandler";
 import GetWorldViewFilterModelsHandler from "../ui-elements/GetWorldViewFilterModelsHandler";
 import MapControlIcon from "../ui-elements/MapControlIcon";
 import VideoMarker from "../ui-elements/marker/VideoMarker";
@@ -26,7 +27,6 @@ import WorldViewFilterSearchBox from "../ui-elements/WorldViewFilterSearchBox";
 import WorldViewImageOverlays from "../ui-elements/WorldViewImageOverlays";
 import ZoomLayersControlHandler from "../ui-elements/ZoomLayersControlHandler";
 import ClickedVideoList from "./ClickedVideoList";
-import GetVideoHandler from "./GetVideoHandler";
 import GetWorldViewHandler from "./GetWorldViewHandler";
 import MapControlPanel from "./MapControlPanel";
 

@@ -8,6 +8,9 @@ type Video = {
   voteAverage: number;
   releaseDate: string;
   overview: string;
+  budget?: number;
+  revenue?: number;
+  isMovie: boolean;
   worldViews: {
     id: number;
     name: string;
