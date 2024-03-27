@@ -122,7 +122,7 @@ describe("初回レンダリング時のテスト", () => {
     spyOnUseHandleGetModel.mockRestore();
   });
 
-  test("shouldDebounceがtrueの場合、falseに更新され、handleGetModel関数が実行されないこと", async () => {
+  test("shouldDebounceがtrueの場合、falseに更新され、handleDebounce関数が実行されること", async () => {
     (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValueShouldDebounce);
 
     // handleGetModel関数のモック化
@@ -136,7 +136,8 @@ describe("初回レンダリング時のテスト", () => {
     await act(async () => {
       render(<GetVideoHandler />);
     });
-    expect(mockHandleGetModel).not.toHaveBeenCalled();
+    expect(mockHandleDebounce).toHaveBeenCalledWith(expect.any(Function));
+    expect(mockHandleDebounce).toHaveBeenCalledTimes(1);
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "SET_SHOULD_DEBOUNCE",
       payload: false,
