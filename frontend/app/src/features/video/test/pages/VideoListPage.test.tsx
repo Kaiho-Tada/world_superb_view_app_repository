@@ -26,23 +26,6 @@ const mockVideos = Array.from({ length: 61 }, (_, index) => {
   return {
     id,
     title: `title${id}`,
-    posterPath: `posterPath${id}`,
-    budget: 100000000,
-    revenue: 300000000,
-    popularity: 7.6,
-    voteAverage: 8.3,
-    releaseDate: `releaseDate${id}`,
-    status: true,
-    overview: `overview${id}`,
-    worldViews: [
-      {
-        id,
-        name: `worldView${id}`,
-        imageUrl: "imageUrl",
-        countries: [{ id, name: `country${id}` }],
-      },
-    ],
-    genres: [{ id, name: `genre${id}` }],
   };
 });
 
