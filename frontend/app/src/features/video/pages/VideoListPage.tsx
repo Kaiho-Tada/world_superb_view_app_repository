@@ -50,64 +50,69 @@ const VideoListPage: FC = () => {
   const { handleClear } = useClear();
 
   return (
-    <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
+    <>
       <GetVideoHandler />
       <GetVideoFilterModelsHandler />
-      <FilterDrawer isOpen={isOpen} onClose={onClose}>
-        <FilterAccordionPanel />
-      </FilterDrawer>
-      <Flex mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
-        {screenSize === "sm" ? (
-          <HStack spacing={2} display={{ base: "none", sm: "flex" }}>
-            <FilterButton onOpen={onOpen} />
-            <SelectBoxWithIcon />
-            {genreLabels.length ||
-            state.keyword.length ||
-            !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
-              <Box>
-                <ClearButton loadingSearchModels={loadingSearchVideos} handleClear={handleClear} />
-              </Box>
-            ) : null}
-          </HStack>
-        ) : (
-          <Stack spacing={1} display={{ base: "flex", sm: "none" }}>
-            <FilterButton onOpen={onOpen} />
-            <SelectBoxWithIcon />
-            {genreLabels.length ||
-            state.keyword.length ||
-            !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
-              <ClearButton loadingSearchModels={loadingSearchVideos} handleClear={handleClear} />
-            ) : null}
-          </Stack>
-        )}
-      </Flex>
-      <Flex>
-        <Box display={{ base: "none", md: "block" }} h="100%" mr="6">
-          <Stack w="250px" h="100%" spacing="3" mb="16">
-            <SortAccordion>
-              <SortSelectBox />
-            </SortAccordion>
-            <FilterAccordion>
-              <FilterAccordionPanel />
-            </FilterAccordion>
-          </Stack>
-        </Box>
-        <Box w="100%">
-          {loadingSearchVideos ? (
-            <Loading />
+      <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
+        <FilterDrawer isOpen={isOpen} onClose={onClose}>
+          <FilterAccordionPanel />
+        </FilterDrawer>
+        <Flex mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }}>
+          {screenSize === "sm" ? (
+            <HStack spacing={2} display={{ base: "none", sm: "flex" }}>
+              <FilterButton onOpen={onOpen} />
+              <SelectBoxWithIcon />
+              {genreLabels.length ||
+              state.keyword.length ||
+              !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
+                <Box>
+                  <ClearButton
+                    loadingSearchModels={loadingSearchVideos}
+                    handleClear={handleClear}
+                  />
+                </Box>
+              ) : null}
+            </HStack>
           ) : (
-            <>
-              <VideoList currentVideos={currentVideos} />
-              <Pagination
-                pageCount={pageCount}
-                currentPage={currentPage}
-                handlePageChange={handlePageChange}
-              />
-            </>
+            <Stack spacing={1} display={{ base: "flex", sm: "none" }}>
+              <FilterButton onOpen={onOpen} />
+              <SelectBoxWithIcon />
+              {genreLabels.length ||
+              state.keyword.length ||
+              !(voteAverageRange[0] === 0 && voteAverageRange[1] === 10) ? (
+                <ClearButton loadingSearchModels={loadingSearchVideos} handleClear={handleClear} />
+              ) : null}
+            </Stack>
           )}
-        </Box>
-      </Flex>
-    </Box>
+        </Flex>
+        <Flex>
+          <Box display={{ base: "none", md: "block" }} h="100%" mr="6">
+            <Stack w="250px" h="100%" spacing="3" mb="16">
+              <SortAccordion>
+                <SortSelectBox />
+              </SortAccordion>
+              <FilterAccordion>
+                <FilterAccordionPanel />
+              </FilterAccordion>
+            </Stack>
+          </Box>
+          <Box w="100%">
+            {loadingSearchVideos ? (
+              <Loading />
+            ) : (
+              <>
+                <VideoList currentVideos={currentVideos} />
+                <Pagination
+                  pageCount={pageCount}
+                  currentPage={currentPage}
+                  handlePageChange={handlePageChange}
+                />
+              </>
+            )}
+          </Box>
+        </Flex>
+      </Box>
+    </>
   );
 };
 
