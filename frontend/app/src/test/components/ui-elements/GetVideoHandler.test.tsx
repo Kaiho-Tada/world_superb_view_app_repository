@@ -26,6 +26,10 @@ const mockContextValue = {
     keyword: "",
     genreCheckItems: [],
     shouldDebounce: false,
+    sortCriteria: "",
+    currentPage: 1,
+    itemsOffset: 0,
+    isVisitedDetailPage: false,
   },
 };
 
@@ -37,11 +41,28 @@ const mockContextValueSkipSearchVideo = {
   },
 };
 
+const mockContextValueVisitedDetailPage = {
+  ...mockContextValue,
+  state: {
+    ...mockContextValue.state,
+    isVisitedDetailPage: true,
+  },
+};
+
 const mockContextValueShouldDebounce = {
   ...mockContextValue,
   state: {
     ...mockContextValue.state,
     shouldDebounce: true,
+  },
+};
+
+const mockContextValueCurrentPage2 = {
+  ...mockContextValue,
+  state: {
+    ...mockContextValue.state,
+    currentPage: 2,
+    itemsOffset: 30,
   },
 };
 
@@ -82,6 +103,25 @@ describe("初回レンダリング時のテスト", () => {
     spyOnUseHandleGetModel.mockRestore();
   });
 
+  test("isVisitedDetailPageがtrueの場合、falseに更新され、handleGetModel関数が実行されないこと", async () => {
+    (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValueVisitedDetailPage);
+
+    // handleGetModel関数のモック化
+    const spyOnUseHandleGetModel = jest.spyOn(
+      jest.requireActual("hooks/api/useGetModel"),
+      "default"
+    );
+    const mockHandleGetModel = jest.fn();
+    spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
+
+    await act(async () => {
+      render(<GetVideoHandler />);
+    });
+    expect(mockHandleGetModel).not.toHaveBeenCalled();
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_VISIT_DETAIL_PAGE", payload: false });
+    spyOnUseHandleGetModel.mockRestore();
+  });
+
   test("shouldDebounceがtrueの場合、falseに更新され、handleGetModel関数が実行されないこと", async () => {
     (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValueShouldDebounce);
 
@@ -102,6 +142,16 @@ describe("初回レンダリング時のテスト", () => {
       payload: false,
     });
     spyOnUseHandleGetModel.mockRestore();
+  });
+
+  test("ページネーションが1ページ目ではない場合はcurrentPageが1にitemsOffsetが0に更新されること", async () => {
+    (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValueCurrentPage2);
+
+    await act(async () => {
+      render(<GetVideoHandler />);
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 1 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 0 });
   });
 
   describe("handleGetModel関数のテスト", () => {
