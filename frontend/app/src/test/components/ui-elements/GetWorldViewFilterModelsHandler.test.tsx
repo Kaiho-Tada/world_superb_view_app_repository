@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import GetWorldViewFilterModelsHandler from "features/map/components/ui-elements/GetWorldViewFilterModelsHandler";
+import GetWorldViewFilterModelsHandler from "components/ui-elements/GetWorldViewFilterModelsHandler";
 import mockGetAllCategoriesApi from "features/worldView/api/categoryApi";
 import mockGetAllCharacteristicsApi from "features/worldView/api/characteristicApi";
 import mockGetAllCountriesApi from "features/worldView/api/countryApi";

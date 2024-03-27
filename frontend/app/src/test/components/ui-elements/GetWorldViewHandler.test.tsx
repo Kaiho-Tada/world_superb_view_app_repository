@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import GetWorldViewHandler from "features/map/components/ui-parts/GetWorldViewHandler";
+import GetWorldViewHandler from "components/ui-elements/GetWorldViewHandler";
 import { useWorldViewListContext as mockUseWorldViewListContext } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
