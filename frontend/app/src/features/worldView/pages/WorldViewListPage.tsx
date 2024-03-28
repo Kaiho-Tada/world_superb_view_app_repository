@@ -1,31 +1,21 @@
 import { Box, Flex, HStack, Stack, useDisclosure } from "@chakra-ui/react";
-import { AxiosResponse } from "axios";
 import ClearButton from "components/ui-elements/ClearButton";
 import FilterButton from "components/ui-elements/FilterButton";
+import GetWorldViewFilterModelsHandler from "components/ui-elements/GetWorldViewFilterModelsHandler";
+import GetWorldViewHandler from "components/ui-elements/GetWorldViewHandler";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
 import FilterAccordion from "components/ui-parts/FilterAccordion";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
 import SortAccordion from "components/ui-parts/SortAccordion";
-import getAllCategoriesApi from "features/worldView/api/categoryApi";
-import getAllCharacteristicsApi from "features/worldView/api/characteristicApi";
-import getAllCountriesApi from "features/worldView/api/countryApi";
-import useWorldViewApi from "features/worldView/api/useWorldViewApi";
 import SortSelectBox from "features/worldView/components/ui-elements/SortSelectBox";
 import SortSelectBoxWithIcon from "features/worldView/components/ui-elements/SortSelectBoxWithIcon";
 import FilterAccordionPanel from "features/worldView/components/ui-parts/FilterAccordionPanel";
 import WorldViewList from "features/worldView/components/ui-parts/WorldViewList";
 import useClear from "features/worldView/hooks/useClear";
 import useGetCheckedLabels from "features/worldView/hooks/useGetCheckedLabels";
-import { WorldView } from "features/worldView/types/api/worldView";
-import useGetCheckItems from "hooks/api/useGetCheckItems";
-import useGetModel from "hooks/api/useGetModel";
-import useGetNestedCheckItems from "hooks/api/useGetNestedCheckItems";
-import useDebounce from "hooks/useDebounce";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
-import { useCallback, useEffect } from "react";
-import CheckItem from "types/checkItem";
-import { NestedCheckItem } from "types/nestedCheckItem";
+import { useCallback } from "react";
 
 const WorldViewListPage = () => {
   const { state, dispatch } = useWorldViewListContext();
@@ -35,113 +25,13 @@ const WorldViewListPage = () => {
     riskLevel,
     bmiRange,
     monthRange,
-    isSkipSearchWorldViews,
-    shouldDebounce,
-    categoryCheckItems,
-    countryCheckItems,
-    characteristicCheckItems,
-    sortCriteria,
     worldViews,
     currentPage,
     itemsOffset,
-    isSkipGetCheckItmes,
   } = state;
-  const { handleGetNestedCheckItems } = useGetNestedCheckItems();
-  const { handleGetCheckItems } = useGetCheckItems();
-  const { handleGetModel } = useGetModel();
-  const { handleDebounceWithArg } = useDebounce(1500);
-  const { searchWorldViewApi } = useWorldViewApi();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleClear } = useClear();
   const { checkedLabelObject } = useGetCheckedLabels();
-
-  const loadingSearchWorldViewDispatch = (payload: boolean) => {
-    dispatch({ type: "SET_LOADING_SEARCH_WORLDVIEWS", payload });
-  };
-  const worldViewDispatch = (responseData: WorldView[]) => {
-    dispatch({ type: "SET_WORLD_VIEWS", payload: responseData });
-  };
-  useEffect(() => {
-    if (!isSkipSearchWorldViews) {
-      if (shouldDebounce) {
-        handleDebounceWithArg<{
-          loadingGetModelDispatch: (payload: boolean) => void;
-          modelDispatch: (responseData: WorldView[]) => void;
-          getModelApi: () => Promise<AxiosResponse<WorldView[]>>;
-        }>({
-          fn: handleGetModel,
-          arg: {
-            loadingGetModelDispatch: loadingSearchWorldViewDispatch,
-            modelDispatch: worldViewDispatch,
-            getModelApi: searchWorldViewApi,
-          },
-        });
-        dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
-      } else {
-        handleGetModel<WorldView>({
-          loadingGetModelDispatch: loadingSearchWorldViewDispatch,
-          modelDispatch: worldViewDispatch,
-          getModelApi: searchWorldViewApi,
-        });
-      }
-      if (currentPage !== 1 && itemsOffset !== 0) {
-        dispatch({ type: "SET_ITEMS_OFFSET", payload: 0 });
-        dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
-      }
-    } else {
-      dispatch({ type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS", payload: false });
-    }
-  }, [
-    categoryCheckItems,
-    countryCheckItems,
-    characteristicCheckItems,
-    riskLevel,
-    keyword,
-    sortCriteria,
-  ]);
-
-  const loadingGetCategoryDispatch = (payload: boolean) => {
-    dispatch({ type: "SET_LOADING_GET_CATEGORY", payload });
-  };
-  const categoryCheckItemsDispatch = (newCheckItems: NestedCheckItem[]) => {
-    dispatch({ type: "SET_CATEGORY_CHECK_ITEMS", payload: newCheckItems });
-  };
-  const loadingGetCountryDispatch = (payload: boolean) => {
-    dispatch({ type: "SET_LOADING_GET_COUNTRY", payload });
-  };
-  const countryCheckItemsDispatch = (newCheckItems: NestedCheckItem[]) => {
-    dispatch({ type: "SET_COUNTRY_CHECK_ITEMS", payload: newCheckItems });
-  };
-  const loadingGetCharacteristicDispatch = (payload: boolean) => {
-    dispatch({ type: "SET_LOADING_GET_CHARACTERISTIC", payload });
-  };
-  const characteristicCheckItemsDispatch = (newCheckItems: CheckItem[]) => {
-    dispatch({
-      type: "SET_CHARACTERISTIC_CHECK_ITEMS",
-      payload: newCheckItems,
-    });
-  };
-  useEffect(() => {
-    if (!isSkipGetCheckItmes) {
-      handleGetNestedCheckItems({
-        loadingGetModelDispatch: loadingGetCategoryDispatch,
-        checkItemsDispatch: categoryCheckItemsDispatch,
-        getAllModelApi: getAllCategoriesApi,
-      });
-      handleGetNestedCheckItems({
-        loadingGetModelDispatch: loadingGetCountryDispatch,
-        checkItemsDispatch: countryCheckItemsDispatch,
-        getAllModelApi: getAllCountriesApi,
-      });
-      handleGetCheckItems({
-        loadingGetModelDispatch: loadingGetCharacteristicDispatch,
-        checkItemsDispatch: characteristicCheckItemsDispatch,
-        getModelApi: getAllCharacteristicsApi,
-      });
-    } else {
-      dispatch({ type: "SET_IS_SKIP_GET_CHECK_ITEMS", payload: false });
-    }
-  }, []);
 
   const itemsPerPage = 40;
   const endOffset = itemsOffset + itemsPerPage;
@@ -158,6 +48,8 @@ const WorldViewListPage = () => {
 
   return (
     <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
+      <GetWorldViewHandler />
+      <GetWorldViewFilterModelsHandler />
       <HStack mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }} flexWrap="wrap">
         <FilterButton onOpen={onOpen} />
         <SortSelectBoxWithIcon />

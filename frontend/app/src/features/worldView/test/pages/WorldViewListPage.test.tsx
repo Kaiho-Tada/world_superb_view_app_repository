@@ -22,11 +22,8 @@ const mockWorldViews = Array.from({ length: 120 }, (_, index) => ({
   id: index + 1,
   name: `worldView${index + 1}`,
   imageUrl: "imageUrl",
-  bestSeason: "bestSeason",
   countries: [],
   categories: [],
-  characteristics: [],
-  worldViewFavorites: [],
 }));
 
 const mockContextValue = {
@@ -40,32 +37,9 @@ const mockContextValue = {
     bmiRange: [-40, 30],
     keyword: "",
     loadingSearchWorldViews: false,
-    loadingGetCategory: false,
-    loadingGetCountry: false,
-    loadingGetCharacteristic: false,
-    isDisabledSeachButton: false,
-    isSkipSearchWorldViews: false,
-    shouldDebounce: false,
-    sortCriteria: "",
     worldViews: mockWorldViews,
     currentPage: 1,
     itemsOffset: 0,
-  },
-};
-
-const mockContextValueIsSkipSearchApi = {
-  ...mockContextValue,
-  state: {
-    ...mockContextValue.state,
-    isSkipSearchWorldViews: true,
-  },
-};
-
-const mockContextValueShouldDebounce = {
-  ...mockContextValue,
-  state: {
-    ...mockContextValue.state,
-    shouldDebounce: true,
   },
 };
 
@@ -99,91 +73,6 @@ jest.mock("hooks/api/useGetCheckItems", () => ({
     handleGetCheckItems: mockHandleGetCheckItems,
   }),
 }));
-
-test("isSkipSearchWorldViewsがtrueの場合、falseに更新されること", () => {
-  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueIsSkipSearchApi);
-  render(<WorldViewList />);
-  expect(mockDispatch).toHaveBeenCalledWith({
-    type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS",
-    payload: false,
-  });
-});
-
-test("shouldDebounceがtrueの場合、flaseに更新されること", () => {
-  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueShouldDebounce);
-  render(<WorldViewList />);
-  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_SHOULD_DEBOUNCE", payload: false });
-});
-
-test("worldViewレコードの絞り込み時に、ページネーションが1ページ目ではない場合はcurrentPageが1にitemsOffsetが0に更新されること", () => {
-  (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueCurrentPage2);
-  render(<WorldViewList />);
-  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 1 });
-  expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 0 });
-});
-
-describe("handleGetModel関数のテスト", () => {
-  test("初回レンダリング時にhandleGetModel関数が実行されること", () => {
-    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
-    const spyOnUseWorldViewApi = jest.spyOn(
-      jest.requireActual("features/worldView/api/useWorldViewApi"),
-      "default"
-    );
-    const mockSearchWorldViewApi = jest.fn();
-    spyOnUseWorldViewApi.mockReturnValue({ searchWorldViewApi: mockSearchWorldViewApi });
-
-    render(<WorldViewList />);
-    expect(mockHandleGetModel).toHaveBeenCalledWith({
-      loadingGetModelDispatch: expect.any(Function),
-      modelDispatch: expect.any(Function),
-      getModelApi: mockSearchWorldViewApi,
-    });
-
-    spyOnUseWorldViewApi.mockRestore();
-  });
-});
-
-describe("handleGetNestedCheckItems関数のテスト", () => {
-  test("初回レンダリング時にhandleGetNestedCheckItems関数が2回実行されること", () => {
-    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
-    const spyOnGetAllCategoriesApi = jest.spyOn(
-      jest.requireActual("features/worldView/api/categoryApi"),
-      "default"
-    );
-    const spyOnCountryApi = jest.spyOn(
-      jest.requireActual("features/worldView/api/countryApi"),
-      "default"
-    );
-    render(<WorldViewList />);
-    expect(mockHandleGetNestedCheckItems).toHaveBeenCalledWith({
-      loadingGetModelDispatch: expect.any(Function),
-      checkItemsDispatch: expect.any(Function),
-      getAllModelApi: spyOnGetAllCategoriesApi,
-    });
-    expect(mockHandleGetNestedCheckItems).toHaveBeenCalledWith({
-      loadingGetModelDispatch: expect.any(Function),
-      checkItemsDispatch: expect.any(Function),
-      getAllModelApi: spyOnCountryApi,
-    });
-    expect(mockHandleGetNestedCheckItems).toHaveBeenCalledTimes(2);
-  });
-});
-
-describe("handleGetCheckItems関数のテスト", () => {
-  test("初回レンダリング時にhandleGetCheckItems関数が実行されること", () => {
-    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
-    const spyOnGetAllCharacteristicsApi = jest.spyOn(
-      jest.requireActual("features/worldView/api/characteristicApi"),
-      "default"
-    );
-    render(<WorldViewList />);
-    expect(mockHandleGetCheckItems).toHaveBeenCalledWith({
-      loadingGetModelDispatch: expect.any(Function),
-      checkItemsDispatch: expect.any(Function),
-      getModelApi: spyOnGetAllCharacteristicsApi,
-    });
-  });
-});
 
 test("FilterButtonがレンダリングされていること", () => {
   (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
