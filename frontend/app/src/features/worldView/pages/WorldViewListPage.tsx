@@ -2,9 +2,9 @@ import { Box, Flex, HStack, Stack, useDisclosure } from "@chakra-ui/react";
 import ClearButton from "components/ui-elements/ClearButton";
 import FilterButton from "components/ui-elements/FilterButton";
 import GetWorldViewFilterModelsHandler from "components/ui-elements/GetWorldViewFilterModelsHandler";
-import GetWorldViewHandler from "components/ui-elements/GetWorldViewHandler";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
+import SearchWorldViewHandler from "components/ui-elements/SearchWorldViewHandler";
 import FilterAccordion from "components/ui-parts/FilterAccordion";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
 import SortAccordion from "components/ui-parts/SortAccordion";
@@ -48,7 +48,7 @@ const WorldViewListPage = () => {
 
   return (
     <>
-      <GetWorldViewHandler />
+      <SearchWorldViewHandler />
       <GetWorldViewFilterModelsHandler />
       <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
         <HStack mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }} flexWrap="wrap">

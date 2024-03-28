@@ -1,8 +1,8 @@
 import { Box, useDisclosure } from "@chakra-ui/react";
 import GetVideoFilterModelsHandler from "components/ui-elements/GetVideoFilterModelsHandler";
-import GetVideoHandler from "components/ui-elements/GetVideoHandler";
 import GetWorldViewFilterModelsHandler from "components/ui-elements/GetWorldViewFilterModelsHandler";
-import GetWorldViewHandler from "components/ui-elements/GetWorldViewHandler";
+import SearchVideoHandler from "components/ui-elements/SearchVideoHandler";
+import SearchWorldViewHandler from "components/ui-elements/SearchWorldViewHandler";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
 import ClickWorldViewHandler from "features/map/components/ui-elements/ClickWorldViewHandler";
 import DirectionMapContainer from "features/map/components/ui-elements/DirectionMapContainer";
@@ -59,8 +59,8 @@ const MapComponent = () => {
 
   return (
     <Box bg="white" style={{ position: "relative" }}>
-      <GetWorldViewHandler />
-      <GetVideoHandler />
+      <SearchWorldViewHandler />
+      <SearchVideoHandler />
       <GetWorldViewFilterModelsHandler />
       <GetVideoFilterModelsHandler />
       <PanoramaModalOpener />

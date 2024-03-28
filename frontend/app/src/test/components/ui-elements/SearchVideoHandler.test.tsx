@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import GetVideoHandler from "components/ui-elements/GetVideoHandler";
+import SearchVideoHandler from "components/ui-elements/SearchVideoHandler";
 import { useVideoListContext as mockUseVideoListContext } from "providers/VideoListProvider";
 import { act } from "react-dom/test-utils";
 
@@ -85,7 +85,7 @@ test("isSkipSearchVideoがtrueの場合、falseに更新され、handleGetModel�
   spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
   await act(async () => {
-    render(<GetVideoHandler />);
+    render(<SearchVideoHandler />);
   });
   expect(mockHandleGetModel).not.toHaveBeenCalled();
   expect(mockDispatch).toHaveBeenCalledWith({
@@ -104,7 +104,7 @@ test("isVisitedDetailPageがtrueの場合、falseに更新され、handleGetMode
   spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
   await act(async () => {
-    render(<GetVideoHandler />);
+    render(<SearchVideoHandler />);
   });
   expect(mockHandleGetModel).not.toHaveBeenCalled();
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_VISIT_DETAIL_PAGE", payload: false });
@@ -120,7 +120,7 @@ test("shouldDebounceがtrueの場合、falseに更新され、handleDebounce関�
   spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
   await act(async () => {
-    render(<GetVideoHandler />);
+    render(<SearchVideoHandler />);
   });
   expect(mockHandleDebounce).toHaveBeenCalledWith(expect.any(Function));
   expect(mockHandleDebounce).toHaveBeenCalledTimes(1);
@@ -135,7 +135,7 @@ test("ページネーションが1ページ目ではない場合はcurrentPage�
   (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValueCurrentPage2);
 
   await act(async () => {
-    render(<GetVideoHandler />);
+    render(<SearchVideoHandler />);
   });
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 1 });
   expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 0 });
@@ -154,7 +154,7 @@ describe("handleGetModel関数のテスト", () => {
     spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
     await act(async () => {
-      render(<GetVideoHandler />);
+      render(<SearchVideoHandler />);
     });
     expect(mockHandleGetModel).toHaveBeenCalledWith({
       loadingGetModelDispatch: expect.any(Function),
@@ -170,7 +170,7 @@ describe("handleGetModel関数のテスト", () => {
     mockSearchVideoApi.mockReturnValue({ data: [{ id: 1, name: "name" }] });
 
     await act(async () => {
-      render(<GetVideoHandler />);
+      render(<SearchVideoHandler />);
     });
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "SET_VIDEOS",
@@ -182,7 +182,7 @@ describe("handleGetModel関数のテスト", () => {
     (mockUseVideoListContext as jest.Mock).mockReturnValue(mockContextValue);
 
     await act(async () => {
-      render(<GetVideoHandler />);
+      render(<SearchVideoHandler />);
     });
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "SET_LOADING_SEARCH_VIDEOS",

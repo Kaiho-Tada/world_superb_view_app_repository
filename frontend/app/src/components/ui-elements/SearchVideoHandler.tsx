@@ -5,7 +5,7 @@ import useDebounce from "hooks/useDebounce";
 import { useVideoListContext } from "providers/VideoListProvider";
 import { FC, useEffect } from "react";
 
-const GetVideoHandler: FC = () => {
+const SearchVideoHandler: FC = () => {
   const { state, dispatch } = useVideoListContext();
   const {
     isSkipSearchVideo,
@@ -59,4 +59,4 @@ const GetVideoHandler: FC = () => {
   return null;
 };
 
-export default GetVideoHandler;
+export default SearchVideoHandler;

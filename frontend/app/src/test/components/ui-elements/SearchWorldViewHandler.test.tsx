@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import GetWorldViewHandler from "components/ui-elements/GetWorldViewHandler";
+import SearchWorldViewHandler from "components/ui-elements/SearchWorldViewHandler";
 import { useWorldViewListContext as mockUseWorldViewListContext } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
@@ -90,7 +90,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
     spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
     await act(async () => {
-      render(<GetWorldViewHandler />);
+      render(<SearchWorldViewHandler />);
     });
     expect(mockHandleGetModel).not.toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalledWith({
@@ -112,7 +112,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
     spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
     await act(async () => {
-      render(<GetWorldViewHandler />);
+      render(<SearchWorldViewHandler />);
     });
     expect(mockHandleGetModel).not.toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_VISIT_DETAIL_PAGE", payload: false });
@@ -131,7 +131,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
     spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
     await act(async () => {
-      render(<GetWorldViewHandler />);
+      render(<SearchWorldViewHandler />);
     });
     expect(mockHandleGetModel).not.toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalledWith({
@@ -145,7 +145,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueCurrentPage2);
 
     await act(async () => {
-      render(<GetWorldViewHandler />);
+      render(<SearchWorldViewHandler />);
     });
     expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 1 });
     expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 0 });
@@ -164,7 +164,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
       spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
       await act(async () => {
-        render(<GetWorldViewHandler />);
+        render(<SearchWorldViewHandler />);
       });
       expect(mockHandleGetModel).toHaveBeenCalledWith({
         loadingGetModelDispatch: expect.any(Function),
@@ -179,7 +179,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
       mockSearchWorldViewApi.mockReturnValue({ data: [{ id: 1, name: "name" }] });
 
       await act(async () => {
-        render(<GetWorldViewHandler />);
+        render(<SearchWorldViewHandler />);
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_WORLD_VIEWS",
@@ -191,7 +191,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
       (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
 
       await act(async () => {
-        render(<GetWorldViewHandler />);
+        render(<SearchWorldViewHandler />);
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_LOADING_SEARCH_WORLDVIEWS",

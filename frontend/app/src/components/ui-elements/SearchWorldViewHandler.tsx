@@ -5,7 +5,7 @@ import useDebounce from "hooks/useDebounce";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { FC, useEffect } from "react";
 
-const GetWorldViewHandler: FC = () => {
+const SearchWorldViewHandler: FC = () => {
   const { state, dispatch } = useWorldViewListContext();
   const { handleDebounce } = useDebounce(1500);
   const { searchWorldViewApi } = useWorldViewApi();
@@ -69,4 +69,4 @@ const GetWorldViewHandler: FC = () => {
   return null;
 };
 
-export default GetWorldViewHandler;
+export default SearchWorldViewHandler;
