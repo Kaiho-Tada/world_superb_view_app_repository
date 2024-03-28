@@ -1,6 +1,8 @@
 import { Box, useDisclosure } from "@chakra-ui/react";
 import GetVideoFilterModelsHandler from "components/ui-elements/GetVideoFilterModelsHandler";
-import GetVideoHandler from "components/ui-elements/GetVideoHandler";
+import GetWorldViewFilterModelsHandler from "components/ui-elements/GetWorldViewFilterModelsHandler";
+import SearchVideoHandler from "components/ui-elements/SearchVideoHandler";
+import SearchWorldViewHandler from "components/ui-elements/SearchWorldViewHandler";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
 import ClickWorldViewHandler from "features/map/components/ui-elements/ClickWorldViewHandler";
 import DirectionMapContainer from "features/map/components/ui-elements/DirectionMapContainer";
@@ -14,7 +16,6 @@ import { useEffect } from "react";
 import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import ClickHandler from "../ui-elements/ClickHandler";
 import ClickVideoHandler from "../ui-elements/ClickVideoHandler";
-import GetWorldViewFilterModelsHandler from "../ui-elements/GetWorldViewFilterModelsHandler";
 import MapControlIcon from "../ui-elements/MapControlIcon";
 import VideoMarker from "../ui-elements/marker/VideoMarker";
 import WorldViewMarker from "../ui-elements/marker/WorldViewMarker";
@@ -27,7 +28,6 @@ import WorldViewFilterSearchBox from "../ui-elements/WorldViewFilterSearchBox";
 import WorldViewImageOverlays from "../ui-elements/WorldViewImageOverlays";
 import ZoomLayersControlHandler from "../ui-elements/ZoomLayersControlHandler";
 import ClickedVideoList from "./ClickedVideoList";
-import GetWorldViewHandler from "./GetWorldViewHandler";
 import MapControlPanel from "./MapControlPanel";
 
 L.Icon.Default.imagePath = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/";
@@ -59,8 +59,8 @@ const MapComponent = () => {
 
   return (
     <Box bg="white" style={{ position: "relative" }}>
-      <GetWorldViewHandler />
-      <GetVideoHandler />
+      <SearchWorldViewHandler />
+      <SearchVideoHandler />
       <GetWorldViewFilterModelsHandler />
       <GetVideoFilterModelsHandler />
       <PanoramaModalOpener />

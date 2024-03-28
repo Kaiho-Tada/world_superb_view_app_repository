@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import GetWorldViewHandler from "features/map/components/ui-parts/GetWorldViewHandler";
+import SearchWorldViewHandler from "components/ui-elements/SearchWorldViewHandler";
 import { useWorldViewListContext as mockUseWorldViewListContext } from "providers/WorldViewListProvider";
 import { act } from "react-dom/test-utils";
 
@@ -18,32 +18,14 @@ jest.mock("providers/WorldViewListProvider", () => ({
 }));
 
 const mockDispatch = jest.fn();
-const mockWorldViews = Array.from({ length: 3 }, (_, index) => ({
-  id: index + 1,
-  name: `worldView${index + 1}`,
-  imageUrl: "imageUrl",
-  bestSeason: "bestSeason",
-  countries: [],
-  categories: [],
-  characteristics: [],
-  worldViewFavorites: [],
-  videos: [],
-  latitude: index + 1,
-  longitude: index + 1,
-}));
-
 const mockContextValue = {
   dispatch: mockDispatch,
   state: {
-    worldViews: mockWorldViews,
-    categoryCheckItems: [],
-    countryCheckItems: [],
-    characteristicCheckItems: [],
-    keyword: "",
-    riskLevel: 0,
-    sortCriteria: "",
     isSkipSearchWorldViews: false,
+    isVisitedDetailPage: false,
     shouldDebounce: false,
+    currentPage: 1,
+    itemsOffset: 0,
   },
 };
 
@@ -55,11 +37,27 @@ const mockContextValueIsSkipSearchWorldViews = {
   },
 };
 
+const mockContextValueVisitedDetailPage = {
+  ...mockContextValue,
+  state: {
+    ...mockContextValue.state,
+    isVisitedDetailPage: true,
+  },
+};
 const mockContextValueShouldDebounce = {
   ...mockContextValue,
   state: {
     ...mockContextValue.state,
     shouldDebounce: true,
+  },
+};
+
+const mockContextValueCurrentPage2 = {
+  ...mockContextValue,
+  state: {
+    ...mockContextValue.state,
+    currentPage: 2,
+    itemsOffset: 40,
   },
 };
 
@@ -78,7 +76,7 @@ jest.mock("features/worldView/api/useWorldViewApi", () => ({
 }));
 
 describe("初回レンダリング時の挙動のテスト", () => {
-  test("isSkipSearchWorldViewsがtrueの場合、falseに更新され、handleGetModel関数が実行されないこと", () => {
+  test("isSkipSearchWorldViewsがtrueの場合、falseに更新され、handleGetModel関数が実行されないこと", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(
       mockContextValueIsSkipSearchWorldViews
     );
@@ -91,7 +89,9 @@ describe("初回レンダリング時の挙動のテスト", () => {
     const mockHandleGetModel = jest.fn();
     spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
-    render(<GetWorldViewHandler />);
+    await act(async () => {
+      render(<SearchWorldViewHandler />);
+    });
     expect(mockHandleGetModel).not.toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS",
@@ -100,7 +100,26 @@ describe("初回レンダリング時の挙動のテスト", () => {
     spyOnUseHandleGetModel.mockRestore();
   });
 
-  test("shouldDebounceがtrueの場合、falseに更新され、handleGetModel関数が実行されないこと", () => {
+  test("isVisitedDetailPageがtrueの場合、falseに更新され、handleGetModel関数が実行されないこと", async () => {
+    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueVisitedDetailPage);
+
+    // handleGetModel関数のモック化
+    const spyOnUseHandleGetModel = jest.spyOn(
+      jest.requireActual("hooks/api/useGetModel"),
+      "default"
+    );
+    const mockHandleGetModel = jest.fn();
+    spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
+
+    await act(async () => {
+      render(<SearchWorldViewHandler />);
+    });
+    expect(mockHandleGetModel).not.toHaveBeenCalled();
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_IS_VISIT_DETAIL_PAGE", payload: false });
+    spyOnUseHandleGetModel.mockRestore();
+  });
+
+  test("shouldDebounceがtrueの場合、falseに更新され、handleGetModel関数が実行されないこと", async () => {
     (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueShouldDebounce);
 
     // handleGetModel関数のモック化
@@ -111,13 +130,25 @@ describe("初回レンダリング時の挙動のテスト", () => {
     const mockHandleGetModel = jest.fn();
     spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
-    render(<GetWorldViewHandler />);
+    await act(async () => {
+      render(<SearchWorldViewHandler />);
+    });
     expect(mockHandleGetModel).not.toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "SET_SHOULD_DEBOUNCE",
       payload: false,
     });
     spyOnUseHandleGetModel.mockRestore();
+  });
+
+  test("ページネーションが1ページ目ではない場合はcurrentPageが1にitemsOffsetが0に更新されること", async () => {
+    (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValueCurrentPage2);
+
+    await act(async () => {
+      render(<SearchWorldViewHandler />);
+    });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_CURRENT_PAGE", payload: 1 });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: "SET_ITEMS_OFFSET", payload: 0 });
   });
 
   describe("handleGetModel関数のテスト", () => {
@@ -133,7 +164,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
       spyOnUseHandleGetModel.mockReturnValue({ handleGetModel: mockHandleGetModel });
 
       await act(async () => {
-        render(<GetWorldViewHandler />);
+        render(<SearchWorldViewHandler />);
       });
       expect(mockHandleGetModel).toHaveBeenCalledWith({
         loadingGetModelDispatch: expect.any(Function),
@@ -148,7 +179,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
       mockSearchWorldViewApi.mockReturnValue({ data: [{ id: 1, name: "name" }] });
 
       await act(async () => {
-        render(<GetWorldViewHandler />);
+        render(<SearchWorldViewHandler />);
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_WORLD_VIEWS",
@@ -160,7 +191,7 @@ describe("初回レンダリング時の挙動のテスト", () => {
       (mockUseWorldViewListContext as jest.Mock).mockReturnValue(mockContextValue);
 
       await act(async () => {
-        render(<GetWorldViewHandler />);
+        render(<SearchWorldViewHandler />);
       });
       expect(mockDispatch).toHaveBeenCalledWith({
         type: "SET_LOADING_SEARCH_WORLDVIEWS",

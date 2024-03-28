@@ -2,9 +2,9 @@ import { Box, Flex, HStack, Stack, useBreakpointValue, useDisclosure } from "@ch
 import ClearButton from "components/ui-elements/ClearButton";
 import FilterButton from "components/ui-elements/FilterButton";
 import GetVideoFilterModelsHandler from "components/ui-elements/GetVideoFilterModelsHandler";
-import GetVideoHandler from "components/ui-elements/GetVideoHandler";
 import Loading from "components/ui-elements/Loading";
 import Pagination from "components/ui-elements/Pagination";
+import SearchVideoHandler from "components/ui-elements/SearchVideoHandler";
 import FilterAccordion from "components/ui-parts/FilterAccordion";
 import FilterDrawer from "components/ui-parts/FilterDrawer";
 import SortAccordion from "components/ui-parts/SortAccordion";
@@ -51,7 +51,7 @@ const VideoListPage: FC = () => {
 
   return (
     <>
-      <GetVideoHandler />
+      <SearchVideoHandler />
       <GetVideoFilterModelsHandler />
       <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
         <FilterDrawer isOpen={isOpen} onClose={onClose}>

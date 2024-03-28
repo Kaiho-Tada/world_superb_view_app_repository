@@ -5,7 +5,7 @@ import useDebounce from "hooks/useDebounce";
 import { useWorldViewListContext } from "providers/WorldViewListProvider";
 import { FC, useEffect } from "react";
 
-const GetWorldViewHandler: FC = () => {
+const SearchWorldViewHandler: FC = () => {
   const { state, dispatch } = useWorldViewListContext();
   const { handleDebounce } = useDebounce(1500);
   const { searchWorldViewApi } = useWorldViewApi();
@@ -19,6 +19,10 @@ const GetWorldViewHandler: FC = () => {
     keyword,
     isSkipSearchWorldViews,
     shouldDebounce,
+    sortCriteria,
+    currentPage,
+    itemsOffset,
+    isVisitedDetailPage,
   } = state;
 
   const loadingSearchWorldViewsDispatch = (payload: boolean) => {
@@ -35,17 +39,34 @@ const GetWorldViewHandler: FC = () => {
     });
   };
   useEffect(() => {
-    if (!isSkipSearchWorldViews) {
+    if (!isSkipSearchWorldViews && !isVisitedDetailPage) {
       if (!shouldDebounce) {
         handleSearchWorldViews();
       } else {
         handleDebounce(handleSearchWorldViews);
         dispatch({ type: "SET_SHOULD_DEBOUNCE", payload: false });
       }
+      if (currentPage !== 1 && itemsOffset !== 0) {
+        dispatch({ type: "SET_ITEMS_OFFSET", payload: 0 });
+        dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
+      }
+    } else {
+      if (isSkipSearchWorldViews) {
+        dispatch({ type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS", payload: false });
+      }
+      if (isVisitedDetailPage) {
+        dispatch({ type: "SET_IS_VISIT_DETAIL_PAGE", payload: false });
+      }
     }
-    dispatch({ type: "SET_IS_SKIP_SEARCH_WORLD_VIEWS", payload: false });
-  }, [categoryCheckItems, countryCheckItems, characteristicCheckItems, riskLevel, keyword]);
+  }, [
+    categoryCheckItems,
+    countryCheckItems,
+    characteristicCheckItems,
+    riskLevel,
+    keyword,
+    sortCriteria,
+  ]);
   return null;
 };
 
-export default GetWorldViewHandler;
+export default SearchWorldViewHandler;
