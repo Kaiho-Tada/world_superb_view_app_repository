@@ -47,54 +47,59 @@ const WorldViewListPage = () => {
   );
 
   return (
-    <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
+    <>
       <GetWorldViewHandler />
       <GetWorldViewFilterModelsHandler />
-      <HStack mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }} flexWrap="wrap">
-        <FilterButton onOpen={onOpen} />
-        <SortSelectBoxWithIcon />
-        {checkedLabelObject.categoryLabels.length ||
-        checkedLabelObject.countryLabels.length ||
-        checkedLabelObject.characteristicLabels.length ||
-        riskLevel !== undefined ||
-        !(monthRange[0] === 1 && monthRange[1] === 12) ||
-        !(bmiRange[0] === -40 && bmiRange[1] === 30) ||
-        keyword ? (
-          <Box>
-            <ClearButton loadingSearchModels={loadingSearchWorldViews} handleClear={handleClear} />
-          </Box>
-        ) : null}
-      </HStack>
-      <Flex>
-        <Box display={{ base: "none", md: "block" }} h="100%" mr="6">
-          <Stack w="250px" h="100%" spacing="3" mb="16">
-            <SortAccordion>
-              <SortSelectBox />
-            </SortAccordion>
-            <FilterAccordion>
-              <FilterAccordionPanel />
-            </FilterAccordion>
-          </Stack>
-        </Box>
-        <Box w="100%">
-          {loadingSearchWorldViews ? (
-            <Loading />
-          ) : (
-            <>
-              <WorldViewList currentViews={currentViews} />
-              <Pagination
-                pageCount={pageCount}
-                currentPage={currentPage}
-                handlePageChange={handlePageChange}
+      <Box mx={{ base: "2", sm: "4", md: "5" }} my={{ base: "8", sm: "10", md: "12" }}>
+        <HStack mb={{ base: 2, sm: 3 }} display={{ base: "flex", md: "none" }} flexWrap="wrap">
+          <FilterButton onOpen={onOpen} />
+          <SortSelectBoxWithIcon />
+          {checkedLabelObject.categoryLabels.length ||
+          checkedLabelObject.countryLabels.length ||
+          checkedLabelObject.characteristicLabels.length ||
+          riskLevel !== undefined ||
+          !(monthRange[0] === 1 && monthRange[1] === 12) ||
+          !(bmiRange[0] === -40 && bmiRange[1] === 30) ||
+          keyword ? (
+            <Box>
+              <ClearButton
+                loadingSearchModels={loadingSearchWorldViews}
+                handleClear={handleClear}
               />
-            </>
-          )}
-        </Box>
-      </Flex>
-      <FilterDrawer isOpen={isOpen} onClose={onClose}>
-        <FilterAccordionPanel />
-      </FilterDrawer>
-    </Box>
+            </Box>
+          ) : null}
+        </HStack>
+        <Flex>
+          <Box display={{ base: "none", md: "block" }} h="100%" mr="6">
+            <Stack w="250px" h="100%" spacing="3" mb="16">
+              <SortAccordion>
+                <SortSelectBox />
+              </SortAccordion>
+              <FilterAccordion>
+                <FilterAccordionPanel />
+              </FilterAccordion>
+            </Stack>
+          </Box>
+          <Box w="100%">
+            {loadingSearchWorldViews ? (
+              <Loading />
+            ) : (
+              <>
+                <WorldViewList currentViews={currentViews} />
+                <Pagination
+                  pageCount={pageCount}
+                  currentPage={currentPage}
+                  handlePageChange={handlePageChange}
+                />
+              </>
+            )}
+          </Box>
+        </Flex>
+        <FilterDrawer isOpen={isOpen} onClose={onClose}>
+          <FilterAccordionPanel />
+        </FilterDrawer>
+      </Box>
+    </>
   );
 };
 
